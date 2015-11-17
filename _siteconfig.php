@@ -18,25 +18,25 @@ switch($http_host){
 	break;
 	
 	case 'percolate.grindspaces.com';
-		define("SITE", "STAGING");
+		define("SITE", "LOCAL");
 	break;
 	
 	default:
-		define("SITE", "PRODUCTION");
+		define("SITE", "LOCAL");
 	break;
 }
 
 
 
-        define("ROOTMEMBERPATH", "/");
+        define("ROOTMEMBERPATH", "/Library/WebServer/Documents/grind-members/");
 		define("CI_PATH", "");
 		define("CIPATH", "ci");  
-        define("MEMBERINCLUDEPATH", $_SERVER["DOCUMENT_ROOT"]."/"); 
-		define("GRINDPUBLICSITEROOT", "http://www.grindspaces.com");
-		define("DB_USER","583278_grind");
-		define("DB_PASSWORD","$0gR1nd5pac3s");
-		define("DB_HOST","localhost");
-		define("DB_NAME","583278_grindspaces");	
+        define("MEMBERINCLUDEPATH", "/Library/WebServer/Documents/grind-members/"); 
+		define("GRINDPUBLICSITEROOT", "http://localhost/grind-members");
+		define("DB_USER","root");
+		define("DB_PASSWORD","beagles666");
+		define("DB_HOST","127.0.0.1");
+		define("DB_NAME","grind_2");	
 		// recurly
 		define('RECURLY_API_USERNAME', 'api@grindspaces.com');
 		define('RECURLY_API_PASSWORD', '52bda929c0114031af81e844d5c5d0e3');
