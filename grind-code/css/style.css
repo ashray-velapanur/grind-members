@@ -1,0 +1,367 @@
+/* =============================================================================
+   HTML5 element display
+   ========================================================================== */
+   
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
+audio[controls], canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+
+
+/* =============================================================================
+   Base + Layout
+   ========================================================================== */
+
+html { font-size: 100%; overflow-y: scroll; -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+body { margin: 0 10px; font-size: 12px; line-height: 1.231; background: url(../img/bg-noise.png); min-width: 768px; }
+body, button, input, select, textarea { font-family: arial, sans-serif; color: #444; }
+::-moz-selection { background: #ef4925; color: #fff; text-shadow: none; }
+::selection { background: #ef4925; color: #fff; text-shadow: none; }
+#container { width: 100%; min-width: 767px; }
+#main { background: #fff; padding: 2%; position: relative; }
+#sidebar { width: 28%; float: right; padding-top: 20px; min-width: 240px; }
+#sidebar section { width: 100% !important; } 
+#sidebar.member-recent { position: absolute; right: 2%; top: 0; }
+
+
+/* =============================================================================
+   Links
+   ========================================================================== */
+   
+a { color: #078c8e; }
+a:hover, a:focus, a:active { outline: 0; }
+
+
+/* =============================================================================
+   Typography
+   ========================================================================== */
+   
+b, strong { font-weight: bold; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+small { font-size: 85%; }
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+h1, h2, h3, th { font-weight: normal; font-family: 'Belizio'; }
+h1, h2, h3 { -webkit-font-smoothing: antialiased; margin: 0; line-height: 36px; margin-bottom: 10px; }
+h1, h2 { font-size: 30px; } 
+h3 { font-size: 24px; }
+h4 { font-size: 18px; } 
+.important { color:red; }
+.placeholder { font-style: italic;color: #999999;}
+.error {color:#ef4925;}
+
+/* =============================================================================
+   Lists
+   ========================================================================== */
+
+dd { margin: 0; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+
+
+/* =============================================================================
+   Embedded content
+   ========================================================================== */
+
+img { border: 0; -ms-interpolation-mode: bicubic; }
+
+
+/* =============================================================================
+   Forms
+   ========================================================================== */
+   
+form { margin: 0; }
+.floatingFormItem { float: left; margin-right: 10px; }
+fieldset { border: 0; margin: 0; padding: 0; }
+fieldset li { padding-bottom: 10px; }
+label { cursor: pointer;  }
+select { background: #fff; border: 0; }
+button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
+button, input { line-height: normal; *overflow: visible; }
+button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; }
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
+textarea { overflow: auto; vertical-align: top; }
+input[type="text"], input[type="number"], input[type="password"], textarea, select { background: #f1f1f2; border: 1px solid #ccc; font-size: 12px; padding: 5px 7px; color: #666; }
+
+#profile-container input[type="text"], #profile-container input[type="number"], #profile-container input[type="password"], #profile-container textarea, #profile-container select { background: #fff; border: 1px solid #ccc; font-size: 12px; padding: 5px 7px; color: #666; }
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus, textarea:focus { background: #fff; outline: 0; color: #444; border: 1px solid #444; }
+input[type="checkbox"] { margin-right: 5px; -moz-appearance: none; background: #f1f1f2; border: 1px solid #e5e6e7; }
+input.error { border: 1px solid #ef4925; }
+label.error { color: #ef4925; }
+.webkit select { padding: 0; -webkit-appearance: none; border: 1px solid #ccc; border-radius: 0; background: url(../img/bg-select-arrow-grey.png) no-repeat right -1px #f1f1f2; height: 27px; padding-right: 40px; padding-left: 7px; }
+select:focus, .webkit select:focus { outline: 0; border: 1px solid #444; }
+form#locationnavform { display:inline; margin:0px; }
+
+/* form containers, overrides */
+.form-row { margin-bottom: 10px; }
+.form-row label { display: block; padding-bottom: 3px; }
+.form-col { float: left; padding-left: 10px; }
+.form-row .form-col:first-child { padding-left: 0; }
+.expiration-date select { float: left; margin-right: 5px; }
+
+/* form input widths */
+#plan_code { width: 264px;   }
+#company_name { width: 264px; }
+#website, #behance, #twitter { width: 264px; }
+#company_name { width: 264px; }
+#billing_info_zip { width: 60px; }
+#billing_info_state { width: 50px;}
+#billing_info_city { width: 154px;}
+#billing_info_address1, #billing_info_address2 { width: 316px;}
+#first_name, #last_name, #credit_card_number { width:145px;}
+#credit_card_verification_value { width: 50px;}
+#password-form input.text-input { width: 100px; }
+.webkit #billing_info_country { width: 332px; }
+#misc_editor input {width:300px;}
+
+/* =============================================================================
+   Buttons
+   ========================================================================== */
+   
+button, .btn { cursor: pointer; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; font-family: arial, sans-serif; font-size: 12px; height: 26px; overflow: hidden; background: #ef4925; color: #fff; border: 0; padding: 0 9px; }
+a.btn { color: #fff; line-height: 26px; height: auto; display: inline-block; }
+a.btn:hover { color: #fff; }
+.buttons { padding: 10px 0; clear: both; }
+.buttons li { float: left; margin-right: 10px; }
+.btn-delete { background: #999; }
+
+
+/* =============================================================================
+   Popups
+   ========================================================================== */
+   
+#backgroundPopup { display: none; position: fixed; height: 100%; width: 100%; top: 0; left: 0; background: #000; z-index: 1;}
+.popup { min-height: 260px; display: none; position: fixed; top:50%;left:50%;width: 400px; background: #fff; z-index: 2; padding: 20px; }
+.popup h1 { color: #ef4925; border-bottom: 1px solid #ccc; padding-bottom: .5em; }
+.popup .popupClose{ font-size: 20px; right: 20px; top: 20px; position: absolute; color: #999; display: block; cursor: pointer; }
+.popup label { display: block; padding-bottom: 2px; }
+
+
+/* =============================================================================
+   Tables
+   ========================================================================== */
+
+table { border-collapse: collapse; border-spacing: 0; width: 100%; }
+tr { background: #f0f0f1; border-bottom: 2px solid #fff; }
+th, td { text-align: left; padding: 1%;vertical-align: top; }
+th { background: #fff; line-height: 14px; font-style: italic; font-size: 14px; }
+.expandedrow { background: #dedede;}
+tr.open{border-bottom: 0px;} 
+
+/* =============================================================================
+   Header
+   ========================================================================== */
+
+#masthead { margin-left: 2%; padding: 48px 0 30px; float: left; }
+#masthead a { display: block; }
+header aside { float: right; }
+header ul { margin: 0; padding: 0; }
+#greeting, #locations { position: relative; float: right; margin-left: 3px; font-style: italic; color: #078c8e; font-size: 16px; line-height: 40px; background: rgba(255,255,255,.3); font-family: 'Belizio' }
+#greeting { padding: 0 10px; }
+#locations a.selected { padding-right: 40px; display: block; background: url(../img/icon-green-down-arrow.png) no-repeat right 18px; }
+#locations a.open { background-color: #fff; }
+#locations a { color: #078c8e; text-decoration: none; padding-left: 10px; }
+#location-menu { display: none; position: absolute; z-index: 999; width: 100%; padding: 5px 0; background: #ccc; }
+#location-menu a { font-size: 14px; font-family: arial, sans-serif; border-bottom: 1px solid #ccc; line-height: 30px; font-style: normal; display: block; color: #fff; }
+#location-menu a:hover { color: #626365; }
+
+
+/* =============================================================================
+   Preloader
+   ========================================================================== */
+   
+#loader, .loader { width: 16px; height: 16px; background: url(../img/ajax-loader.gif) no-repeat; display: inline-block; }
+
+
+/* =============================================================================
+   Main nav
+   ========================================================================== */
+   
+#primary { background: #fff; height: 50px; }
+#primary ul { background: #ef4925; -moz-box-shadow: 0 2px 3px rgba(0,0,0,0.4); -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.4); box-shadow: 0 2px 3px rgba(0,0,0,0.4); }
+#primary li { float: left; width: 21%; }
+#primary li.selected a { background: #D54E20; }
+#primary a { font-size: 18px; display: block; padding-left: 10%; font-weight: bold; color: #fff; border-right: 2px solid #D54E20; text-decoration: none; line-height: 34px; }
+#primary a:hover { text-decoration: underline; }
+#primary li.selected a:hover { text-decoration: none; cursor: default; }
+
+
+/* =============================================================================
+   Secondary Nav
+   ========================================================================== */
+   
+#secondary { padding-left: 2%; background: #fff; }
+#secondary li { float: left; border-left: 1px solid #ccc; padding-left: 10px; margin-left: 10px; }
+#secondary li:first-child { margin: 0; padding: 0; border: 0; }
+#secondary a { color: #ef4925; font-size: 14px; line-height: 14px; }
+#secondary li.selected a { font-weight: bold; text-decoration: none; cursor: default; }
+
+
+/* =============================================================================
+   Dashboard: Sidebar (member search, conference rooms)
+   ========================================================================== */
+
+#dashboard section { width: 64%;}
+#dashboard h2 { padding-bottom: 20px; }
+#sidebar section { padding-bottom: 20px; }
+#member-search input { background: url(../img/icon-search.png) no-repeat 8px center #f0f0f1; height: 48px; border: 1px solid #999; padding-left: 50px; font-size: 16px; color: #999; width: auto; -webkit-appearance: none; position: absolute; left: 0; right: 0; }
+#member-search input:focus { outline: 0; background-color: #fff; color: #626365; }
+#register-new { padding: 20px 0 0 10px; line-height: 12px; }
+#conference-rooms li { background: #f0f0f1; border-bottom: 2px solid #fff; font-size: 14px; line-height: 20px; padding: 4px 10px; }
+
+
+/* =============================================================================
+   Dashboard: Checked in, Issues
+   ========================================================================== */
+   
+#checked-in { padding-bottom: 40px; padding-top: 20px; border-bottom: double #ccc; margin-bottom: 40px; }
+#issues { padding-bottom: 40px; }
+#checked-in h2 { background: url(../img/icon-checked-in.png) no-repeat; padding-left: 46px; }
+#checked-in h2 span { font-size: 12px; color: #999; padding-top: 5px; padding-right: 10px; -webkit-font-smoothing: subpixel-antialiased; }
+#issues h2 { background: url(../img/icon-issues.png) no-repeat; padding-left: 46px; }
+#checked-in td.name, #issues td.issue { font-size: 12px; }
+td.time { text-align: right; }
+.see-all { padding-left: 1%; }
+
+
+/* =============================================================================
+   Members
+   ========================================================================== */
+
+#members { position: relative; }
+#members td.thumb img { display: block; }
+#members td.thumb, .members th.thumb { width: 70px; padding-right: 0; }
+#members td.name, .members th.name{font-family: 'Belizio'; padding-left: 20px;font-size: 14px; -webkit-font-smoothing: antialiased; }
+#members .company {font-family: arial, sans-serif;font-size: 12px; -webkit-font-smoothing: antialiased; }
+#members td.name .member-type { display: block; font-family: arial, sans-serif; font-size: 12px; -webkit-font-smoothing: subpixel-antialiased; }
+#members .instruction { font-size: 14px; border-bottom: double #ccc; padding-bottom: 30px; }
+#members .checkcharge img { cursor: pointer; align: center;padding-left: 10px;padding-right: 10px; }
+#members .alert img { align: center;padding-left: 10px;padding-right: 10px }
+#members section { width: 100%;}
+#members td.checkcharge { width: 120px;}
+#members #sidebar { float: none; position: absolute; right: 0; top: 0; }
+.charge-credit label { display: inline; }
+ 
+
+/* =============================================================================
+   Profile/Register New
+   ========================================================================== */
+   
+#register label, #profile label, #invite label  { display: inline-block; width: 40%; padding-top: 6px; }
+#register fieldset, #profile fieldset, #invite fieldset { float: left; width: 40%; margin-right: 4%; min-width: 340px; }
+#register fieldset li, #profile fieldset li, #invite fieldset li { min-height: 25px; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+#register input[type="text"], #profile input[type="text"], #invite input[type="text"], #profile textarea { width: 55%; }
+#register #billing_zip_code, #profile #billing_zip_code, #invite #billing_zip_code { width: 50px; }
+#register select, #profile select, #invite select { margin-right: 5px; }
+#register #company_description, #profile #company_description, #invite #company_description { height: 50px; }
+#billing_country { margin-top: 5px;text-align: right; }
+
+#pw-reset {padding: 10px;}
+
+
+/* =============================================================================
+   Location
+   ========================================================================== */
+   
+#location label  { display: inline-block; width: 40%; padding-top: 6px; }
+#location fieldset { float: left; width: 40%; margin-right: 4%; min-width: 340px; }
+#location fieldset li { min-height: 25px; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+#location input[type="text"] { width: 55%; }
+#location #post_code { width: 50px; }
+#location select { margin-right: 5px; }
+   
+
+/* =============================================================================
+   Tabs
+   ========================================================================== */
+   
+#tabs { border-bottom: 1px solid #eee; margin-bottom: 2em; margin-left: -2%; padding-left: 2%; margin-right: -2%; }
+#tabs li { float: left; margin-right: 5px; }
+#tabs a { color: #444; background: #eee; border: 1px solid #eee; border-bottom: 0; padding: 5px 20px; display: block; text-decoration: none; }
+#tabs a:hover { background: #ddd; }
+#tabs li.current a { background: #fff; cursor: default; }
+
+/* =============================================================================
+   Profile View
+   ========================================================================== */
+.roItem { border-bottom: 1px dashed #babcbe; cursor: pointer; }
+.roItem span, .roItemNoEditBlack span { color: #231F20; font-size: 12px; line-height: 20px; }
+.roItem, .roItemNoEdit, .roItemNoEditBlack { width: 290px; margin-left: 0px; padding: 5px 0; margin-bottom: 5px; color: #babcbe; font-size: 12px; }
+.editItemContainer { padding: 10px 10px 10px 0px; display: none; margin: 0 0 0px 0px; }
+.editItemContainer form { background: #f1f1f2; padding: 10px; position: relative; }
+.update { position: absolute; top: 10px; right: 10px; width: 70px; }
+.update .btn { font-weight: bold; text-transform: none; font-size: 13px; width: 70px; padding: 0; }
+#billingInfoBlock .update { top: 0px; bottom: 10px; right: 10px; width: 70px; }
+#billingInfoBlock input.updateItem { position: absolute; bottom: 10px; right: 10px; }
+.cancelUpdate { text-align: right; padding-top: 10px; }
+.cancelUpdate a { display: inline-block; width: 90px; font-size: 12px; color: #ef4925; text-decoration: underline; text-decoration: underline; text-align: center; }
+.inputLabel { padding-top: 5px; line-height: 13px; }
+.above { padding-top: 0px; padding-bottom: 5px; }
+.inputLabel, .formNote { display: block; font-size: 13px; color: #999; }
+.formNote { font-style: italic; font-weight: normal; padding-bottom: 8px; margin: 0; }
+.toggleit { cursor: pointer }
+.formContainer { max-width: 530px }
+
+.col { float: left; }
+.col.membership, .col.account { width: 410px; margin-right: 2%; }
+#your-account-container { max-width: none; }
+.col.account #billingInfoSection, .col.membership #membershipSection { padding-top: 20px; }
+.col.account #billingInfoSection { padding-bottom: 20px; }
+.editItemContainer input[type="text"], .editItemContainer input[type="number"], .editItemContainer input[type="password"], .editItemContainer textarea { background: #fff; border: 1px solid #ccc; font-size: 12px; padding: 5px 7px; color: #666; }
+.editItemContainer input[type="checkbox"] {margin:5px;}
+.webkit .editItemContainer select { -webkit-appearance: none; border: 1px solid #ccc; border-radius: 0; background: url(../img/bg-select-arrow.gif) no-repeat right -1px #fff; height: 27px; padding: 0 40px 0 7px; }
+.roItem { width: 400px }
+
+/* charge and checkin sidebar */
+#sidebar ul { background: #f0f0f1; -moz-box-shadow: 0 2px 3px rgba(0,0,0,0.4); -webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.4); box-shadow: 0 2px 3px rgba(0,0,0,0.4); }
+#sidebar li { background: #f0f0f1; padding: 10px 10px 10px 10px; border-bottom: 1px solid #ccc;cursor: pointer; }
+
+#sidebar li.selected a { background: #f0f0f1; }
+#sidebar li.selected a:hover { text-decoration: none; cursor: default; }
+#sidebar .type-date { float: left; margin-right: 10px; }
+#sidebar .amount { float: right; }
+
+
+
+/* =============================================================================
+   Footer
+   ========================================================================== */
+
+footer p { padding: 10px 0 30px 20px; }
+footer a { color: #444; text-decoration: none; }
+
+
+/* =============================================================================
+   Smart Suggest
+   ========================================================================== */
+
+div.ss-wrap{display:block;position:relative;}
+input.ss-input{display:block;}
+input.ss-input-thinking{background-image:url(../img/indicator.gif);background-repeat:no-repeat;background-position:center right;}
+ul.ss-box{margin:0 !important;padding:0 !important;width:auto;z-index:999999;font-size:11px;background:#fff;-moz-box-shadow:2px 2px 5px 0 #c5c5c5;list-style:none;position: absolute; left: 0; right: 0; border-top: 0;}
+div.ss-wrap ul.ss-box{display:block;}
+ul.ss-box td { background: #fff; }
+ul.ss-box li{float:left;width:100%;clear:both;}
+ul.ss-box li, ul.ss-box li *{cursor:pointer;}
+ul.ss-box li.ss-header{display: none;}
+ul.ss-box li.ss-result{margin:0 !important;padding:0 !important;border-bottom:1px solid #c5c5c5;}
+ul.ss-box li.ss-result a{display:block;padding:5px 10px;text-decoration:none !important;background:#fff;}
+ul.ss-box li.ss-result img{margin-right:12px;}
+ul.ss-box li.ss-result p{margin:0 !important;padding:0 !important;color:#444;font-weight:normal;font-size:10px;}
+ul.ss-box li.ss-result p span.ss-result-title{display:inline !important;margin:0 !important;padding:0 !important;font-size:11px;font-weight:bold;color:#222;}
+
+
+/* =============================================================================
+   Non-semantic helper classes
+   ========================================================================== */
+
+.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+.ir br { display: none; }
+.hidden { display: none; visibility: hidden; }
+.invisible { visibility: hidden; }
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+.clear { clear: both; }
+.left { float: left; }
+.right { float: right; }

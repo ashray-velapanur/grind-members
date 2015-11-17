@@ -1,0 +1,2276 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+DEBUG - 2012-10-18 00:08:10 --> Config Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:08:10 --> URI Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Router Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:08:10 --> Output Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Security Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Input Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:08:10 --> Language Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:08:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:08:10 --> Model Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Config Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:08:10 --> URI Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Router Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:08:10 --> Output Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Security Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Input Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:08:10 --> Language Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:08:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:08:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:08:10 --> Model Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Config Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:11:13 --> URI Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Router Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Output Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Security Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Input Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:11:13 --> Language Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:11:13 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:11:13 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:11:13 --> Model Class Initialized
+DEBUG - 2012-10-18 00:11:18 --> Config Class Initialized
+DEBUG - 2012-10-18 00:11:18 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:11:18 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:11:18 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:11:18 --> URI Class Initialized
+DEBUG - 2012-10-18 00:11:18 --> Router Class Initialized
+ERROR - 2012-10-18 00:11:19 --> 404 Page Not Found --> admin/ci
+DEBUG - 2012-10-18 00:11:20 --> Config Class Initialized
+DEBUG - 2012-10-18 00:11:20 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:11:20 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:11:20 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:11:20 --> URI Class Initialized
+DEBUG - 2012-10-18 00:11:20 --> Router Class Initialized
+ERROR - 2012-10-18 00:11:20 --> 404 Page Not Found --> admin/ci
+DEBUG - 2012-10-18 00:11:22 --> Config Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:11:22 --> URI Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Router Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Output Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Security Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Input Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:11:22 --> Language Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:11:22 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:11:22 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:11:22 --> Model Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Config Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:11:30 --> URI Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Router Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Output Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Security Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Input Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:11:30 --> Language Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:11:30 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:11:30 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:11:30 --> Model Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Config Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:13:24 --> URI Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Router Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Output Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Security Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Input Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:13:24 --> Language Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:13:24 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:13:24 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:13:24 --> Model Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Config Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:13:24 --> URI Class Initialized
+DEBUG - 2012-10-18 00:13:24 --> Router Class Initialized
+ERROR - 2012-10-18 00:13:24 --> 404 Page Not Found --> admin/ci
+DEBUG - 2012-10-18 00:20:23 --> Config Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:20:23 --> URI Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Router Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Output Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Security Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Input Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:20:23 --> Language Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:20:23 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:20:23 --> Model Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Config Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:20:23 --> URI Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Router Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Output Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Security Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Input Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:20:23 --> Language Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:20:23 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:20:23 --> Helper loaded: admin_layout_helper
+ERROR - 2012-10-18 00:20:23 --> 404 Page Not Found --> usermanagement/ci
+DEBUG - 2012-10-18 00:20:29 --> Config Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:20:29 --> URI Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Router Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Output Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Security Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Input Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:20:29 --> Language Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:20:29 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:20:29 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:20:29 --> Model Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Config Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:21:17 --> URI Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Router Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Output Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Security Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Input Class Initialized
+DEBUG - 2012-10-18 00:21:17 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:21:17 --> Language Class Initialized
+DEBUG - 2012-10-18 00:21:18 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:21:18 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:21:18 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:21:18 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:21:18 --> Model Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Config Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:23:09 --> URI Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Router Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:23:09 --> Output Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Security Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Input Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:23:09 --> Language Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:23:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:23:09 --> Model Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Config Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:23:09 --> URI Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Router Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:23:09 --> Output Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Security Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Input Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:23:09 --> Language Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:23:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:23:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:23:09 --> Model Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:05 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Router Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Output Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Security Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Input Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:26:05 --> Language Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:26:05 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:26:05 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:26:05 --> Model Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:09 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Router Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Output Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Security Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Input Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:26:09 --> Language Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:26:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:26:09 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:26:09 --> Model Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:09 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:09 --> Router Class Initialized
+ERROR - 2012-10-18 00:26:09 --> 404 Page Not Found --> admin/ci
+DEBUG - 2012-10-18 00:26:14 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:14 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Router Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Output Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Security Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Input Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:26:14 --> Language Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:26:14 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:26:14 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:26:14 --> Model Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:15 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Router Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Output Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Security Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Input Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:26:15 --> Language Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:26:15 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:26:15 --> Helper loaded: admin_layout_helper
+ERROR - 2012-10-18 00:26:15 --> 404 Page Not Found --> usermanagement/ci
+DEBUG - 2012-10-18 00:26:18 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:18 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Router Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Output Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Security Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Input Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:26:18 --> Language Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:26:18 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:26:18 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:26:18 --> Model Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:42 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Router Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Output Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Security Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Input Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:26:42 --> Language Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:26:42 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:26:42 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:26:42 --> Model Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Config Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:26:52 --> URI Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Router Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Output Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Security Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Input Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:26:52 --> Language Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:26:52 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:26:52 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:26:52 --> Model Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Config Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:28:41 --> URI Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Router Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Output Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Security Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Input Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:28:41 --> Language Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:28:41 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:28:41 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:28:41 --> Model Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Config Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:31:35 --> URI Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Router Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Output Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Security Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Input Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:31:35 --> Language Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:31:35 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:31:35 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:31:35 --> Model Class Initialized
+DEBUG - 2012-10-18 00:31:36 --> Config Class Initialized
+DEBUG - 2012-10-18 00:31:36 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:31:36 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:31:36 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:31:36 --> URI Class Initialized
+DEBUG - 2012-10-18 00:31:36 --> Router Class Initialized
+ERROR - 2012-10-18 00:31:36 --> 404 Page Not Found --> admin/ci
+DEBUG - 2012-10-18 00:31:40 --> Config Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:31:40 --> URI Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Router Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Output Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Security Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Input Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:31:40 --> Language Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:31:40 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:31:40 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:31:40 --> Model Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Config Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:32:11 --> URI Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Router Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Output Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Security Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Input Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:32:11 --> Language Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:32:11 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:32:11 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:32:11 --> Model Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Config Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:33:55 --> URI Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Router Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Output Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Security Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Input Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:33:55 --> Language Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:33:55 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:33:55 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:33:55 --> Model Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Config Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:33:58 --> URI Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Router Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Output Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Security Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Input Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:33:58 --> Language Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:33:58 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:33:58 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:33:58 --> Model Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Config Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:34:03 --> URI Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Router Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Output Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Security Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Input Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:34:03 --> Language Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:34:03 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:34:03 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:34:03 --> Model Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Config Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:34:18 --> URI Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Router Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Output Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Security Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Input Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:34:18 --> Language Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:34:18 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:34:18 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:34:18 --> Model Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Config Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:36:11 --> URI Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Router Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Output Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Security Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Input Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:36:11 --> Language Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:36:11 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:36:11 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:36:11 --> Model Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Config Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:37:48 --> URI Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Router Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:37:48 --> Output Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Security Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Input Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:37:48 --> Language Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:37:48 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:37:48 --> Model Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Config Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:37:48 --> URI Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Router Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:37:48 --> Output Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Security Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Input Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:37:48 --> Language Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:37:48 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:37:48 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:37:48 --> Model Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Config Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:37:49 --> URI Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Router Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Output Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Security Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Input Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:37:49 --> Language Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:37:49 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: array_helper
+DEBUG - 2012-10-18 00:37:49 --> Model Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Config Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:37:49 --> URI Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Router Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Output Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Security Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Input Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:37:49 --> Language Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:37:49 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:37:49 --> Helper loaded: admin_layout_helper
+ERROR - 2012-10-18 00:37:49 --> 404 Page Not Found --> usermanagement/ci
+DEBUG - 2012-10-18 00:37:51 --> Config Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:37:51 --> URI Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Router Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Output Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Security Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Input Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:37:51 --> Language Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:37:51 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:37:51 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:37:51 --> Model Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Config Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:38:15 --> URI Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Router Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Output Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Security Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Input Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:38:15 --> Language Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:38:15 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:38:15 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:38:15 --> Model Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Config Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:53:09 --> URI Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Router Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:53:09 --> Output Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Security Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Input Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:53:09 --> Language Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:53:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:53:09 --> Model Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Config Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 00:53:09 --> URI Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Router Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 00:53:09 --> Output Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Security Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Input Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 00:53:09 --> Language Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 00:53:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 00:53:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 00:53:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 00:53:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 00:53:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 00:53:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 00:53:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 00:53:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 00:53:10 --> Model Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Config Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:08:10 --> URI Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Router Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:08:10 --> Output Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Security Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Input Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:08:10 --> Language Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:08:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:08:10 --> Model Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Config Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:08:10 --> URI Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Router Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:08:10 --> Output Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Security Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Input Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:08:10 --> Language Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:08:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:08:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:08:10 --> Model Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Config Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:23:11 --> URI Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Router Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:23:11 --> Output Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Security Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Input Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:23:11 --> Language Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:23:11 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:23:11 --> Model Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Config Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:23:11 --> URI Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Router Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:23:11 --> Output Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Security Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Input Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:23:11 --> Language Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:23:11 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:23:11 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:23:11 --> Model Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Config Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:38:09 --> URI Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Router Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:38:09 --> Output Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Security Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Input Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:38:09 --> Language Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:38:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:38:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:38:09 --> Model Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Config Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:38:10 --> URI Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Router Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:38:10 --> Output Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Security Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Input Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:38:10 --> Language Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:38:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:38:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:38:10 --> Model Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Config Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:53:10 --> URI Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Router Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:53:10 --> Output Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Security Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Input Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:53:10 --> Language Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:53:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:53:10 --> Model Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Config Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 01:53:10 --> URI Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Router Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 01:53:10 --> Output Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Security Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Input Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 01:53:10 --> Language Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 01:53:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 01:53:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 01:53:10 --> Model Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Config Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:02:49 --> URI Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Router Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:02:49 --> Output Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Security Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Input Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:02:49 --> Language Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:02:49 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:02:49 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:02:49 --> Model Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Config Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:02:50 --> URI Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Router Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:02:50 --> Output Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Security Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Input Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:02:50 --> Language Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:02:50 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:02:50 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:02:50 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:09 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:09 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:09 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:09 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:09 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:09 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:09 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:10 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:10 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:10 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:10 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:10 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:21 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:21 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:21 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:21 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:21 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:21 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:22 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:22 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:22 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:22 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:22 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:22 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:22 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:22 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:22 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:22 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:22 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:30 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:30 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:30 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:30 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:30 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:30 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:31 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:31 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:31 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:31 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:31 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:31 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:31 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:31 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:31 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:31 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:31 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:36 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:36 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:36 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:36 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:36 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:36 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:36 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:36 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:36 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:37 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:37 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:37 --> Model Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Config Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:03:37 --> URI Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Router Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:03:37 --> Output Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Security Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Input Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:03:37 --> Language Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:03:37 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:03:37 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:03:37 --> Model Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Config Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:08:10 --> URI Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Router Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:08:10 --> Output Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Security Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Input Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:08:10 --> Language Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:08:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:08:10 --> Model Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Config Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:08:10 --> URI Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Router Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:08:10 --> Output Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Security Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Input Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:08:10 --> Language Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:08:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:08:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:08:10 --> Model Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Config Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:23:09 --> URI Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Router Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:23:09 --> Output Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Security Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Input Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:23:09 --> Language Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:23:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:23:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:23:09 --> Model Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Config Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:23:10 --> URI Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Router Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:23:10 --> Output Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Security Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Input Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:23:10 --> Language Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:23:10 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:23:10 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:23:10 --> Model Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Config Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:23:16 --> URI Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Router Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Output Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Security Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Input Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:23:16 --> Language Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:23:16 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:23:16 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:23:16 --> Model Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Config Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:26:14 --> URI Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Router Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:26:14 --> Output Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Security Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Input Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:26:14 --> Language Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:26:14 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:26:14 --> Model Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Config Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:26:14 --> URI Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Router Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:26:14 --> Output Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Security Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Input Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:26:14 --> Language Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:26:14 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:26:14 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:26:14 --> Model Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Config Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:26:24 --> URI Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Router Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Output Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Security Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Input Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:26:24 --> Language Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:26:24 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:26:24 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:26:24 --> Pagination Class Initialized
+DEBUG - 2012-10-18 02:26:24 --> Model Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Config Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:26:28 --> URI Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Router Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Output Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Security Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Input Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:26:28 --> Language Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:26:28 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:26:28 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:26:28 --> Model Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Config Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:26:41 --> URI Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Router Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Output Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Security Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Input Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:26:41 --> Language Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:26:41 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:26:41 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:26:41 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:26:41 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:26:41 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:26:41 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:26:42 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:26:42 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:26:42 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:26:42 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:26:42 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:26:42 --> Model Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Config Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:26:59 --> URI Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Router Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Output Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Security Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Input Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:26:59 --> Language Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:26:59 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:26:59 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:26:59 --> Model Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Config Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:27:04 --> URI Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Router Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Output Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Security Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Input Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:27:04 --> Language Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:27:04 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:27:04 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:27:04 --> Model Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Config Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:27:11 --> URI Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Router Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Output Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Security Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Input Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:27:11 --> Language Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:27:11 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:27:11 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:27:11 --> Model Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Config Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:28:05 --> URI Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Router Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Output Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Security Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Input Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:28:05 --> Language Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:28:05 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:28:05 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:28:05 --> Model Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Config Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:30:08 --> URI Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Router Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Output Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Security Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Input Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:30:08 --> Language Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:30:08 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:30:08 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:30:08 --> Model Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Config Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:30:20 --> URI Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Router Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Output Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Security Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Input Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:30:20 --> Language Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:30:20 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:30:20 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:30:20 --> Model Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Config Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:32:39 --> URI Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Router Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Output Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Security Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Input Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:32:39 --> Language Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:32:39 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:32:39 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:32:39 --> Model Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Config Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:32:42 --> URI Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Router Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Output Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Security Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Input Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:32:42 --> Language Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:32:42 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:32:42 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:32:42 --> Model Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Config Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:35:09 --> URI Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Router Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Output Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Security Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Input Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:35:09 --> Language Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:35:09 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:35:09 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:35:09 --> Model Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Config Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:35:18 --> URI Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Router Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Output Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Security Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Input Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:35:18 --> Language Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:35:18 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:35:18 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:35:18 --> Model Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Config Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:37:29 --> URI Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Router Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Output Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Security Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Input Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:37:29 --> Language Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:37:29 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:37:29 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:37:29 --> Final output sent to browser
+DEBUG - 2012-10-18 02:37:29 --> Total execution time: 0.0277
+DEBUG - 2012-10-18 02:37:33 --> Config Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:37:33 --> URI Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Router Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Output Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Security Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Input Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:37:33 --> Language Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:37:33 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:37:33 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:37:33 --> Final output sent to browser
+DEBUG - 2012-10-18 02:37:33 --> Total execution time: 0.0245
+DEBUG - 2012-10-18 02:37:41 --> Config Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:37:41 --> URI Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Router Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:37:41 --> Output Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Security Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Input Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:37:41 --> Language Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:37:41 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:37:41 --> Model Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Config Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:37:41 --> URI Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Router Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> No URI present. Default controller set.
+DEBUG - 2012-10-18 02:37:41 --> Output Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Security Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Input Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:37:41 --> Language Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:37:41 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: cookie_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:37:41 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:37:41 --> Model Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Config Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:37:42 --> URI Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Router Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Output Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Security Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Input Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:37:42 --> Language Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:37:42 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:37:42 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:37:42 --> Model Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Config Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:37:44 --> URI Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Router Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Output Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Security Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Input Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:37:44 --> Language Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:37:44 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:37:44 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:37:44 --> Final output sent to browser
+DEBUG - 2012-10-18 02:37:44 --> Total execution time: 0.0285
+DEBUG - 2012-10-18 02:44:55 --> Config Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:44:55 --> URI Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Router Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Output Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Security Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Input Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:44:55 --> Language Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:44:55 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:44:55 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:44:55 --> Model Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Config Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Hooks Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Utf8 Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> UTF-8 Support Enabled
+DEBUG - 2012-10-18 02:47:16 --> URI Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Router Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Output Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Security Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Input Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Global POST and COOKIE data sanitized
+DEBUG - 2012-10-18 02:47:16 --> Language Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Loader Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: role_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: user_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: url_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: issue_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: datetime_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: msg_helper
+DEBUG - 2012-10-18 02:47:16 --> Database Driver Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Controller Class Initialized
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: date_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: form_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: html_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: nav_location_helper
+DEBUG - 2012-10-18 02:47:16 --> Helper loaded: admin_layout_helper
+DEBUG - 2012-10-18 02:47:16 --> Model Class Initialized
