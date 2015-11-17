@@ -1,3 +1,5 @@
+ci/application/logs/*.php
+
 *.log
 .htaccess
 sitemap.xml
