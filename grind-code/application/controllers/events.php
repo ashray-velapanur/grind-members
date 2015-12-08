@@ -14,17 +14,5 @@ class Events extends CI_Controller {
 			error_log('nope...');
 		}
 	}
-
-	public function get_event(){
-		$event_id = $_GET['id'];
-		$sql = "SELECT * FROM events WHERE id=('$event_id')";
-		if ($this->db->query($sql) === TRUE) {
-			error_log('done!');
-		} else {
-			error_log('nope...');
-		}
-	}
-
-
 }
 ?>
