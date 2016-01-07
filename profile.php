@@ -1,3 +1,6 @@
+<?php
+require( dirname(__FILE__) . '/_siteconfig.php' );
+?>
 <?php if(isset($user)) {
 	$formId="profile";
 } else {
@@ -63,12 +66,13 @@
         <label for="membership_plan_code">Membership Type</label>
         <select id="membership_plan_code" name="membership_plan_code" title="Membership Type">
             <option value="">Daily</option>
-        <?
-        $plans = RecurlyPlan::getPlans();
-        foreach ($plans as $plan) {
-        ?>
-            <option value="<?=$plan->plan_code?>" <?=(isset($user) ? ($user->membership_plan_code == $plan->plan_code ? "selected" : "") : "")?>><?=$plan->name?></option>
-        <? } ?>
+            <!-- For now commented getting RecurlyPlans -->
+            <?
+            //$plans = RecurlyPlan::getPlans();
+            //foreach ($plans as $plan) {
+            ?>
+            <!--<option value="<?//=$plan->plan_code?>" <?//=(isset($user) ? ($user->membership_plan_code == $plan->plan_code ? "selected" : "") : "")?>><?//=$plan->name?></option>-->
+            <? //} ?>
         </select>
         <?
         if (isset($user)) {
@@ -77,6 +81,13 @@
           }
         }
         ?>
+      </li>
+      <li>
+        <label for="role">Role</label>
+        <select name="role" id="role">
+          <option value="subscriber">Subscriber</option>
+          <option value="administrator">Administrator</option>
+        </select>
       </li>
       <li style="border:0">
         <br><br><input type="submit" value="Submit" class="btn" />

@@ -960,6 +960,9 @@ class MemberModel extends CI_Model {
                 case "location_id":
                     $userdata[$name] = $value;
                     break;
+                case "role":
+                    $role = $value;
+                    break;
                 case "company":
                     $companydata["name"] =
                      $value == "" || $value == null ? $this->input->post("first_name") : $value;
@@ -1045,8 +1048,10 @@ class MemberModel extends CI_Model {
             //first we create the wordpress account
             $wpid = username_exists( $this->member->email );
             if ( !$wpid ) {
-                
-                $wpid = wp_create_user( $this->member->email, $temporaryPassword,$this->member->email);
+                $user_login = $this->member->email;
+                $user_email = $this->member->email;
+                $user_pass = $temporaryPassword;
+                $wpid = wp_insert_user(compact('user_login', 'user_email', 'user_pass', 'role'));
                 error_log("Wordpress User Create Result=".$wpid);
                 
             } else {
