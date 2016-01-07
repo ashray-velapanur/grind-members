@@ -119,7 +119,7 @@ class Auth extends CI_Controller {
 			$user_id = $user->id;
 			$wp_user_id = $user->wp_users_id;
 			$query->free_result();
-			if(user_id) {
+			if($user_id) {
 				$query = $this->db->query("select network_id from third_party_user where user_id = ".$user_id." and network='linkedin'");
 				if ($query->num_rows() > 0) {
 					$tpu = $query->row();
@@ -148,6 +148,53 @@ class Auth extends CI_Controller {
 			return json_encode(compact('id','email','first_name','last_name'));
 		} else {
 			error_log('PRINT: could not find admin user');
+			return false;
+		}
+	}
+
+	public function users_get() {
+		$users_array = [];
+		$query = $this->db->query("select id, wp_users_id from user");
+		if ($query->num_rows() > 0){
+			foreach ($query->result() as $user) {
+				$id = '';
+				$first_name = '';
+				$last_name = '';
+				$email = '';
+				$user_id = $user->id;
+				$wp_user_id = $user->wp_users_id;
+				$query->free_result();
+				if($user_id) {
+					$query = $this->db->query("select network_id from third_party_user where user_id = ".$user_id." and network='linkedin'");
+					if ($query->num_rows() > 0) {
+						$tpu = $query->row();
+						$id = $tpu->network_id;
+					}
+					$query->free_result();
+					$query = $this->db->query("select meta_value from wpmember_usermeta where user_id=".$wp_user_id." and meta_key='first_name'");
+					if ($query->num_rows() > 0) {
+						$um = $query->row();
+						$first_name = $um->meta_value;
+					}
+					$query->free_result();
+					$query = $this->db->query("select meta_value from wpmember_usermeta where user_id=".$wp_user_id." and meta_key = 'last_name'");
+					if ($query->num_rows() > 0) {
+						$um = $query->row();
+						$last_name = $um->meta_value;
+					}
+					$query->free_result();
+					$query = $this->db->query("select meta_value from wpmember_usermeta where user_id=".$wp_user_id." and meta_key = 'email'");
+					if ($query->num_rows() > 0) {
+						$um = $query->row();
+						$email = $um->meta_value;
+					}
+				}
+				array_push($users_array, compact('id','email','first_name','last_name'));
+			}
+			error_log('PRINT: returning users: '.json_encode($users_array));
+			return json_encode($users_array);
+		} else {
+			error_log('PRINT: could not find any users');
 			return false;
 		}
 	}
