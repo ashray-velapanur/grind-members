@@ -49,7 +49,7 @@ class Auth extends CI_Controller {
 				);
 				setGalleryCookie($cookiedata);
 
-				$sql = "INSERT INTO third_party_user (user_id, network, access_token, profile_picture) VALUES ($result->id, 'linkedin', '$access_token', '$profile->pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$profile->pictureUrl."'";
+				$sql = "INSERT INTO third_party_user (network_id, user_id, network, access_token, profile_picture) VALUES ('$profile->id', $result->id, 'linkedin', '$access_token', '$profile->pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$profile->pictureUrl."'";
 				try {
 					if ($this->db->query($sql) === TRUE) {
 						echo "Record created/updated successfully";
@@ -110,6 +110,46 @@ class Auth extends CI_Controller {
 			}
 		}
 		return $bubbles;
+	}
+
+	public function admin_get() {
+		$query = $this->db->query("select id, wp_users_id from user left join wpmember_usermeta on user.wp_users_id = wpmember_usermeta.user_id where wpmember_usermeta.meta_key = 'wpmember_user_level' and wpmember_usermeta.meta_value = '10'");
+		if ($query->num_rows() > 0){
+			$user = $query->row();
+			$user_id = $user->id;
+			$wp_user_id = $user->wp_users_id;
+			$query->free_result();
+			if(user_id) {
+				$query = $this->db->query("select network_id from third_party_user where user_id = ".$user_id." and network='linkedin'");
+				if ($query->num_rows() > 0) {
+					$tpu = $query->row();
+					$id = $tpu->network_id;
+				}
+				$query->free_result();
+				$query = $this->db->query("select meta_value from wpmember_usermeta where user_id=".$wp_user_id." and meta_key='first_name'");
+				if ($query->num_rows() > 0) {
+					$um = $query->row();
+					$first_name = $um->meta_value;
+				}
+				$query->free_result();
+				$query = $this->db->query("select meta_value from wpmember_usermeta where user_id=".$wp_user_id." and meta_key = 'last_name'");
+				if ($query->num_rows() > 0) {
+					$um = $query->row();
+					$last_name = $um->meta_value;
+				}
+				$query->free_result();
+				$query = $this->db->query("select meta_value from wpmember_usermeta where user_id=".$wp_user_id." and meta_key = 'email'");
+				if ($query->num_rows() > 0) {
+					$um = $query->row();
+					$email = $um->meta_value;
+				}
+			}
+			error_log('PRINT: returning user: '.json_encode(compact('id','email','first_name','last_name')));
+			return json_encode(compact('id','email','first_name','last_name'));
+		} else {
+			error_log('PRINT: could not find admin user');
+			return false;
+		}
 	}
 }
 ?>
