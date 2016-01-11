@@ -64,6 +64,45 @@ class Auth extends CI_Controller {
 		print(json_encode($response));
 	}
 
+	public function cobot() {
+		$client_id = 'f07c161f33dc2d90450d931176a6aea1';
+		$client_secret = 'c692bd368b45e18ba93d2d051ca5deaae480a73cd6f4612568290d172ada2a11';
+		$scope = 'read read_memberships write write_memberships read_check_ins';
+		$redirect_uri = 'http://oscarosl-test.appspot.com/~aiyappaganesh/grind-members/grind-code/index.php/auth/cobot';
+		$access_token = '79af7d71ab964cf5e34f8eec64d175533bf5c924bf4d1133ff01aed76c6017d8';
+
+		$code = $_GET['code'];
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_POST, 1);
+
+		$data = [
+			'client_id' => $client_id,
+			'client_secret' => $client_secret,
+			'grant_type' => 'authorization_code',
+			'code' => $code
+		];
+
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+		$url = "https://www.cobot.me/oauth/access_token?";
+
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+		$result = curl_exec($curl);
+
+		curl_close($curl);
+
+		$result = (array)json_decode($result);
+
+		foreach ($result as $key => $value) {
+			error_log($key.' '.$value);
+		}
+
+		return $result['access_token'];
+	}
+
 	function populate_bubbles() {
 		$file = fopen(__DIR__."/../../../bubbles.csv","r");
 		if ($file) {
