@@ -210,6 +210,43 @@ class LocationManagement extends CI_Controller {
 			}
 		}
 	}
+
+	public function spaces_get() {
+		$space_data = [];
+		$query = $this->db->get("cobot_spaces");
+        $spaces = $query->result();
+        foreach ($spaces as $space_arr) {
+        	$space = (array)$space_arr;
+        	$space_id = $space['id'];
+        	$space_img_src = 'data:image/jpeg;base64,'.base64_encode( $space['image'] );
+
+        	$curl = curl_init();
+        	$url = 'https://www.cobot.me/api/spaces/'.$space_id;
+			$data = [
+				'client_id' => $client_id,
+				'client_secret' => $client_secret,
+				'grant_type' => 'authorization_code',
+				'code' => $code
+			];
+        	if ($data)
+                $url = sprintf("%s?%s", $url, http_build_query($data));
+			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			$result = (array)json_decode(curl_exec($curl));
+			curl_close($curl);
+			$description = $result['description'];
+
+			$spacedata = array(
+				'id' => $space_id,
+        		'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
+        		'description' => $description
+        	);
+        	array_push($space_data, $spacedata);
+        }
+        $data = array('space_data' => $space_data);
+        return $data;
+        // $this->load->view('/admin/show_spaces.php', $data);
+	}
 }
 
 ?>
