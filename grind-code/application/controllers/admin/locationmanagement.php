@@ -247,6 +247,95 @@ class LocationManagement extends CI_Controller {
         return $data;
         // $this->load->view('/admin/show_spaces.php', $data);
 	}
+
+	public function cobot_resource() {
+		$query = $this->db->get("cobot_spaces");
+        $spaces = $query->result();
+        $data = [];
+        $spacedata = [];
+        foreach ($spaces as $space_arr) {
+        	$space = (array)$space_arr;
+        	$space_id = $space['id'];
+        	array_push($spacedata, $space_id);
+        }
+        $data['spacedata'] = $spacedata;
+		$this->load->view("/admin/add_resource.php", $data);
+	}
+
+	public function add_update_resource() {
+		error_log("In add_update_resource");
+		if(isset($_POST["submit"])) {
+			$cobot_resource_id = $_POST["cobot_resource_id"];
+			$space_id = $_POST["space_id"];
+			$tmpName = $_FILES['fileToUpload']['tmp_name'];
+			$fp = fopen($tmpName, 'r');
+			$data = fread($fp, filesize($tmpName));
+			$data = addslashes($data);
+			fclose($fp);
+			$sql = "INSERT INTO cobot_resources";
+			$sql .= "(id, space_id, image) VALUES ('$cobot_resource_id', '$space_id', '$data')";
+			try {
+				if ($this->db->query($sql) === TRUE) {
+					echo "Record created/updated successfully";
+				} else {
+					echo "Error: " . $sql . "<br>" . $this->db->error;
+				}
+			} catch (Exception $e) {
+			    error_log('Caught exception: ',  $e->getMessage(), "\n");
+			}
+		}
+	}
+
+	public function resources_get() {
+		$space_id = $_GET['space_id'];
+		$resource_data = [];
+
+		$curl = curl_init();
+		$url = 'https://'.$space_id.'.cobot.me/api/resources';
+		$data = [
+			'access_token' => '79af7d71ab964cf5e34f8eec64d175533bf5c924bf4d1133ff01aed76c6017d8'
+		];
+    	if ($data)
+            $url = sprintf("%s?%s", $url, http_build_query($data));
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($curl);
+		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		$cobot_resources = [];
+		if($result_code == 200) {
+			$result = (array)json_decode($result);
+			foreach ($result as $resource) {
+				$resource = (array)$resource;
+				$cobot_resources[$resource['id']] = $resource;
+			}
+		}
+
+		$this->db->where("space_id", $space_id);
+		$query = $this->db->get('cobot_resources');
+		$resources = $query->result();
+		foreach ($resources as $resource_arr) {
+			$resource = (array)$resource_arr;
+			$resource_id = $resource['id'];
+			$resource_img_src = 'data:image/jpeg;base64,'.base64_encode( $resource['image'] );
+			$cobot_resource = $cobot_resources[$resource_id];
+			$description = $cobot_resource['description'];
+			$capacity = $cobot_resource['capacity'];
+			$rate = $cobot_resource['price_per_hour'];
+			$resourcedata = array(
+				'id' => $resource_id,
+        		'img_src' => $resource_img_src,
+        		'description' => $description,
+        		'capacity' => $capacity,
+        		'rate' => $rate
+        	);
+        	error_log(json_encode($resourcedata));
+        	array_push($resource_data, $resourcedata);
+		}
+		$data = array('resource_data' => $resource_data);
+		return $data;
+        //$this->load->view('/admin/show_resources.php', $data);
+	}
 }
 
 ?>
