@@ -192,13 +192,14 @@ class LocationManagement extends CI_Controller {
 		error_log("In add_update_space");
 		if(isset($_POST["submit"])) {
 			$cobot_id = $_POST["cobot_id"];
+			$capacity = $_POST["capacity"];
 			$tmpName = $_FILES['fileToUpload']['tmp_name'];
 			$fp = fopen($tmpName, 'r');
 			$data = fread($fp, filesize($tmpName));
 			$data = addslashes($data);
 			fclose($fp);
 			$sql = "INSERT INTO cobot_spaces";
-			$sql .= "(id, image) VALUES ('$cobot_id', '$data')";
+			$sql .= "(id, image, capacity) VALUES ('$cobot_id', '$data', $capacity)";
 			try {
 				if ($this->db->query($sql) === TRUE) {
 					echo "Record created/updated successfully";
@@ -219,15 +220,11 @@ class LocationManagement extends CI_Controller {
         	$space = (array)$space_arr;
         	$space_id = $space['id'];
         	$space_img_src = 'data:image/jpeg;base64,'.base64_encode( $space['image'] );
+        	$capacity = $space['capacity'];
 
         	$curl = curl_init();
         	$url = 'https://www.cobot.me/api/spaces/'.$space_id;
-			$data = [
-				'client_id' => $client_id,
-				'client_secret' => $client_secret,
-				'grant_type' => 'authorization_code',
-				'code' => $code
-			];
+			$data = [];
         	if ($data)
                 $url = sprintf("%s?%s", $url, http_build_query($data));
 			curl_setopt($curl, CURLOPT_URL, $url);
@@ -239,7 +236,8 @@ class LocationManagement extends CI_Controller {
 			$spacedata = array(
 				'id' => $space_id,
         		'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
-        		'description' => $description
+        		'description' => $description,
+        		'capacity' => $capacity
         	);
         	array_push($space_data, $spacedata);
         }

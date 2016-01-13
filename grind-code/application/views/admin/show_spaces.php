@@ -6,6 +6,7 @@
 			<img height='100px' width='150px' src="<?php echo($space['img_src']) ?>">
 			<p><?php echo($space['id']) ?></p>
 			<p><?php echo($space['description']) ?></p>
+			<p><?php echo($space['capacity']) ?></p>
 		<?
 		}
 		?>
