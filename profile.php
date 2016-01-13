@@ -31,8 +31,12 @@ require( dirname(__FILE__) . '/_siteconfig.php' );
         <input type="text" id="last_name" class="required" name="last_name" value="<?=(isset($user) ? $user->last_name : "")?>" />
       </li>
       <li>
-        <label for="first_name">Company</label>
+        <label for="company">Company</label>
         <input type="text" id="company" name="company" value="<?=(isset($user) ? $user->company_name : "")?>" />
+      </li>
+      <li>
+        <label for="designation">Designation in Company</label>
+        <input type="text" id="designation" name="designation" value="<?=(isset($user) ? $user->designation : "")?>" />
       </li>
       <li>
         <label for="rfid">RFID</label>

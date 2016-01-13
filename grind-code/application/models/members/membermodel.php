@@ -970,6 +970,9 @@ class MemberModel extends CI_Model {
                 case "company_description":
                     $companydata["description"] = $value;
                     break;
+                case "designation":
+                    $designation = $value;
+                    break;
                 case "website":
                     $wpdata["user_url"] = $value;
                     break;
@@ -1105,6 +1108,9 @@ class MemberModel extends CI_Model {
                 
                 // behance
                 update_user_meta($wpid, 'behance', $userdata['behance']);
+
+                // designation in company
+                update_user_meta($wpid, 'designation', $designation);
                 
                 /* end wp user meta update */
                 
