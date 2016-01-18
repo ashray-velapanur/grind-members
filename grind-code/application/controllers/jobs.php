@@ -16,5 +16,16 @@ class Jobs extends CI_Controller {
 		}
 		var_dump(json_encode($response));
 	}
+
+	public function get(){
+		$sql = "SELECT * FROM jobs";
+		$result = mysql_query($sql);
+		$response = array();
+		while($row = mysql_fetch_assoc($result))
+			{
+				array_push($response, $row);
+		}
+		var_dump(json_encode($response));
+	}
 }
 ?>
