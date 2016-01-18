@@ -82,6 +82,44 @@ class CompanyModel extends CI_Model {
         }	        
         return $retval; // no companies
 	}
+
+	public function get_members($id) {
+		if(isset($id))
+		{
+	        $this->db->where('id',$id);
+	        $query = $this->db->get('company');  
+	        
+	        if ($query->num_rows() > 0)
+	        {
+	            $this->company = $query->row();
+	            $sql = "select u.id as id, u.first_name as fname, u.last_name as lname, u.wp_users_id as wpid
+	            		from
+	            			user u
+	            			left outer join company c on c.id = u.company_id
+	            		where ";
+	            $sql = $sql.' c.id = '.$id;
+				$query = $this->db->query($sql);
+				$results = $query->result();
+				$members = [];
+				foreach ($results as $result) {
+					$result = (array)$result;
+					$member = [
+						'name' => $result['fname'].' '.$result['lname'],
+					];
+					array_push($members, $member);
+				}
+				$data = [
+					'members' => $members
+				];
+				return $data;
+	        } else {
+	        
+	        	// no companies were found with that ID
+	        	return false;
+	        	
+	        }
+	    }
+	}
 	
 }
 ?>

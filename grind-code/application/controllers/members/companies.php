@@ -50,5 +50,13 @@ class Companies extends CI_Controller {
 		return json_encode($data);
 		//$this->load->view('members/companies/all.php',$data);
 	}
+
+	public function get_members() {
+		$id = $_GET['id'];
+		$this->load->model('members/companymodel','',true);
+		$data =  $this->companymodel->get_members($id);
+		return $data;
+		//$this->load->view('members/companies/members.php',$data);
+	}
 	
 }
