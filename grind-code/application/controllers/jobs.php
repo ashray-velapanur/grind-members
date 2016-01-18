@@ -20,7 +20,8 @@ class Jobs extends CI_Controller {
 
 	public function get(){
 		$posted_by = $_GET['posted_by'];
-		$sql = "SELECT * FROM jobs WHERE posted_by='".$posted_by."'";
+		$type = $_GET['type'];
+		$sql = "SELECT * FROM jobs WHERE posted_by='".$posted_by."' AND type='".$type."'";
 		$result = mysql_query($sql);
 		$response = array();
 		while($row = mysql_fetch_assoc($result))

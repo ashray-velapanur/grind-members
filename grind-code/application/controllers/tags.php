@@ -1,8 +1,6 @@
 <?
 class Tags extends CI_Controller {
-	public function test(){
-		error_log('asdasdas');
-	}
+	// create table tags (id INTEGER(10) UNSIGNED AUTO_INCREMENT primary key, name varchar(255));
 
 	public function save_tag(){
 		$name = $_GET['name'];
@@ -14,6 +12,27 @@ class Tags extends CI_Controller {
 		} else {
 			error_log('nope...');
 		}
+	}
+
+	public function create(){
+		$name = $_GET['name'];
+		$sql = "INSERT INTO tags (name) VALUES ('$name')";
+		if ($this->db->query($sql) === TRUE) {
+			$response = array('success'=>TRUE);
+		} else {
+			$response = array('success'=>FALSE);
+		}
+		var_dump(json_encode($response));
+	}
+
+	public function get(){
+		$sql = "SELECT * FROM tags";
+		$result = mysql_query($sql);
+		$response = array();
+		while($row = mysql_fetch_assoc($result)) {
+			array_push($response, $row);
+		}
+		var_dump(json_encode($response));
 	}
 }
 ?>
