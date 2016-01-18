@@ -4,18 +4,6 @@ class Tags extends CI_Controller {
 	// create table user_tags (user_id INTEGER(10) UNSIGNED primary key, tag_id INTEGER(10) UNSIGNED);
 	// create table job_tags (job_id INTEGER(10) UNSIGNED primary key, tag_id INTEGER(10) UNSIGNED);
 
-	public function save_tag(){
-		$name = $_GET['name'];
-		$entity_id = $_GET['entity_id'];
-		$type = $_GET['type'];
-		$sql = "INSERT INTO tags (name, type, entity_id) VALUES ('$name', '$type', '$entity_id')";
-		if ($this->db->query($sql) === TRUE) {
-			error_log('done!');
-		} else {
-			error_log('nope...');
-		}
-	}
-
 	public function create(){
 		$name = $_GET['name'];
 		$sql = "INSERT INTO tags (name) VALUES ('$name')";
