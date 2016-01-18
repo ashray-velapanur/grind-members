@@ -30,5 +30,25 @@ class Companies extends CI_Controller {
 		
 		$this->load->view('members/companies/list.php',$data);
 	}
+
+	public function all() {
+		$this->load->model('members/companymodel','',true);
+		$companies = $this->companymodel->get_all();
+		$companies_data = [];
+		foreach ($companies as $company) {
+			$company = (array)$company;
+			$company_data = [
+				'name' => $company['name'],
+				'logo' => 'data:image/jpeg;base64,'.base64_encode( $company['logo'] ),
+				'description' => $company['description']
+			];
+			array_push($companies_data, $company_data);
+		}
+		$data = [
+			"companies" => $companies_data
+		];
+		return json_encode($data);
+		//$this->load->view('members/companies/all.php',$data);
+	}
 	
 }

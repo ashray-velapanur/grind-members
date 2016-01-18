@@ -15,7 +15,7 @@ class Users extends CI_Controller {
 		$config['base_url'] = site_url('/grind-code/admin/usermanagement/all_users/');
 		
 		$config['total_rows'] = $this->membermodel->count_members();
-		$config['per_page'] = 2; 
+		$config['per_page'] = 200; 
 		$config['full_tag_open'] = '<div style="display:inline-block" class="navigation">';
 		$config['full_tag_close'] = '</div>';
 		$config['uri_segment'] = 4;

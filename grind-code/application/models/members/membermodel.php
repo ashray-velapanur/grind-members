@@ -1073,6 +1073,18 @@ class MemberModel extends CI_Model {
             }
         }
 
+        $tmpName = $_FILES['companylogo']['tmp_name'];
+        error_log('reading image');
+        error_log($tmpName);
+        $fp = fopen($tmpName, 'r');
+        $clogodata = fread($fp, filesize($tmpName));
+        $clogodata = addslashes($clogodata);
+        fclose($fp);
+        error_log($clogodata);
+        if($clogodata) {
+            $companydata["logo"] = $clogodata;
+        }
+
         $userdata["date_added"] = date("Y-m-d H:i:s");
         $userdata["membership_status_luid"] = MembershipStatus::ACTIVE_MEMBER;
         $userdata['terms_agree'] = 1;

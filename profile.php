@@ -8,7 +8,7 @@ require( dirname(__FILE__) . '/_siteconfig.php' );
 }
 
  ?>
-<form action="<?=ROOTMEMBERPATH?>grind-code/index.php/admin/usermanagement/updateprofile" method="post" id="<?= $formId ?>" class="clearfix">
+<form action="<?=ROOTMEMBERPATH?>grind-code/index.php/admin/usermanagement/updateprofile" method="post" id="<?= $formId ?>" class="clearfix" enctype="multipart/form-data">
   <input type="hidden" name="id" id="id" value="<?=(isset($user) ? $user->id : "")?>" />
 
   <?php if(isset($user)): ?>
@@ -33,6 +33,10 @@ require( dirname(__FILE__) . '/_siteconfig.php' );
       <li>
         <label for="company">Company</label>
         <input type="text" id="company" name="company" value="<?=(isset($user) ? $user->company_name : "")?>" />
+      </li>
+      <li>
+        <label for="companylogo">Company</label>
+        Select logo image for company: <input type="file" name="companylogo" id="companylogo">
       </li>
       <li>
         <label for="designation">Designation in Company</label>
