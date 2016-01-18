@@ -7,7 +7,8 @@ class Jobs extends CI_Controller {
 		$title = $_GET['title'];
 		$company = $_GET['company'];
 		$type = $_GET['type'];
-		$sql = "INSERT INTO jobs (title, company, type) VALUES ('$title', '$company', '$type')";
+		$url = $_GET['url'];
+		$sql = "INSERT INTO jobs (title, company, type, url) VALUES ('$title', '$company', '$type', '$url')";
 		if ($this->db->query($sql) === TRUE) {
 			$response = array('success'=>TRUE);
 		} else {
