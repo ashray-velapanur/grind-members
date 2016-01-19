@@ -1,15 +1,15 @@
 <?
 class Jobs extends CI_Controller {
 	// id (int), title (varchar), date posted (datetime), company (varchar), dev/design (varchar)
-	// create table jobs (id INTEGER(10) UNSIGNED AUTO_INCREMENT primary key, title varchar(255), company varchar(255), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, type varchar(255), url varchar(255), posted_by varchar(255));
+	// create table jobs (id INTEGER(10) UNSIGNED AUTO_INCREMENT primary key, title varchar(255), company_id INTEGER(10) UNSIGNED, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, type varchar(255), url varchar(255), posted_by varchar(255));
 
 	public function create(){
 		$title = $_GET['title'];
-		$company = $_GET['company'];
+		$company_id = $_GET['company_id'];
 		$type = $_GET['type'];
 		$url = $_GET['url'];
 		$posted_by = $_GET['posted_by'];
-		$sql = "INSERT INTO jobs (title, company, type, url, posted_by) VALUES ('$title', '$company', '$type', '$url', '$posted_by')";
+		$sql = "INSERT INTO jobs (title, company_id, type, url, posted_by) VALUES ('$title', '$company_id', '$type', '$url', '$posted_by')";
 		if ($this->db->query($sql) === TRUE) {
 			$response = array('success'=>TRUE);
 		} else {
