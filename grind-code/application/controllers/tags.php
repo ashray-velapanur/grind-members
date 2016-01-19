@@ -4,7 +4,7 @@ class Tags extends CI_Controller {
 	// create table user_tags (user_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, tag_id));
 	// create table job_tags (job_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (job_id, tag_id));
 
-	public function create(){
+	public function new(){
 		$name = $_GET['name'];
 		$sql = "INSERT INTO tags (name) VALUES ('$name')";
 		if ($this->db->query($sql) === TRUE) {
@@ -34,7 +34,7 @@ class Tags extends CI_Controller {
 				break;
 			case "job":
 				$sql = "SELECT * FROM job_tags WHERE job_id='".$entity_id."'";
-				break;				
+				break;
 		}
 		$result = mysql_query($sql);
 		$response = array();
@@ -57,7 +57,7 @@ class Tags extends CI_Controller {
 				break;
 			case "job":
 				$sql = "INSERT INTO job_tags (job_id, tag_id) VALUES ('$entity_id', '$tag_id')";
-				break;				
+				break;
 		}
 		if ($this->db->query($sql) === TRUE) {
 			$response = array('success'=>TRUE);
