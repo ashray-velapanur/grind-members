@@ -1,7 +1,10 @@
 <?
 class Jobs extends CI_Controller {
 	// id (int), title (varchar), date posted (datetime), company (varchar), dev/design (varchar)
-	// create table jobs (id INTEGER(10) UNSIGNED AUTO_INCREMENT primary key, title varchar(255), company_id INTEGER(10) UNSIGNED, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, type varchar(255), url varchar(255), posted_by varchar(255));
+	// ALTER TABLE company ENGINE = InnoDB;
+	// ALTER TABLE user ENGINE = InnoDB;
+	// SHOW ENGINE INNODB STATUS\G 
+	// create table jobs (id INTEGER(10) UNSIGNED AUTO_INCREMENT primary key, title varchar(255), company_id INTEGER(10) UNSIGNED, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, type varchar(255), url varchar(255), posted_by INTEGER(10) UNSIGNED, FOREIGN KEY (company_id) REFERENCES company (id), FOREIGN KEY (posted_by) REFERENCES user (id));
 
 	public function create(){
 		$title = $_GET['title'];
