@@ -120,6 +120,49 @@ class CompanyModel extends CI_Model {
 	        }
 	    }
 	}
-	
+
+	public function get_jobs($id) {
+		if(isset($id))
+		{
+	        $this->db->where('id',$id);
+	        $query = $this->db->get('company');  
+	        
+	        if ($query->num_rows() > 0)
+	        {
+	            $this->company = $query->row();
+	            $sql = "select j.id, j.title, j.type, j.url
+	            		from
+	            			jobs j
+	            			left outer join company c on c.id = j.company_id
+	            		where ";
+	            $sql = $sql.' c.id = '.$id;
+	            error_log($sql);
+				$query = $this->db->query($sql);
+				$results = $query->result();
+				$jobs = [];
+				error_log(count($results));
+				foreach ($results as $result) {
+					$result = (array)$result;
+					$job = [
+						'id' => $result['id'],
+						'title' => $result['title'],
+						'type' => $result['type'],
+						'url' => $result['url']
+					];
+					error_log(json_encode($job));
+					array_push($jobs, $job);
+				}
+				$data = [
+					'jobs' => $jobs
+				];
+				return $data;
+	        } else {
+	        
+	        	// no companies were found with that ID
+	        	return false;
+	        	
+	        }
+	    }
+	}	
 }
 ?>
