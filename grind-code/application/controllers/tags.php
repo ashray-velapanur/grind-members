@@ -1,8 +1,8 @@
 <?
 class Tags extends CI_Controller {
 	// create table tags (id INTEGER(10) UNSIGNED AUTO_INCREMENT primary key, name varchar(255));
-	// create table user_tags (user_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, tag_id));
-	// create table job_tags (job_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (job_id, tag_id));
+	// create table user_tags (user_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, tag_id), FOREIGN KEY (user_id) REFERENCES user (id), FOREIGN KEY (tag_id) REFERENCES tags (id));
+	// create table job_tags (job_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (job_id, tag_id), FOREIGN KEY (job_id) REFERENCES jobs (id), FOREIGN KEY (tag_id) REFERENCES tags (id));
 
 	public function create(){
 		$name = $_GET['name'];
