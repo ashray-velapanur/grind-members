@@ -4,7 +4,7 @@ class Tags extends CI_Controller {
 	// create table user_tags (user_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, tag_id));
 	// create table job_tags (job_id INTEGER(10) UNSIGNED, tag_id INTEGER(10) UNSIGNED, PRIMARY KEY (job_id, tag_id));
 
-	public function new(){
+	public function create(){
 		$name = $_GET['name'];
 		$sql = "INSERT INTO tags (name) VALUES ('$name')";
 		if ($this->db->query($sql) === TRUE) {
@@ -12,7 +12,7 @@ class Tags extends CI_Controller {
 		} else {
 			$response = array('success'=>FALSE);
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 
 	public function get_all(){
@@ -22,7 +22,7 @@ class Tags extends CI_Controller {
 		while($row = mysql_fetch_assoc($result)) {
 			array_push($response, $row);
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 
 	public function get_for(){
@@ -44,7 +44,7 @@ class Tags extends CI_Controller {
 			$tag_row = mysql_fetch_assoc($tag_result);
 			array_push($response, $tag_row);
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 
 	public function add(){
@@ -64,7 +64,7 @@ class Tags extends CI_Controller {
 		} else {
 			$response = array('success'=>FALSE);
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 }
 ?>
