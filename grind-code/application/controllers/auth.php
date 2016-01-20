@@ -65,7 +65,7 @@ class Auth extends CI_Controller {
 	}
 
 	// ALTER TABLE company CHANGE id id INT(10) UNSIGNED;
-	// create table positions (user_id INTEGER(10) UNSIGNED, company_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, company_id));
+	// create table positions (user_id INTEGER(10) UNSIGNED, company_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, company_id), FOREIGN KEY (user_id) REFERENCES user (id), FOREIGN KEY (company_id) REFERENCES company (id));
 
 	public function update_positions(){
 		$access_token = $_GET['access_token'];
