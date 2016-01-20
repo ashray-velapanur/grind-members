@@ -25,6 +25,14 @@ class Tags extends CI_Controller {
 		var_dump($response);
 	}
 
+	private function get_tag_count($tag_id){
+		$user_tags_count_query = mysql_query("SELECT COUNT(*) as count FROM user_tags WHERE tag_id='".$tag_id."'");
+		$job_tags_count_query = mysql_query("SELECT COUNT(*) as count FROM job_tags WHERE tag_id='".$tag_id."'");
+		$user_count = intval(mysql_fetch_assoc($user_tags_count_query)['count']);
+		$job_count = intval(mysql_fetch_assoc($job_tags_count_query)['count']);
+		return $user_count + $job_count;
+	}
+
 	public function get_for(){
 		$type = $_GET['type'];
 		$entity_id = $_GET['entity_id'];
@@ -40,11 +48,13 @@ class Tags extends CI_Controller {
 		$response = array();
 		while($row = mysql_fetch_assoc($result)) {
 			$tag_sql = "SELECT * FROM tags WHERE id='".$row['tag_id']."'";
+			$count = $this->get_tag_count($row['tag_id']);
 			$tag_result = mysql_query($tag_sql);
 			$tag_row = mysql_fetch_assoc($tag_result);
-			array_push($response, $tag_row);
+			array_push($response, array('id'=>$tag_row['id'], 'name'=>$tag_row['name'], 'count'=>$count));
+
 		}
-		var_dump($response);
+		var_dump(json_encode($response));
 	}
 
 	public function add(){
