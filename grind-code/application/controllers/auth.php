@@ -64,6 +64,24 @@ class Auth extends CI_Controller {
 		print(json_encode($response));
 	}
 
+	// ALTER TABLE company CHANGE id id INT(10) UNSIGNED;
+	// create table positions (user_id INTEGER(10) UNSIGNED, company_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, company_id));
+
+	public function update_positions(){
+		$access_token = $_GET['access_token'];
+		$user_id = $_GET['user_id'];
+		$url = "https://api.linkedin.com/v1/people/~:(positions)?format=json&oauth2_access_token=".$access_token;
+		$profile = json_decode(file_get_contents($url));
+		foreach ($profile->positions->values as $value) {
+			$company = $value->company;
+			$sql = "INSERT INTO company (id, name) VALUES ('$company->id', '$company->name')";
+			$this->db->query($sql);
+			$sql = "INSERT INTO positions (user_id, company_id) VALUES ('$user_id', '$company->id')";
+			$this->db->query($sql);
+		}
+		var_dump($response);
+	}
+
 	public function cobot() {
 		$client_id = 'f07c161f33dc2d90450d931176a6aea1';
 		$client_secret = 'c692bd368b45e18ba93d2d051ca5deaae480a73cd6f4612568290d172ada2a11';
