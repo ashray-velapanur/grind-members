@@ -38,21 +38,41 @@ class Tags extends CI_Controller {
 		$entity_id = $_GET['entity_id'];
 		switch ($type) {
 			case "user":
-				$sql = "SELECT * FROM user_tags WHERE user_id='".$entity_id."'";
+				$query = mysql_query("SELECT * FROM user_tags WHERE user_id='".$entity_id."'");
 				break;
 			case "job":
-				$sql = "SELECT * FROM job_tags WHERE job_id='".$entity_id."'";
+				$query = mysql_query("SELECT * FROM job_tags WHERE job_id='".$entity_id."'");
+				break;
+			case "company":
+				$employees = mysql_query("SELECT * FROM positions WHERE company_id='".$entity_id."'");
 				break;
 		}
-		$result = mysql_query($sql);
 		$response = array();
-		while($row = mysql_fetch_assoc($result)) {
+		while($row = mysql_fetch_assoc($query)) {
 			$tag_sql = "SELECT * FROM tags WHERE id='".$row['tag_id']."'";
 			$count = $this->get_tag_count($row['tag_id']);
 			$tag_result = mysql_query($tag_sql);
 			$tag_row = mysql_fetch_assoc($tag_result);
 			array_push($response, array('id'=>$tag_row['id'], 'name'=>$tag_row['name'], 'count'=>$count));
 
+		}
+		var_dump(json_encode($response));
+	}
+
+	public function for_company(){
+		$company_id = $_GET['company_id'];
+		$response = array();
+		$query = mysql_query("SELECT * FROM positions WHERE company_id='".$company_id."'");
+		while($row = mysql_fetch_assoc($query)) {
+			$user_query = mysql_query("SELECT * FROM user_tags WHERE user_id='".$row['user_id']."'");
+			while($user_row = mysql_fetch_assoc($user_query)) {
+				$tag_sql = "SELECT * FROM tags WHERE id='".$user_row['tag_id']."'";
+				$count = $this->get_tag_count($user_row['tag_id']);
+				$tag_result = mysql_query($tag_sql);
+				$tag_row = mysql_fetch_assoc($tag_result);
+				array_push($response, array('id'=>$tag_row['id'], 'name'=>$tag_row['name'], 'count'=>$count));
+
+			}
 		}
 		var_dump(json_encode($response));
 	}
