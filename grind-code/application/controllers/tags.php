@@ -43,9 +43,6 @@ class Tags extends CI_Controller {
 			case "job":
 				$query = mysql_query("SELECT * FROM job_tags WHERE job_id='".$entity_id."'");
 				break;
-			case "company":
-				$employees = mysql_query("SELECT * FROM positions WHERE company_id='".$entity_id."'");
-				break;
 		}
 		$response = array();
 		while($row = mysql_fetch_assoc($query)) {
