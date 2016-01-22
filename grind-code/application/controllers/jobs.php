@@ -18,7 +18,7 @@ class Jobs extends CI_Controller {
 		} else {
 			$response = array('success'=>FALSE);
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 
 	public function get(){
@@ -31,7 +31,7 @@ class Jobs extends CI_Controller {
 			{
 				array_push($response, $row);
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 }
 ?>

@@ -53,7 +53,7 @@ class Tags extends CI_Controller {
 			array_push($response, array('id'=>$tag_row['id'], 'name'=>$tag_row['name'], 'count'=>$count));
 
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 
 	public function for_company(){
@@ -71,7 +71,7 @@ class Tags extends CI_Controller {
 
 			}
 		}
-		var_dump(json_encode($response));
+		var_dump($response);
 	}
 
 	public function add(){

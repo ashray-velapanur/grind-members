@@ -1,18 +1,16 @@
 <?
 class Events extends CI_Controller {
-	public function test(){
-		error_log('asdasdas');
-	}
-
 	public function save_event(){
 		$event_id = $_GET['event_id'];
 		$name = $_GET['name'];
 		$sql = "INSERT INTO events (event_id, name) VALUES ('$event_id', '$name')";
+		$response = array();
 		if ($this->db->query($sql) === TRUE) {
-			error_log('done!');
+			$response = array('success'=>TRUE);
 		} else {
-			error_log('nope...');
+			$response = array('success'=>FALSE);
 		}
+		var_dump($response);
 	}
 }
 ?>
