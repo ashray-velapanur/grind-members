@@ -8,6 +8,12 @@ class Users extends CI_Controller {
 		}
 	}
 
+	public function profile_picture(){
+		$id = $_GET['id'];
+		$query = mysql_query(sprintf("select profile_picture from third_party_user where user_id = %s", $id));
+		var_dump(json_encode(mysql_fetch_assoc($query)));
+	}
+
 	public function all_users($row=NULL) {
 		$this->load->library('pagination');
 		$query = $this->load->model("members/membermodel", "", true);
@@ -15,19 +21,19 @@ class Users extends CI_Controller {
 		$config['base_url'] = site_url('/grind-code/admin/usermanagement/all_users/');
 		
 		$config['total_rows'] = $this->membermodel->count_members();
-		$config['per_page'] = 200; 
+		$config['per_page'] = 200;
 		$config['full_tag_open'] = '<div style="display:inline-block" class="navigation">';
 		$config['full_tag_close'] = '</div>';
 		$config['uri_segment'] = 4;
-		$data["users"] = $this->membermodel->new_listing($config['per_page'],$row);		
+		$data["users"] = $this->membermodel->new_listing($config['per_page'],$row);
 		$this->pagination->initialize($config);
 		
 		$data["pagination"] = $this->pagination->create_links();
 		
 		$data["show_member_subnav"] = true;
 		$data["member_subnav_current"] = "Members Listing";
-		return json_encode($data);
-		//$this->load->view("/admin/all_users.php",$data);
+		// var_dump(json_encode($data));
+		$this->load->view("/admin/all_users.php",$data);
 	}
 }
 ?>
