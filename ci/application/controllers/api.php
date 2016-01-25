@@ -121,7 +121,23 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
-      public function linkedin($access_token, $id){
+      function bubbles_post() {
+        $bubbles = array();
+        $query = $this->rest->db->get('bubbles');
+        $results = $query->result();
+        if (count($results)>0) {
+          foreach ($results as $result) {
+            $arr = array();
+            $arr['title'] = $result->title;
+            $arr['image'] = $result->image;
+            $arr['rank'] = $result->rank;
+            array_push($bubbles, $arr);
+          }
+        }
+        $this->response($bubbles, 200);
+      }
+
+      private function linkedin($access_token, $id){
         $userId = null;
         error_log('In linkedin: '.$access_token.' '.$id);
         $url = "https://api.linkedin.com/v1/people/~:(id,email-address,picture-url,first-name,last-name,positions)?format=json&oauth2_access_token=".$access_token;
