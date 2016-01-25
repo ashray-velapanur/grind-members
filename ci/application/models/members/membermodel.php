@@ -1025,159 +1025,194 @@ class MemberModel extends CI_Model {
 			}
 		}
 
-		$userdata["date_added"] = date("Y-m-d H:i:s");
-		$userdata["membership_status_luid"] = MembershipStatus::ACTIVE_MEMBER;
-        $userdata['terms_agree'] = 1;
-		
-		try {
-			
-			//$this->load->library('utilities');
-			$temporaryPassword = $this->get_random_password();
-			$registerHash = md5(uniqid('', true));
-		
-			$result = null;			
-
-			// need to run the transactions manually since this also
-			// takes into account the web service insert into recurly
-			$this->db->trans_begin();
-			
-			//first we create the wordpress account
-			$wpid = username_exists( $this->member->email );
-			if ( !$wpid ) {
-				
-				$wpid = wp_create_user( $this->member->email, $temporaryPassword,$this->member->email);
-				error_log("Wordpress User Create Result=".$wpid);
-				
-			} else {
-				error_log("unable to create wordpress user",0);
-				return false;
-			}
-			if ($wpid){
-				error_log("wordpress user exists:".$wpid,0);
-				// sets the hash for accessing the registration from an email
-				add_user_meta($wpid, 'registerHash', $registerHash , true );
-				
-				// sets the flag for an admin created user (so they skip member registration)
-				add_user_meta($wpid, 'admin_init',true,true);
-				$userdata["wp_users_id"] = $wpid;
-				
-				/* update the new wp user's meta data with the info that's been posted. */
-				
-				// first name
-				update_user_meta($wpid, 'first_name', $this->member->first_name);
-				// last name
-				update_user_meta($wpid, 'last_name', $this->member->last_name);
-
-				// nice name				
-				$noice_name =  str_replace('@', '', $this->member->email);
-				$noice_name =  str_replace('.', '-', $noice_name); 
-				log_message("debug", 'sanitized nicename = '.$noice_name);
-				
-				
-				$sql = "UPDATE wpmember_users SET user_nicename = '".$noice_name."' WHERE ID = ".$wpid;
-     		    $query = $this->db->query($sql);
-     		   
-     		    log_message("debug","query = ".$sql);
-				if($query){
-					log_message("debug", "query to update nicename has been executed successfully");
-				}
-
-				// company name
-				update_user_meta($wpid, 'company_name', $companydata["name"]);
-
-				// company descrip
-				update_user_meta($wpid, 'company_desc', $companydata["description"]);
-
-				// phone
-				update_user_meta($wpid, 'phone', $phonedata["number"]);
-
-				// email
-				update_user_meta($wpid, 'email', $this->member->email);
-				
-				// twitter
-				update_user_meta($wpid, 'twitter', $userdata['twitter']);
-				
-				// behance
-				update_user_meta($wpid, 'behance', $userdata['behance']);
-				
-				/* end wp user meta update */
-				
-			}
-			
-            $companyId = 0;
-            $this->db->insert("company", $companydata);		
-            $companyId = $this->db->insert_id();
-
-			if ($companyId > 0) $userdata["company_id"] = $companyId;
-
-			// now we create the real grind account
-			$this->db->insert("user", $userdata);
-			$this->member->id = $this->db->insert_id();
-            
-            $phonedata["user_id"] = $this->member->id;
-            $this->db->insert("phone", $phonedata);		   
-            
-            $emaildata["user_id"] = $this->member->id;
-            $this->em->create($emaildata);
-            $result = $this->em->email_list_add($this->member->first_name . " " . $this->member->last_name);
-			if (!$result){
-				throw new Exception("Couldn't create the new email list subscription");
-			}
-			
-    		// leverage the account model to manage the account type and subscription
-    		$this->am->init($this->member->id);
-    		$result = $this->am->create($this->member->email,$this->member->first_name,$this->member->last_name,$this->member->email); // username,first,last,email
-    		if (!$result){
-				throw new Exception("Couldn't create the new member account");
-			}
-    		$billingdata->account_code = $this->member->id;
-    		$this->am->billing_info = $billingdata;
-			$result = $this->am->createSubscription($_POST["membership_plan_code"]);
-            if (!$result){
-				throw new Exception("Couldn't create the new recurly subscription for some reason");
-			}
-            
-            $this->load->model("emailtemplates/emailtemplatemodel", "", true);
-  
-			$email = $this->emailtemplatemodel->init(20);
-			//Replace variables with our data
-		
-			$email->message = str_replace("%%first_name%%",$this->member->first_name, $email->message);
-			$email->message = str_replace("%%last_name%%",$this->member->last_name, $email->message);
-			$email->message = str_replace("%%ID%%",$this->member->email,$email->message);
-			$email->message = str_replace("%%ID2%%",$this->member->email,$email->message);
-			$email->message = str_replace("%%HASH%%",$registerHash,$email->message);
-			$result = $this->emailtemplatemodel->send($this->member->email);        	    
-			if (!$result){
-				throw new Exception("Couldn't send email to new member");
-			}
-			
-			if ($this->db->trans_status() === FALSE)
-			{
-    			$this->db->trans_rollback();
-    			throw new Exception("Database error, Couldn't Create User");
-			}
-		
-		} catch(Exception $e) {
-			
-			$this->db->trans_rollback(); // transactions don't seem to be working so we are manually deleting the member
-			$this->db->delete("user",array('id' => $this->member->id));
-			$this->db->delete("phone",array('user_id' => $this->member->id));
-			$this->db->delete("company",array('id' => $companyId));
-			$this->db->delete('email', array('user_id' => $this->member->id));
-							
-			
-			wp_delete_user($wpid);
-			$this->am->delete();
-			$this->em->email_list_remove($this->member->id);
-			
-			issue_log("0","exception attempting to create account:". $e->getMessage(), MemberIssueType::GENERAL);
-			return false;
-		}
-
-		 $this->db->trans_commit();
-		 return true;
+        $newUserId = doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata);
+        if($newUserId) {
+            return true;
+        } else {
+            return false;
+        }
 	}
+
+    public function doAddMember($userdata = array(), $membershipdata = array(), $companydata = array(), $phonedata = array(), $emaildata = array(), $billingdata, $wpdata = array()){
+        $newUserId = null;
+        $userdata["date_added"] = date("Y-m-d H:i:s");
+        $userdata["membership_status_luid"] = MembershipStatus::ACTIVE_MEMBER;
+        $userdata['terms_agree'] = 1;
+
+        try {
+            
+            //$this->load->library('utilities');
+            $temporaryPassword = $this->get_random_password();
+            $registerHash = md5(uniqid('', true));
+        
+            $result = null;         
+
+            // need to run the transactions manually since this also
+            // takes into account the web service insert into recurly
+            $this->db->trans_begin();
+            
+            //first we create the wordpress account
+            $wpid = username_exists( $this->member->email );
+            if ( !$wpid ) {
+                
+                $wpid = wp_create_user( $this->member->email, $temporaryPassword,$this->member->email);
+                error_log("Wordpress User Create Result=".$wpid);
+                
+            } else {
+                error_log("unable to create wordpress user",0);
+                return null;
+            }
+            if ($wpid){
+                error_log("wordpress user exists:".$wpid,0);
+                // sets the hash for accessing the registration from an email
+                add_user_meta($wpid, 'registerHash', $registerHash , true );
+                
+                // sets the flag for an admin created user (so they skip member registration)
+                add_user_meta($wpid, 'admin_init',true,true);
+                $userdata["wp_users_id"] = $wpid;
+                
+                /* update the new wp user's meta data with the info that's been posted. */
+                
+                // first name
+                update_user_meta($wpid, 'first_name', $this->member->first_name);
+                // last name
+                update_user_meta($wpid, 'last_name', $this->member->last_name);
+
+                // nice name                
+                $noice_name =  str_replace('@', '', $this->member->email);
+                $noice_name =  str_replace('.', '-', $noice_name); 
+                log_message("debug", 'sanitized nicename = '.$noice_name);
+                
+                
+                $sql = "UPDATE wpmember_users SET user_nicename = '".$noice_name."' WHERE ID = ".$wpid;
+                $query = $this->db->query($sql);
+               
+                log_message("debug","query = ".$sql);
+                if($query){
+                    log_message("debug", "query to update nicename has been executed successfully");
+                }
+
+                // company name
+                update_user_meta($wpid, 'company_name', $companydata["name"]);
+
+                // company descrip
+                update_user_meta($wpid, 'company_desc', $companydata["description"]);
+
+                // phone
+                update_user_meta($wpid, 'phone', $phonedata["number"]);
+
+                // email
+                update_user_meta($wpid, 'email', $this->member->email);
+                
+                // twitter
+                update_user_meta($wpid, 'twitter', $userdata['twitter']);
+                
+                // behance
+                update_user_meta($wpid, 'behance', $userdata['behance']);
+                
+                /* end wp user meta update */
+                
+            }
+            
+            error_log('Done wp user creation');
+            error_log(count($companydata));
+            if(count($companydata)>0) {
+                $companyId = 0;
+                $this->db->insert("company", $companydata);     
+                $companyId = $this->db->insert_id();
+
+                if ($companyId > 0) $userdata["company_id"] = $companyId;
+            }
+
+            error_log('Done company creation');
+
+            // now we create the real grind account
+            $this->db->insert("user", $userdata);
+            $this->member->id = $this->db->insert_id();
+            $newUserId = $this->member->id;
+            error_log('Done user creation: '.$newUserId);
+            
+            if(count($phonedata)>0) {
+                $phonedata["user_id"] = $this->member->id;
+                $this->db->insert("phone", $phonedata);
+            }
+
+            error_log('Done phone creation');
+            
+            //skipping email for now
+            // $emaildata["user_id"] = $this->member->id;
+            // error_log('Creating email data');
+            // $this->em->create($emaildata);
+            // error_log('Done email data');
+            // $result = $this->em->email_list_add($this->member->first_name . " " . $this->member->last_name);
+            // if (!$result){
+            //     throw new Exception("Couldn't create the new email list subscription");
+            // }
+
+            error_log('Done email creation');
+            
+            if($billingdata) {
+                // leverage the account model to manage the account type and subscription
+                $this->am->init($this->member->id);
+                $result = $this->am->create($this->member->email,$this->member->first_name,$this->member->last_name,$this->member->email); // username,first,last,email
+                if (!$result){
+                    throw new Exception("Couldn't create the new member account");
+                }
+                $billingdata->account_code = $this->member->id;
+                $this->am->billing_info = $billingdata;
+                $result = $this->am->createSubscription($_POST["membership_plan_code"]);
+                if (!$result){
+                    throw new Exception("Couldn't create the new recurly subscription for some reason");
+                }
+            }
+
+            error_log('Done billing creation');
+
+            // skipping email for now
+            // $this->load->model("emailtemplates/emailtemplatemodel", "", true);
+  
+            // $email = $this->emailtemplatemodel->init(20);
+            // //Replace variables with our data
+        
+            // $email->message = str_replace("%%first_name%%",$this->member->first_name, $email->message);
+            // $email->message = str_replace("%%last_name%%",$this->member->last_name, $email->message);
+            // $email->message = str_replace("%%ID%%",$this->member->email,$email->message);
+            // $email->message = str_replace("%%ID2%%",$this->member->email,$email->message);
+            // $email->message = str_replace("%%HASH%%",$registerHash,$email->message);
+            // $result = $this->emailtemplatemodel->send($this->member->email);                
+            // if (!$result){
+            //     throw new Exception("Couldn't send email to new member");
+            // }
+            error_log('Done email template creation');
+            if ($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+                throw new Exception("Database error, Couldn't Create User");
+            }
+        
+        } catch(Exception $e) {
+
+            error_log('Exception: ');
+            error_log($e);
+            
+            $this->db->trans_rollback(); // transactions don't seem to be working so we are manually deleting the member
+            $this->db->delete("user",array('id' => $this->member->id));
+            $this->db->delete("phone",array('user_id' => $this->member->id));
+            $this->db->delete("company",array('id' => $companyId));
+            $this->db->delete('email', array('user_id' => $this->member->id));
+                            
+            
+            wp_delete_user($wpid);
+            $this->am->delete();
+            $this->em->email_list_remove($this->member->id);
+            
+            issue_log("0","exception attempting to create account:". $e->getMessage(), MemberIssueType::GENERAL);
+            return null;
+        }
+
+         $this->db->trans_commit();
+         return $newUserId;
+    }
     
     public function register(){
     	// assume we have initiated the member object already if not…bail
@@ -1468,6 +1503,22 @@ class MemberModel extends CI_Model {
         }
         
         return false;
+    }
+
+    public function isNewUser($id, $network) {
+        error_log('In isNewUser');
+        $this->db->where('network', $network);
+        $this->db->where('network_id', $id);
+        $query = $this->db->get('third_party_user');
+        $results = $query->result();
+        if (count($results)>0) {
+            $result = current($results);
+            $user_id = $result->user_id;
+            error_log($user_id);
+            return $user_id;
+        } else {
+            return null;
+        }
     }
    
 }
