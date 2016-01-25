@@ -232,11 +232,13 @@ class LocationManagement extends CI_Controller {
 			$result = (array)json_decode(curl_exec($curl));
 			curl_close($curl);
 			$description = $result['description'];
+			$name = $result['name'];
 
 			$spacedata = array(
 				'id' => $space_id,
         		'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
         		'description' => $description,
+        		'name' => $name,
         		'capacity' => $capacity
         	);
         	array_push($space_data, $spacedata);
