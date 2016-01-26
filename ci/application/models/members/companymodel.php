@@ -83,5 +83,41 @@ class CompanyModel extends CI_Model {
         return $retval; // no companies
 	}
 	
+	public function get_jobs($id) {
+		$data = array();
+		if(isset($id))
+		{
+	        $this->db->where('id',$id);
+	        $query = $this->db->get('company');
+	        
+	        if ($query->num_rows() > 0)
+	        {
+	            $this->company = $query->row();
+	            $sql = "select j.id, j.title, j.type, j.url
+	            		from
+	            			jobs j
+	            			left outer join company c on c.id = j.company_id
+	            		where ";
+	            $sql = $sql.' c.id = '.$id;
+				$query = $this->db->query($sql);
+				$results = $query->result();
+				$jobs = [];
+				foreach ($results as $result) {
+					$result = (array)$result;
+					$job = [
+						'id' => $result['id'],
+						'title' => $result['title'],
+						'type' => $result['type'],
+						'url' => $result['url']
+					];
+					array_push($jobs, $job);
+				}
+	        }
+	    }
+	    $data = [
+			'jobs' => $jobs
+		];
+	    return $data;
+	}
 }
 ?>

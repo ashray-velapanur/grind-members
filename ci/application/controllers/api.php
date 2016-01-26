@@ -208,6 +208,13 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
+      function company_jobs_post() {
+        $id = $this->post('id');
+        $this->load->model('members/companymodel','',true);
+        $data =  $this->companymodel->get_jobs($id);
+        $this->response($data, 200);
+      }
+
       private function resources($space_id) {
         $resource_data = [];
         $curl = curl_init();
