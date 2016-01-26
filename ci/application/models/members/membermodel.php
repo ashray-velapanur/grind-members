@@ -1533,7 +1533,7 @@ class MemberModel extends CI_Model {
                 vadmin.is_admin as is_admin,
                 subscription_sync.plan_code as plan_code,
                 signin.last_sign_in,
-                usermeta.meta_value as designation
+                usermeta.meta_value as designation,
                 third_party_user.profile_picture as profile_picture
         from 
                 user 
