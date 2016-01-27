@@ -119,6 +119,16 @@ class Api extends REST_Controller
           $this->tm->create($name);
       }
 
+     function create_job_get() {
+          $title = $this->get('title');
+          $company_id = $this->get('company_id');
+          $type = $this->get('type');
+          $posted_by = $this->get('posted_by');
+          $url = $this->get('url');
+          $this->load->model("jobsmodel","tm",true);
+          $this->tm->create($title, $company_id, $type, $url, $posted_by);
+      }
+
      function tags_get() {
           $this->load->model("tagsmodel","tm",true);
           $this->response($this->tm->all(), 200);
@@ -136,5 +146,6 @@ class Api extends REST_Controller
           $this->load->model("usertagsmodel","utm",true);
           $this->response($this->utm->get($user_id), 200);
       }
+
 }
 ?>
