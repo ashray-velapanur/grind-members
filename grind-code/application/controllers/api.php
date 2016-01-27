@@ -123,5 +123,18 @@ class Api extends REST_Controller
           $this->load->model("tagsmodel","tm",true);
           $this->response($this->tm->all(), 200);
       }
+
+     function create_user_tag_get() {
+          $user_id = $this->get('user_id');
+          $tag_id = $this->get('tag_id');
+          $this->load->model("usertagsmodel","utm",true);
+          $this->response($this->utm->create($user_id, $tag_id));
+      }
+
+     function user_tags_get() {
+          $user_id = $this->get('user_id');
+          $this->load->model("usertagsmodel","utm",true);
+          $this->response($this->utm->get($user_id), 200);
+      }
 }
 ?>
