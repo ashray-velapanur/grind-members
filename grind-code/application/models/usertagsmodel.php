@@ -23,5 +23,13 @@ class UserTagsModel extends CI_Model {
         }
         return $response;
 	}
+
+	function count($tag_id){
+		$query = mysql_query("SELECT COUNT(*) as count FROM user_tags WHERE tag_id='".$tag_id."'");
+		$count = intval(mysql_fetch_assoc($query)['count']);
+		return $count;
+	}
+
+
 };
 ?>
