@@ -129,6 +129,13 @@ class Api extends REST_Controller
           $this->tm->create($title, $company_id, $type, $url, $posted_by);
       }
 
+     function jobs_get() {
+          $type = $this->get('type');
+          $posted_by = $this->get('posted_by');
+          $this->load->model("jobsmodel","jm",true);
+          $this->response($this->jm->get($type, $posted_by), 200);
+      }
+
      function tags_get() {
           $this->load->model("tagsmodel","tm",true);
           $this->response($this->tm->all(), 200);
