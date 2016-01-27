@@ -262,6 +262,7 @@ class Api extends REST_Controller
       }
 
       private function linkedin($access_token, $id){
+        $response = array("success"=>False, "message"=>"");
         $userId = null;
         error_log('In linkedin: '.$access_token.' '.$id);
         $url = "https://api.linkedin.com/v1/people/~:(id,email-address,picture-url,first-name,last-name,positions)?format=json&oauth2_access_token=".$access_token;
@@ -284,8 +285,10 @@ class Api extends REST_Controller
             error_log('create user');
             $userId = $this->create_user($profile);
           }
-          $this->add_third_party_user($userId, $profile, $access_token);
-          $response = ["success"=>True, "user_id"=>$userId];
+          if($userId) {
+            $this->add_third_party_user($userId, $profile, $access_token);
+            $response = ["success"=>True, "user_id"=>$userId];
+          }
         }
         error_log(json_encode($response));
         return $response;
@@ -332,11 +335,17 @@ class Api extends REST_Controller
           $value = (array)$value;
           error_log(json_encode($value));
           $company = (array)$value["company"];
+          $is_current = $value["isCurrent"];
           error_log(json_encode($company));
           error_log($company["id"]);
           $sql = "INSERT INTO company (id, name) VALUES ('".$company["id"]."', '".$company["name"]."') ON DUPLICATE KEY UPDATE name='".$company["name"]."'";
           error_log($sql);
-          error_log($this->rest->db->query($sql));
+          $this->rest->db->query($sql);
+          if($is_current) {
+            $sql = "UPDATE user SET company_id = '".$company["id"]."' WHERE id = '".$newUserId."'";
+            error_log($sql);
+            $this->rest->db->query($sql);
+          }
           $sql = "INSERT INTO positions (user_id, company_id) VALUES ('$newUserId', '".$company["id"]."')";
           error_log($sql);
           $this->rest->db->query($sql);
@@ -346,7 +355,7 @@ class Api extends REST_Controller
       private function add_third_party_user($userId, $profile, $access_token) {
         $sql = "INSERT INTO third_party_user (network_id, user_id, network, access_token, profile_picture) VALUES ('$profile->id', $userId, 'linkedin', '$access_token', '$profile->pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$profile->pictureUrl."'";
         error_log($sql);
-        error_log($this->rest->db->query($sql));
+        $this->rest->db->query($sql);
       }
 }
 ?>
