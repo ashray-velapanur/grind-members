@@ -113,7 +113,15 @@ class Api extends REST_Controller
       }
 		// end remove
 
+     function create_tag_get() {
+          $name = $this->get('name');
+          $this->load->model("tagsmodel","tm",true);
+          $this->tm->create($name);
+      }
 
-	    
+     function tags_get() {
+          $this->load->model("tagsmodel","tm",true);
+          $this->response($this->tm->all(), 200);
+      }
 }
 ?>
