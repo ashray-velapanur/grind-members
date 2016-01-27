@@ -121,7 +121,7 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
-      function bubbles_post() {
+      function bubbles_get() {
         $bubbles = array();
         $query = $this->rest->db->get('bubbles');
         $results = $query->result();
@@ -137,7 +137,7 @@ class Api extends REST_Controller
         $this->response($bubbles, 200);
       }
 
-      function spaces_post() {
+      function spaces_get() {
         $space_data = [];
         $query = $this->rest->db->get("cobot_spaces");
         $spaces = $query->result();
@@ -173,7 +173,7 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
-      function members_post() {
+      function members_get() {
         $this->load->library('pagination');
         $query = $this->load->model("members/membermodel", "", true);
         $config['base_url'] = site_url('/ci/api/members/');
@@ -188,7 +188,7 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
-      function companies_post() {
+      function companies_get() {
         $this->load->model('members/companymodel','',true);
         $companies = $this->companymodel->get_all();
         $companies_data = [];
@@ -208,8 +208,8 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
-      function company_jobs_post() {
-        $id = $this->post('id');
+      function company_jobs_get() {
+        $id = $this->get('id');
         $this->load->model('members/companymodel','',true);
         $data =  $this->companymodel->get_jobs($id);
         $this->response($data, 200);
