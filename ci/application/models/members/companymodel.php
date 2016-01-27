@@ -85,6 +85,7 @@ class CompanyModel extends CI_Model {
 	
 	public function get_jobs($id) {
 		$data = array();
+		$jobs = [];
 		if(isset($id))
 		{
 	        $this->db->where('id',$id);
@@ -101,7 +102,6 @@ class CompanyModel extends CI_Model {
 	            $sql = $sql.' c.id = '.$id;
 				$query = $this->db->query($sql);
 				$results = $query->result();
-				$jobs = [];
 				foreach ($results as $result) {
 					$result = (array)$result;
 					$job = [
