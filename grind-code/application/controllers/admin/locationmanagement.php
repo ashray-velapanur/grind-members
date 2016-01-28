@@ -188,6 +188,7 @@ class LocationManagement extends CI_Controller {
 		$this->load->view("/admin/add_space.php");
 	}
 
+	// CREATE TABLE `cobot_spaces` (`id` varchar(300) NOT NULL, `image` mediumblob NOT NULL, `capacity` int(11) NOT NULL, `lat` varchar(50) NOT NULL, `lon` varchar(50) NOT NULL, `address` varchar(300) NOT NULL, `rate` float NOT NULL, PRIMARY KEY (`id`))
 	public function add_update_space() {
 		error_log("In add_update_space");
 		if(isset($_POST["submit"])) {
@@ -198,8 +199,17 @@ class LocationManagement extends CI_Controller {
 			$data = fread($fp, filesize($tmpName));
 			$data = addslashes($data);
 			fclose($fp);
+			$lat = $_POST["latitude"];
+			$long = $_POST["longitude"];
+			$address_street = $_POST["address-street"];
+			$address_city = $_POST["address-city"];
+			$address_state = $_POST["address-state"];
+			$address_country = $_POST["address-country"];
+			$address_zip = $_POST["address-zip"];
+			$address = $address_street.' '.$address_city.' '.$address_state.' '.$address_zip;
+			$rate = $_POST["rate"];
 			$sql = "INSERT INTO cobot_spaces";
-			$sql .= "(id, image, capacity) VALUES ('$cobot_id', '$data', $capacity)";
+			$sql .= "(id, image, capacity, lat, lon, address, rate) VALUES ('$cobot_id', '$data', '$capacity', '$lat', '$long', '$address', '$rate')";
 			try {
 				if ($this->db->query($sql) === TRUE) {
 					echo "Record created/updated successfully";

@@ -146,6 +146,10 @@ class Api extends REST_Controller
           $space_id = $space['id'];
           $space_img_src = 'data:image/jpeg;base64,'.base64_encode( $space['image'] );
           $capacity = $space['capacity'];
+          $latitude = $space['lat'];
+          $longitude = $space['lon'];
+          $address = $space['address'];
+          $rate = $space['rate'];
 
           $curl = curl_init();
           $url = 'https://www.cobot.me/api/spaces/'.$space_id;
@@ -165,6 +169,10 @@ class Api extends REST_Controller
             'description' => $description,
             'name' => $name,
             'capacity' => $capacity,
+            'lat' => $latitude,
+            'lon' => $longitude,
+            'address' => $address,
+            'rate' => $rate,
             'resources' => $resources
           );
           array_push($space_data, $spacedata);
