@@ -148,11 +148,53 @@ class Api extends REST_Controller
           $this->response($this->utm->create($user_id, $tag_id));
       }
 
+     function positions_put(){
+        $user_id = $this->get('user_id');
+        $access_token = $this->get('access_token');
+        $this->load->model("positionsmodel","pm",true);
+        $url = "https://api.linkedin.com/v1/people/~:(positions)?format=json&oauth2_access_token=".$access_token;
+        $profile = json_decode(file_get_contents($url));
+        foreach ($profile->positions->values as $value) {
+          $company = $value->company;
+          $sql = "INSERT INTO company (id, name) VALUES ('$company->id', '$company->name')";
+          $this->db->query($sql);
+          $this->pm->create($user_id, $company->id);
+        }
+     }
+
+     function company_tags_get() {
+          $company_id = $this->get('company_id');
+          $this->load->model("positionsmodel","pm",true);
+          $this->load->model("usertagsmodel","utm",true);
+          $this->load->model("jobtagsmodel","jtm",true);
+          $this->load->model("tagsmodel","tm",true);
+          $response = array();
+          foreach ($this->pm->get($company_id) as $position) {
+            $user_id = $position['user_id'];
+            foreach ($this->utm->get($user_id) as $user_tag) {
+              $tag_id = $user_tag['tag_id'];
+              $name = $this->tm->get($tag_id)['name'];
+              $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
+              array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+            }
+          }
+          $this->response($response, 200);
+     }
+
      function user_tags_get() {
           $user_id = $this->get('user_id');
           $this->load->model("usertagsmodel","utm",true);
-          $this->response($this->utm->get($user_id), 200);
+          $this->load->model("jobtagsmodel","jtm",true);
+          $this->load->model("tagsmodel","tm",true);
+          $user_tags = $this->utm->get($user_id);
+          $response = array();
+          foreach ($user_tags as $user_tag) {
+            $tag_id = $user_tag['tag_id'];
+            $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
+            $name = $this->tm->get($tag_id)['name'];
+            array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+          }
+          $this->response($response, 200);
       }
-
 }
 ?>

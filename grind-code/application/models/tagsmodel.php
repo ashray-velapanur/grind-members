@@ -17,6 +17,12 @@ class TagsModel extends CI_Model {
 		return $response;
 	}
 
+	function get($tag_id){
+        $query = mysql_query("SELECT * FROM tags WHERE id='".$tag_id."'");
+        $response = mysql_fetch_assoc($query);
+        return $response;
+	}
+
 	public function all(){
         $query = mysql_query("SELECT * FROM tags");
         $response = array();
