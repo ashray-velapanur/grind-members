@@ -156,12 +156,10 @@ class Api extends REST_Controller
         $profile = json_decode(file_get_contents($url));
         foreach ($profile->positions->values as $value) {
           $company = $value->company;
-          var_dump($value->company);
           $sql = "INSERT INTO company (id, name) VALUES ('$company->id', '$company->name')";
           $this->db->query($sql);
           $this->pm->create($user_id, $company->id);
         }
-        var_dump($response);
      }
 
      function company_tags_get() {
