@@ -148,6 +148,22 @@ class Api extends REST_Controller
           $this->response($this->utm->create($user_id, $tag_id));
       }
 
+     function positions_put(){
+        $user_id = $this->get('user_id');
+        $access_token = $this->get('access_token');
+        $this->load->model("positionsmodel","pm",true);
+        $url = "https://api.linkedin.com/v1/people/~:(positions)?format=json&oauth2_access_token=".$access_token;
+        $profile = json_decode(file_get_contents($url));
+        foreach ($profile->positions->values as $value) {
+          $company = $value->company;
+          var_dump($value->company);
+          $sql = "INSERT INTO company (id, name) VALUES ('$company->id', '$company->name')";
+          $this->db->query($sql);
+          $this->pm->create($user_id, $company->id);
+        }
+        var_dump($response);
+     }
+
      function user_tags_get() {
           $user_id = $this->get('user_id');
           $this->load->model("usertagsmodel","utm",true);
