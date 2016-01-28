@@ -151,8 +151,17 @@ class Api extends REST_Controller
      function user_tags_get() {
           $user_id = $this->get('user_id');
           $this->load->model("usertagsmodel","utm",true);
-          $this->response($this->utm->get($user_id), 200);
+          $this->load->model("jobtagsmodel","jtm",true);
+          $this->load->model("tagsmodel","tm",true);
+          $user_tags = $this->utm->get($user_id);
+          $response = array();
+          foreach ($user_tags as $user_tag) {
+            $tag_id = $user_tag['tag_id'];
+            $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
+            $name = $this->tm->get($tag_id)['name'];
+            array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+          }
+          $this->response($response, 200);
       }
-
 }
 ?>
