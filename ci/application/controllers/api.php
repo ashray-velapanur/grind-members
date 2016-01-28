@@ -351,17 +351,30 @@ class Api extends REST_Controller
           error_log(json_encode($value));
           $company = (array)$value["company"];
           $is_current = $value["isCurrent"];
+          $title = $value["title"];
+          $start_date_arr = (array)$value["startDate"];
+          $start_date = $start_date_arr["year"].'-'.$start_date_arr["month"].'-01';
           error_log(json_encode($company));
           error_log($company["id"]);
-          $sql = "INSERT INTO company (id, name) VALUES ('".$company["id"]."', '".$company["name"]."') ON DUPLICATE KEY UPDATE name='".$company["name"]."'";
+          $company_id = $company["id"];
+          if(!$company_id) {
+            error_log('Not company id');
+            $company_id = 0;
+          }
+          $company_name = $company["name"];
+          $sql = "INSERT INTO company (id, name) VALUES ('".$company_id."', '".$company_name."') ON DUPLICATE KEY UPDATE name='".$company_name."'";
           error_log($sql);
           $this->rest->db->query($sql);
+          if($company_id == 0) {
+            $company_id = $this->rest->db->insert_id();
+          }
+          error_log($company_id);
           if($is_current) {
-            $sql = "UPDATE user SET company_id = '".$company["id"]."' WHERE id = '".$newUserId."'";
+            $sql = "UPDATE user SET company_id = '".$company_id."' WHERE id = '".$newUserId."'";
             error_log($sql);
             $this->rest->db->query($sql);
           }
-          $sql = "INSERT INTO positions (user_id, company_id) VALUES ('$newUserId', '".$company["id"]."')";
+          $sql = "INSERT INTO positions (user_id, company_id, designation, start_date) VALUES ('$newUserId', '".$company_id."', '".$title."', '".$start_date."') ON DUPLICATE KEY UPDATE designation='".$title."', start_date='".$start_date."'";
           error_log($sql);
           $this->rest->db->query($sql);
         }
