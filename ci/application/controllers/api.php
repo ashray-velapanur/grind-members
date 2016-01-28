@@ -230,6 +230,13 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
+      function profile_get() {
+        $id = $this->get('id');
+        $this->load->model('/members/membermodel','mm',true);
+        $profile = $this->mm->get_profile_data($id);
+        $this->response($profile, 200);
+      }
+
       private function resources($space_id) {
         $resource_data = [];
         $curl = curl_init();

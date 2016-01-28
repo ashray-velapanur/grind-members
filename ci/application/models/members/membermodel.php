@@ -1563,5 +1563,49 @@ class MemberModel extends CI_Model {
         return $users;
     
     }
+
+    function get_profile_data($user_id) {
+        $sql = "   
+            select
+            user.id as id, user.first_name as first_name, user.last_name as last_name,
+            third_party_user.profile_picture as profile_picture
+            from 
+                user
+                left outer join third_party_user on third_party_user.user_id = user.id
+            where user.id = ".$user_id;
+        $query = $this->db->query($sql);
+        $users = $query->result();
+        $user = current($users);
+
+        $sql = "   
+            select
+            company.id as company_id,
+            company.name as company_name,
+            positions.designation as title
+            from 
+                user
+                left outer join positions on positions.user_id = user.id
+                left outer join company on company.id = positions.company_id
+            where user.id = ".$user_id." order by positions.start_date desc limit 4";
+        $query = $this->db->query($sql);
+        $results = $query->result();
+        $work_history = [];
+        foreach ($results as $result) {
+            $work = [
+                "company_id" => $result->company_id,
+                "company_name"=> $result->company_name,
+                "title" => $result->title
+            ];
+            array_push($work_history, $work);
+        }
+
+        $profile = [
+            "name" => $user->first_name.' '.$user->last_name,
+            "profile_picture" => $user->profile_picture,
+            "work_history" => $work_history
+        ];
+
+        return $profile;
+    }
    
 }
