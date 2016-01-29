@@ -230,6 +230,18 @@ class Api extends REST_Controller
         $this->response($data, 200);
       }
 
+      function profile_post() {
+        $id = $this->post('id');
+        $company_name = $this->post('company_name');
+        $title = $this->post('designation');
+        $tags_str = $this->post('tags');
+        $tags = explode("##", $tags_str);
+        $this->load->model('/members/membermodel','mm',true);
+        $success = false;
+        $success = $this->mm->update_profile_data($id, $company_name, $title, $tags);
+        $this->response(['success' => $success], 200);
+      }
+
       function profile_get() {
         $id = $this->get('id');
         $this->load->model('/members/membermodel','mm',true);
