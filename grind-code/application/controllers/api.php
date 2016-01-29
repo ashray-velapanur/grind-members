@@ -17,10 +17,13 @@ class Api extends REST_Controller
 {
 	function __construct() {
     parent::__construct();
-    $id = $this->_args['id'];
+    $id = $this->_args['user_id'];
+    if(!$id) {
+      $this->response(array('message'=>'User ID not provided', 'success'=>FALSE), 404);
+    }
     $this->load->model('/members/membermodel', 'mm', true);
     if (!$this->mm->get_basicMemberData($id)) {
-      $this->response(array('message'=>'Invalid ID.', 'success'=>FALSE), 404);
+      $this->response(array('message'=>'Invalid User ID.', 'success'=>FALSE), 404);
     }
   }
 
