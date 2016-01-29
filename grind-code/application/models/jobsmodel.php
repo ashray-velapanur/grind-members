@@ -15,8 +15,14 @@ class JobsModel extends CI_Model {
 		return $response;
 	}
 
-	function get($type, $posted_by){
-		$query = mysql_query("SELECT * FROM jobs WHERE posted_by='".$posted_by."' AND type='".$type."'");
+	function get($type=null, $posted_by=null){
+		if ($type AND $posted_by){
+			$query = mysql_query("SELECT * FROM jobs WHERE posted_by='".$posted_by."' AND type='".$type."'");
+		} elseif ($type) {
+			$query = mysql_query("SELECT * FROM jobs WHERE type='".$type."'");
+		} elseif ($posted_by) {
+			$query = mysql_query("SELECT * FROM jobs WHERE posted_by='".$posted_by."'");
+		}
 		$response = array();
         while($row = mysql_fetch_assoc($query)) {
 	      	array_push($response, $row);

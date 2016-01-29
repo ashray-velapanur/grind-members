@@ -15,7 +15,15 @@ require(APPPATH.'/libraries/REST_Controller.php');
 
 class Api extends REST_Controller
 {
-	
+	function __construct() {
+    parent::__construct();
+    $id = $this->_args['id'];
+    $this->load->model('/members/membermodel', 'mm', true);
+    if (!$this->mm->get_basicMemberData($id)) {
+      $this->response(array('message'=>'Invalid ID.', 'success'=>FALSE), 404);
+    }
+  }
+
 	function print_post() {
 	
 
