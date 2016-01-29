@@ -204,5 +204,26 @@ class Api extends REST_Controller
           }
           $this->response($response, 200);
       }
+
+     function search_get(){
+      $q = $this->get('q');
+      var_dump($q);
+      $query = mysql_query(sprintf("
+                    (select id, first_name as name, 'user' as type from user where first_name like '%%%s%%')
+                    union
+                    (select id, name, 'company' as type from company where name like '%%%s%%')
+                    union
+                    (select id, name, 'event' as type from events where name like '%%%s%%')
+                    union
+                    (select id, title as name, 'job' as type from jobs where title like '%%%s%%')
+                    ", $q, $q, $q, $q));
+      var_dump($query);
+      $response = array();
+      while($row = mysql_fetch_assoc($query)) {
+        array_push($response, $row);
+      }
+      $this->response($response, 200);
+     }
+ 
 }
 ?>
