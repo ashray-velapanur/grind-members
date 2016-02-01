@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
+error_reporting(E_ERROR);
 
 class REST_Controller extends CI_Controller {
 
