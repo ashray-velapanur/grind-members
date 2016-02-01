@@ -232,6 +232,7 @@ class Api extends REST_Controller
       $app_token = '061cb2b829ece8b489e9310a474df0848adbe47024b7749a2090bf4917fe543a';
       $url = 'https://www.cobot.me/api/users';
       $email = $this->get('email');
+      $user_id = $this->get('user_id');
 
       $data = [
         'access_token' => $app_token,
@@ -273,7 +274,7 @@ class Api extends REST_Controller
       $network = 'cobot';
 
       $this->load->model("thirdpartyusermodel","tpum",true);
-      $this->tpum->create($id, $network, $access_token);
+      $this->tpum->create($user_id, $id, $network, $access_token);
     }
 
   function login_post() {
