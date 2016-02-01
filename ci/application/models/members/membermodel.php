@@ -1505,22 +1505,6 @@ class MemberModel extends CI_Model {
         return false;
     }
 
-    public function isNewUser($id, $network) {
-        error_log('In isNewUser');
-        $this->db->where('network', $network);
-        $this->db->where('network_id', $id);
-        $query = $this->db->get('third_party_user');
-        $results = $query->result();
-        if (count($results)>0) {
-            $result = current($results);
-            $user_id = $result->user_id;
-            error_log($user_id);
-            return $user_id;
-        } else {
-            return null;
-        }
-    }
-
     function new_listing($num,$offset=NULL){
         error_log($num . " :: ".$offset,0);
         $sql = "

@@ -227,6 +227,14 @@ class Api extends REST_Controller
       }
       $this->response($response, 200);
      }
+
+     function login_post() {
+        $access_token = $this->post('access_token');
+        $id = $this->post('id');
+        $this->load->model("loginmodel","lm",true);
+        $data = $this->lm->linkedin($access_token, $id);
+        $this->response($data, 200);
+      }
  
 }
 ?>
