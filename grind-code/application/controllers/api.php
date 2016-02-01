@@ -251,5 +251,12 @@ class Api extends REST_Controller
     }
     $this->response($bubbles, 200);
   }
+
+  function spaces_get() {
+    $this->load->model("locationmodel","lm",true);
+    $space_data = $this->lm->spaces();
+    $data = array('space_data' => $space_data);
+    $this->response($data, 200);
+  }
 }
 ?>

@@ -498,6 +498,95 @@ class LocationModel extends CI_Model {
 		
 	}
 
+	function spaces() {
+		$space_data = [];
+	    $query = $this->db->get("cobot_spaces");
+	    $spaces = $query->result();
+	    foreach ($spaces as $space_arr) {
+	      $space = (array)$space_arr;
+	      $space_id = $space['id'];
+	      $space_img_src = 'data:image/jpeg;base64,'.base64_encode( $space['image'] );
+	      $capacity = $space['capacity'];
+	      $latitude = $space['lat'];
+	      $longitude = $space['lon'];
+	      $address = $space['address'];
+	      $rate = $space['rate'];
+
+	      $curl = curl_init();
+	      $url = 'https://www.cobot.me/api/spaces/'.$space_id;
+	      $data = [];
+	      if ($data)
+	            $url = sprintf("%s?%s", $url, http_build_query($data));
+	      curl_setopt($curl, CURLOPT_URL, $url);
+	      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	      $result = (array)json_decode(curl_exec($curl));
+	      curl_close($curl);
+	      $description = $result['description'];
+	      $name = $result['name'];
+	      $resources = $this->resources($space_id);
+	      $spacedata = array(
+	        'id' => $space_id,
+	        'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
+	        'description' => $description,
+	        'name' => $name,
+	        'capacity' => $capacity,
+	        'lat' => $latitude,
+	        'lon' => $longitude,
+	        'address' => $address,
+	        'rate' => $rate,
+	        'resources' => $resources
+	      );
+	      array_push($space_data, $spacedata);
+    	}
+    	return $space_data;
+	}
+
+	function resources($space_id) {
+	    $resource_data = [];
+	    $curl = curl_init();
+	    $url = 'https://'.$space_id.'.cobot.me/api/resources';
+	    $rdata = [
+	      'access_token' => '79af7d71ab964cf5e34f8eec64d175533bf5c924bf4d1133ff01aed76c6017d8' //Get Cobot Access Token from a config or MySQL DB
+	    ];
+	    if ($rdata)
+	          $url = sprintf("%s?%s", $url, http_build_query($rdata));
+	    curl_setopt($curl, CURLOPT_URL, $url);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	    $result = curl_exec($curl);
+	    $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+	    curl_close($curl);
+	    $cobot_resources = [];
+	    if($result_code == 200) {
+	      $result = (array)json_decode($result);
+	      foreach ($result as $resource) {
+	        $resource = (array)$resource;
+	        $cobot_resources[$resource['id']] = $resource;
+	      }
+	    }
+
+	    $this->db->where("space_id", $space_id);
+	    $query = $this->db->get('cobot_resources');
+	    $resources = $query->result();
+	    foreach ($resources as $resource_arr) {
+	      $resource = (array)$resource_arr;
+	      $resource_id = $resource['id'];
+	      $resource_img_src = 'data:image/jpeg;base64,'.base64_encode( $resource['image'] );
+	      $cobot_resource = $cobot_resources[$resource_id];
+	      $description = $cobot_resource['description'];
+	      $capacity = $cobot_resource['capacity'];
+	      $rate = $cobot_resource['price_per_hour'];
+	      $resourcedata = array(
+	        'id' => $resource_id,
+	            'img_src' => $resource_img_src,
+	            'description' => $description,
+	            'capacity' => $capacity,
+	            'rate' => $rate
+	          );
+	          array_push($resource_data, $resourcedata);
+	    }
+	    return $resource_data;
+  }
+
 }
 
 ?>
