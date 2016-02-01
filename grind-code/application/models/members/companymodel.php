@@ -74,6 +74,7 @@ class CompanyModel extends CI_Model {
 	function get_all()
 	{
 		$retval = false;
+		$this->db->order_by("name", "asc");
 		$query = $this->db->get('company');
 	    if ($query->num_rows() > 0)
 	    {
