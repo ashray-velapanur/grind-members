@@ -1550,4 +1550,73 @@ class MemberModel extends CI_Model {
             return null;
         }
     }
+
+    function get_profile_data($user_id) {
+        $sql = "   
+            select
+            user.id as id, user.first_name as first_name, user.last_name as last_name,
+            third_party_user.profile_picture as profile_picture
+            from 
+                user
+                left outer join third_party_user on third_party_user.user_id = user.id
+            where user.id = ".$user_id;
+        $query = $this->db->query($sql);
+        $users = $query->result();
+        $user = current($users);
+
+        $sql = "   
+            select
+            company.id as company_id,
+            company.name as company_name,
+            positions.designation as title
+            from 
+                user
+                left outer join positions on positions.user_id = user.id
+                left outer join company on company.id = positions.company_id
+            where user.id = ".$user_id." order by positions.start_date desc limit 4";
+        $query = $this->db->query($sql);
+        $results = $query->result();
+        $work_history = [];
+        foreach ($results as $result) {
+            $work = [
+                "company_id" => $result->company_id,
+                "company_name"=> $result->company_name,
+                "title" => $result->title
+            ];
+            array_push($work_history, $work);
+        }
+
+        $profile = [
+            "name" => $user->first_name.' '.$user->last_name,
+            "profile_picture" => $user->profile_picture,
+            "work_history" => $work_history
+        ];
+
+        return $profile;
+    }
+
+    function update_profile_data($id, $company_name, $title, $tags) {
+        $sql = "select * from company where company.name = '".$company_name."'";
+        $query = $this->db->query($sql);
+        $results = $query->result();
+        if(count($results) > 0) {
+            $company = current($results);
+            $company_id = $company->id;
+        } else {
+            $sql = "INSERT INTO company (id, name) VALUES ('0', '".$company_name."')";
+            $this->db->query($sql);
+            $company_id = $this->db->insert_id();
+        }
+        $sql = "UPDATE user SET company_id = '".$company_id."' WHERE id = '".$id."'";
+        $this->db->query($sql);
+        $sql = "INSERT INTO positions (user_id, company_id, designation, start_date) VALUES ('$id', '".$company_id."', '".$title."', '".date('Y-m-d')."') ON DUPLICATE KEY UPDATE company_id='".$company_id."', designation='".$title."'";
+        $this->db->query($sql);
+        $sql = "DELETE FROM user_tags where user_id='".$id."'";
+        $this->db->query($sql);
+        foreach ($tags as $tag) {
+            $sql = "INSERT INTO user_tags (user_id, tag_id) VALUES ('$id', '$tag')";
+            $this->db->query($sql);
+        }
+        return true;
+    }
 }

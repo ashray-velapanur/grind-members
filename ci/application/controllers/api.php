@@ -109,38 +109,5 @@ class Api extends REST_Controller
           $this->pm->test_credits($user_id);
                    
       }
-
-      function company_jobs_get() {
-        $id = $this->get('id');
-        $this->load->model('members/companymodel','',true);
-        $data =  $this->companymodel->get_jobs($id);
-        $this->response($data, 200);
-      }
-
-      function company_members_get() {
-        $id = $this->get('id');
-        $this->load->model('members/companymodel','',true);
-        $data =  $this->companymodel->get_members($id);
-        $this->response($data, 200);
-      }
-
-      function profile_post() {
-        $id = $this->post('id');
-        $company_name = $this->post('company_name');
-        $title = $this->post('designation');
-        $tags_str = $this->post('tags');
-        $tags = explode("##", $tags_str);
-        $this->load->model('/members/membermodel','mm',true);
-        $success = false;
-        $success = $this->mm->update_profile_data($id, $company_name, $title, $tags);
-        $this->response(['success' => $success], 200);
-      }
-
-      function profile_get() {
-        $id = $this->get('id');
-        $this->load->model('/members/membermodel','mm',true);
-        $profile = $this->mm->get_profile_data($id);
-        $this->response($profile, 200);
-      }
 }
 ?>
