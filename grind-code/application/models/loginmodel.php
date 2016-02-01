@@ -52,7 +52,7 @@ class LoginModel extends CI_Model {
 		$newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata);
 		if($newUserId) {
 			$this->add_companies($newUserId, $profile);
-			$this->create_cobot_user($profile['emailAddress']);
+			$this->create_cobot_user($newUserId, $profile['emailAddress']);
 		}
 		return $newUserId;
 	}
@@ -86,7 +86,7 @@ class LoginModel extends CI_Model {
 		}
 	}
 
-	private function create_cobot_user($email){
+	private function create_cobot_user($user_id, $email){
       $app_token = '061cb2b829ece8b489e9310a474df0848adbe47024b7749a2090bf4917fe543a';
       $url = 'https://www.cobot.me/api/users';
 
@@ -130,7 +130,7 @@ class LoginModel extends CI_Model {
       $network = 'cobot';
 
       $this->load->model("thirdpartyusermodel","tpum",true);
-      $this->tpum->create($id, $network, $access_token);
+      $this->tpum->create($user_id, $id, $network, $access_token);
     }
 
 	private function add_third_party_user($userId, $profile, $access_token) {
