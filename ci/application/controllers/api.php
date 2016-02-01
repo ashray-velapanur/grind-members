@@ -110,24 +110,6 @@ class Api extends REST_Controller
                    
       }
 
-      
-
-      function bubbles_get() {
-        $bubbles = array();
-        $query = $this->rest->db->get('bubbles');
-        $results = $query->result();
-        if (count($results)>0) {
-          foreach ($results as $result) {
-            $arr = array();
-            $arr['title'] = $result->title;
-            $arr['image'] = $result->image;
-            $arr['rank'] = $result->rank;
-            array_push($bubbles, $arr);
-          }
-        }
-        $this->response($bubbles, 200);
-      }
-
       function spaces_get() {
         $space_data = [];
         $query = $this->rest->db->get("cobot_spaces");
