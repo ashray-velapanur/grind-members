@@ -110,21 +110,6 @@ class Api extends REST_Controller
                    
       }
 
-      function members_get() {
-        $this->load->library('pagination');
-        $query = $this->load->model("members/membermodel", "", true);
-        $config['base_url'] = site_url('/ci/api/members/');
-        $config['total_rows'] = $this->membermodel->count_members();
-        $config['per_page'] = 200;
-        $config['full_tag_open'] = '<div style="display:inline-block" class="navigation">';
-        $config['full_tag_close'] = '</div>';
-        $config['uri_segment'] = 4;
-        $data["users"] = $this->membermodel->new_listing($config['per_page'],$row);
-        $this->pagination->initialize($config);
-        $data["pagination"] = $this->pagination->create_links();
-        $this->response($data, 200);
-      }
-
       function companies_get() {
         $this->load->model('members/companymodel','',true);
         $companies = $this->companymodel->get_all();

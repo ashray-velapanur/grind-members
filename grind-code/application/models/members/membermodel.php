@@ -260,7 +260,7 @@ class MemberModel extends CI_Model {
                 vadmin.is_admin as is_admin,
                 subscription_sync.plan_code as plan_code,
                 signin.last_sign_in,
-                usermeta.meta_value as designation,
+                positions.designation as designation,
                 third_party_user.profile_picture as profile_picture
         from 
                 user 
@@ -272,7 +272,7 @@ class MemberModel extends CI_Model {
                 left outer join email on email.user_id = user.id and email.is_primary = 1
                 left outer join (select user_id, max(sign_in) last_sign_in from signin_sheet group by user_id) signin on signin.user_id = user.id
                 inner join v_user_adminstatus vadmin on vadmin.id = user.id
-                left outer join wpmember_usermeta usermeta on usermeta.user_id = user.wp_users_id and usermeta.meta_key = 'designation'
+                left outer join positions on positions.company_id = user.company_id and positions.user_id = user.id
         where
                 user.membership_status_luid = ".MembershipStatus::ACTIVE_MEMBER."
         order by
