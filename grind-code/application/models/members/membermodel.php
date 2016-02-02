@@ -1003,18 +1003,12 @@ class MemberModel extends CI_Model {
                 case "location_id":
                     $userdata[$name] = $value;
                     break;
-                case "role":
-                    $role = $value;
-                    break;
                 case "company":
                     $companydata["name"] =
                      $value == "" || $value == null ? $this->input->post("first_name") : $value;
                     break;
                 case "company_description":
                     $companydata["description"] = $value;
-                    break;
-                case "designation":
-                    $designation = $value;
                     break;
                 case "website":
                     $wpdata["user_url"] = $value;
@@ -1075,22 +1069,20 @@ class MemberModel extends CI_Model {
             }
         }
 
-        $tmpName = $_FILES['companylogo']['tmp_name'];
-        error_log('reading image');
-        error_log($tmpName);
-        $fp = fopen($tmpName, 'r');
-        $clogodata = fread($fp, filesize($tmpName));
-        $clogodata = addslashes($clogodata);
-        fclose($fp);
-        error_log($clogodata);
-        if($clogodata) {
-            $companydata["logo"] = $clogodata;
+        $newUserId = doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata);
+        if($newUserId) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
+    public function doAddMember($userdata = array(), $membershipdata = array(), $companydata = array(), $phonedata = array(), $emaildata = array(), $billingdata, $wpdata = array()){
+        $newUserId = null;
         $userdata["date_added"] = date("Y-m-d H:i:s");
         $userdata["membership_status_luid"] = MembershipStatus::ACTIVE_MEMBER;
         $userdata['terms_agree'] = 1;
-        
+
         try {
             
             //$this->load->library('utilities');
@@ -1106,15 +1098,13 @@ class MemberModel extends CI_Model {
             //first we create the wordpress account
             $wpid = username_exists( $this->member->email );
             if ( !$wpid ) {
-                $user_login = $this->member->email;
-                $user_email = $this->member->email;
-                $user_pass = $temporaryPassword;
-                $wpid = wp_insert_user(compact('user_login', 'user_email', 'user_pass', 'role'));
+                
+                $wpid = wp_create_user( $this->member->email, $temporaryPassword,$this->member->email);
                 error_log("Wordpress User Create Result=".$wpid);
                 
             } else {
                 error_log("unable to create wordpress user",0);
-                return false;
+                return null;
             }
             if ($wpid){
                 error_log("wordpress user exists:".$wpid,0);
@@ -1163,62 +1153,81 @@ class MemberModel extends CI_Model {
                 
                 // behance
                 update_user_meta($wpid, 'behance', $userdata['behance']);
-
-                // designation in company
-                update_user_meta($wpid, 'designation', $designation);
                 
                 /* end wp user meta update */
                 
             }
             
-            $companyId = 0;
-            $this->db->insert("company", $companydata);     
-            $companyId = $this->db->insert_id();
+            error_log('Done wp user creation');
+            error_log(count($companydata));
+            if(count($companydata)>0) {
+                $companyId = 0;
+                $this->db->insert("company", $companydata);     
+                $companyId = $this->db->insert_id();
 
-            if ($companyId > 0) $userdata["company_id"] = $companyId;
+                if ($companyId > 0) $userdata["company_id"] = $companyId;
+            }
+
+            error_log('Done company creation');
 
             // now we create the real grind account
             $this->db->insert("user", $userdata);
             $this->member->id = $this->db->insert_id();
+            $newUserId = $this->member->id;
+            error_log('Done user creation: '.$newUserId);
             
-            $phonedata["user_id"] = $this->member->id;
-            $this->db->insert("phone", $phonedata);        
-            
-            $emaildata["user_id"] = $this->member->id;
-            $this->em->create($emaildata);
-            $result = $this->em->email_list_add($this->member->first_name . " " . $this->member->last_name);
-            if (!$result){
-                throw new Exception("Couldn't create the new email list subscription");
+            if(count($phonedata)>0) {
+                $phonedata["user_id"] = $this->member->id;
+                $this->db->insert("phone", $phonedata);
             }
+
+            error_log('Done phone creation');
             
-            // leverage the account model to manage the account type and subscription
-            $this->am->init($this->member->id);
-            $result = $this->am->create($this->member->email,$this->member->first_name,$this->member->last_name,$this->member->email); // username,first,last,email
-            if (!$result){
-                throw new Exception("Couldn't create the new member account");
-            }
-            $billingdata->account_code = $this->member->id;
-            $this->am->billing_info = $billingdata;
-            $result = $this->am->createSubscription($_POST["membership_plan_code"]);
-            if (!$result){
-                throw new Exception("Couldn't create the new recurly subscription for some reason");
-            }
+            //skipping email for now
+            // $emaildata["user_id"] = $this->member->id;
+            // error_log('Creating email data');
+            // $this->em->create($emaildata);
+            // error_log('Done email data');
+            // $result = $this->em->email_list_add($this->member->first_name . " " . $this->member->last_name);
+            // if (!$result){
+            //     throw new Exception("Couldn't create the new email list subscription");
+            // }
+
+            error_log('Done email creation');
             
-            $this->load->model("emailtemplates/emailtemplatemodel", "", true);
+            if($billingdata) {
+                // leverage the account model to manage the account type and subscription
+                $this->am->init($this->member->id);
+                $result = $this->am->create($this->member->email,$this->member->first_name,$this->member->last_name,$this->member->email); // username,first,last,email
+                if (!$result){
+                    throw new Exception("Couldn't create the new member account");
+                }
+                $billingdata->account_code = $this->member->id;
+                $this->am->billing_info = $billingdata;
+                $result = $this->am->createSubscription($_POST["membership_plan_code"]);
+                if (!$result){
+                    throw new Exception("Couldn't create the new recurly subscription for some reason");
+                }
+            }
+
+            error_log('Done billing creation');
+
+            // skipping email for now
+            // $this->load->model("emailtemplates/emailtemplatemodel", "", true);
   
-            $email = $this->emailtemplatemodel->init(20);
-            //Replace variables with our data
+            // $email = $this->emailtemplatemodel->init(20);
+            // //Replace variables with our data
         
-            $email->message = str_replace("%%first_name%%",$this->member->first_name, $email->message);
-            $email->message = str_replace("%%last_name%%",$this->member->last_name, $email->message);
-            $email->message = str_replace("%%ID%%",$this->member->email,$email->message);
-            $email->message = str_replace("%%ID2%%",$this->member->email,$email->message);
-            $email->message = str_replace("%%HASH%%",$registerHash,$email->message);
-            $result = $this->emailtemplatemodel->send($this->member->email);                
-            if (!$result){
-                throw new Exception("Couldn't send email to new member");
-            }
-            
+            // $email->message = str_replace("%%first_name%%",$this->member->first_name, $email->message);
+            // $email->message = str_replace("%%last_name%%",$this->member->last_name, $email->message);
+            // $email->message = str_replace("%%ID%%",$this->member->email,$email->message);
+            // $email->message = str_replace("%%ID2%%",$this->member->email,$email->message);
+            // $email->message = str_replace("%%HASH%%",$registerHash,$email->message);
+            // $result = $this->emailtemplatemodel->send($this->member->email);                
+            // if (!$result){
+            //     throw new Exception("Couldn't send email to new member");
+            // }
+            error_log('Done email template creation');
             if ($this->db->trans_status() === FALSE)
             {
                 $this->db->trans_rollback();
@@ -1226,6 +1235,9 @@ class MemberModel extends CI_Model {
             }
         
         } catch(Exception $e) {
+
+            error_log('Exception: ');
+            error_log($e);
             
             $this->db->trans_rollback(); // transactions don't seem to be working so we are manually deleting the member
             $this->db->delete("user",array('id' => $this->member->id));
@@ -1239,11 +1251,11 @@ class MemberModel extends CI_Model {
             $this->em->email_list_remove($this->member->id);
             
             issue_log("0","exception attempting to create account:". $e->getMessage(), MemberIssueType::GENERAL);
-            return false;
+            return null;
         }
 
          $this->db->trans_commit();
-         return true;
+         return $newUserId;
     }
     
     public function register(){
