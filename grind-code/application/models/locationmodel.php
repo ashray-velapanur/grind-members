@@ -514,7 +514,7 @@ class LocationModel extends CI_Model {
 
 	      $curl = curl_init();
 	      $url = 'https://www.cobot.me/api/spaces/'.$space_id;
-	      $data = [];
+	      $data = array();
 	      if ($data)
 	            $url = sprintf("%s?%s", $url, http_build_query($data));
 	      curl_setopt($curl, CURLOPT_URL, $url);
