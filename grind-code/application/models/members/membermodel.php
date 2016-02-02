@@ -1069,7 +1069,7 @@ class MemberModel extends CI_Model {
             }
         }
 
-        $newUserId = doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata);
+        $newUserId = $this->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata);
         if($newUserId) {
             return true;
         } else {
@@ -1195,20 +1195,21 @@ class MemberModel extends CI_Model {
 
             error_log('Done email creation');
             
-            if($billingdata) {
-                // leverage the account model to manage the account type and subscription
-                $this->am->init($this->member->id);
-                $result = $this->am->create($this->member->email,$this->member->first_name,$this->member->last_name,$this->member->email); // username,first,last,email
-                if (!$result){
-                    throw new Exception("Couldn't create the new member account");
-                }
-                $billingdata->account_code = $this->member->id;
-                $this->am->billing_info = $billingdata;
-                $result = $this->am->createSubscription($_POST["membership_plan_code"]);
-                if (!$result){
-                    throw new Exception("Couldn't create the new recurly subscription for some reason");
-                }
-            }
+            //skipping recurly for now
+            // if($billingdata) {
+            //     // leverage the account model to manage the account type and subscription
+            //     $this->am->init($this->member->id);
+            //     $result = $this->am->create($this->member->email,$this->member->first_name,$this->member->last_name,$this->member->email); // username,first,last,email
+            //     if (!$result){
+            //         throw new Exception("Couldn't create the new member account");
+            //     }
+            //     $billingdata->account_code = $this->member->id;
+            //     $this->am->billing_info = $billingdata;
+            //     $result = $this->am->createSubscription($_POST["membership_plan_code"]);
+            //     if (!$result){
+            //         throw new Exception("Couldn't create the new recurly subscription for some reason");
+            //     }
+            // }
 
             error_log('Done billing creation');
 
