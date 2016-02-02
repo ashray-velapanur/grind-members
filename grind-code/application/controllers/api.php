@@ -282,12 +282,12 @@ class Api extends REST_Controller
     $companies_data = array();
     foreach ($companies as $company) {
       $company = (array)$company;
-      $company_data = [
+      $company_data = array(
         'name' => $company['name'],
         'logo' => 'data:image/jpeg;base64,'.base64_encode( $company['logo'] ),
         'description' => $company['description'],
         'id' => $company['id']
-      ];
+      );
       array_push($companies_data, $company_data);
     }
     $data = [
