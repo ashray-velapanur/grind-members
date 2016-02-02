@@ -1576,21 +1576,21 @@ class MemberModel extends CI_Model {
             where user.id = ".$user_id." order by positions.start_date desc limit 4";
         $query = $this->db->query($sql);
         $results = $query->result();
-        $work_history = [];
+        $work_history = array();
         foreach ($results as $result) {
-            $work = [
+            $work = array(
                 "company_id" => $result->company_id,
                 "company_name"=> $result->company_name,
                 "title" => $result->title
-            ];
+            );
             array_push($work_history, $work);
         }
 
-        $profile = [
+        $profile = array(
             "name" => $user->first_name.' '.$user->last_name,
             "profile_picture" => $user->profile_picture,
             "work_history" => $work_history
-        ];
+        );
 
         return $profile;
     }
