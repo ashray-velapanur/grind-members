@@ -319,7 +319,7 @@ class Api extends REST_Controller
     $this->load->model('/members/membermodel','mm',true);
     $success = false;
     $success = $this->mm->update_profile_data($id, $company_name, $title, $tags);
-    $this->response(['success' => $success], 200);
+    $this->response(array('success' => $success), 200);
   }
 
   function profile_get() {
