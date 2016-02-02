@@ -23,7 +23,7 @@ class LoginModel extends CI_Model {
 			}
 			if($userId) {
 				$this->add_third_party_user($userId, $profile, $access_token);
-				$response = ["success"=>True, "user_id"=>$userId];
+				$response = array("success"=>True, "user_id"=>$userId);
 			}
 		}
 		return $response;
@@ -90,10 +90,10 @@ class LoginModel extends CI_Model {
       $app_token = '061cb2b829ece8b489e9310a474df0848adbe47024b7749a2090bf4917fe543a';
       $url = 'https://www.cobot.me/api/users';
 
-      $data = [
+      $data = array(
         'access_token' => $app_token,
         'email' => $email
-      ];
+      );
 
       $curl = curl_init();
       curl_setopt($curl, CURLOPT_POST, 1);
@@ -108,12 +108,12 @@ class LoginModel extends CI_Model {
       $id = $result['id'];
 
       $url = 'https://www.cobot.me/oauth/access_token?';
-      $data = [
+      $data = array(
         'client_id' => '26a81206b5b2b7c9a510ca0935b0febd',
         'client_secret' => '15a365f477efa39842a493c1ac885ebea374482240c2755d882b8d41dc293532',
         'grant_type' => 'authorization_code',
         'code' => $result['grant_code']
-      ];
+      );
 
       $curl = curl_init();
       curl_setopt($curl, CURLOPT_POST, 1);
