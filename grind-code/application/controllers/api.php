@@ -184,7 +184,8 @@ class Api extends REST_Controller
             $user_id = $position['user_id'];
             foreach ($this->utm->get($user_id) as $user_tag) {
               $tag_id = $user_tag['tag_id'];
-              $name = $this->tm->get($tag_id)['name'];
+              $tag = $this->tm->get($tag_id);
+              $name = $tag['name'];
               $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
               array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
             }
@@ -202,7 +203,8 @@ class Api extends REST_Controller
           foreach ($user_tags as $user_tag) {
             $tag_id = $user_tag['tag_id'];
             $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
-            $name = $this->tm->get($tag_id)['name'];
+            $tag = $this->tm->get($tag_id);
+            $name = $tag['name'];
             array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
           }
           $this->response($response, 200);
