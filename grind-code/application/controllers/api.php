@@ -290,9 +290,9 @@ class Api extends REST_Controller
       );
       array_push($companies_data, $company_data);
     }
-    $data = [
+    $data = array(
       "companies" => $companies_data
-    ];
+    );
     $this->response($data, 200);
   }
 
