@@ -9,12 +9,7 @@ class TagsModel extends CI_Model {
 
 	public function create($name){
 		$sql = "INSERT INTO tags (name) VALUES ('$name')";
-		if ($this->db->query($sql) === TRUE) {
-			$response = array('success'=>TRUE);
-		} else {
-			$response = array('success'=>FALSE);
-		}
-		return $response;
+		return $this->db->query($sql);
 	}
 
 	function get($tag_id){
