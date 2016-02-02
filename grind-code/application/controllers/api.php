@@ -279,7 +279,7 @@ class Api extends REST_Controller
   function companies_get() {
     $this->load->model('members/companymodel','',true);
     $companies = $this->companymodel->get_all();
-    $companies_data = [];
+    $companies_data = array();
     foreach ($companies as $company) {
       $company = (array)$company;
       $company_data = [
