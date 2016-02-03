@@ -32,6 +32,8 @@ class LoginModel extends CI_Model {
 				$response = array("success"=>True, "user_id"=>$userId);
 			}
 		}
+		error_log('Returning response');
+		error_log(json_encode($response));
 		return $response;
 	}
 
