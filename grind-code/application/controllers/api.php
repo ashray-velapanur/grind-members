@@ -298,6 +298,7 @@ class Api extends REST_Controller
       $this->load->model("loginmodel","lm",true);
       $response = $this->lm->linkedin($access_token, $id);
     }
+    error_log(json_encode($response));
     $this->response($response, 200);
   }
 
