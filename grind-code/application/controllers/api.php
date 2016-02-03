@@ -128,11 +128,15 @@ class Api extends REST_Controller
 
      function create_tag_get() {
           $name = $this->get('name');
-          $this->load->model("tagsmodel","tm",true);
-          if ($this->tm->create($name)){
-            $response = array('success'=> TRUE);
+          if (!$name) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameter.');
           } else {
-            $response = array('success'=> FALSE);
+            $this->load->model("tagsmodel","tm",true);
+            if ($this->tm->create($name)){
+              $response = array('success'=> TRUE);
+            } else {
+              $response = array('success'=> FALSE);
+            }
           }
           $this->response($response, 200);
       }
