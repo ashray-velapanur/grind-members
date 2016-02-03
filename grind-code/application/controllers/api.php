@@ -313,7 +313,7 @@ class Api extends REST_Controller
   }
 
   function profile_post() {
-    $id = $this->post('id');
+    $id = $this->post('user_id');
     $company_name = $this->post('company_name');
     $title = $this->post('designation');
     $tags_str = $this->post('tags');
@@ -325,7 +325,7 @@ class Api extends REST_Controller
   }
 
   function profile_get() {
-    $id = $this->get('id');
+    $id = $this->get('user_id');
     $this->load->model('/members/membermodel','mm',true);
     $profile = $this->mm->get_profile_data($id);
     $this->response($profile, 200);
