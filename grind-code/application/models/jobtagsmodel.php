@@ -7,12 +7,7 @@ class JobTagsModel extends CI_Model {
 
 	function create($job_id, $tag_id){
 		$sql = "INSERT INTO job_tags (job_id, tag_id) VALUES ('$job_id', '$tag_id')";
-		if ($this->db->query($sql) === TRUE) {
-			$response = array('success'=>TRUE);
-		} else {
-			$response = array('success'=>FALSE);
-		}
-		return $response;
+		return $this->db->query($sql);
 	}
 
 	function get($job_id){

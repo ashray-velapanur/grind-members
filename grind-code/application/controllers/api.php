@@ -163,22 +163,48 @@ class Api extends REST_Controller
      function jobs_get() {
           $type = $this->get('type');
           $posted_by = $this->get('posted_by');
-          $this->load->model("jobsmodel","jm",true);
-          $this->response($this->jm->get($type, $posted_by), 200);
+          if (!$type and !$posted_by) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("jobsmodel","jm",true);
+            $response_data = $this->jm->get($type, $posted_by);
+            if ($response_data) {
+              $response = array('success'=> TRUE, 'data'=>$response_data);
+            } else {
+              $response = array('success'=> FALSE);
+            }
+          }
+          $this->response($response, 200);
       }
 
      function tags_get() {
           $this->load->model("tagsmodel","tm",true);
-          $this->response($this->tm->all(), 200);
+          $response_data = $this->tm->all();
+          if ($response_data) {
+              $response = array('success'=> TRUE, 'data'=>$response_data);
+          } else {
+            $response = array('success'=> FALSE);
+          }
+          $this->response($response, 200);
       }
 
      function create_user_tag_get() {
           $user_id = $this->get('user_id');
           $tag_id = $this->get('tag_id');
-          $this->load->model("usertagsmodel","utm",true);
-          $this->response($this->utm->create($user_id, $tag_id));
+          if (!$user_id or !$tag_id) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("usertagsmodel","utm",true);
+            if ($this->utm->create($user_id, $tag_id)) {
+              $response = array('success'=> TRUE);
+            } else {
+              $response = array('success'=> FALSE);
+            }
+          }
+          $this->response($response, 200);
       }
 
+// clean this up
      function positions_put(){
         $user_id = $this->get('user_id');
         $access_token = $this->get('access_token');
@@ -195,55 +221,70 @@ class Api extends REST_Controller
 
      function company_tags_get() {
           $company_id = $this->get('company_id');
-          $this->load->model("positionsmodel","pm",true);
-          $this->load->model("usertagsmodel","utm",true);
-          $this->load->model("jobtagsmodel","jtm",true);
-          $this->load->model("tagsmodel","tm",true);
-          $response = array();
-          foreach ($this->pm->get($company_id) as $position) {
-            $user_id = $position['user_id'];
-            foreach ($this->utm->get($user_id) as $user_tag) {
-              $tag_id = $user_tag['tag_id'];
-              $tag = $this->tm->get($tag_id);
-              $name = $tag['name'];
-              $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
-              array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+          if (!$company_id) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("positionsmodel","pm",true);
+            $this->load->model("usertagsmodel","utm",true);
+            $this->load->model("jobtagsmodel","jtm",true);
+            $this->load->model("tagsmodel","tm",true);
+            $response_data = array();
+            foreach ($this->pm->get($company_id) as $position) {
+              $user_id = $position['user_id'];
+              foreach ($this->utm->get($user_id) as $user_tag) {
+                $tag_id = $user_tag['tag_id'];
+                $tag = $this->tm->get($tag_id);
+                $name = $tag['name'];
+                $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
+                array_push($response_data, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+              }
             }
+            $response = array('success'=>TRUE, 'data'=>$response_data);
           }
           $this->response($response, 200);
      }
 
      function user_tags_get() {
           $user_id = $this->get('user_id');
-          $this->load->model("usertagsmodel","utm",true);
-          $this->load->model("jobtagsmodel","jtm",true);
-          $this->load->model("tagsmodel","tm",true);
-          $user_tags = $this->utm->get($user_id);
-          $response = array();
-          foreach ($user_tags as $user_tag) {
-            $tag_id = $user_tag['tag_id'];
-            $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
-            $tag = $this->tm->get($tag_id);
-            $name = $tag['name'];
-            array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+          if (!$user_id) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("usertagsmodel","utm",true);
+            $this->load->model("jobtagsmodel","jtm",true);
+            $this->load->model("tagsmodel","tm",true);
+            $user_tags = $this->utm->get($user_id);
+            $response_data = array();
+            foreach ($user_tags as $user_tag) {
+              $tag_id = $user_tag['tag_id'];
+              $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
+              $tag = $this->tm->get($tag_id);
+              $name = $tag['name'];
+              array_push($response_data, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+            }
+            $response = array('success'=>TRUE, 'data'=>$response_data);
           }
           $this->response($response, 200);
       }
 
      function search_get(){
       $q = $this->get('q');
-      $query = mysql_query(sprintf("
-                    (select id, first_name as name, 'user' as type from user where first_name like '%%%s%%')
-                    union
-                    (select id, name, 'company' as type from company where name like '%%%s%%')
-                    union
-                    (select id, name, 'event' as type from events where name like '%%%s%%')
-                    union
-                    (select id, title as name, 'job' as type from jobs where title like '%%%s%%')
-                    ", $q, $q, $q, $q));
-      $response = array();
-      while($row = mysql_fetch_assoc($query)) {
-        array_push($response, $row);
+      if (!$q) {
+        $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+      } else {
+        $query = mysql_query(sprintf("
+                      (select id, first_name as name, 'user' as type from user where first_name like '%%%s%%')
+                      union
+                      (select id, name, 'company' as type from company where name like '%%%s%%')
+                      union
+                      (select id, name, 'event' as type from events where name like '%%%s%%')
+                      union
+                      (select id, title as name, 'job' as type from jobs where title like '%%%s%%')
+                      ", $q, $q, $q, $q));
+        $response_data = array();
+        while($row = mysql_fetch_assoc($query)) {
+          array_push($response_data, $row);
+        }
+        $response = array('success'=>TRUE, 'data'=>$response_data);
       }
       $this->response($response, 200);
      }
@@ -251,11 +292,16 @@ class Api extends REST_Controller
   function login_post() {
     $access_token = $this->post('access_token');
     $id = $this->post('id');
-    $this->load->model("loginmodel","lm",true);
-    $data = $this->lm->linkedin($access_token, $id);
-    $this->response($data, 200);
+    if (!$access_token or !$id) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $this->load->model("loginmodel","lm",true);
+      $response = $this->lm->linkedin($access_token, $id);
+    }
+    $this->response($response, 200);
   }
 
+// error handling
   function bubbles_get() {
     $bubbles = array();
     $query = $this->rest->db->get('bubbles');
@@ -272,6 +318,7 @@ class Api extends REST_Controller
     $this->response($bubbles, 200);
   }
 
+// error handling
   function spaces_get() {
     $this->load->model("locationmodel","lm",true);
     $space_data = $this->lm->spaces();
@@ -279,6 +326,7 @@ class Api extends REST_Controller
     $this->response($data, 200);
   }
 
+// error handling
   function members_get() {
     $this->load->library('pagination');
     $query = $this->load->model("members/membermodel", "", true);
@@ -294,6 +342,7 @@ class Api extends REST_Controller
     $this->response($data, 200);
   }
 
+// error handling
   function companies_get() {
     $this->load->model('members/companymodel','',true);
     $companies = $this->companymodel->get_all();
@@ -316,18 +365,27 @@ class Api extends REST_Controller
 
   function company_jobs_get() {
     $id = $this->get('id');
-    $this->load->model('members/companymodel','',true);
-    $data =  $this->companymodel->get_jobs($id);
-    $this->response($data, 200);
+    if (!$id) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $this->load->model('members/companymodel','',true);
+      $response = $this->companymodel->get_jobs($id);
+    }
+    $this->response($response, 200);
   }
 
   function company_members_get() {
     $id = $this->get('id');
-    $this->load->model('members/companymodel','',true);
-    $data =  $this->companymodel->get_members($id);
-    $this->response($data, 200);
+    if (!$id) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $this->load->model('members/companymodel','',true);
+      $response = $this->companymodel->get_members($id);
+    }
+    $this->response($response, 200);
   }
 
+// error handling
   function profile_post() {
     $id = $this->post('user_id');
     $company_name = $this->post('company_name');
@@ -340,6 +398,7 @@ class Api extends REST_Controller
     $this->response(array('success' => $success), 200);
   }
 
+// error handling
   function profile_get() {
     $id = $this->get('user_id');
     $this->load->model('/members/membermodel','mm',true);

@@ -7,12 +7,7 @@ class UserTagsModel extends CI_Model {
 
 	function create($user_id, $tag_id){
 		$sql = "INSERT INTO user_tags (user_id, tag_id) VALUES ('$user_id', '$tag_id')";
-		if ($this->db->query($sql) === TRUE) {
-			$response = array('success'=>TRUE);
-		} else {
-			$response = array('success'=>FALSE);
-		}
-		return $response;
+		return $this->db->query($sql);
 	}
 
 	function get($user_id){
