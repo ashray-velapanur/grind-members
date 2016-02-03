@@ -204,6 +204,7 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
+// clean this up
      function positions_put(){
         $user_id = $this->get('user_id');
         $access_token = $this->get('access_token');
