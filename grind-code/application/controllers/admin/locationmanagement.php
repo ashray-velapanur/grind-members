@@ -223,7 +223,7 @@ class LocationManagement extends CI_Controller {
 	}
 
 	public function spaces_get() {
-		$space_data = [];
+		$space_data = array();
 		$query = $this->db->get("cobot_spaces");
         $spaces = $query->result();
         foreach ($spaces as $space_arr) {
@@ -234,7 +234,7 @@ class LocationManagement extends CI_Controller {
 
         	$curl = curl_init();
         	$url = 'https://www.cobot.me/api/spaces/'.$space_id;
-			$data = [];
+			$data = array();
         	if ($data)
                 $url = sprintf("%s?%s", $url, http_build_query($data));
 			curl_setopt($curl, CURLOPT_URL, $url);
@@ -261,8 +261,8 @@ class LocationManagement extends CI_Controller {
 	public function cobot_resource() {
 		$query = $this->db->get("cobot_spaces");
         $spaces = $query->result();
-        $data = [];
-        $spacedata = [];
+        $data = array();
+        $spacedata = array();
         foreach ($spaces as $space_arr) {
         	$space = (array)$space_arr;
         	$space_id = $space['id'];
@@ -298,13 +298,13 @@ class LocationManagement extends CI_Controller {
 
 	public function resources_get() {
 		$space_id = $_GET['space_id'];
-		$resource_data = [];
+		$resource_data = array();
 
 		$curl = curl_init();
 		$url = 'https://'.$space_id.'.cobot.me/api/resources';
-		$data = [
+		$data = array(
 			'access_token' => '79af7d71ab964cf5e34f8eec64d175533bf5c924bf4d1133ff01aed76c6017d8'
-		];
+		);
     	if ($data)
             $url = sprintf("%s?%s", $url, http_build_query($data));
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -312,7 +312,7 @@ class LocationManagement extends CI_Controller {
 		$result = curl_exec($curl);
 		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
-		$cobot_resources = [];
+		$cobot_resources = array();
 		if($result_code == 200) {
 			$result = (array)json_decode($result);
 			foreach ($result as $resource) {
