@@ -523,7 +523,17 @@ class LocationModel extends CI_Model {
 	      curl_close($curl);
 	      $description = $result['description'];
 	      $name = $result['name'];
-	      $resources = $this->resources($space_id);
+
+	      $resourcedata = array(
+	        'id' => $space_id,
+            'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
+            'description' => $description,
+            'capacity' => $capacity,
+            'rate' => $rate
+          );
+	      $resources = array();
+	      array_push($resources, $resourcedata);
+	      $resources = array_merge($resources, $this->resources($space_id));
 	      $spacedata = array(
 	        'id' => $space_id,
 	        'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
@@ -546,7 +556,7 @@ class LocationModel extends CI_Model {
 	    $curl = curl_init();
 	    $url = 'https://'.$space_id.'.cobot.me/api/resources';
 	    $rdata = array(
-	      'access_token' => '79af7d71ab964cf5e34f8eec64d175533bf5c924bf4d1133ff01aed76c6017d8' //Get Cobot Access Token from a config or MySQL DB
+	      'access_token' => '25bc92bf41e46d2cc801618c66694d161190d2a7a5593b6bc6b3aadc8c3eb92f' //Get Cobot Access Token from a config or MySQL DB
 	    );
 	    if ($rdata)
 	          $url = sprintf("%s?%s", $url, http_build_query($rdata));
