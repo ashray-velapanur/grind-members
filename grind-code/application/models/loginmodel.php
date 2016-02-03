@@ -12,16 +12,22 @@ class LoginModel extends CI_Model {
 		$profile = json_decode(file_get_contents($url));
 		if ($profile == False) {
 			$response = array("success"=>False, "message"=>"Invalid access token.");
+			error_log("Invalid access_token");
 		} elseif ($id != $profile->id) {
 			$response = array("success"=>False, "message"=>"Invalid ID.");
+			error_log("Invalid linkedin ID");
 		} 
 		else {
 			$this->load->model('/members/membermodel','mm',true);
+			error_log("Loaded member model");
 			$userId = $this->mm->isNewUser($id, 'linkedin');
+			error_log("New User: ".$userId);
 			if(!$userId) {
+				error_log("Creating new user");
 				$userId = $this->create_user($profile);
 			}
 			if($userId) {
+				error_log("Updating third party");
 				$this->add_third_party_user($userId, $profile, $access_token);
 				$response = array("success"=>True, "user_id"=>$userId);
 			}
@@ -135,6 +141,7 @@ class LoginModel extends CI_Model {
 
 	private function add_third_party_user($userId, $profile, $access_token) {
 		$sql = "INSERT INTO third_party_user (network_id, user_id, network, access_token, profile_picture) VALUES ('$profile->id', $userId, 'linkedin', '$access_token', '$profile->pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$profile->pictureUrl."'";
+		error_log($sql);
 		$this->db->query($sql);
 	}
 
