@@ -129,7 +129,12 @@ class Api extends REST_Controller
      function create_tag_get() {
           $name = $this->get('name');
           $this->load->model("tagsmodel","tm",true);
-          $this->tm->create($name);
+          if ($this->tm->create($name)){
+            $response = array('success': TRUE)
+          } else {
+            $response = array('success': FALSE)
+          }
+          $this->response($response, 200);
       }
 
      function create_job_get() {

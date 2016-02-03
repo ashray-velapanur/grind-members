@@ -7,7 +7,7 @@ include_once APPPATH . 'libraries/constants.php';
 
 class TagsModel extends CI_Model {
 
-	public function create($name){
+	function create($name){
 		$sql = "INSERT INTO tags (name) VALUES ('$name')";
 		return $this->db->query($sql);
 	}
@@ -18,7 +18,7 @@ class TagsModel extends CI_Model {
         return $response;
 	}
 
-	public function all(){
+	function all(){
         $query = mysql_query("SELECT * FROM tags");
         $response = array();
         while($row = mysql_fetch_assoc($query)) {
