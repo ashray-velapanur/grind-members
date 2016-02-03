@@ -130,9 +130,9 @@ class Api extends REST_Controller
           $name = $this->get('name');
           $this->load->model("tagsmodel","tm",true);
           if ($this->tm->create($name)){
-            $response = array('success': TRUE)
+            $response = array('success'=> TRUE);
           } else {
-            $response = array('success': FALSE)
+            $response = array('success'=> FALSE);
           }
           $this->response($response, 200);
       }
