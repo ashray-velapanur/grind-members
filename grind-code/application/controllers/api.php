@@ -301,6 +301,7 @@ class Api extends REST_Controller
     $this->response($response, 200);
   }
 
+// error handling
   function bubbles_get() {
     $bubbles = array();
     $query = $this->rest->db->get('bubbles');
@@ -317,6 +318,7 @@ class Api extends REST_Controller
     $this->response($bubbles, 200);
   }
 
+// error handling
   function spaces_get() {
     $this->load->model("locationmodel","lm",true);
     $space_data = $this->lm->spaces();
@@ -324,6 +326,7 @@ class Api extends REST_Controller
     $this->response($data, 200);
   }
 
+// error handling
   function members_get() {
     $this->load->library('pagination');
     $query = $this->load->model("members/membermodel", "", true);
