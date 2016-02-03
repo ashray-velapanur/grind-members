@@ -365,18 +365,27 @@ class Api extends REST_Controller
 
   function company_jobs_get() {
     $id = $this->get('id');
-    $this->load->model('members/companymodel','',true);
-    $data =  $this->companymodel->get_jobs($id);
-    $this->response($data, 200);
+    if (!$id) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $this->load->model('members/companymodel','',true);
+      $response = $this->companymodel->get_jobs($id);
+    }
+    $this->response($response, 200);
   }
 
   function company_members_get() {
     $id = $this->get('id');
-    $this->load->model('members/companymodel','',true);
-    $data =  $this->companymodel->get_members($id);
-    $this->response($data, 200);
+    if (!$id) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $this->load->model('members/companymodel','',true);
+      $response = $this->companymodel->get_members($id);
+    }
+    $this->response($response, 200);
   }
 
+// error handling
   function profile_post() {
     $id = $this->post('user_id');
     $company_name = $this->post('company_name');
@@ -389,6 +398,7 @@ class Api extends REST_Controller
     $this->response(array('success' => $success), 200);
   }
 
+// error handling
   function profile_get() {
     $id = $this->get('user_id');
     $this->load->model('/members/membermodel','mm',true);
