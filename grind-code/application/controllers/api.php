@@ -246,17 +246,22 @@ class Api extends REST_Controller
 
      function user_tags_get() {
           $user_id = $this->get('user_id');
-          $this->load->model("usertagsmodel","utm",true);
-          $this->load->model("jobtagsmodel","jtm",true);
-          $this->load->model("tagsmodel","tm",true);
-          $user_tags = $this->utm->get($user_id);
-          $response = array();
-          foreach ($user_tags as $user_tag) {
-            $tag_id = $user_tag['tag_id'];
-            $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
-            $tag = $this->tm->get($tag_id);
-            $name = $tag['name'];
-            array_push($response, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+          if (!$user_id) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("usertagsmodel","utm",true);
+            $this->load->model("jobtagsmodel","jtm",true);
+            $this->load->model("tagsmodel","tm",true);
+            $user_tags = $this->utm->get($user_id);
+            $response_data = array();
+            foreach ($user_tags as $user_tag) {
+              $tag_id = $user_tag['tag_id'];
+              $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
+              $tag = $this->tm->get($tag_id);
+              $name = $tag['name'];
+              array_push($response_data, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+            }
+            $response = array('success'=>TRUE, 'data'=>$response_data);
           }
           $this->response($response, 200);
       }
