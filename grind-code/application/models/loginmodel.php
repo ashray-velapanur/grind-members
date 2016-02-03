@@ -52,7 +52,7 @@ class LoginModel extends CI_Model {
 		$newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata);
 		if($newUserId) {
 			$this->add_companies($newUserId, $profile);
-			$this->create_cobot_user($newUserId, $profile['emailAddress']);
+			//$this->create_cobot_user($newUserId, $profile['emailAddress']);
 		}
 		return $newUserId;
 	}
