@@ -342,6 +342,7 @@ class Api extends REST_Controller
     $this->response($data, 200);
   }
 
+// error handling
   function companies_get() {
     $this->load->model('members/companymodel','',true);
     $companies = $this->companymodel->get_all();
