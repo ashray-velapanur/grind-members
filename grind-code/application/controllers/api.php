@@ -163,8 +163,18 @@ class Api extends REST_Controller
      function jobs_get() {
           $type = $this->get('type');
           $posted_by = $this->get('posted_by');
-          $this->load->model("jobsmodel","jm",true);
-          $this->response($this->jm->get($type, $posted_by), 200);
+          if (!$type and !$posted_by) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("jobsmodel","jm",true);
+            $response_data = $this->jm->get($type, $posted_by);
+            if ($response_data) {
+              $response = array('success'=> TRUE, 'data'=>$response_data);
+            } else {
+              $response = array('success'=> FALSE);
+            }
+          }
+          $this->response($response, 200);
       }
 
      function tags_get() {
