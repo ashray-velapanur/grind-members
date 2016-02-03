@@ -179,7 +179,13 @@ class Api extends REST_Controller
 
      function tags_get() {
           $this->load->model("tagsmodel","tm",true);
-          $this->response($this->tm->all(), 200);
+          $response_data = $this->tm->all();
+          if ($response_data) {
+              $response = array('success'=> TRUE, 'data'=>$response_data);
+          } else {
+            $response = array('success'=> FALSE);
+          }
+          $this->response($response, 200);
       }
 
      function create_user_tag_get() {
