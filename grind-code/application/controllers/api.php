@@ -126,8 +126,8 @@ class Api extends REST_Controller
       }
 		// end remove
 
-     function create_tag_get() {
-          $name = $this->get('name');
+     function tag_put() {
+          $name = $this->put('name');
           if (!$name) {
             $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
           } else {
@@ -141,12 +141,12 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
-     function create_job_get() {
-          $title = $this->get('title');
-          $company_id = $this->get('company_id');
-          $type = $this->get('type');
-          $posted_by = $this->get('posted_by');
-          $url = $this->get('url');
+     function job_put() {
+          $title = $this->put('title');
+          $company_id = $this->put('company_id');
+          $type = $this->put('type');
+          $posted_by = $this->put('posted_by');
+          $url = $this->put('url');
           if (!$title or !$company_id or !$type or !$posted_by or !$url) {
             $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
           } else {
@@ -188,9 +188,9 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
-     function create_user_tag_get() {
-          $user_id = $this->get('user_id');
-          $tag_id = $this->get('tag_id');
+     function user_tag_put() {
+          $user_id = $this->put('user_id');
+          $tag_id = $this->put('tag_id');
           if (!$user_id or !$tag_id) {
             $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
           } else {
@@ -266,8 +266,8 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
-     function search_get(){
-      $q = $this->get('q');
+     function search_post(){
+      $q = $this->post('q');
       if (!$q) {
         $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
       } else {
