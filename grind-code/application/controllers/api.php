@@ -292,9 +292,13 @@ class Api extends REST_Controller
   function login_post() {
     $access_token = $this->post('access_token');
     $id = $this->post('id');
-    $this->load->model("loginmodel","lm",true);
-    $data = $this->lm->linkedin($access_token, $id);
-    $this->response($data, 200);
+    if (!$access_token or !$id) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $this->load->model("loginmodel","lm",true);
+      $response = $this->lm->linkedin($access_token, $id);
+    }
+    $this->response($response, 200);
   }
 
   function bubbles_get() {
