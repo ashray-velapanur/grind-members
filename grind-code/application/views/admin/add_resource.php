@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<form action="/~aiyappaganesh/grind-members/grind-code/index.php/admin/locationmanagement/add_update_resource" method="post" enctype="multipart/form-data">
+<form action="/grind-members/grind-code/index.php/admin/locationmanagement/add_update_resource" method="post" enctype="multipart/form-data">
     <select name="space_id">
     	<?php foreach ($spacedata as $space) {?>
     		<option value="<?php echo $space ?>"><?php echo $space ?></option>

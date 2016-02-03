@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<form action="/~aiyappaganesh/grind-members/grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
+<form action="/grind-members/grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
 	<p><b>Cobot Space</b></p>
     <input type="hidden" name="space_id">
     Cobot ID: <input type="text" name="cobot_id"><br><br>
