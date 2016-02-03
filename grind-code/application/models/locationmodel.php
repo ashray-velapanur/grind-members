@@ -528,8 +528,8 @@ class LocationModel extends CI_Model {
 	        'id' => $space_id,
             'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
             'description' => $description,
-            'capacity' => $capacity,
-            'rate' => $rate
+            'capacity' => $capacity.' seats free',
+            'rate' => '$'.$rate.'/day'
           );
 	      $resources = array();
 	      array_push($resources, $resourcedata);
@@ -539,11 +539,11 @@ class LocationModel extends CI_Model {
 	        'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
 	        'description' => $description,
 	        'name' => $name,
-	        'capacity' => $capacity,
+	        'capacity' => $capacity.' seats free',
 	        'lat' => $latitude,
 	        'lon' => $longitude,
 	        'address' => $address,
-	        'rate' => $rate,
+	        'rate' => '$'.$rate.'/day',
 	        'resources' => $resources
 	      );
 	      array_push($space_data, $spacedata);
@@ -589,8 +589,8 @@ class LocationModel extends CI_Model {
 	        'id' => $resource_id,
 	            'img_src' => $resource_img_src,
 	            'description' => $description,
-	            'capacity' => $capacity,
-	            'rate' => $rate
+	            'capacity' => $capacity.' people',
+	            'rate' => '$'.$rate.'/hr'
 	          );
 	          array_push($resource_data, $resourcedata);
 	    }
