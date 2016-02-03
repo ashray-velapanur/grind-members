@@ -129,7 +129,7 @@ class Api extends REST_Controller
      function create_tag_get() {
           $name = $this->get('name');
           if (!$name) {
-            $response = array('success'=> FALSE, 'message'=>'Invalid parameter.');
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
           } else {
             $this->load->model("tagsmodel","tm",true);
             if ($this->tm->create($name)){
@@ -147,8 +147,17 @@ class Api extends REST_Controller
           $type = $this->get('type');
           $posted_by = $this->get('posted_by');
           $url = $this->get('url');
-          $this->load->model("jobsmodel","tm",true);
-          $this->tm->create($title, $company_id, $type, $url, $posted_by);
+          if (!$title or !$company_id or !$type or !$posted_by or !$url) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("jobsmodel","tm",true);
+            if ($this->tm->create($title, $company_id, $type, $url, $posted_by)) {
+              $response = array('success'=> TRUE);
+            } else {
+              $response = array('success'=> FALSE);
+            }
+          }
+          $this->response($response, 200);
       }
 
      function jobs_get() {
