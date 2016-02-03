@@ -323,8 +323,7 @@ class Api extends REST_Controller
   function spaces_get() {
     $this->load->model("locationmodel","lm",true);
     $space_data = $this->lm->spaces();
-    $data = array('space_data' => $space_data);
-    $this->response($data, 200);
+    $this->response($space_data, 200);
   }
 
 // error handling
