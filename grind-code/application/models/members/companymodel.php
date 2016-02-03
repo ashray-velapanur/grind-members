@@ -86,7 +86,7 @@ class CompanyModel extends CI_Model {
 
 	public function get_jobs($id) {
 		$data = array();
-		$jobs = [];
+		$jobs = array();
 		if(isset($id))
 		{
 	        $this->db->where('id',$id);
@@ -105,25 +105,25 @@ class CompanyModel extends CI_Model {
 				$results = $query->result();
 				foreach ($results as $result) {
 					$result = (array)$result;
-					$job = [
+					$job = array(
 						'id' => $result['id'],
 						'title' => $result['title'],
 						'type' => $result['type'],
 						'url' => $result['url']
-					];
+					);
 					array_push($jobs, $job);
 				}
 	        }
 	    }
-	    $data = [
+	    $data = array(
 			'jobs' => $jobs
-		];
+		);
 	    return $data;
 	}
 
 	public function get_members($id) {
 		$data = array();
-		$members = [];
+		$members = array();
 		if(isset($id))
 		{
 	        $this->db->where('id',$id);
@@ -142,16 +142,16 @@ class CompanyModel extends CI_Model {
 				$results = $query->result();
 				foreach ($results as $result) {
 					$result = (array)$result;
-					$member = [
+					$member = array(
 						'name' => $result['fname'].' '.$result['lname'],
-					];
+					);
 					array_push($members, $member);
 				}
 	        }
 	    }
-		$data = [
+		$data = array(
 			'members' => $members
-		];
+		);
 		return $data;
 	}
 }
