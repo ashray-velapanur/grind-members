@@ -193,61 +193,67 @@ class LocationManagement extends CI_Controller {
 		error_log("In add_update_space");
 		if(isset($_POST["submit"])) {
 			$cobot_id = $_POST["cobot_id"];
-			$capacity = $_POST["capacity"];
-			if(!$capacity) {
-				$capacity = 0;
-			}
-			$imgName = $_FILES['fileToUpload']['name'];
-			$lat = $_POST["latitude"];
-			$long = $_POST["longitude"];
-			$address_street = $_POST["address-street"];
-			$address_city = $_POST["address-city"];
-			$address_state = $_POST["address-state"];
-			$address_country = $_POST["address-country"];
-			$address_zip = $_POST["address-zip"];
-			$address = $address_street.' '.$address_city.' '.$address_state.' '.$address_zip;
-			$address = trim($address);
-			$rate = $_POST["rate"];
-			if(!$rate) {
-				$rate = 0.0;
-			}
-			$sql = "INSERT INTO cobot_spaces";
-			$sql .= "(id, image, capacity, lat, lon, address, rate) VALUES ('$cobot_id', '$imgName', $capacity, '$lat', '$long', '$address', $rate) ";
-			$sql .= " ON DUPLICATE KEY UPDATE ";
-			$comma = " ";
-			if($imgName) {
-				$sql = $sql.$comma." image = '".$imgName."'";
-				$comma = " , ";
-			}
-			if($capacity) {
-				$sql = $sql.$comma." capacity = ".$capacity;
-				$comma = " , ";
-			}
-			if($lat) {
-				$sql = $sql.$comma." lat = '".$lat."'";
-				$comma = " , ";
-			}
-			if($long) {
-				$sql = $sql.$comma." lon = '".$long."'";
-				$comma = " , ";
-			}
-			if($address) {
-				$sql = $sql.$comma." address = '".$address."'";
-				$comma = " , ";
-			}
-			if($rate) {
-				$sql = $sql.$comma." rate = ".$rate;
-				$comma = " , ";
-			}
-			try {
-				error_log($sql);
-				if ($this->db->query($sql) === TRUE) {
-					echo "Record created/updated successfully";
-				} else {
-					echo "Error: " . $sql . "<br>" . $this->db->error;
+			if($cobot_id) {
+				$capacity = $_POST["capacity"];
+				if(!$capacity) {
+					$capacity = 0;
 				}
-			} catch (Exception $e) {
-			    error_log('Caught exception: ',  $e->getMessage(), "\n");
+				$imgName = $_FILES['fileToUpload']['name'];
+				$lat = $_POST["latitude"];
+				$long = $_POST["longitude"];
+				$address_street = $_POST["address-street"];
+				$address_city = $_POST["address-city"];
+				$address_state = $_POST["address-state"];
+				$address_country = $_POST["address-country"];
+				$address_zip = $_POST["address-zip"];
+				$address = $address_street.' '.$address_city.' '.$address_state.' '.$address_zip;
+				$address = trim($address);
+				$rate = $_POST["rate"];
+				if(!$rate) {
+					$rate = 0.0;
+				}
+				$sql = "INSERT INTO cobot_spaces";
+				$sql .= "(id, image, capacity, lat, lon, address, rate) VALUES ('$cobot_id', '$imgName', $capacity, '$lat', '$long', '$address', $rate) ";
+				if($imgName || $capacity || $lat || $long || $address || $rate) {
+					$sql .= " ON DUPLICATE KEY UPDATE ";
+					$comma = " ";
+					if($imgName) {
+						$sql = $sql.$comma." image = '".$imgName."'";
+						$comma = " , ";
+					}
+					if($capacity) {
+						$sql = $sql.$comma." capacity = ".$capacity;
+						$comma = " , ";
+					}
+					if($lat) {
+						$sql = $sql.$comma." lat = '".$lat."'";
+						$comma = " , ";
+					}
+					if($long) {
+						$sql = $sql.$comma." lon = '".$long."'";
+						$comma = " , ";
+					}
+					if($address) {
+						$sql = $sql.$comma." address = '".$address."'";
+						$comma = " , ";
+					}
+					if($rate) {
+						$sql = $sql.$comma." rate = ".$rate;
+						$comma = " , ";
+					}
+				}
+				try {
+					error_log($sql);
+					if ($this->db->query($sql) === TRUE) {
+						echo "Record created/updated successfully";
+					} else {
+						echo "Error: " . $sql . "<br>" . $this->db->error;
+					}
+				} catch (Exception $e) {
+				    error_log('Caught exception: ',  $e->getMessage(), "\n");
+				}
+			} else {
+				echo "Specify a cobot ID for the space";
 			}
 		}
 	}
