@@ -580,14 +580,14 @@ class LocationModel extends CI_Model {
 	    foreach ($resources as $resource_arr) {
 	      $resource = (array)$resource_arr;
 	      $resource_id = $resource['id'];
-	      $resource_img_src = 'data:image/jpeg;base64,'.base64_encode( $resource['image'] );
+	      $resource_img_src = '/grind-members/grind-code/images/resources/'.$resource['image'];
 	      $cobot_resource = $cobot_resources[$resource_id];
 	      $description = $cobot_resource['description'];
 	      $capacity = $cobot_resource['capacity'];
 	      $rate = $cobot_resource['price_per_hour'];
 	      $resourcedata = array(
 	        'id' => $resource_id,
-	            'img_src' => '',//$resource_img_src,
+	            'img_src' => $resource_img_src,
 	            'description' => $description,
 	            'capacity' => $capacity.' people',
 	            'rate' => '$'.$rate.'/hr'
