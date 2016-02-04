@@ -526,7 +526,7 @@ class LocationModel extends CI_Model {
 
 	      $resourcedata = array(
 	        'id' => $space_id,
-            'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
+            'img_src' => '',//data:image/jpeg;base64,'.base64_encode( $space['image'] ),
             'description' => $description,
             'capacity' => $capacity.' seats free',
             'rate' => '$'.$rate.'/day'
@@ -536,7 +536,7 @@ class LocationModel extends CI_Model {
 	      $resources = array_merge($resources, $this->resources($space_id));
 	      $spacedata = array(
 	        'id' => $space_id,
-	        'img_src' => 'data:image/jpeg;base64,'.base64_encode( $space['image'] ),
+	        'img_src' => '',//data:image/jpeg;base64,'.base64_encode( $space['image'] ),
 	        'description' => $description,
 	        'name' => $name,
 	        'capacity' => $capacity.' seats free',
@@ -587,7 +587,7 @@ class LocationModel extends CI_Model {
 	      $rate = $cobot_resource['price_per_hour'];
 	      $resourcedata = array(
 	        'id' => $resource_id,
-	            'img_src' => $resource_img_src,
+	            'img_src' => '',//$resource_img_src,
 	            'description' => $description,
 	            'capacity' => $capacity.' people',
 	            'rate' => '$'.$rate.'/hr'
