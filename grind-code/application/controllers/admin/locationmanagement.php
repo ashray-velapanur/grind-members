@@ -307,13 +307,13 @@ class LocationManagement extends CI_Controller {
 		if(isset($_POST["submit"])) {
 			$cobot_resource_id = $_POST["cobot_resource_id"];
 			$space_id = $_POST["space_id"];
-			$tmpName = $_FILES['fileToUpload']['tmp_name'];
-			$fp = fopen($tmpName, 'r');
-			$data = fread($fp, filesize($tmpName));
-			$data = addslashes($data);
-			fclose($fp);
+			$imgName = $_FILES['fileToUpload']['name'];
 			$sql = "INSERT INTO cobot_resources";
-			$sql .= "(id, space_id, image) VALUES ('$cobot_resource_id', '$space_id', '$data')";
+			$sql .= "(id, space_id, image) VALUES ('$cobot_resource_id', '$space_id', '$imgName')";
+			if($imgName) {
+				$sql .= " ON DUPLICATE KEY UPDATE ";
+				$sql .= " image = '".$imgName."'";
+			}
 			try {
 				if ($this->db->query($sql) === TRUE) {
 					echo "Record created/updated successfully";
