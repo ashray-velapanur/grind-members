@@ -505,7 +505,7 @@ class LocationModel extends CI_Model {
 	    foreach ($spaces as $space_arr) {
 	      $space = (array)$space_arr;
 	      $space_id = $space['id'];
-	      $space_img_src = 'data:image/jpeg;base64,'.base64_encode( $space['image'] );
+	      $space_img_src = '/grind-members/grind-code/images/spaces/'.$space['image'];
 	      $capacity = $space['capacity'];
 	      $latitude = $space['lat'];
 	      $longitude = $space['lon'];
@@ -526,7 +526,7 @@ class LocationModel extends CI_Model {
 
 	      $resourcedata = array(
 	        'id' => $space_id,
-            'img_src' => '',//data:image/jpeg;base64,'.base64_encode( $space['image'] ),
+            'img_src' => $space_img_src,
             'description' => $description,
             'capacity' => $capacity.' seats free',
             'rate' => '$'.$rate.'/day'
@@ -536,7 +536,7 @@ class LocationModel extends CI_Model {
 	      $resources = array_merge($resources, $this->resources($space_id));
 	      $spacedata = array(
 	        'id' => $space_id,
-	        'img_src' => '',//data:image/jpeg;base64,'.base64_encode( $space['image'] ),
+	        'img_src' => $space_img_src,
 	        'description' => $description,
 	        'name' => $name,
 	        'capacity' => $capacity.' seats free',

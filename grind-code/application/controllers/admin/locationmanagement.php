@@ -188,17 +188,16 @@ class LocationManagement extends CI_Controller {
 		$this->load->view("/admin/add_space.php");
 	}
 
-	// CREATE TABLE `cobot_spaces` (`id` varchar(300) NOT NULL, `image` mediumblob NOT NULL, `capacity` int(11) NOT NULL, `lat` varchar(50) NOT NULL, `lon` varchar(50) NOT NULL, `address` varchar(300) NOT NULL, `rate` float NOT NULL, PRIMARY KEY (`id`))
+	// CREATE TABLE `cobot_spaces` (`id` varchar(300) NOT NULL, `image` varchar(300) NOT NULL, `capacity` int(11) NOT NULL, `lat` varchar(50) NOT NULL, `lon` varchar(50) NOT NULL, `address` varchar(300) NOT NULL, `rate` float NOT NULL, PRIMARY KEY (`id`))
 	public function add_update_space() {
 		error_log("In add_update_space");
 		if(isset($_POST["submit"])) {
 			$cobot_id = $_POST["cobot_id"];
 			$capacity = $_POST["capacity"];
-			$tmpName = $_FILES['fileToUpload']['tmp_name'];
-			$fp = fopen($tmpName, 'r');
-			$data = fread($fp, filesize($tmpName));
-			$data = addslashes($data);
-			fclose($fp);
+			if(!$capacity) {
+				$capacity = 0;
+			}
+			$imgName = $_FILES['fileToUpload']['name'];
 			$lat = $_POST["latitude"];
 			$long = $_POST["longitude"];
 			$address_street = $_POST["address-street"];
@@ -207,10 +206,41 @@ class LocationManagement extends CI_Controller {
 			$address_country = $_POST["address-country"];
 			$address_zip = $_POST["address-zip"];
 			$address = $address_street.' '.$address_city.' '.$address_state.' '.$address_zip;
+			$address = trim($address);
 			$rate = $_POST["rate"];
+			if(!$rate) {
+				$rate = 0.0;
+			}
 			$sql = "INSERT INTO cobot_spaces";
-			$sql .= "(id, image, capacity, lat, lon, address, rate) VALUES ('$cobot_id', '$data', '$capacity', '$lat', '$long', '$address', '$rate')";
+			$sql .= "(id, image, capacity, lat, lon, address, rate) VALUES ('$cobot_id', '$imgName', $capacity, '$lat', '$long', '$address', $rate) ";
+			$sql .= " ON DUPLICATE KEY UPDATE ";
+			$comma = " ";
+			if($imgName) {
+				$sql = $sql.$comma." image = '".$imgName."'";
+				$comma = " , ";
+			}
+			if($capacity) {
+				$sql = $sql.$comma." capacity = ".$capacity;
+				$comma = " , ";
+			}
+			if($lat) {
+				$sql = $sql.$comma." lat = '".$lat."'";
+				$comma = " , ";
+			}
+			if($long) {
+				$sql = $sql.$comma." lon = '".$long."'";
+				$comma = " , ";
+			}
+			if($address) {
+				$sql = $sql.$comma." address = '".$address."'";
+				$comma = " , ";
+			}
+			if($rate) {
+				$sql = $sql.$comma." rate = ".$rate;
+				$comma = " , ";
+			}
 			try {
+				error_log($sql);
 				if ($this->db->query($sql) === TRUE) {
 					echo "Record created/updated successfully";
 				} else {
