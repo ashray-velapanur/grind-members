@@ -191,16 +191,23 @@ class Api extends REST_Controller
      function user_tag_put() {
           $user_id = $this->put('user_id');
           $tag_id = $this->put('tag_id');
+          error_log($user_id);
+          error_log($tag_id);
           if (!$user_id or !$tag_id) {
+            error_log('No user_id or tag_id');
             $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
           } else {
             $this->load->model("usertagsmodel","utm",true);
+            error_log('Loaded usertagsmodel');
             if ($this->utm->create($user_id, $tag_id)) {
+              error_log('Creation success');
               $response = array('success'=> TRUE);
             } else {
+              error_log('Creation failure');
               $response = array('success'=> FALSE);
             }
           }
+          error_log(json_encode($response));
           $this->response($response, 200);
       }
 
