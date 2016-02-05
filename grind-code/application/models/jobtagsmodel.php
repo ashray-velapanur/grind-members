@@ -21,7 +21,9 @@ class JobTagsModel extends CI_Model {
 
 	function count($tag_id){
 		$query = mysql_query("SELECT COUNT(*) as count FROM job_tags WHERE tag_id='".$tag_id."'");
-		$count = intval(mysql_fetch_assoc($query)['count']);
+		$query_results = mysql_fetch_assoc($query)['count'];
+		$query_results_count = $query_results['count'];
+		$count = intval($query_results_count);
 		return $count;
 	}
 };
