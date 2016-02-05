@@ -126,7 +126,7 @@ class Api extends REST_Controller
       }
 		// end remove
 
-     function tag_put() {
+     function tags_put() {
           $name = $this->put('name');
           if (!$name) {
             $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
@@ -141,7 +141,7 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
-     function job_put() {
+     function jobs_put() {
           $title = $this->put('title');
           $company_id = $this->put('company_id');
           $type = $this->put('type');
