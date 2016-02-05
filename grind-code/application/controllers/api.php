@@ -273,8 +273,8 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
-     function search_post(){
-      $q = $this->post('q');
+     function search_get(){
+      $q = $this->get('q');
       if (!$q) {
         $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
       } else {
