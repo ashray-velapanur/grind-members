@@ -526,6 +526,7 @@ class LocationModel extends CI_Model {
 
 	      $resourcedata = array(
 	        'id' => $space_id,
+	        'name' => $name,
             'img_src' => $space_img_src,
             'description' => $description,
             'capacity' => $capacity.' seats free',
@@ -582,17 +583,19 @@ class LocationModel extends CI_Model {
 	      $resource_id = $resource['id'];
 	      $resource_img_src = '/grind-members/grind-code/images/resources/'.$resource['image'];
 	      $cobot_resource = $cobot_resources[$resource_id];
+	      $name = $cobot_resource['name'];
 	      $description = $cobot_resource['description'];
 	      $capacity = $cobot_resource['capacity'];
 	      $rate = $cobot_resource['price_per_hour'];
 	      $resourcedata = array(
 	        'id' => $resource_id,
-	            'img_src' => $resource_img_src,
-	            'description' => $description,
-	            'capacity' => $capacity.' people',
-	            'rate' => '$'.$rate.'/hr'
-	          );
-	          array_push($resource_data, $resourcedata);
+	        'name' => $name,
+            'img_src' => $resource_img_src,
+            'description' => $description,
+            'capacity' => $capacity.' people',
+            'rate' => '$'.$rate.'/hr'
+          );
+          array_push($resource_data, $resourcedata);
 	    }
 	    return $resource_data;
   }
