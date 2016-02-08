@@ -145,7 +145,7 @@ class Api extends REST_Controller
           $title = $this->put('title');
           $company_id = $this->put('company_id');
           $type = $this->put('type');
-          $posted_by = $this->put('posted_by');
+          $posted_by = $this->put('user_id');
           $url = $this->put('url');
           if (!$title or !$company_id or !$type or !$posted_by or !$url) {
             $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
