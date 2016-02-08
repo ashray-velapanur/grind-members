@@ -387,6 +387,7 @@ class Api extends REST_Controller
     $this->response($response, 200);
   }
 
+  //duplicate
   function company_members_get() {
     $id = $this->get('id');
     if (!$id) {
