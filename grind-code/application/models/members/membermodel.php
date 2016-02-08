@@ -248,13 +248,16 @@ class MemberModel extends CI_Model {
     
     }
 
-    function new_listing($num,$offset=NULL,$filters=NULL){
+    function new_listing($num, $offset=NULL, $filters=NULL, $exclude_current=NULL, $user_id=NULL){
         error_log($num . " :: ".$offset,0);
         $filters_query = "";
         if ($filters) {
             foreach ($filters as $key => $value) {
                 $filters_query = $filters_query." and user.".$key." = ".$value;
             }
+        }
+        if ($exclude_current) {
+            $exclude_current_query = " and user.id <> ".$user_id;
         }
         $sql = "
         select 
@@ -281,6 +284,7 @@ class MemberModel extends CI_Model {
                 left outer join positions on positions.company_id = user.company_id and positions.user_id = user.id
         where
                 user.membership_status_luid = ".MembershipStatus::ACTIVE_MEMBER."
+                ".$exclude_current_query."
                 ".$filters_query."
         order by
                 user.first_name, user.last_name";
@@ -290,7 +294,6 @@ class MemberModel extends CI_Model {
         if (isset($offset)){
                 $sql .= " offset ".$offset;
         }
-        
         $query = $this->db->query($sql);
         $users = $query->result();
         
