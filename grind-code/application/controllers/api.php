@@ -343,7 +343,12 @@ class Api extends REST_Controller
     $config['full_tag_open'] = '<div style="display:inline-block" class="navigation">';
     $config['full_tag_close'] = '</div>';
     $config['uri_segment'] = 4;
-    $data["users"] = $this->membermodel->new_listing($config['per_page'],$row);
+    $filters = NULL;
+    $company_id = $this->get('company_id');
+    if ($company_id){
+      $filters = array("company_id"=>$company_id);
+    } 
+    $data["users"] = $this->membermodel->new_listing($config['per_page'], $row, $filters);
     $this->pagination->initialize($config);
     $data["pagination"] = $this->pagination->create_links();
     $this->response($data, 200);
