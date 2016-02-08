@@ -17,6 +17,8 @@ class JobsModel extends CI_Model {
 			$query = mysql_query("SELECT * FROM jobs WHERE type='".$type."'");
 		} elseif ($posted_by) {
 			$query = mysql_query("SELECT * FROM jobs WHERE posted_by='".$posted_by."'");
+		} else {
+			$query = mysql_query("SELECT * FROM jobs");
 		}
 		$response = array();
         while($row = mysql_fetch_assoc($query)) {
