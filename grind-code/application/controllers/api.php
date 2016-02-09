@@ -360,7 +360,7 @@ class Api extends REST_Controller
       $company = (array)$company;
       $company_data = array(
         'name' => $company['name'],
-        'logo' => 'data:image/jpeg;base64,'.base64_encode( $company['logo'] ),
+        'logo_url' => $company['logo_url'],
         'description' => $company['description'],
         'id' => $company['id']
       );
