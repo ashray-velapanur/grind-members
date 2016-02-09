@@ -416,5 +416,26 @@ class Api extends REST_Controller
     $profile = $this->mm->get_profile_data($id);
     $this->response($profile, 200);
   }
+
+  function create_company_post() {
+    $name = $this->post('name');
+    $description = $this->post('description');
+
+    $config['upload_path'] = './images/companies';
+    $config['allowed_types'] = 'gif|jpg|png';
+    $config['max_size'] = '100';
+    $config['max_width']  = '1024';
+    $config['max_height']  = '768';
+
+    $this->load->library('upload', $config);
+    $this->upload->do_upload();
+    $response = $this->upload->data();
+    $logo_url = $response['full_path'];
+
+    $data = array("name"=>$name, "description"=>$description, "logo_url"=>$logo_url);
+    $this->db->insert("company", $data);
+
+  }
+
 }
 ?>
