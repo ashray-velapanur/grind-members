@@ -164,8 +164,9 @@ class Api extends REST_Controller
      function jobs_get() {
           $type = $this->get('type');
           $posted_by = $this->get('posted_by');
+          $company_id = $this->get('company_id');
           $this->load->model("jobsmodel","jm",true);
-          $response_data = $this->jm->get($type, $posted_by);
+          $response_data = $this->jm->get($type, $posted_by, $company_id);
           if ($response_data) {
             $response = array('success'=> TRUE, 'data'=>$response_data);
           } else {
@@ -377,7 +378,7 @@ class Api extends REST_Controller
       $company = (array)$company;
       $company_data = array(
         'name' => $company['name'],
-        'logo' => 'data:image/jpeg;base64,'.base64_encode( $company['logo'] ),
+        'logo_url' => $company['logo_url'],
         'description' => $company['description'],
         'id' => $company['id']
       );
@@ -438,5 +439,26 @@ class Api extends REST_Controller
     error_log('Profile Time: '.$this->benchmark->elapsed_time('profile_start', 'profile_end'));
     $this->response($profile, 200);
   }
+
+  function create_company_post() {
+    $name = $this->post('name');
+    $description = $this->post('description');
+
+    $config['upload_path'] = './images/companies';
+    $config['allowed_types'] = 'gif|jpg|png';
+    $config['max_size'] = '100';
+    $config['max_width']  = '1024';
+    $config['max_height']  = '768';
+
+    $this->load->library('upload', $config);
+    $this->upload->do_upload();
+    $response = $this->upload->data();
+    $logo_url = $response['full_path'];
+
+    $data = array("name"=>$name, "description"=>$description, "logo_url"=>$logo_url);
+    $this->db->insert("company", $data);
+
+  }
+
 }
 ?>
