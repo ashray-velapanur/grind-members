@@ -1,5 +1,11 @@
 <?
 class Auth extends CI_Controller {
+
+	function __construct() {
+		parent::__construct();
+		$this->output->enable_profiler(TRUE);
+	}
+
 	public function linkedin(){
 		global $wpdb;
 		$access_token = $_GET['access_token'];
@@ -147,7 +153,6 @@ class Auth extends CI_Controller {
 	}
 
 	function bubbles_get() {
-		error_log('In bubbles_get');
 		$bubbles = array();
 		$query = $this->db->get('bubbles');
 		$results = $query->result();
@@ -158,12 +163,6 @@ class Auth extends CI_Controller {
 				$arr['image'] = $result->image;
 				$arr['rank'] = $result->rank;
 				array_push($bubbles, $arr);
-			}
-		}
-		error_log('Printing Bubbles');
-		foreach ($bubbles as $bubble) {
-			foreach ($bubble as $key => $value) {
-				error_log($key.' '.$value);
 			}
 		}
 		return $bubbles;
