@@ -17,6 +17,7 @@ class Api extends REST_Controller
 {
 	function __construct() {
     parent::__construct();
+    $this->output->enable_profiler(TRUE);
     if($this->uri->uri_string != 'api/login') {
       $id = $this->_args['user_id'];
       if(!$id) {
@@ -270,6 +271,7 @@ class Api extends REST_Controller
       }
 
      function search_get(){
+      $this->benchmark->mark('search_start');
       $q = $this->get('q');
       if (!$q) {
         $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
@@ -289,10 +291,13 @@ class Api extends REST_Controller
         }
         $response = array('success'=>TRUE, 'data'=>$response_data);
       }
+      $this->benchmark->mark('search_end');
+      error_log('Search Time: '.$this->benchmark->elapsed_time('search_start', 'search_end'));
       $this->response($response, 200);
      }
 
   function login_post() {
+    $this->benchmark->mark('login_start');
     $access_token = $this->post('access_token');
     $id = $this->post('id');
     if (!$access_token or !$id) {
@@ -302,11 +307,14 @@ class Api extends REST_Controller
       $response = $this->lm->linkedin($access_token, $id);
     }
     error_log(json_encode($response));
+    $this->benchmark->mark('login_end');
+    error_log('Login Time: '.$this->benchmark->elapsed_time('login_start', 'login_end'));
     $this->response($response, 200);
   }
 
 // error handling
   function bubbles_get() {
+    $this->benchmark->mark('bubbles_start');
     $bubbles = array();
     $query = $this->rest->db->get('bubbles');
     $results = $query->result();
@@ -319,18 +327,24 @@ class Api extends REST_Controller
         array_push($bubbles, $arr);
       }
     }
+    $this->benchmark->mark('bubbles_end');
+    error_log('Bubbles Time: '.$this->benchmark->elapsed_time('bubbles_start', 'bubbles_end'));
     $this->response($bubbles, 200);
   }
 
 // error handling
   function spaces_get() {
+    $this->benchmark->mark('spaces_start');
     $this->load->model("locationmodel","lm",true);
     $space_data = $this->lm->spaces();
+    $this->benchmark->mark('spaces_end');
+    error_log('Spaces Time: '.$this->benchmark->elapsed_time('spaces_start', 'spaces_end'));
     $this->response($space_data, 200);
   }
 
 // error handling
   function members_get() {
+    $this->benchmark->mark('members_start');
     $this->load->library('pagination');
     $query = $this->load->model("members/membermodel", "", true);
     $config['base_url'] = site_url('/grind-code/api/members/');
@@ -348,11 +362,14 @@ class Api extends REST_Controller
     $data["users"] = $this->membermodel->new_listing($config['per_page'], $row, $filters, FALSE, $user_id);
     $this->pagination->initialize($config);
     $data["pagination"] = $this->pagination->create_links();
+    $this->benchmark->mark('members_end');
+    error_log('Members Time: '.$this->benchmark->elapsed_time('members_start', 'members_end'));
     $this->response($data, 200);
   }
 
 // error handling
   function companies_get() {
+    $this->benchmark->mark('companies_start');
     $this->load->model('members/companymodel','',true);
     $companies = $this->companymodel->get_all();
     $companies_data = array();
@@ -369,6 +386,8 @@ class Api extends REST_Controller
     $data = array(
       "companies" => $companies_data
     );
+    $this->benchmark->mark('companies_end');
+    error_log('Companies Time: '.$this->benchmark->elapsed_time('companies_start', 'companies_end'));
     $this->response($data, 200);
   }
 
@@ -411,9 +430,12 @@ class Api extends REST_Controller
 
 // error handling
   function profile_get() {
+    $this->benchmark->mark('profile_start');
     $id = $this->get('user_id');
     $this->load->model('/members/membermodel','mm',true);
     $profile = $this->mm->get_profile_data($id);
+    $this->benchmark->mark('profile_end');
+    error_log('Profile Time: '.$this->benchmark->elapsed_time('profile_start', 'profile_end'));
     $this->response($profile, 200);
   }
 }

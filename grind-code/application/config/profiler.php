@@ -11,7 +11,9 @@
 |
 */
 
-
+$config['benchmarks']      = TRUE;
+$config['config']          = TRUE;
+$config['queries']         = TRUE;
 
 /* End of file profiler.php */
 /* Location: ./application/config/profiler.php */
