@@ -100,12 +100,12 @@ class Auth extends CI_Controller {
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_POST, 1);
 
-		$data = [
+		$data = array(
 			'client_id' => $client_id,
 			'client_secret' => $client_secret,
 			'grant_type' => 'authorization_code',
 			'code' => $code
-		];
+		);
 
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
@@ -209,7 +209,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function users_get() {
-		$users_array = [];
+		$users_array = array();
 		$query = $this->db->query("select id, wp_users_id from user");
 		if ($query->num_rows() > 0){
 			foreach ($query->result() as $user) {
