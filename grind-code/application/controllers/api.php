@@ -460,13 +460,13 @@ class Api extends REST_Controller
 
   }
 
-  function create_event_put() {
+  function create_event_post() {
     $token = "EYFPEMS6IJLSNOXNVH56";
     $url = "https://www.eventbriteapi.com/v3/events/";
 
-    $name = $this->put('name');
-    $start_time = $this->put('start_time');
-    $end_time = $this->put('end_time');
+    $name = $this->post('name');
+    $start_time = $this->post('start_time');
+    $end_time = $this->post('end_time');
 
     // $start_time = "2016-03-13T03:00:00Z";
     // $end_time = "2016-03-13T06:00:00Z";
@@ -493,7 +493,8 @@ class Api extends REST_Controller
     $id = $result['id'];
 
     $this->load->model('eventsmodel','em',true);
-    $this->response($this->em->create($id, $name), 200);
+    $this->em->create($id, $name);
+    $this->response($result['url'], 200);
   }
 
 }
