@@ -490,7 +490,10 @@ class Api extends REST_Controller
     $result = curl_exec($curl);
     curl_close($curl);
     $result = (array)json_decode($result);
-    $this->response($result, 200);
+    $id = $result['id'];
+
+    $this->load->model('eventsmodel','em',true);
+    $this->response($this->em->create($id, $name), 200);
   }
 
 }
