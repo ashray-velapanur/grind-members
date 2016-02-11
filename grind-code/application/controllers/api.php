@@ -460,5 +460,38 @@ class Api extends REST_Controller
 
   }
 
+  function create_event_put() {
+    $token = "EYFPEMS6IJLSNOXNVH56";
+    $url = "https://www.eventbriteapi.com/v3/events/";
+
+    $name = $this->put('name');
+    $start_time = $this->put('start_time');
+    $end_time = $this->put('end_time');
+
+    // $start_time = "2016-03-13T03:00:00Z";
+    // $end_time = "2016-03-13T06:00:00Z";
+
+    $data = array(
+          "event.name.html" => $name,
+          "event.start.utc" => $start_time,
+          "event.start.timezone" => "America/New_York",
+          "event.end.utc" => $end_time,
+          "event.end.timezone" => "America/New_York",
+          "event.currency" => "USD"
+        );
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_POST, 1);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Authorization: Bearer EYFPEMS6IJLSNOXNVH56"));
+
+    $result = curl_exec($curl);
+    curl_close($curl);
+    $result = (array)json_decode($result);
+    $this->response($result, 200);
+  }
+
 }
 ?>
