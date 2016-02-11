@@ -1087,7 +1087,7 @@ class MemberModel extends CI_Model {
         }
     }
 
-    public function doAddMember($userdata = array(), $membershipdata = array(), $companydata = array(), $phonedata = array(), $emaildata = array(), $billingdata, $wpdata = array()){
+    public function doAddMember($userdata = array(), $membershipdata = array(), $companydata = array(), $phonedata = array(), $emaildata = array(), $billingdata, $wpdata = array(), $appuser = false){
         $newUserId = null;
         $userdata["date_added"] = date("Y-m-d H:i:s");
         $userdata["membership_status_luid"] = MembershipStatus::ACTIVE_MEMBER;
@@ -1112,7 +1112,7 @@ class MemberModel extends CI_Model {
                 $wpid = wp_create_user( $this->member->email, $temporaryPassword,$this->member->email);
                 error_log("Wordpress User Create Result=".$wpid);
                 
-            } else {
+            } else if (!$appuser) {
                 error_log("unable to create wordpress user",0);
                 return null;
             }
@@ -1172,26 +1172,36 @@ class MemberModel extends CI_Model {
             error_log(count($companydata));
             if(count($companydata)>0) {
                 $companyId = 0;
-                $this->db->insert("company", $companydata);     
-                $companyId = $this->db->insert_id();
-
-                if ($companyId > 0) $userdata["company_id"] = $companyId;
+                if($this->db->insert("company", $companydata)) {
+                    $companyId = $this->db->insert_id();
+                    if ($companyId > 0) $userdata["company_id"] = $companyId;
+                }
             }
 
             error_log('Done company creation');
 
             // now we create the real grind account
-            $this->db->insert("user", $userdata);
-            $this->member->id = $this->db->insert_id();
-            $newUserId = $this->member->id;
-            error_log('Done user creation: '.$newUserId);
+            $query = $this->db->get_where('user', array('wp_users_id' => $wpid));
+            $users = $query->result();
+            if(count($users) > 0) {
+                $user = (array)current($users);
+                error_log(json_encode($user));
+                $newUserId = $user['id'];
+            }
+            error_log($newUserId);
+            if(!$newUserId) {
+                if($this->db->insert("user", $userdata)) {
+                    $this->member->id = $this->db->insert_id();
+                    $newUserId = $this->member->id;
+                    error_log('Done user creation: '.$newUserId);
+                }
+            }
             
             if(count($phonedata)>0) {
                 $phonedata["user_id"] = $this->member->id;
                 $this->db->insert("phone", $phonedata);
+                error_log('Done phone creation');
             }
-
-            error_log('Done phone creation');
             
             //skipping email for now
             // $emaildata["user_id"] = $this->member->id;
@@ -1202,8 +1212,7 @@ class MemberModel extends CI_Model {
             // if (!$result){
             //     throw new Exception("Couldn't create the new email list subscription");
             // }
-
-            error_log('Done email creation');
+            // error_log('Done email creation');
             
             //skipping recurly for now
             // if($billingdata) {
@@ -1220,8 +1229,7 @@ class MemberModel extends CI_Model {
             //         throw new Exception("Couldn't create the new recurly subscription for some reason");
             //     }
             // }
-
-            error_log('Done billing creation');
+            // error_log('Done billing creation');
 
             // skipping email for now
             // $this->load->model("emailtemplates/emailtemplatemodel", "", true);
@@ -1238,7 +1246,8 @@ class MemberModel extends CI_Model {
             // if (!$result){
             //     throw new Exception("Couldn't send email to new member");
             // }
-            error_log('Done email template creation');
+            // error_log('Done email template creation');
+            error_log('completed transaction');
             if ($this->db->trans_status() === FALSE)
             {
                 $this->db->trans_rollback();

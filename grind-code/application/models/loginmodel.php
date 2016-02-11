@@ -57,7 +57,7 @@ class LoginModel extends CI_Model {
 		$wpdata["user_login"] = $profile['emailAddress'];
 		$wpdata["user_email"] = $profile['emailAddress'];
 		$this->mm->member->email = $profile['emailAddress'];
-		$newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata);
+		$newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata, $appuser=true);
 		if($newUserId) {
 			$this->add_companies($newUserId, $profile);
 			//$this->create_cobot_user($newUserId, $profile['emailAddress']);
