@@ -6,86 +6,88 @@ class Auth extends CI_Controller {
 		$this->output->enable_profiler(TRUE);
 	}
 
-	public function linkedin(){
-		global $wpdb;
-		$access_token = $_GET['access_token'];
-		$id = $_GET['id'];
-		$url = "https://api.linkedin.com/v1/people/~:(id,email-address,picture-url)?format=json&oauth2_access_token=".$access_token;
-		$profile = json_decode(file_get_contents($url));
-		if ($profile == False) {
-			$response = array("success"=>False, "message"=>"Invalid access token.");
-		} elseif ($id != $profile->id) {
-			$response = array("success"=>False, "message"=>"Invalid ID.");
-		} else {
-			$response = array("success"=>True);
-			// start session here
-			if (!isset($_COOKIE['grindauth'])) {
-				setcookie("grindauth", $id, time()+60*60*24*14, "", substr($_SERVER['SERVER_NAME'], strpos($_SERVER['SERVER_NAME'], '.')));
-			}
-			if(!isset($_SESSION['grinduser'])) {
-				session_start();
-				$role = "subscriber";
-				$user = '';
-				$this->db->where('user_login', $profile->emailAddress);
-				$query = $this->db->get('wpmember_users');
-				$results = $query->result();
-				if (count($results)>0) {
-					$user = $results[0];
-				}
+	public function harmonize_users() {
+		$linkedinusers = array();
+		$nonlinkedinusers = array();
 
-				$result = $wpdb->get_row("SELECT id, first_name, last_name, rfid FROM user where wp_users_id = " . $user->ID );
+		$results = null;
+        $sql = "
+            select
+                user.id id, user.last_name lname, user.first_name fname, wp_user.user_email email
+            from
+                third_party_user
+                left outer join user on third_party_user.user_id = user.id
+                left outer join wpmember_users wp_user on wp_user.id = user.wp_users_id
+            order by
+                fname asc
+        ";
+        
+        $query = $this->db->query($sql);
+        $results = $query->result();
+        $query->free_result();
 
-				$_SESSION["wpuser"] = array(
-							"id"=>$result->id,
-							"wp_users_id"=>$user->ID,
-							"user_login"=>$user->user_login,
-							"wp_role"=>$role,
-							"first_name"=>$result->first_name,
-							"last_name"=>$result->last_name,
-							"rfid"=>$result->rfid
-				);
-				$cookiedata = array(
-							"id"=>$result->id,
-							"wp_users_id"=>$user->ID,
-							"user_login"=>$user->user_login,
-							"wp_role"=>$role,
-							"first_name"=>$result->first_name,
-							"last_name"=>$result->last_name,
-							"rfid"=>$result->rfid
-				);
-				setGalleryCookie($cookiedata);
-
-				$sql = "INSERT INTO third_party_user (network_id, user_id, network, access_token, profile_picture) VALUES ('$profile->id', $result->id, 'linkedin', '$access_token', '$profile->pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$profile->pictureUrl."'";
-				try {
-					if ($this->db->query($sql) === TRUE) {
-						echo "Record created/updated successfully";
-					} else {
-						echo "Error: " . $sql . "<br>" . $this->db->error;
-					}
-				} catch (Exception $e) {
-				    error_log('Caught exception: ',  $e->getMessage(), "\n");
-				}
-			}
+		foreach ($results as $user) {
+			$linkedinuser = array(
+				'id' => $user->id,
+				'value' => $user->fname.' '.$user->lname.' : '.$user->email
+			);
+			array_push($linkedinusers, $linkedinuser);
 		}
-		print(json_encode($response));
+
+		$results = null;
+        $sql = "
+            select
+                user.id id, user.last_name lname, user.first_name fname, wp_user.user_email email
+            from
+            	wpmember_users wp_user
+            	inner join user on wp_user.id = user.wp_users_id and user.id not in (select user_id from third_party_user)
+            order by
+                fname asc
+        ";
+        
+        $query = $this->db->query($sql);
+        $results = $query->result();
+        $query->free_result();
+
+		foreach ($results as $user) {
+			$nonlinkedinuser = array(
+				'id' => $user->id,
+				'value' => $user->fname.' '.$user->lname.' : '.$user->email
+			);
+			array_push($nonlinkedinusers, $nonlinkedinuser);
+		}
+
+		$data = array('linkedinusers'=>$linkedinusers, 'nonlinkedinusers'=>$nonlinkedinusers);
+		$this->load->view('/admin/harmonize_users.php', $data);
 	}
 
-	// ALTER TABLE company CHANGE id id INT(10) UNSIGNED;
-	// create table positions (user_id INTEGER(10) UNSIGNED, company_id INTEGER(10) UNSIGNED, PRIMARY KEY (user_id, company_id), FOREIGN KEY (user_id) REFERENCES user (id), FOREIGN KEY (company_id) REFERENCES company (id));
-
-	public function update_positions(){
-		$access_token = $_GET['access_token'];
-		$user_id = $_GET['user_id'];
-		$url = "https://api.linkedin.com/v1/people/~:(positions)?format=json&oauth2_access_token=".$access_token;
-		$profile = json_decode(file_get_contents($url));
-		foreach ($profile->positions->values as $value) {
-			$company = $value->company;
-			$sql = "INSERT INTO company (id, name) VALUES ('$company->id', '$company->name')";
-			$this->db->query($sql);
-			$sql = "INSERT INTO positions (user_id, company_id) VALUES ('$user_id', '$company->id')";
-			$this->db->query($sql);
-		}
-		var_dump($response);
+	public function do_harmonize_users() {
+		$linkedinuserid = $_POST['linkedinuser'];
+		$nonlinkedinuserid = $_POST['nonlinkedinuser'];
+		//Update third party table with nonlinkedinuserid instead of linkedinuserid
+		$sql = "UPDATE third_party_user SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
+        $this->db->query($sql);
+		//Update positions with nonlinkedinuserid instead of linkedinuserid
+		$sql = "UPDATE positions SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
+        $this->db->query($sql);
+        //Update jobs with nonlinkedinuserid instead of linkedinuserid
+        $sql = "UPDATE jobs SET posted_by = '".$nonlinkedinuserid."' WHERE posted_by = '".$linkedinuserid."'";
+        $this->db->query($sql);
+        //Update user tags with nonlinkedinuserid instead of linkedinuserid
+        $sql = "UPDATE user_tags SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
+        $this->db->query($sql);
+		//Update nonlinkedinuser with current company of linkedinuser(optional)
+		$sql = "UPDATE user SET company_id = (SELECT company_id FROM user where id='".$linkedinuserid."') WHERE id = '".$nonlinkedinuserid."'";
+        $this->db->query($sql);
+		//Delete linkedinuser's wp_user_meta and wp_user
+		$sql = "DELETE FROM WPMEMBER_USERMETA WHERE user_id = (SELECT WP_USERS_ID FROM USER WHERE ID='".$linkedinuserid."')";
+        $this->db->query($sql);
+		//Delete linkedinuser
+		$sql = "DELETE FROM wpmember_users WHERE id = (SELECT WP_USERS_ID FROM USER WHERE ID='".$linkedinuserid."')";
+        $this->db->query($sql);
+        //Delete linkedinuser
+		$sql = "DELETE FROM USER WHERE id = '".$linkedinuserid."'";
+        $this->db->query($sql);
 	}
 
 	public function cobot() {
