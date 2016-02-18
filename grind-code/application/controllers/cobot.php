@@ -55,5 +55,39 @@ class Cobot extends CI_Controller {
 			error_log('nope...');
 		}
 	}
+
+	function booking_created() {
+		$booking_url = $_POST['url'];
+		error_log('Booking URL: '.$booking_url);
+		$subdomain_start = strpos($booking_url, '://') + 3;
+		$subdomain_end = strpos($booking_url, '.cobot.me/api/bookings/');
+		$subdomain = substr($booking_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
+		$id = substr($booking_url, $id_start);
+		$sql = "INSERT INTO cobot_bookings (space_id, id, url) VALUES ('$subdomain', '$id', '$booking_url')";
+		error_log($sql);
+		$this->db->query($sql);
+		return $booking_url;
+	}
+
+	function booking_updated() {
+		$booking_url = $_POST['url'];
+		error_log('Booking URL: '.$booking_url);
+		return $booking_url;
+	}
+
+	function booking_deleted() {
+		$booking_url = $_POST['url'];
+		error_log('Booking URL: '.$booking_url);
+		$subdomain_start = strpos($booking_url, '://') + 3;
+		$subdomain_end = strpos($booking_url, '.cobot.me/api/bookings/');
+		$subdomain = substr($booking_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
+		$id = substr($booking_url, $id_start);
+		$sql = "DELETE FROM cobot_bookings WHERE space_id='".$subdomain."' and id='".$id."'";
+		error_log($sql);
+		$this->db->query($sql);
+		return $booking_url;
+	}
 }
 ?>
