@@ -6,6 +6,19 @@ class Cobot extends CI_Controller {
 		error_log('cobot testing');
 	}
 
+	public function populate_users(){
+		$file = fopen('cobot.csv', 'r');
+		while (!feof($file)) {
+			$lines[] = fgetcsv($file, 1024);
+		}
+		fclose($file);
+		foreach ($lines as $line) {
+			$user = explode(',', $line);
+			$sql = "INSERT INTO third_party_user (user_id, network, access_token) VALUES ('$user[0]', 'cobot', '$user[1]')";
+			$this->db->query($sql);
+		}
+	}
+
 	public function create_user(){
 		$app_token = '061cb2b829ece8b489e9310a474df0848adbe47024b7749a2090bf4917fe543a';
 		$url = 'https://www.cobot.me/api/users';

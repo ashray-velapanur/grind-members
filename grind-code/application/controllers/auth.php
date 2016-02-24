@@ -61,33 +61,87 @@ class Auth extends CI_Controller {
 		$this->load->view('/admin/harmonize_users.php', $data);
 	}
 
+	private function create_cobot_user($user_id, $email){
+      $app_token = '061cb2b829ece8b489e9310a474df0848adbe47024b7749a2090bf4917fe543a';
+      $url = 'https://www.cobot.me/api/users';
+
+      $data = array(
+        'access_token' => $app_token,
+        'email' => $email
+      );
+
+      $curl = curl_init();
+      curl_setopt($curl, CURLOPT_POST, 1);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+      $result = curl_exec($curl);
+
+      curl_close($curl);
+      $result = (array)json_decode($result);
+      $id = $result['id'];
+
+      $url = 'https://www.cobot.me/oauth/access_token?';
+      $data = array(
+        'client_id' => '26a81206b5b2b7c9a510ca0935b0febd',
+        'client_secret' => '15a365f477efa39842a493c1ac885ebea374482240c2755d882b8d41dc293532',
+        'grant_type' => 'authorization_code',
+        'code' => $result['grant_code']
+      );
+
+      $curl = curl_init();
+      curl_setopt($curl, CURLOPT_POST, 1);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+      $result = curl_exec($curl);
+
+      curl_close($curl);
+
+      $result = (array)json_decode($result);
+      $access_token = $result['access_token'];
+      $network = 'cobot';
+
+      $this->load->model("thirdpartyusermodel","tpum",true);
+      $this->tpum->create($user_id, $id, $network, $access_token);
+    }
+
 	public function do_harmonize_users() {
+		$submit = $_POST['submit'];
 		$linkedinuserid = $_POST['linkedinuser'];
 		$nonlinkedinuserid = $_POST['nonlinkedinuser'];
-		//Update third party table with nonlinkedinuserid instead of linkedinuserid
-		$sql = "UPDATE third_party_user SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
-        $this->db->query($sql);
-		//Update positions with nonlinkedinuserid instead of linkedinuserid
-		$sql = "UPDATE positions SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
-        $this->db->query($sql);
-        //Update jobs with nonlinkedinuserid instead of linkedinuserid
-        $sql = "UPDATE jobs SET posted_by = '".$nonlinkedinuserid."' WHERE posted_by = '".$linkedinuserid."'";
-        $this->db->query($sql);
-        //Update user tags with nonlinkedinuserid instead of linkedinuserid
-        $sql = "UPDATE user_tags SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
-        $this->db->query($sql);
-		//Update nonlinkedinuser with current company of linkedinuser(optional)
-		$sql = "UPDATE user SET company_id = (SELECT company_id FROM user where id='".$linkedinuserid."') WHERE id = '".$nonlinkedinuserid."'";
-        $this->db->query($sql);
-		//Delete linkedinuser's wp_user_meta and wp_user
-		$sql = "DELETE FROM WPMEMBER_USERMETA WHERE user_id = (SELECT WP_USERS_ID FROM USER WHERE ID='".$linkedinuserid."')";
-        $this->db->query($sql);
-		//Delete linkedinuser
-		$sql = "DELETE FROM wpmember_users WHERE id = (SELECT WP_USERS_ID FROM USER WHERE ID='".$linkedinuserid."')";
-        $this->db->query($sql);
-        //Delete linkedinuser
-		$sql = "DELETE FROM USER WHERE id = '".$linkedinuserid."'";
-        $this->db->query($sql);
+		if ($submit == "Dont Harmonize") {
+			$this->load->model("members/membermodel","",true);
+			$member = $this->membermodel->get_basicMemberData($nonlinkedinuserid);
+			$this->create_cobot_user($nonlinkedinuserid, $member->user_login);
+		} elseif ($submit == "Harmonize") {
+			//Update third party table with nonlinkedinuserid instead of linkedinuserid
+			$sql = "UPDATE third_party_user SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
+	        $this->db->query($sql);
+			//Update positions with nonlinkedinuserid instead of linkedinuserid
+			$sql = "UPDATE positions SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
+	        $this->db->query($sql);
+	        //Update jobs with nonlinkedinuserid instead of linkedinuserid
+	        $sql = "UPDATE jobs SET posted_by = '".$nonlinkedinuserid."' WHERE posted_by = '".$linkedinuserid."'";
+	        $this->db->query($sql);
+	        //Update user tags with nonlinkedinuserid instead of linkedinuserid
+	        $sql = "UPDATE user_tags SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
+	        $this->db->query($sql);
+			//Update nonlinkedinuser with current company of linkedinuser(optional)
+			$sql = "UPDATE user SET company_id = (SELECT company_id FROM user where id='".$linkedinuserid."') WHERE id = '".$nonlinkedinuserid."'";
+	        $this->db->query($sql);
+			//Delete linkedinuser's wp_user_meta and wp_user
+			$sql = "DELETE FROM WPMEMBER_USERMETA WHERE user_id = (SELECT WP_USERS_ID FROM USER WHERE ID='".$linkedinuserid."')";
+	        $this->db->query($sql);
+			//Delete linkedinuser
+			$sql = "DELETE FROM wpmember_users WHERE id = (SELECT WP_USERS_ID FROM USER WHERE ID='".$linkedinuserid."')";
+	        $this->db->query($sql);
+	        //Delete linkedinuser
+			$sql = "DELETE FROM USER WHERE id = '".$linkedinuserid."'";
+	        $this->db->query($sql);
+		}
 	}
 
 	public function cobot() {
