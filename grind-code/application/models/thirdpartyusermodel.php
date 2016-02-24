@@ -11,5 +11,11 @@ class ThirdPartyUserModel extends CI_Model {
 		$sql = "INSERT INTO third_party_user (user_id, network_id, network, access_token) VALUES ('$user_id', '$network_id', '$network', '$access_token')";
 		return $this->db->query($sql)
 	}
+
+	public function get($user_id, $network) {
+		$query = mysql_query("SELECT * FROM third_party_user WHERE user_id='".$user_id."' AND network='".$network."'");
+        $response = mysql_fetch_assoc($query);
+        return $response;
+	}
 };
 ?>
