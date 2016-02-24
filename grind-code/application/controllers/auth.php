@@ -115,7 +115,7 @@ class Auth extends CI_Controller {
 		if ($submit == "Dont Harmonize") {
 			$this->load->model("members/membermodel","",true);
 			$member = $this->membermodel->get_basicMemberData($nonlinkedinuserid);
-			$this->create_cobot_user($nonlinkedinuserid, $member->email)
+			$this->create_cobot_user($nonlinkedinuserid, $member->user_login);
 		} elseif ($submit == "Harmonize") {
 			//Update third party table with nonlinkedinuserid instead of linkedinuserid
 			$sql = "UPDATE third_party_user SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";

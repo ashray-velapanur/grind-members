@@ -9,7 +9,7 @@ class ThirdPartyUserModel extends CI_Model {
 
 	public function create($user_id, $network_id, $network, $access_token){
 		$sql = "INSERT INTO third_party_user (user_id, network_id, network, access_token) VALUES ('$user_id', '$network_id', '$network', '$access_token')";
-		return $this->db->query($sql)
+		return $this->db->query($sql);
 	}
 
 	public function get($user_id, $network) {
