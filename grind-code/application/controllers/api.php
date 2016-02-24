@@ -12,6 +12,7 @@
 
 include_once APPPATH . 'libraries/enumerations.php';
 require(APPPATH.'/libraries/REST_Controller.php');
+require(APPPATH.'/config/cobot.php');
 
 class Api extends REST_Controller
 {
@@ -498,13 +499,14 @@ class Api extends REST_Controller
   }
 
   function create_webhook_subscription_post() {
+    global $cobot_admin_access_token;
     $event = $this->post('event');
     $callback_url = $this->post('callback_url');
     $subdomain = $this->post('subdomain');
 
     $url = 'https://'.$subdomain.'.cobot.me/api/subscriptions';
     $data = [
-      'access_token' => '182a5523581fde3c4ceca7dbb74a64ee2acc9713a9bdb4baf4c0af1743a29578',
+      'access_token' => $cobot_admin_access_token,
       'event' => $event,
       'callback_url' => $callback_url
     ];
@@ -535,10 +537,11 @@ class Api extends REST_Controller
   }
 
   function delete_webhook_subscription_post() {
+    global $cobot_admin_access_token;
     $subscription_url = $this->post('subscription_url');
 
     $data = [
-      'access_token' => '182a5523581fde3c4ceca7dbb74a64ee2acc9713a9bdb4baf4c0af1743a29578'
+      'access_token' => $cobot_admin_access_token
     ];
 
     $curl = curl_init();
