@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<form action="/~aiyappaganesh/grind-members/grind-code/index.php/auth/do_harmonize_users" method="post" enctype="multipart/form-data">
+<form action="/grind-members/grind-code/index.php/auth/do_harmonize_users" method="post" enctype="multipart/form-data">
 	<p>Users Associated to LinkedinAccounts</p>
     <select name="linkedinuser">
         <?php
@@ -20,6 +20,7 @@
     </select>
     <br><br>
     <input type="submit" value="Harmonize" name="submit">
+    <input type="submit" value="Dont Harmonize" name="submit">
 </form>
 
 </body>
