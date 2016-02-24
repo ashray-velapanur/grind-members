@@ -512,18 +512,8 @@ class LocationModel extends CI_Model {
 	      $longitude = $space['lon'];
 	      $address = $space['address'];
 	      $rate = $space['rate'];
-
-	      $curl = curl_init();
-	      $url = 'https://www.cobot.me/api/spaces/'.$space_id;
-	      $data = array();
-	      if ($data)
-	            $url = sprintf("%s?%s", $url, http_build_query($data));
-	      curl_setopt($curl, CURLOPT_URL, $url);
-	      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-	      $result = (array)json_decode(curl_exec($curl));
-	      curl_close($curl);
-	      $description = $result['description'];
-	      $name = $result['name'];
+	      $description = $space['description'];
+	      $name = $space['name'];
 
 	      $resourcedata = array(
 	        'id' => $space_id,

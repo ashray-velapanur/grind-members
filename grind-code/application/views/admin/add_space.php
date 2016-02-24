@@ -3,9 +3,11 @@
 <body>
 
 <form action="/grind-members/grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
-	<p><b>Cobot Space</b></p>
+    <p><b>Cobot Space</b></p>
     <input type="hidden" name="space_id">
     Cobot ID: <input type="text" name="cobot_id"><br><br>
+    Display Name: <input type="text" name="name"><br><br>
+    Description: <textarea name="description"></textarea><br><br>
     Capacity: <input type="number" name="capacity" min="0"><br><br>
     Select image to upload: <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
     Latitude: <input type="text" name="latitude"><br><br>

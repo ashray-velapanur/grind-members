@@ -212,9 +212,11 @@ class LocationManagement extends CI_Controller {
 				if(!$rate) {
 					$rate = 0.0;
 				}
+				$name = $_POST["name"];
+				$description = $_POST["description"];
 				$sql = "INSERT INTO cobot_spaces";
-				$sql .= "(id, image, capacity, lat, lon, address, rate) VALUES ('$cobot_id', '$imgName', $capacity, '$lat', '$long', '$address', $rate) ";
-				if($imgName || $capacity || $lat || $long || $address || $rate) {
+				$sql .= "(id, image, capacity, lat, lon, address, rate, name, description) VALUES ('$cobot_id', '$imgName', $capacity, '$lat', '$long', '$address', $rate, '$name', '$description') ";
+				if($imgName || $capacity || $lat || $long || $address || $rate || $name || $description) {
 					$sql .= " ON DUPLICATE KEY UPDATE ";
 					$comma = " ";
 					if($imgName) {
@@ -239,6 +241,14 @@ class LocationManagement extends CI_Controller {
 					}
 					if($rate) {
 						$sql = $sql.$comma." rate = ".$rate;
+						$comma = " , ";
+					}
+					if($name) {
+						$sql = $sql.$comma." name = '".$name."'";
+						$comma = " , ";
+					}
+					if($description) {
+						$sql = $sql.$comma." description = '".$description."'";
 						$comma = " , ";
 					}
 				}
