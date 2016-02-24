@@ -2,6 +2,7 @@
 include_once APPPATH . 'libraries/utilities.php';
 include_once APPPATH . 'libraries/enumerations.php';
 include_once APPPATH . 'libraries/constants.php';
+require(APPPATH.'/config/cobot.php');
 
 class LocationModel extends CI_Model {
 
@@ -553,11 +554,12 @@ class LocationModel extends CI_Model {
 	}
 
 	function resources($space_id) {
+		global $cobot_admin_access_token;
 	    $resource_data = array();
 	    $curl = curl_init();
 	    $url = 'https://'.$space_id.'.cobot.me/api/resources';
 	    $rdata = array(
-	      'access_token' => '182a5523581fde3c4ceca7dbb74a64ee2acc9713a9bdb4baf4c0af1743a29578' //Get Cobot Access Token from a config or MySQL DB
+	      'access_token' => $cobot_admin_access_token //Get Cobot Access Token from a config or MySQL DB
 	    );
 	    if ($rdata)
 	          $url = sprintf("%s?%s", $url, http_build_query($rdata));
