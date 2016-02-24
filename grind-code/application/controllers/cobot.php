@@ -1,4 +1,6 @@
 <?
+require(APPPATH.'/config/cobot.php');
+
 class Cobot extends CI_Controller {
 	public function test(){
 		error_log('cobot testing');
@@ -64,7 +66,8 @@ class Cobot extends CI_Controller {
 		$subdomain = substr($booking_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
 		$id = substr($booking_url, $id_start);
-		$sql = "INSERT INTO cobot_bookings (space_id, id, url) VALUES ('$subdomain', '$id', '$booking_url')";
+		$booking = json_decode($this->get_booking_details($booking_url));
+		$sql = "INSERT INTO cobot_bookings (space_id, id, from_datetime, to_datetime, title, resource_id, resource_name, membership_id, membership_name, price, tax_rate, cancellation_period, comments) VALUES ('$subdomain', '$id', '$booking->from_datetime', '$booking->to_datetime', '$booking->title', '$booking->resource_id', '$booking->resource_name', '$booking->membership_id', '$booking->membership_name', $booking->price, $booking->tax_rate, $booking->cancellation_period, '$booking->comments')";
 		error_log($sql);
 		$this->db->query($sql);
 		return $booking_url;
@@ -88,6 +91,46 @@ class Cobot extends CI_Controller {
 		error_log($sql);
 		$this->db->query($sql);
 		return $booking_url;
+	}
+
+	function get_booking_details($booking_url) {
+		global $cobot_admin_access_token;
+		$booking_details = array();
+		$curl = curl_init();
+		$url = $booking_url.'?access_token='.$cobot_admin_access_token;
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($curl);
+		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		if($result_code == 200) {
+			$booking = (array)json_decode($result);
+			$from = date_create($booking['from'])->format('Y-m-d H:i:s');
+			$to = date_create($booking['to'])->format('Y-m-d H:i:s');
+			$title = $booking['title'];
+			$resource_name = $booking['resource_name'];
+			$price = $booking['price'];
+			$tax_rate = $booking['tax_rate'];
+			$membership_id = $booking['membership_id'];
+			$membership_name = $booking['membership']->name;
+			$resource_id = $booking['resource']->id;
+			$cancellation_period = $booking['cancellation_period'];
+			$comments = $booking['comments'];
+			$booking_details = array(
+				'from_datetime' => $from,
+				'to_datetime' => $to,
+				'title' => $title,
+				'resource_id' => $resource_id,
+				'resource_name' => $resource_name,
+				'membership_id' => $membership_id,
+				'membership_name' => $membership_name,
+				'price' => $price,
+				'tax_rate' => $tax_rate,
+				'cancellation_period' => $cancellation_period,
+				'comments' => $comments
+			);
+	    }
+		return json_encode($booking_details);
 	}
 }
 ?>
