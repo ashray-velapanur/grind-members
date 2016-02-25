@@ -9,11 +9,11 @@ class SubscriptionModel extends CI_Model {
 	function create_webhook_subscription($event, $callback_url, $subdomain) {
 		global $cobot_admin_access_token;
 		$url = 'https://'.$subdomain.'.cobot.me/api/subscriptions';
-		$data = [
+		$data = array(
 		  'access_token' => $cobot_admin_access_token,
 		  'event' => $event,
 		  'callback_url' => $callback_url
-		];
+		);
 
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_POST, 1);
@@ -41,9 +41,9 @@ class SubscriptionModel extends CI_Model {
 
 	function delete_webhook_subscription($subscription_url) {
 		global $cobot_admin_access_token;
-		$data = [
+		$data = array(
 	      'access_token' => $cobot_admin_access_token
-	    ];
+	    );
 
 	    $curl = curl_init();
 	    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");

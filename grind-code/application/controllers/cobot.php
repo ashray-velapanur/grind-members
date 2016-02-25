@@ -24,10 +24,10 @@ class Cobot extends CI_Controller {
 		$url = 'https://www.cobot.me/api/users';
 		$email = $_GET['email'];
 
-		$data = [
+		$data = array(
 			'access_token' => $app_token,
 			'email' => $email
-		];
+		);
 
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_POST, 1);
@@ -42,12 +42,12 @@ class Cobot extends CI_Controller {
 		$id = $result['id'];
 
 		$url = 'https://www.cobot.me/oauth/access_token?';
-		$data = [
+		$data = array(
 			'client_id' => '26a81206b5b2b7c9a510ca0935b0febd',
 			'client_secret' => '15a365f477efa39842a493c1ac885ebea374482240c2755d882b8d41dc293532',
 			'grant_type' => 'authorization_code',
 			'code' => $result['grant_code']
-		];
+		);
 
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_POST, 1);
