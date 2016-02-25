@@ -72,6 +72,8 @@ class Cobot extends CI_Controller {
 	}
 
 	function booking_created() {
+		$_json = file_get_contents("php://input");
+		$_POST = json_decode($_json, true);
 		$booking_url = $_POST['url'];
 		error_log('Booking URL: '.$booking_url);
 		$subdomain_start = strpos($booking_url, '://') + 3;
@@ -87,12 +89,16 @@ class Cobot extends CI_Controller {
 	}
 
 	function booking_updated() {
+		$_json = file_get_contents("php://input");
+		$_POST = json_decode($_json, true);
 		$booking_url = $_POST['url'];
 		error_log('Booking URL: '.$booking_url);
 		return $booking_url;
 	}
 
 	function booking_deleted() {
+		$_json = file_get_contents("php://input");
+		$_POST = json_decode($_json, true);
 		$booking_url = $_POST['url'];
 		error_log('Booking URL: '.$booking_url);
 		$subdomain_start = strpos($booking_url, '://') + 3;
@@ -147,6 +153,8 @@ class Cobot extends CI_Controller {
 	}
 
 	function membership_created() {
+		$_json = file_get_contents("php://input");
+		$_POST = json_decode($_json, true);
 		$membership_url = $_POST['url'];
 		$subdomain_start = strpos($membership_url, '://') + 3;
 		$subdomain_end = strpos($membership_url, '.cobot.me/api/memberships/');
