@@ -337,8 +337,9 @@ class Api extends REST_Controller
 // error handling
   function spaces_get() {
     $this->benchmark->mark('spaces_start');
+    $user_id = $this->get('user_id');
     $this->load->model("locationmodel","lm",true);
-    $space_data = $this->lm->spaces();
+    $space_data = $this->lm->spaces($user_id);
     $this->benchmark->mark('spaces_end');
     error_log('Spaces Time: '.$this->benchmark->elapsed_time('spaces_start', 'spaces_end'));
     $this->response($space_data, 200);

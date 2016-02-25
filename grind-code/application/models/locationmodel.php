@@ -499,7 +499,7 @@ class LocationModel extends CI_Model {
 		
 	}
 
-	function spaces() {
+	function spaces($user_id) {
 		$space_data = array();
 	    $query = $this->db->get("cobot_spaces");
 	    $spaces = $query->result();
@@ -514,6 +514,10 @@ class LocationModel extends CI_Model {
 	      $rate = $space['rate'];
 	      $description = $space['description'];
 	      $name = $space['name'];
+	      $sql = "select membership.id, membership.plan_name from cobot_memberships membership where membership.space_id = '".$space_id."' and membership.user_id = '".$user_id."'";
+		  error_log($sql);
+		  $query = $this->db->query($sql);
+		  $memberships = $query->result();
 
 	      $resourcedata = array(
 	        'id' => $space_id,
@@ -525,7 +529,7 @@ class LocationModel extends CI_Model {
           );
 	      $resources = array();
 	      array_push($resources, $resourcedata);
-	      $resources = array_merge($resources, $this->resources($space_id));
+	      $resources = array_merge($resources, $this->resources($space_id, $user_id));
 	      $spacedata = array(
 	        'id' => $space_id,
 	        'img_src' => $space_img_src,
@@ -536,14 +540,16 @@ class LocationModel extends CI_Model {
 	        'lon' => $longitude,
 	        'address' => $address,
 	        'rate' => '$'.$rate.'/day',
-	        'resources' => $resources
+	        'resources' => $resources,
+	        'is_member' => count($memberships) > 0,
+	        'memberships' => $memberships
 	      );
 	      array_push($space_data, $spacedata);
     	}
     	return $space_data;
 	}
 
-	function resources($space_id) {
+	function resources($space_id, $user_id) {
 		global $cobot_admin_access_token;
 	    $resource_data = array();
 	    $curl = curl_init();
@@ -579,13 +585,18 @@ class LocationModel extends CI_Model {
 	      $description = $cobot_resource['description'];
 	      $capacity = $cobot_resource['capacity'];
 	      $rate = $cobot_resource['price_per_hour'];
+	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where membership.user_id = '".$user_id."' and booking.resource_id = '".$resource_id."'";
+		  error_log($sql);
+		  $query = $this->db->query($sql);
+		  $bookings = $query->result();
 	      $resourcedata = array(
 	        'id' => $resource_id,
 	        'name' => $name,
             'img_src' => $resource_img_src,
             'description' => $description,
             'capacity' => $capacity.' people',
-            'rate' => '$'.$rate.'/hr'
+            'rate' => '$'.$rate.'/hr',
+            'bookings' => $bookings
           );
           array_push($resource_data, $resourcedata);
 	    }
