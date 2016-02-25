@@ -1,4 +1,5 @@
 <?
+require(APPPATH.'/config/cobot.php');
 
 class LocationManagement extends CI_Controller {
 
