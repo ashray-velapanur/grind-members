@@ -145,5 +145,50 @@ class Cobot extends CI_Controller {
 	    }
 		return json_encode($booking_details);
 	}
+
+	function membership_created() {
+		$membership_url = $_POST['url'];
+		$subdomain_start = strpos($membership_url, '://') + 3;
+		$subdomain_end = strpos($membership_url, '.cobot.me/api/memberships/');
+		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
+		$id = substr($membership_url, $id_start);
+		$membership = json_decode($this->get_membership_details($membership_url));
+		$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name) VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name')";
+		error_log($sql);
+		$this->db->query($sql);
+		return $membership_url;
+	}
+
+	function get_membership_details($membership_url) {
+		global $cobot_admin_access_token, $cobot_network_name;
+		$membership_details = array();
+		$curl = curl_init();
+		$url = $membership_url.'?access_token='.$cobot_admin_access_token;
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($curl);
+		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		if($result_code == 200) {
+			$membership = (array)json_decode($result);
+			$name = $membership['name'];
+			$plan_name = $membership['plan']->name;
+			$cobot_user_id = $membership['user']->id;
+		    $sql = "SELECT user_id from third_party_user where network = '".$cobot_network_name."' and network_id = '".$cobot_user_id."'";
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$third_party_results = $query->result();
+		    $cobot_user = current($third_party_results);
+		    $user_id = $cobot_user->user_id;
+			$membership_details = array(
+				'name' => $name,
+				'plan_name' => $plan_name,
+				'cobot_user_id' => $cobot_user_id,
+				'user_id' => $user_id
+			);
+	    }
+		return json_encode($membership_details);
+	}
 }
 ?>
