@@ -256,6 +256,24 @@ class LocationManagement extends CI_Controller {
 					error_log($sql);
 					if ($this->db->query($sql) === TRUE) {
 						echo "Record created/updated successfully";
+						$host = $_SERVER['SERVER_NAME'];
+						$is_https = $_SERVER['HTTPS'];
+						$callback_url = 'http://';
+						if($is_https) {
+							$callback_url = 'https://';
+						}
+						// Create created_booking webhook
+						$callback_url = $callback_url.$host.'/grind-members/grind-code/index.php/cobot/booking_created';
+						$event = 'created_booking';
+						$subdomain = $cobot_id;
+						$this->load->model("subscriptionmodel","sm",true);
+    					$subscription_url = $this->sm->create_webhook_subscription($event, $callback_url, $subdomain);
+    					// Create created_membership webhook
+						$callback_url = $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_created';
+						$event = 'created_membership';
+						$subdomain = $cobot_id;
+						$this->load->model("subscriptionmodel","sm",true);
+    					$subscription_url = $this->sm->create_webhook_subscription($event, $callback_url, $subdomain);
 					} else {
 						echo "Error: " . $sql . "<br>" . $this->db->error;
 					}
