@@ -80,32 +80,35 @@ class Auth extends CI_Controller {
 
       curl_close($curl);
       $result = (array)json_decode($result);
-      $id = $result['id'];
 
-      $url = 'https://www.cobot.me/oauth/access_token?';
-      $data = array(
-        'client_id' => '26a81206b5b2b7c9a510ca0935b0febd',
-        'client_secret' => '15a365f477efa39842a493c1ac885ebea374482240c2755d882b8d41dc293532',
-        'grant_type' => 'authorization_code',
-        'code' => $result['grant_code']
-      );
+      if ($result['grant_code']) {
+	      $id = $result['id'];
+	      $url = 'https://www.cobot.me/oauth/access_token?';
+	      $data = array(
+	        'client_id' => '26a81206b5b2b7c9a510ca0935b0febd',
+	        'client_secret' => '15a365f477efa39842a493c1ac885ebea374482240c2755d882b8d41dc293532',
+	        'grant_type' => 'authorization_code',
+	        'code' => $result['grant_code']
+	      );
 
-      $curl = curl_init();
-      curl_setopt($curl, CURLOPT_POST, 1);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+	      $curl = curl_init();
+	      curl_setopt($curl, CURLOPT_POST, 1);
+	      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+	      curl_setopt($curl, CURLOPT_URL, $url);
+	      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-      $result = curl_exec($curl);
+	      $result = curl_exec($curl);
 
-      curl_close($curl);
+	      curl_close($curl);
 
-      $result = (array)json_decode($result);
-      $access_token = $result['access_token'];
-      $network = 'cobot';
+	      $result = (array)json_decode($result);
 
-      $this->load->model("thirdpartyusermodel","tpum",true);
-      $this->tpum->create($user_id, $id, $network, $access_token);
+	      $access_token = $result['access_token'];
+	      $network = 'cobot';
+
+	      $this->load->model("thirdpartyusermodel","tpum",true);
+	      $this->tpum->create($user_id, $id, $network, $access_token);
+      }
     }
 
 	public function do_harmonize_users() {
