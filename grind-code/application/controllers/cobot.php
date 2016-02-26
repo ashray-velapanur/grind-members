@@ -93,6 +93,15 @@ class Cobot extends CI_Controller {
 		$_POST = json_decode($_json, true);
 		$booking_url = $_POST['url'];
 		error_log('Booking URL: '.$booking_url);
+		$subdomain_start = strpos($booking_url, '://') + 3;
+		$subdomain_end = strpos($booking_url, '.cobot.me/api/bookings/');
+		$subdomain = substr($booking_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
+		$id = substr($booking_url, $id_start);
+		$booking = json_decode($this->get_booking_details($booking_url));
+		$sql = "UPDATE cobot_bookings SET from_datetime = '$booking->from_datetime', to_datetime = '$booking->to_datetime', title = '$booking->title', resource_id = '$booking->resource_id', resource_name = '$booking->resource_name', membership_id = '$booking->membership_id', membership_name = '$booking->membership_name', price = $booking->price, tax_rate = $booking->tax_rate, cancellation_period = $booking->cancellation_period, comments = '$booking->comments' WHERE space_id = '$subdomain' and id = '$id' ";
+		error_log($sql);
+		$this->db->query($sql);
 		return $booking_url;
 	}
 
