@@ -529,7 +529,7 @@ class LocationModel extends CI_Model {
           );
 	      $resources = array();
 	      array_push($resources, $resourcedata);
-	      $resources = array_merge($resources, $this->resources($space_id, $user_id));
+	      $resources = array_merge($resources, $this->resources($space_id));
 	      $spacedata = array(
 	        'id' => $space_id,
 	        'img_src' => $space_img_src,
@@ -549,7 +549,7 @@ class LocationModel extends CI_Model {
     	return $space_data;
 	}
 
-	function resources($space_id, $user_id) {
+	function resources($space_id) {
 		global $cobot_admin_access_token;
 	    $resource_data = array();
 	    $curl = curl_init();
@@ -585,7 +585,7 @@ class LocationModel extends CI_Model {
 	      $description = $cobot_resource['description'];
 	      $capacity = $cobot_resource['capacity'];
 	      $rate = $cobot_resource['price_per_hour'];
-	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where membership.user_id = '".$user_id."' and booking.resource_id = '".$resource_id."'";
+	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource_id."'";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $bookings = $query->result();
