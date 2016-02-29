@@ -110,6 +110,8 @@ class Auth extends CI_Controller {
 		error_log(json_encode($result));
 		curl_close($curl);
 		$access_token = $result['access_token'];
+
+		$id = $this->get_cobot_id($access_token);
 		$network = 'cobot';
 
 		$this->load->model("thirdpartyusermodel","tpum",true);
@@ -143,6 +145,23 @@ class Auth extends CI_Controller {
 		$this->load->model("thirdpartyusermodel","tpum",true);
 		$this->tpum->create($user_id, $id, $network, $access_token);
       }
+    }
+
+    function get_cobot_id($access_token) {
+    	$id = NULL;
+    	$url = 'https://www.cobot.me/api/user';
+    	$curl = curl_init();
+		$url = $url.'?access_token='.$access_token;
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($curl);
+		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		if($result_code == 200) {
+			$user = (array)json_decode($result);
+			$id = $user['id'];
+	    }
+	    return $id;
     }
 
 	public function do_harmonize_users() {
