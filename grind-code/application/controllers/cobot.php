@@ -171,7 +171,35 @@ class Cobot extends CI_Controller {
 		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
 		$id = substr($membership_url, $id_start);
 		$membership = json_decode($this->get_membership_details($membership_url));
-		$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name) VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name')";
+		$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name";
+		$values = " VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name'";
+		if($membership->starts_at) {
+			$sql = $sql.", starts_at";
+			$values = $values.", '$membership->starts_at'";
+		}
+		if($membership->canceled_to) {
+			$sql = $sql.", canceled_to";
+			$values = $values.", '$membership->canceled_to'";
+		}
+		$sql = $sql.")";
+		$values = $values.")";
+		$sql = $sql.$values;
+		error_log($sql);
+		$this->db->query($sql);
+		return $membership_url;
+	}
+
+	function membership_canceled() {
+		$_json = file_get_contents("php://input");
+		$_POST = json_decode($_json, true);
+		$membership_url = $_POST['url'];
+		$subdomain_start = strpos($membership_url, '://') + 3;
+		$subdomain_end = strpos($membership_url, '.cobot.me/api/memberships/');
+		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
+		$id = substr($membership_url, $id_start);
+		$membership = json_decode($this->get_membership_details($membership_url));
+		$sql = "UPDATE cobot_memberships SET canceled_to = '$membership->canceled_to' where space_id = '$subdomain' and id = '$id'";
 		error_log($sql);
 		$this->db->query($sql);
 		return $membership_url;
@@ -198,11 +226,21 @@ class Cobot extends CI_Controller {
 			$third_party_results = $query->result();
 		    $cobot_user = current($third_party_results);
 		    $user_id = $cobot_user->user_id;
+		    $canceled_to = NULL;
+		    if($membership['canceled_to']) {
+		    	$canceled_to = date_create($membership['canceled_to'])->format('Y-m-d H:i:s');
+		    }
+		    $starts_at = NULL;
+		    if($membership['starts_at']) {
+		    	$starts_at = date_create($membership['starts_at'])->format('Y-m-d H:i:s');
+		    }
 			$membership_details = array(
 				'name' => $name,
 				'plan_name' => $plan_name,
 				'cobot_user_id' => $cobot_user_id,
-				'user_id' => $user_id
+				'user_id' => $user_id,
+				'canceled_to' => $canceled_to,
+				'starts_at' => $starts_at
 			);
 	    }
 		return json_encode($membership_details);
