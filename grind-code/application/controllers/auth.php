@@ -88,7 +88,33 @@ class Auth extends CI_Controller {
       curl_close($curl);
       $result = (array)json_decode($result);
 
-      if ($result['grant_code']) {
+      if($result['errors']->email) {
+      	$url = 'https://www.cobot.me/oauth/access_token';
+      	$data = array(
+      		'scope' => 'read_resources read_plans read_memberships write write_memberships write_user',
+      		'grant_type' => password,
+      		'username' => $email,
+      		'password' => $cobot_user_default_password,
+      		'client_id' => $cobot_api_key,
+      		'client_secret' => $cobot_client_secret
+      	);
+      	error_log(json_encode($data));
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+		$result = curl_exec($curl);
+		error_log(json_encode($result));
+		curl_close($curl);
+		$access_token = $result['access_token'];
+		$network = 'cobot';
+
+		$this->load->model("thirdpartyusermodel","tpum",true);
+		$this->tpum->create($user_id, $id, $network, $access_token);
+      }
+      else if ($result['grant_code']) {
 	      $id = $result['id'];
 	      $url = 'https://www.cobot.me/oauth/access_token?';
 	      $data = array(
@@ -110,11 +136,11 @@ class Auth extends CI_Controller {
 
 	      $result = (array)json_decode($result);
 
-	      $access_token = $result['access_token'];
-	      $network = 'cobot';
+		$access_token = $result['access_token'];
+		$network = 'cobot';
 
-	      $this->load->model("thirdpartyusermodel","tpum",true);
-	      $this->tpum->create($user_id, $id, $network, $access_token);
+		$this->load->model("thirdpartyusermodel","tpum",true);
+		$this->tpum->create($user_id, $id, $network, $access_token);
       }
     }
 
