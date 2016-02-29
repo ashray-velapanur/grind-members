@@ -518,7 +518,7 @@ class LocationModel extends CI_Model {
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $memberships = $query->result();
-		  $plans_url = 'https://:'.$space_id.'.cobot.me/api/plans';
+		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
 	      $resourcedata = array(
 	        'id' => $space_id,
