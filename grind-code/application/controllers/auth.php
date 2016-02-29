@@ -106,6 +106,7 @@ class Auth extends CI_Controller {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
 		$result = curl_exec($curl);
+		$result = (array)json_decode($result);
 		error_log(json_encode($result));
 		curl_close($curl);
 		$access_token = $result['access_token'];
