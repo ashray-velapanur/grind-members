@@ -1,6 +1,6 @@
 <?php
 
-$cobot_admin_access_token = '494387b9225394a27f55c2e817d2ee8cdc2303843638ab6991a2d21f5e80d091';
+$cobot_admin_access_token = 'bc19670d82bed73e62bfdf4cb67bb031ed9bbbdda702d2e5ad3ec29b0f5a11d5';
 $cobot_network_name = 'cobot';
 
 ?>

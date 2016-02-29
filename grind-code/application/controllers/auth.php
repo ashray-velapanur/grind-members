@@ -18,6 +18,9 @@ class Auth extends CI_Controller {
                 third_party_user
                 left outer join user on third_party_user.user_id = user.id
                 left outer join wpmember_users wp_user on wp_user.id = user.wp_users_id
+            where
+                third_party_user.network = 'linkedin'
+                and third_party_user.user_id not in (select user_id from third_party_user where network = 'cobot')
             order by
                 fname asc
         ";
@@ -85,8 +88,8 @@ class Auth extends CI_Controller {
 	      $id = $result['id'];
 	      $url = 'https://www.cobot.me/oauth/access_token?';
 	      $data = array(
-	        'client_id' => '26a81206b5b2b7c9a510ca0935b0febd',
-	        'client_secret' => '15a365f477efa39842a493c1ac885ebea374482240c2755d882b8d41dc293532',
+	        'client_id' => 'a0c2d33b04aa47b0b810e64594c11695',
+	        'client_secret' => '5ef3e29985d95dbd416561c4923cebf806151cbd00d1122af3981583feedd0b2',
 	        'grant_type' => 'authorization_code',
 	        'code' => $result['grant_code']
 	      );
