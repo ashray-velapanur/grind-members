@@ -46,7 +46,7 @@ class Auth extends CI_Controller {
                 user.id id, user.last_name lname, user.first_name fname, wp_user.user_email email
             from
             	wpmember_users wp_user
-            	inner join user on wp_user.id = user.wp_users_id and user.id not in (select user_id from third_party_user)
+            	inner join user on wp_user.id = user.wp_users_id and user.id not in (select user_id from third_party_user where network = 'linkedin')
             order by
                 fname asc
         ";
