@@ -1,4 +1,7 @@
 <?
+
+require(APPPATH.'/config/cobot.php');
+
 class Auth extends CI_Controller {
 
 	function __construct() {
@@ -65,11 +68,11 @@ class Auth extends CI_Controller {
 	}
 
 	private function create_cobot_user($user_id, $email){
-      $app_token = '061cb2b829ece8b489e9310a474df0848adbe47024b7749a2090bf4917fe543a';
+	  global $cobot_admin_access_token, $cobot_api_key, $cobot_client_secret;
       $url = 'https://www.cobot.me/api/users';
 
       $data = array(
-        'access_token' => $app_token,
+        'access_token' => $cobot_admin_access_token,
         'email' => $email
       );
 
@@ -88,8 +91,8 @@ class Auth extends CI_Controller {
 	      $id = $result['id'];
 	      $url = 'https://www.cobot.me/oauth/access_token?';
 	      $data = array(
-	        'client_id' => 'a0c2d33b04aa47b0b810e64594c11695',
-	        'client_secret' => '5ef3e29985d95dbd416561c4923cebf806151cbd00d1122af3981583feedd0b2',
+	        'client_id' => $cobot_api_key,
+	        'client_secret' => $cobot_client_secret,
 	        'grant_type' => 'authorization_code',
 	        'code' => $result['grant_code']
 	      );
