@@ -68,14 +68,15 @@ class Auth extends CI_Controller {
 	}
 
 	private function create_cobot_user($user_id, $email){
-	  global $cobot_admin_access_token, $cobot_api_key, $cobot_client_secret;
+	  global $cobot_admin_access_token, $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
       $url = 'https://www.cobot.me/api/users';
 
       $data = array(
         'access_token' => $cobot_admin_access_token,
-        'email' => $email
+        'email' => $email,
+        'password' => $cobot_user_default_password
       );
-
+      error_log(json_encode($data));
       $curl = curl_init();
       curl_setopt($curl, CURLOPT_POST, 1);
       curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
@@ -83,7 +84,7 @@ class Auth extends CI_Controller {
       curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
       $result = curl_exec($curl);
-
+      error_log(json_encode($result));
       curl_close($curl);
       $result = (array)json_decode($result);
 
@@ -96,7 +97,7 @@ class Auth extends CI_Controller {
 	        'grant_type' => 'authorization_code',
 	        'code' => $result['grant_code']
 	      );
-
+	      error_log(json_encode($data));
 	      $curl = curl_init();
 	      curl_setopt($curl, CURLOPT_POST, 1);
 	      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
@@ -104,7 +105,7 @@ class Auth extends CI_Controller {
 	      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
 	      $result = curl_exec($curl);
-
+	      error_log(json_encode($result));
 	      curl_close($curl);
 
 	      $result = (array)json_decode($result);
