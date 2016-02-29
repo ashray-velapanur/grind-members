@@ -518,6 +518,7 @@ class LocationModel extends CI_Model {
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $memberships = $query->result();
+		  $plans_url = 'https://:'.$space_id.'.cobot.me/api/plans'
 
 	      $resourcedata = array(
 	        'id' => $space_id,
@@ -525,7 +526,10 @@ class LocationModel extends CI_Model {
             'img_src' => $space_img_src,
             'description' => $description,
             'capacity' => $capacity.' seats free',
-            'rate' => '$'.$rate.'/day'
+            'rate' => '$'.$rate.'/day',
+	        'is_member' => count($memberships) > 0,
+	        'memberships' => $memberships,
+	        'plans_url' => $plans_url
           );
 	      $resources = array();
 	      array_push($resources, $resourcedata);
@@ -585,7 +589,7 @@ class LocationModel extends CI_Model {
 	      $description = $cobot_resource['description'];
 	      $capacity = $cobot_resource['capacity'];
 	      $rate = $cobot_resource['price_per_hour'];
-	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource_id."'";
+	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource_id."' and membership.canceled_to is not null";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $bookings = $query->result();
