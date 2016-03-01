@@ -171,21 +171,23 @@ class Cobot extends CI_Controller {
 		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
 		$id = substr($membership_url, $id_start);
 		$membership = json_decode($this->get_membership_details($membership_url));
-		$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name";
-		$values = " VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name'";
-		if($membership->starts_at) {
-			$sql = $sql.", starts_at";
-			$values = $values.", '$membership->starts_at'";
+		if($membership->cobot_user_id) {
+			$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name";
+			$values = " VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name'";
+			if($membership->starts_at) {
+				$sql = $sql.", starts_at";
+				$values = $values.", '$membership->starts_at'";
+			}
+			if($membership->canceled_to) {
+				$sql = $sql.", canceled_to";
+				$values = $values.", '$membership->canceled_to'";
+			}
+			$sql = $sql.")";
+			$values = $values.")";
+			$sql = $sql.$values;
+			error_log($sql);
+			$this->db->query($sql);
 		}
-		if($membership->canceled_to) {
-			$sql = $sql.", canceled_to";
-			$values = $values.", '$membership->canceled_to'";
-		}
-		$sql = $sql.")";
-		$values = $values.")";
-		$sql = $sql.$values;
-		error_log($sql);
-		$this->db->query($sql);
 		return $membership_url;
 	}
 
