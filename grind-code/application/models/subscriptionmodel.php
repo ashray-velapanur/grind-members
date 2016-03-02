@@ -6,11 +6,10 @@ require(APPPATH.'/config/cobot.php');
 
 class SubscriptionModel extends CI_Model {
 
-	function create_webhook_subscription($event, $callback_url, $subdomain) {
-		global $cobot_admin_access_token;
+	function create_webhook_subscription($event, $callback_url, $subdomain, $admin_access_token) {
 		$url = 'https://'.$subdomain.'.cobot.me/api/subscriptions';
 		$data = array(
-		  'access_token' => $cobot_admin_access_token,
+		  'access_token' => $admin_access_token,
 		  'event' => $event,
 		  'callback_url' => $callback_url
 		);
@@ -22,6 +21,7 @@ class SubscriptionModel extends CI_Model {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
 		$result = curl_exec($curl);
+		print($result);
 
 		curl_close($curl);
 		$result = (array)json_decode($result);
@@ -68,4 +68,8 @@ class SubscriptionModel extends CI_Model {
 	    return $subscription_url;
 	}
 };
+/*
+$temp = new SubscriptionModel;
+$temp->create_webhook_subscription('created_booking', 'http://percolate.grindspaces.com/grind-members/grind-code/index.php/cobot/booking_created', 'grind-park-avenue', '3f0064f3d5f81c5100a4c62b070053f0badf3bf1c8d3f0bea32e59152b7d56d6');
+*/
 ?>
