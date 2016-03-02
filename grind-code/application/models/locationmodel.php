@@ -557,25 +557,20 @@ class LocationModel extends CI_Model {
 	    $this->db->where("space_id", $space_id);
 	    $query = $this->db->get('cobot_resources');
 	    $resources = $query->result();
+	    $resource_data = array();
 	    foreach ($resources as $resource_arr) {
 	      $resource = (array)$resource_arr;
-	      $resource_id = $resource['id'];
-	      $resource_img_src = '/grind-members/grind-code/images/resources/'.$resource['image'];
-	      $name = $resource['name'];
-	      $description = $resource['description'];
-	      $capacity = $resource['capacity'];
-	      $rate = $resource['rate'];
-	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource_id."' and membership.canceled_to is not null";
+	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource['id']."' and membership.canceled_to is not null";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $bookings = $query->result();
 	      $resourcedata = array(
-	        'id' => $resource_id,
-	        'name' => $name,
-            'img_src' => $resource_img_src,
-            'description' => $description,
-            'capacity' => $capacity.' people',
-            'rate' => '$'.$rate.'/hr',
+	        'id' => $resource['id'],
+	        'name' => $resource['name'],
+            'img_src' => '/grind-members/grind-code/images/resources/'.$resource['image'],
+            'description' => $resource['description'],
+            'capacity' => $resource['capacity'].' people',
+            'rate' => '$'.$resource['rate'].'/hr',
             'bookings' => $bookings
           );
           array_push($resource_data, $resourcedata);
