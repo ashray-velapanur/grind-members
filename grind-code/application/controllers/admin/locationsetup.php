@@ -13,7 +13,7 @@ class LocationSetup extends CI_Controller {
 	}
 
 	public function add_locations() {
-		global $environmentsToSpaces, $environmentSpaces, $environmentsToAccessToken;;
+		global $environmentsToSpaces, $environmentSpaces, $environmentsToAccessToken, $spaceToMainArea;
 		$this->delete_locations();
 		$environment = $_GET["environment"];
 		$spaces = $environmentsToSpaces[$environment];
@@ -38,7 +38,14 @@ class LocationSetup extends CI_Controller {
 			  $result = (array)json_decode($result);
 			  foreach ($result as $resource) {
 			    $resource = (array)$resource;
-			    $this->add_update_resource($resource['id'], $space_id);
+			    $resource_id = $resource['id'];
+			    if($resource_id == $spaceToMainArea[$space_id]) {
+			    	$sql = "UPDATE cobot_spaces SET capacity = ".$resource['capacity'];
+					$this->db->query($sql);
+			    }
+			    else {
+			    	$this->add_update_resource($resource_id, $space_id);
+			    }
 			  }
 			}
 		}
@@ -87,7 +94,6 @@ class LocationSetup extends CI_Controller {
 	}
 
 	public function add_update_resource($cobot_resource_id, $space_id) {
-		error_log("In add_update_resource");
 		$imgName = $cobot_resource_id.'.png';
 		$sql = "INSERT INTO cobot_resources";
 		$sql .= "(id, space_id, image) VALUES ('$cobot_resource_id', '$space_id', '$imgName')";
