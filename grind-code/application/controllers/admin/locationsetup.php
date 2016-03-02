@@ -40,7 +40,7 @@ class LocationSetup extends CI_Controller {
 			    $resource = (array)$resource;
 			    $resource_id = $resource['id'];
 			    if($resource_id == $spaceToMainArea[$space_id]) {
-			    	$sql = "UPDATE cobot_spaces SET capacity = ".$resource['capacity'];
+			    	$sql = "UPDATE cobot_spaces SET capacity = ".$resource['capacity']." WHERE id = '".$space_id."'";
 					$this->db->query($sql);
 			    }
 			    else {
