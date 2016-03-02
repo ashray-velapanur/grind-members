@@ -52,7 +52,7 @@ class LocationSetup extends CI_Controller {
 		try {
 			if ($this->db->query($sql) === TRUE) {
 				echo "Record created/updated successfully";
-				$this->setup_webhook_subscriptions($space_id, $environment);
+				$this->setup_webhook_subscriptions($space['id'], $environment);
 			} else {
 				echo "Error: " . $sql . "<br>" . $this->db->error;
 			}
