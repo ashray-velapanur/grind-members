@@ -83,7 +83,9 @@ class LocationSetup extends CI_Controller {
 							   "created_membership" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_created',
 							   "confirmed_membership" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_created',
 							   "connected_user" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_created',
-							   "canceled_membership" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_canceled'
+							   "canceled_membership" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_canceled',
+							   "created_checkin" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/update_space_capacity',
+							   "created_checkout" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/update_space_capacity'
 							   );
 			foreach ($callbacks as $event => $url) {
 				$subdomain = $space_id;

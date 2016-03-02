@@ -207,6 +207,10 @@ class Cobot extends CI_Controller {
 		return $membership_url;
 	}
 
+	function update_space_capacity() {
+
+	}
+
 	function get_membership_details($membership_url) {
 		global $cobot_admin_access_token, $cobot_network_name;
 		$membership_details = array();
