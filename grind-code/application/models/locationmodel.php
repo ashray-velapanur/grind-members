@@ -554,29 +554,6 @@ class LocationModel extends CI_Model {
 	}
 
 	function resources($space_id) {
-		global $
-	    $resource_data = array();
-	    $curl = curl_init();
-	    $url = 'https://'.$space_id.'.cobot.me/api/resources';
-	    $rdata = array(
-	      'access_token' => $cobot_admin_access_token //Get Cobot Access Token from a config or MySQL DB
-	    );
-	    if ($rdata)
-	          $url = sprintf("%s?%s", $url, http_build_query($rdata));
-	    curl_setopt($curl, CURLOPT_URL, $url);
-	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-	    $result = curl_exec($curl);
-	    $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-	    curl_close($curl);
-	    $cobot_resources = array();
-	    if($result_code == 200) {
-	      $result = (array)json_decode($result);
-	      foreach ($result as $resource) {
-	        $resource = (array)$resource;
-	        $cobot_resources[$resource['id']] = $resource;
-	      }
-	    }
-
 	    $this->db->where("space_id", $space_id);
 	    $query = $this->db->get('cobot_resources');
 	    $resources = $query->result();
@@ -584,11 +561,10 @@ class LocationModel extends CI_Model {
 	      $resource = (array)$resource_arr;
 	      $resource_id = $resource['id'];
 	      $resource_img_src = '/grind-members/grind-code/images/resources/'.$resource['image'];
-	      $cobot_resource = $cobot_resources[$resource_id];
-	      $name = $cobot_resource['name'];
-	      $description = $cobot_resource['description'];
-	      $capacity = $cobot_resource['capacity'];
-	      $rate = $cobot_resource['price_per_hour'];
+	      $name = $resource['name'];
+	      $description = $resource['description'];
+	      $capacity = $resource['capacity'];
+	      $rate = $resource['rate'];
 	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource_id."' and membership.canceled_to is not null";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
