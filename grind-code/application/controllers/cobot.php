@@ -1,6 +1,7 @@
 <?
 require(APPPATH.'/config/cobot.php');
 require(APPPATH.'/controllers/admin/spaces_dict.php');
+//require('./admin/spaces_dict.php');
 
 class Cobot extends CI_Controller {
 	public function test(){
@@ -216,11 +217,23 @@ class Cobot extends CI_Controller {
 		$subdomain_end = strpos($checkin_url, '.cobot.me/api/check_ins/');
 		$subdomain = substr($checkin_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$url = 'https://'.$subdomain.'.cobot.me/api/check_ins';
-		$result = $this->do_get($url);
+		$result = $this->do_get($url, $this->get_environment_for($subdomain));
 		$checkin_count = count($result);
 		$sql = "UPDATE cobot_spaces SET checkins = $checkin_count where id = '$subdomain'";
 		error_log($sql);
 		$this->db->query($sql);
+	}
+
+	function get_environment_for($subdomain) {
+		global $environmentsToSpaces;
+		foreach ($environmentsToSpaces as $environment => $spaces) {
+			foreach ($spaces as $space) {
+				if ($space == $subdomain) {
+					return $environment;
+				}
+			}
+		}
+		return "";
 	}
 
 	function get_membership_details($membership_url) {
@@ -264,7 +277,7 @@ class Cobot extends CI_Controller {
 		return json_encode($membership_details);
 	}
 
-	function do_get($url, $params=array(), $environment="dev") {
+	function do_get($url, $environment, $params=array()) {
 		global $environmentsToAccessToken;
 		$get_result = array();
 		$curl = curl_init();
@@ -285,4 +298,7 @@ class Cobot extends CI_Controller {
 		return $get_result;
 	}
 }
+
+//$temp = new Cobot;
+//print_r($temp->get_environment_for("grind-park-ave"));
 ?>
