@@ -13,6 +13,7 @@
 include_once APPPATH . 'libraries/enumerations.php';
 require(APPPATH.'/libraries/REST_Controller.php');
 require(APPPATH.'/config/cobot.php');
+require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class Api extends REST_Controller
 {
@@ -500,11 +501,13 @@ class Api extends REST_Controller
   }
 
   function create_webhook_subscription_post() {
+    global $environmentsToAccessToken;
     $event = $this->post('event');
     $callback_url = $this->post('callback_url');
     $subdomain = $this->post('subdomain');
+    $environment = $this->post('environment');
     $this->load->model("subscriptionmodel","sm",true);
-    $subscription_url = $this->sm->create_webhook_subscription($event, $callback_url, $subdomain);
+    $subscription_url = $this->sm->create_webhook_subscription($event, $callback_url, $subdomain, $environmentsToAccessToken[$environment]);
     $this->response($subscription_url, 200);
   }
 
