@@ -44,7 +44,7 @@ class LocationSetup extends CI_Controller {
 					$this->db->query($sql);
 			    }
 			    else {
-			    	$this->add_update_resource($resource_id, $space_id);
+			    	$this->add_update_resource($resource, $space_id);
 			    }
 			  }
 			}
@@ -93,10 +93,10 @@ class LocationSetup extends CI_Controller {
 		}
 	}
 
-	public function add_update_resource($cobot_resource_id, $space_id) {
-		$imgName = $cobot_resource_id.'.png';
+	public function add_update_resource($resource, $space_id) {
+		$imgName = $resource['id'].'.png';
 		$sql = "INSERT INTO cobot_resources";
-		$sql .= "(id, space_id, image) VALUES ('$cobot_resource_id', '$space_id', '$imgName')";
+		$sql .= "(id, space_id, image, name, capacity, rate, description) VALUES ('".$resource['id']."', '$space_id', '$imgName', '".$resource['name']."', ".$resource['capacity'].", ".$resource['rate'].", \"".$resource['description']."\")";
 		try {
 			error_log($sql);
 			if ($this->db->query($sql) === TRUE) {
