@@ -1,7 +1,5 @@
 <?
 
-require(APPPATH.'/config/cobot.php');
-
 class Auth extends CI_Controller {
 
 	function __construct() {
@@ -67,103 +65,6 @@ class Auth extends CI_Controller {
 		$this->load->view('/admin/harmonize_users.php', $data);
 	}
 
-	private function create_cobot_user($user_id, $email){
-	  global $cobot_admin_access_token, $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
-      $url = 'https://www.cobot.me/api/users';
-
-      $data = array(
-        'access_token' => $cobot_admin_access_token,
-        'email' => $email,
-        'password' => $cobot_user_default_password
-      );
-      error_log(json_encode($data));
-      $curl = curl_init();
-      curl_setopt($curl, CURLOPT_POST, 1);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-      $result = curl_exec($curl);
-      error_log(json_encode($result));
-      curl_close($curl);
-      $result = (array)json_decode($result);
-
-      if($result['errors']->email) {
-      	$url = 'https://www.cobot.me/oauth/access_token';
-      	$data = array(
-      		'scope' => 'read_resources read_plans read_memberships write write_memberships write_user',
-      		'grant_type' => password,
-      		'username' => $email,
-      		'password' => $cobot_user_default_password,
-      		'client_id' => $cobot_api_key,
-      		'client_secret' => $cobot_client_secret
-      	);
-      	error_log(json_encode($data));
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-		$result = curl_exec($curl);
-		$result = (array)json_decode($result);
-		error_log(json_encode($result));
-		curl_close($curl);
-		$access_token = $result['access_token'];
-
-		$id = $this->get_cobot_id($access_token);
-		$network = 'cobot';
-
-		$this->load->model("thirdpartyusermodel","tpum",true);
-		$this->tpum->create($user_id, $id, $network, $access_token);
-      }
-      else if ($result['grant_code']) {
-	      $id = $result['id'];
-	      $url = 'https://www.cobot.me/oauth/access_token?';
-	      $data = array(
-	        'client_id' => $cobot_api_key,
-	        'client_secret' => $cobot_client_secret,
-	        'grant_type' => 'authorization_code',
-	        'code' => $result['grant_code']
-	      );
-	      error_log(json_encode($data));
-	      $curl = curl_init();
-	      curl_setopt($curl, CURLOPT_POST, 1);
-	      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-	      curl_setopt($curl, CURLOPT_URL, $url);
-	      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-	      $result = curl_exec($curl);
-	      error_log(json_encode($result));
-	      curl_close($curl);
-
-	      $result = (array)json_decode($result);
-
-		$access_token = $result['access_token'];
-		$network = 'cobot';
-
-		$this->load->model("thirdpartyusermodel","tpum",true);
-		$this->tpum->create($user_id, $id, $network, $access_token);
-      }
-    }
-
-    function get_cobot_id($access_token) {
-    	$id = NULL;
-    	$url = 'https://www.cobot.me/api/user';
-    	$curl = curl_init();
-		$url = $url.'?access_token='.$access_token;
-		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		$result = curl_exec($curl);
-		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		curl_close($curl);
-		if($result_code == 200) {
-			$user = (array)json_decode($result);
-			$id = $user['id'];
-	    }
-	    return $id;
-    }
-
 	public function do_harmonize_users() {
 		$submit = $_POST['submit'];
 		$linkedinuserid = $_POST['linkedinuser'];
@@ -171,7 +72,7 @@ class Auth extends CI_Controller {
 		if ($submit == "Dont Harmonize") {
 			$this->load->model("members/membermodel","",true);
 			$member = $this->membermodel->get_basicMemberData($linkedinuserid);
-			$this->create_cobot_user($linkedinuserid, $member->user_login);
+			// $this->create_cobot_user($linkedinuserid, $member->user_login);
 		} elseif ($submit == "Harmonize") {
 			//Update third party table with nonlinkedinuserid instead of linkedinuserid
 			$sql = "UPDATE third_party_user SET user_id = '".$nonlinkedinuserid."' WHERE user_id = '".$linkedinuserid."'";
