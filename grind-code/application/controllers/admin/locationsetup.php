@@ -1,5 +1,5 @@
 <?
-require('./spaces_dict.php');
+require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class LocationSetup extends CI_Controller {
 	function __construct() {
