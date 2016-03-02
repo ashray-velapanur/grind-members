@@ -507,7 +507,7 @@ class LocationModel extends CI_Model {
 	      $space = (array)$space_arr;
 	      $space_id = $space['id'];
 	      $space_img_src = '/grind-members/grind-code/images/spaces/'.$space['image'];
-	      $capacity = $space['capacity'];
+	      $capacity = $space['capacity'] - $space['checkins'];
 	      $latitude = $space['lat'];
 	      $longitude = $space['lon'];
 	      $address = $space['address'];
