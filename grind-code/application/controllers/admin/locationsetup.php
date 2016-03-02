@@ -99,7 +99,7 @@ class LocationSetup extends CI_Controller {
 		$imgName = $resource['id'].'.png';
 		$sql = "INSERT INTO cobot_resources";
 		$rate = $resource['rate'] ? $resource['rate'] : 0.0;
-		$sql .= "(id, space_id, image, name, capacity, rate, description) VALUES ('".$resource['id']."', '$space_id', '$imgName', '".$resource['name']."', ".$resource['capacity'].", ".$rate.", \"".$resource['description']."\")";
+		$sql .= "(id, space_id, image, name, capacity, rate, description) VALUES ('".$resource['id']."', '$space_id', '$imgName', '".$resource['name']."', 10, ".$rate.", \"".$resource['description']."\")";
 		try {
 			error_log($sql);
 			if ($this->db->query($sql) === TRUE) {
