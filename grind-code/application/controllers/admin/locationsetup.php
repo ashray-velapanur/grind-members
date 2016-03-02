@@ -62,6 +62,7 @@ class LocationSetup extends CI_Controller {
 	}
 
 	public function setup_webhook_subscriptions($space_id, $environment) {
+		global $environmentsToAccessToken;
 		$host = $_SERVER['SERVER_NAME'];
 		if($host != 'localhost' && $host != '127.0.0.1') {
 			$is_https = $_SERVER['HTTPS'];
