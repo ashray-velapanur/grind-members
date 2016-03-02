@@ -15,7 +15,7 @@ class LocationSetup extends CI_Controller {
 	public function add_locations() {
 		global $environmentsToSpaces, $environmentSpaces, $environmentsToAccessToken;;
 		$this->delete_locations();
-		$environment = "prod";//$_GET["environment"];
+		$environment = $_GET["environment"];
 		$spaces = $environmentsToSpaces[$environment];
 		foreach ($spaces as $space_id) {
 			$this->add_update_space($environmentSpaces[$space_id], $environment);
