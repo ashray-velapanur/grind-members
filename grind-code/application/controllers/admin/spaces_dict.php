@@ -31,6 +31,15 @@ $defaultParamValues = array(
 							'name' => 'PARK AVE',
 							'description' => 'Description Here...');
 
+$spacePlansMap = array(
+		'pirates-broadway' => '6fe700cd7bf83143c199a44fa02edad8',
+		'pirates-broadway-30' => 'a3973ddc12829361f3c2b375aef30d2c',
+		'pirates-downtown' => '6fe700cd7bf83143c199a44fa0110123',
+		'pirates-lasalle' => 'a3973ddc12829361f3c2b375aeb67691',
+		'grind-park-avenue' => 'e5b600eee3b540ddf47dae1f0a71c7d3'
+
+);
+
 $environmentSpaces = array();
 foreach ($environments as $environment) {
 	foreach ($environmentsToSpaces[$environment] as $space) {
