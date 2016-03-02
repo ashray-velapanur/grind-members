@@ -1,5 +1,6 @@
 <?
 require(APPPATH.'/config/cobot.php');
+require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class Cobot extends CI_Controller {
 	public function test(){
@@ -208,7 +209,18 @@ class Cobot extends CI_Controller {
 	}
 
 	function update_space_capacity() {
-
+		$_json = file_get_contents("php://input");
+		$_POST = json_decode($_json, true);
+		$checkin_url = $_POST['url'];
+		$subdomain_start = strpos($checkin_url, '://') + strlen('://');
+		$subdomain_end = strpos($checkin_url, '.cobot.me/api/check_ins/');
+		$subdomain = substr($checkin_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		$url = 'https://'.$subdomain.'.cobot.me/api/check_ins';
+		$result = $this->do_get($url);
+		$checkin_count = count($result);
+		$sql = "UPDATE cobot_spaces SET checkins = $checkin_count where id = '$subdomain'";
+		error_log($sql);
+		$this->db->query($sql);
 	}
 
 	function get_membership_details($membership_url) {
@@ -250,6 +262,27 @@ class Cobot extends CI_Controller {
 			);
 	    }
 		return json_encode($membership_details);
+	}
+
+	function do_get($url, $params=array(), $environment="dev") {
+		global $environmentsToAccessToken;
+		$get_result = array();
+		$curl = curl_init();
+		$url = $url.'?access_token='.$environmentsToAccessToken[$environment];
+		foreach ($params as $key => $value) {
+			$url.="&".$key."=".$value;
+		}
+		error_log($url);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($curl);
+		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		if($result_code == 200) {
+			$get_result = (array)json_decode($result);
+		}
+		error_log($get_result);
+		return $get_result;
 	}
 }
 ?>
