@@ -3,6 +3,8 @@ include_once APPPATH . 'libraries/utilities.php';
 include_once APPPATH . 'libraries/enumerations.php';
 include_once APPPATH . 'libraries/constants.php';
 
+require(APPPATH.'/config/cobot.php');
+
 class LoginModel extends CI_Model {
 
 	function linkedin($access_token, $id) {
@@ -60,10 +62,108 @@ class LoginModel extends CI_Model {
 		$newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata, $appuser=true);
 		if($newUserId) {
 			$this->add_companies($newUserId, $profile);
-			//$this->create_cobot_user($newUserId, $profile['emailAddress']);
+			$this->create_cobot_user($newUserId, $profile['emailAddress']);
 		}
 		return $newUserId;
 	}
+
+	private function create_cobot_user($user_id, $email){
+	  global $cobot_admin_access_token, $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
+      $url = 'https://www.cobot.me/api/users';
+
+      $data = array(
+        'access_token' => $cobot_admin_access_token,
+        'email' => $email,
+        'password' => $cobot_user_default_password
+      );
+      error_log(json_encode($data));
+      $curl = curl_init();
+      curl_setopt($curl, CURLOPT_POST, 1);
+      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($curl, CURLOPT_URL, $url);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+      $result = curl_exec($curl);
+      error_log(json_encode($result));
+      curl_close($curl);
+      $result = (array)json_decode($result);
+
+      if($result['errors']->email) {
+      	$url = 'https://www.cobot.me/oauth/access_token';
+      	$data = array(
+      		'scope' => 'read_resources read_plans read_memberships write write_memberships write_user',
+      		'grant_type' => password,
+      		'username' => $email,
+      		'password' => $cobot_user_default_password,
+      		'client_id' => $cobot_api_key,
+      		'client_secret' => $cobot_client_secret
+      	);
+      	error_log(json_encode($data));
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+		$result = curl_exec($curl);
+		$result = (array)json_decode($result);
+		error_log(json_encode($result));
+		curl_close($curl);
+		$access_token = $result['access_token'];
+
+		$id = $this->get_cobot_id($access_token);
+		$network = 'cobot';
+
+		$this->load->model("thirdpartyusermodel","tpum",true);
+		$this->tpum->create($user_id, $id, $network, $access_token);
+      }
+      else if ($result['grant_code']) {
+	      $id = $result['id'];
+	      $url = 'https://www.cobot.me/oauth/access_token?';
+	      $data = array(
+	        'client_id' => $cobot_api_key,
+	        'client_secret' => $cobot_client_secret,
+	        'grant_type' => 'authorization_code',
+	        'code' => $result['grant_code']
+	      );
+	      error_log(json_encode($data));
+	      $curl = curl_init();
+	      curl_setopt($curl, CURLOPT_POST, 1);
+	      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+	      curl_setopt($curl, CURLOPT_URL, $url);
+	      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+	      $result = curl_exec($curl);
+	      error_log(json_encode($result));
+	      curl_close($curl);
+
+	      $result = (array)json_decode($result);
+
+		$access_token = $result['access_token'];
+		$network = 'cobot';
+
+		$this->load->model("thirdpartyusermodel","tpum",true);
+		$this->tpum->create($user_id, $id, $network, $access_token);
+      }
+    }
+
+    function get_cobot_id($access_token) {
+    	$id = NULL;
+    	$url = 'https://www.cobot.me/api/user';
+    	$curl = curl_init();
+		$url = $url.'?access_token='.$access_token;
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$result = curl_exec($curl);
+		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		if($result_code == 200) {
+			$user = (array)json_decode($result);
+			$id = $user['id'];
+	    }
+	    return $id;
+    }
+
 
 	private function add_companies($newUserId, $profile) {
 		$positions = (array)$profile["positions"];
