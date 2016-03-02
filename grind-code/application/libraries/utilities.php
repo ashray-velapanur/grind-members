@@ -1,8 +1,20 @@
 <?php  if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 date_default_timezone_set("EST");
+require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class utilities {
+    public function get_environment_for($subdomain) {
+        global $environmentsToSpaces;
+        foreach ($environmentsToSpaces as $environment => $spaces) {
+            foreach ($spaces as $space) {
+                if ($space == $subdomain) {
+                    return $environment;
+                }
+            }
+        }
+        return "";
+    }
   
     public function get_random_password($chars_min=8, $chars_max=10, $use_upper_case=true, $include_numbers=true, $include_special_chars=true)
     {

@@ -554,7 +554,7 @@ class LocationModel extends CI_Model {
 	}
 
 	function resources($space_id) {
-		global $cobot_admin_access_token;
+		global $
 	    $resource_data = array();
 	    $curl = curl_init();
 	    $url = 'https://'.$space_id.'.cobot.me/api/resources';

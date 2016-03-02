@@ -1,6 +1,7 @@
 <?
 require(APPPATH.'/config/cobot.php');
 require(APPPATH.'/controllers/admin/spaces_dict.php');
+include_once APPPATH . 'libraries/utilities.php';
 //require('./admin/spaces_dict.php');
 
 class Cobot extends CI_Controller {
@@ -217,23 +218,12 @@ class Cobot extends CI_Controller {
 		$subdomain_end = strpos($checkin_url, '.cobot.me/api/check_ins/');
 		$subdomain = substr($checkin_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$url = 'https://'.$subdomain.'.cobot.me/api/check_ins';
-		$result = $this->do_get($url, $this->get_environment_for($subdomain));
+		$util = new utilities;
+		$result = $this->do_get($url, $util->get_environment_for($subdomain));
 		$checkin_count = count($result);
 		$sql = "UPDATE cobot_spaces SET checkins = $checkin_count where id = '$subdomain'";
 		error_log($sql);
 		$this->db->query($sql);
-	}
-
-	function get_environment_for($subdomain) {
-		global $environmentsToSpaces;
-		foreach ($environmentsToSpaces as $environment => $spaces) {
-			foreach ($spaces as $space) {
-				if ($space == $subdomain) {
-					return $environment;
-				}
-			}
-		}
-		return "";
 	}
 
 	function get_membership_details($membership_url) {
