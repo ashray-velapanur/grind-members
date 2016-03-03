@@ -577,6 +577,7 @@ class LocationModel extends CI_Model {
 		  $bookings = $query->result();
 	      $resourcedata = array(
 	        'id' => $resource['id'],
+	        'space_id' => $space_id,
 	        'name' => $resource['name'],
             'img_src' => '/grind-members/grind-code/images/resources/'.$resource['image'],
             'description' => $resource['description'],
