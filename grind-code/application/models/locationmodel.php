@@ -506,10 +506,10 @@ class LocationModel extends CI_Model {
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			if($membership["id"] != $plan_id) {
-				retValue = true;
+				$retValue = true;
 			}
 		}
-		return retValue;
+		return $retValue;
 	}
 
 	function spaces($user_id) {
@@ -531,7 +531,6 @@ class LocationModel extends CI_Model {
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $memberships = $query->result();
-		  $this->determine_membership($memberships);
 		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
 	      $resourcedata = array(
@@ -541,7 +540,7 @@ class LocationModel extends CI_Model {
             'description' => $description,
             'capacity' => $capacity.' seats free',
             'rate' => '$'.$rate.'/day',
-	        'is_member' => $this->determine_membership($memberships, $space_id),
+	        'is_member' => $this->determine_membership($space_id, $memberships),
 	        'memberships' => $memberships,
 	        'plans_url' => $plans_url
           );
