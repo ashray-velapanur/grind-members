@@ -594,13 +594,16 @@ class LocationModel extends CI_Model {
     global $spaceToMainArea, $environmentsToAccessToken;
   	$resource_id = $spaceToMainArea[$space_id];
   	$sql = "select * from cobot_memberships where user_id='".$user_id."' and space_id='".$space_id."'";
+  	error_log($sql);
   	$query = $this->db->query($sql);
   	$result = $query->result();
+  	error_log($result);
   	$membership = current($result);
+  	error_log($membership);
   	$membership_id = $membership->id;
 	$util = new utilities;
 	$environment = $util->get_environment_for($space_id);
-	var_dump($environment);
+	error_log($environment);
   	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
 
   	$data = array(
@@ -618,6 +621,7 @@ class LocationModel extends CI_Model {
         ),
     );
     error_log(json_encode($options));
+    error_log(json_encode($data));
     $context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
     error_log(json_encode($result));
