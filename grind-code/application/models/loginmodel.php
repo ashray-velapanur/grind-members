@@ -88,8 +88,12 @@ class LoginModel extends CI_Model {
         global $environmentsToSpaces, $environmentsToAccessToken, $spacePlansMap;
         $environment = 'dev';
         $spaces = $environmentsToSpaces[$environment];
+        error_log(json_encode($spacePlansMap));
         foreach ($spaces as $space) {
-            $plan_id = $spacePlansMap[$space];
+            error_log(json_encode($space));
+            $currEnvSpacePlansMap = $spacePlansMap[$environment];
+            $plan_id = $currEnvSpacePlansMap[$space];
+            error_log(json_encode($plan_id));
             $d = array(
                 'address' => array(
                     'name' => $plan_name,
@@ -112,9 +116,10 @@ class LoginModel extends CI_Model {
                     'content' => http_build_query($d),
                 ),
             );
+            error_log(json_encode($options));
             $context  = stream_context_create($options);
             $result = file_get_contents($url, false, $context);
-            error_log($result);
+            error_log(json_encode($result));
         }
     }
 
