@@ -502,7 +502,10 @@ class LocationModel extends CI_Model {
 
 	function determine_membership($space_id, $memberships) {
 		global $spacePlansMap;
-		$plan_id = $spacePlansMap[$space_id];
+		$util = new utilities;
+		$environment = $util->get_environment_for($space_id);
+		$plans = $spacePlansMap[$environment];
+		$plan_id = $plans[$space_id];
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
