@@ -81,14 +81,33 @@ class LoginModel extends CI_Model {
     }
 
     private function create_cobot_membership($id) {
-        global $cobot_admin_access_token;
-        error_log('... creating membersip');
-        error_log($id);
-        $url = "https://pirates-broadway.cobot.me/api/memberships";
-        $plan_id = "6fe700cd7bf83143c199a44fa02edad8";
-        $data = array("access_token" => $cobot_admin_access_token, "address" => array("country" => "USA", "full_address" => "broadway\n12345 Berlin", "name" => "some naem"), "plan" => array("id" => $plan_id), "user" => array("id" => $id));
-        var_dump($data);
-        var_dump($this->make_request($url, $data));
+        print_r('In create cobot membership: '.$id);
+        $d = array(
+            'address' => array(
+                'name' => 'Ranju Grind Plan 777',
+                'full_address'=>'broadway 12345 New York',
+                'country'=>'USA'
+            ),
+            'plan'=>array(
+                'id'=>'e5b600eee3b540ddf47dae1f0a71c7d3'
+            ),
+            'phone'=>'9999999999',
+            'user'=>array(
+                'id'=>$id
+            )
+        );
+        $url = 'https://pirates-broadway.cobot.me/api/memberships'; 
+        $cobot_admin_access_token='5216d883dde68801e9fad81622a56fadce99572e868a8d920e076cf26d53dccd';
+        $options = array(
+            'http' => array(
+                'header'  => "Authorization: Bearer ".$cobot_admin_access_token."\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($d),
+            ),
+        );
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === FALSE) { /* Handle error */ }
     }
 
     private function create_cobot_user($user_id, $email){
