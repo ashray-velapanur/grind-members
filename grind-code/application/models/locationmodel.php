@@ -501,12 +501,30 @@ class LocationModel extends CI_Model {
 	}
 
 	function determine_membership($space_id, $memberships) {
+		global $spaceToMainArea;
 		$daily_plan_name = 'Daily';
+		$main_area_resource_id = $spaceToMainArea[$space_id];
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
 			if(strtolower($membership["plan_name"]) != strtolower($daily_plan_name)) {
 				$retValue = true;
+			}
+		}
+		if (!$retValue) {
+			$sql = "select id from cobot_memberships where space_id = '".$space_id."' and plan_name = '".$daily_plan_name."'";
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$cms = $query->result();
+			if(count($cms) > 0) {				
+				$cm = current($cms);
+				$sql = "select id from cobot_bookings where space_id = '".$space_id."' and resource_id = '".$main_area_resource_id."' and membership_id = '".$cm->id."'";
+				error_log($sql);
+				$query = $this->db->query($sql);
+				$result = $query->result();
+				if(count($result) > 0) {
+					$retValue = true;
+				}
 			}
 		}
 		return $retValue;
