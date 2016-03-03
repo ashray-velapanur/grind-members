@@ -15,7 +15,23 @@ class utilities {
         }
         return "";
     }
-  
+
+    public function get_cobot_environment() {
+        $env = null;
+        switch (SITE) {
+            case "STAGING":
+                $env = "dev";
+                break;
+            case "PRODUCTION":
+                $env = "prod";
+                break;
+            default:
+                $env = "dev";
+                break;
+        };
+        return $env;
+    }  
+
     public function get_random_password($chars_min=8, $chars_max=10, $use_upper_case=true, $include_numbers=true, $include_special_chars=true)
     {
         $length = rand($chars_min, $chars_max);
