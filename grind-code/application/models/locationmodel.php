@@ -589,6 +589,41 @@ class LocationModel extends CI_Model {
 	    return $resource_data;
   }
 
+  function book_space($space_id) {
+  	error_log('booking space');
+    global $spaceToMainArea, $environmentsToAccessToken;
+  	$resource_id = $spaceToMainArea[$space_id];
+  	$sql = "select * from cobot_memberships where space_id='".$space_id."'";
+  	$query = $this->db->query($sql);
+  	$result = $query->result();
+  	$membership = current($result);
+  	$membership_id = $membership->id;
+	$util = new utilities;
+	$environment = $util->get_environment_for($space_id);
+	var_dump($environment);
+  	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
+
+  	$data = array(
+		"membership_id"=>$membership_id,
+		"from"=> "2015-03-03 18:00 +0000",
+		"to"=> "2015-03-03 22:00 +0000",
+		"title"=> "test booking",
+		"comments"=> "tea please"
+  		);
+    $options = array(
+        'http' => array(
+            'header'  => "Authorization: Bearer ".$environmentsToAccessToken[$environment]."\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data),
+        ),
+    );
+    error_log(json_encode($options));
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    error_log(json_encode($result));
+    return $result;
+  }
+
 }
 
 ?>

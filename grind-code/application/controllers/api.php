@@ -463,6 +463,14 @@ class Api extends REST_Controller
 
   }
 
+  function create_booking_post() {
+    error_log('ceating booking');
+    $space_id = $this->post('space_id');
+    $this->load->model('locationmodel', 'lm', true);
+    $success = $this->lm->book_space($space_id);
+    $this->response(array('success' => $success), 200);
+  }
+
   function create_event_post() {
     $token = "EYFPEMS6IJLSNOXNVH56";
     $url = "https://www.eventbriteapi.com/v3/events/";
