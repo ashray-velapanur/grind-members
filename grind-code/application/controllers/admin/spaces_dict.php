@@ -39,11 +39,9 @@ $spacePlansMap = array(
 				'pirates-lasalle' => 'a3973ddc12829361f3c2b375aeb67691',
 				'grind-park-avenue' => 'e5b600eee3b540ddf47dae1f0a71c7d3'),
 				"prod" => array(
-				'pirates-broadway' => '6fe700cd7bf83143c199a44fa02edad8',
-				'pirates-broadway-30' => 'a3973ddc12829361f3c2b375aef30d2c',
-				'pirates-downtown' => '6fe700cd7bf83143c199a44fa0110123',
-				'pirates-lasalle' => 'a3973ddc12829361f3c2b375aeb67691',
-				'grind-park-avenue' => 'e5b600eee3b540ddf47dae1f0a71c7d3')
+				'grind-broadway-39th' => '8055361a86538eac54ef5a46ef62beda',
+				'grind-lasalle-washington' => '8055361a86538eac54ef5a46effc0279',
+				'grind-park-ave' => 'da3041b37c8a05b04b59250713e2656f')
 				)
 );
 
