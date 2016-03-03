@@ -12,10 +12,13 @@ require('../controllers/admin/spaces_dict.php');
 class LoginModel /*extends CI_Model*/ {
 
     function linkedin($access_token, $id) {
+        error_log('In linkedin login');
         $response = array("success"=>False, "message"=>"");
         $userId = null;
         $url = "https://api.linkedin.com/v1/people/~:(id,email-address,picture-url,first-name,last-name,positions)?format=json&oauth2_access_token=".$access_token;
+        error_log('In linkedin URL: '.$url);
         $profile = json_decode(file_get_contents($url));
+        error_log('In linkedin profile: ');
         if ($profile == False) {
             $response = array("success"=>False, "message"=>"Invalid access token.");
             error_log("Invalid access_token");
