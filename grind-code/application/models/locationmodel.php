@@ -3,6 +3,7 @@ include_once APPPATH . 'libraries/utilities.php';
 include_once APPPATH . 'libraries/enumerations.php';
 include_once APPPATH . 'libraries/constants.php';
 require(APPPATH.'/config/cobot.php');
+require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class LocationModel extends CI_Model {
 
@@ -499,6 +500,18 @@ class LocationModel extends CI_Model {
 		
 	}
 
+	function determine_membership($space_id, $memberships) {
+		global $spacePlansMap;
+		$plan_id = $spacePlansMap[$space_id];
+		$retValue = false;
+		foreach ($memberships as $membership) {
+			if($membership["id"] != $plan_id) {
+				retValue = true;
+			}
+		}
+		return retValue;
+	}
+
 	function spaces($user_id) {
 		$space_data = array();
 	    $query = $this->db->get("cobot_spaces");
@@ -518,6 +531,7 @@ class LocationModel extends CI_Model {
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $memberships = $query->result();
+		  $this->determine_membership($memberships);
 		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
 	      $resourcedata = array(
@@ -527,7 +541,7 @@ class LocationModel extends CI_Model {
             'description' => $description,
             'capacity' => $capacity.' seats free',
             'rate' => '$'.$rate.'/day',
-	        'is_member' => count($memberships) > 0,
+	        'is_member' => $this->determine_membership($memberships, $space_id),
 	        'memberships' => $memberships,
 	        'plans_url' => $plans_url
           );
