@@ -505,6 +505,7 @@ class LocationModel extends CI_Model {
 		$plan_id = $spacePlansMap[$space_id];
 		$retValue = false;
 		foreach ($memberships as $membership) {
+			$membership = (array)$membership;
 			if($membership["id"] != $plan_id) {
 				$retValue = true;
 			}
