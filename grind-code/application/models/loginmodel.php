@@ -25,12 +25,17 @@ class LoginModel extends CI_Model {
         } 
         else {
             $this->load->model('/members/membermodel','mm',true);
+            $this->load->model('/models/thirdpartyusermodel', 'tp', true);
             error_log("Loaded member model");
             $userId = $this->mm->isNewUser($id, 'linkedin');
             error_log("New User: ".$userId);
             if(!$userId) {
                 error_log("Creating new user");
                 $userId = $this->create_user($profile);
+            }
+            if(!$this->tp->get($userId, 'cobot')){
+                $this->create_cobot_user($userId, $profile['emailAddress']);
+                $this->create_cobot_membership($userId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
             }
             if($userId) {
                 error_log("Updating third party");
@@ -66,8 +71,6 @@ class LoginModel extends CI_Model {
         $newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata, $appuser=true);
         if($newUserId) {
             $this->add_companies($newUserId, $profile);
-            $id = $this->create_cobot_user($newUserId, $profile['emailAddress']);
-            $this->create_cobot_membership($id, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
         }
         return $newUserId;
     }
