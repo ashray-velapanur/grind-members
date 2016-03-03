@@ -165,15 +165,18 @@ class Cobot extends CI_Controller {
 	}
 
 	function membership_created() {
+		error_log('Handling membership created webhook');
 		$_json = file_get_contents("php://input");
 		$_POST = json_decode($_json, true);
 		$membership_url = $_POST['url'];
+		error_log($membership_url);
 		$subdomain_start = strpos($membership_url, '://') + 3;
 		$subdomain_end = strpos($membership_url, '.cobot.me/api/memberships/');
 		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
 		$id = substr($membership_url, $id_start);
 		$membership = json_decode($this->get_membership_details($membership_url));
+		error_log(json_encode($membership));
 		if($membership->cobot_user_id) {
 			$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name";
 			$values = " VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name'";
@@ -195,6 +198,7 @@ class Cobot extends CI_Controller {
 	}
 
 	function membership_canceled() {
+		error_log('Handling membership canceled webhook');
 		$_json = file_get_contents("php://input");
 		$_POST = json_decode($_json, true);
 		$membership_url = $_POST['url'];
