@@ -15,6 +15,8 @@ class LoginModel extends CI_Model {
         $url = "https://api.linkedin.com/v1/people/~:(id,email-address,picture-url,first-name,last-name,positions)?format=json&oauth2_access_token=".$access_token;
         error_log('In linkedin URL: '.$url);
         $profile = json_decode(file_get_contents($url));
+        $network_id = $profile->id;
+        $pictureUrl = $profile->pictureUrl;
         error_log('In linkedin profile: ');
         if ($profile == False) {
             $response = array("success"=>False, "message"=>"Invalid access token.");
@@ -40,7 +42,7 @@ class LoginModel extends CI_Model {
             }
             if($userId) {
                 error_log("Updating third party");
-                $this->add_third_party_user($userId, $profile, $access_token);
+                $this->add_third_party_user($userId, $network_id, $pictureUrl, $access_token);
                 $response = array("success"=>True, "user_id"=>$userId);
             }
         }
@@ -257,8 +259,8 @@ class LoginModel extends CI_Model {
         }
     }
 
-    private function add_third_party_user($userId, $profile, $access_token) {
-        $sql = "INSERT INTO third_party_user (network_id, user_id, network, access_token, profile_picture) VALUES ('$profile->id', $userId, 'linkedin', '$access_token', '$profile->pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$profile->pictureUrl."'";
+    private function add_third_party_user($userId, $network_id, $pictureUrl, $access_token) {
+        $sql = "INSERT INTO third_party_user (network_id, user_id, network, access_token, profile_picture) VALUES ('$network_id', $userId, 'linkedin', '$access_token', '$pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$pictureUrl."'";
         error_log($sql);
         $this->db->query($sql);
     }
