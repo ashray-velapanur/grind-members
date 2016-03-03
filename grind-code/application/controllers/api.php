@@ -467,8 +467,9 @@ class Api extends REST_Controller
     error_log('ceating booking');
     $space_id = $this->post('space_id');
     $user_id = $this->post('user_id');
+    $resource_id = $this->post('resource_id');
     $this->load->model('locationmodel', 'lm', true);
-    $success = $this->lm->book_space($space_id, $user_id);
+    $success = $this->lm->book_space($space_id, $user_id, $resource_id);
     $this->response(array('success' => $success), 200);
   }
 
