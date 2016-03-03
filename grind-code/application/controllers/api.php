@@ -463,11 +463,12 @@ class Api extends REST_Controller
 
   }
 
-  function create_booking_post() {
+  function create_main_area_booking_post() {
     error_log('ceating booking');
     $space_id = $this->post('space_id');
+    $user_id = $this->post('user_id');
     $this->load->model('locationmodel', 'lm', true);
-    $success = $this->lm->book_space($space_id);
+    $success = $this->lm->book_space($space_id, $user_id);
     $this->response(array('success' => $success), 200);
   }
 

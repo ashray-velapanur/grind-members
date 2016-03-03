@@ -589,11 +589,11 @@ class LocationModel extends CI_Model {
 	    return $resource_data;
   }
 
-  function book_space($space_id) {
+  function book_space($space_id, $user_id) {
   	error_log('booking space');
     global $spaceToMainArea, $environmentsToAccessToken;
   	$resource_id = $spaceToMainArea[$space_id];
-  	$sql = "select * from cobot_memberships where space_id='".$space_id."'";
+  	$sql = "select * from cobot_memberships where user_id='".$user_id."'";
   	$query = $this->db->query($sql);
   	$result = $query->result();
   	$membership = current($result);
