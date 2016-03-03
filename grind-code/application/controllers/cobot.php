@@ -84,7 +84,7 @@ class Cobot extends CI_Controller {
 		$subdomain = substr($booking_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
 		$id = substr($booking_url, $id_start);
-		$booking = json_decode($this->get_booking_details($booking_url));
+		$booking = json_decode($this->get_booking_details($booking_url, $subdomain));
 		$sql = "INSERT INTO cobot_bookings (space_id, id, from_datetime, to_datetime, title, resource_id, resource_name, membership_id, membership_name, price, tax_rate, cancellation_period, comments) VALUES ('$subdomain', '$id', '$booking->from_datetime', '$booking->to_datetime', '$booking->title', '$booking->resource_id', '$booking->resource_name', '$booking->membership_id', '$booking->membership_name', $booking->price, $booking->tax_rate, $booking->cancellation_period, '$booking->comments')";
 		error_log($sql);
 		$this->db->query($sql);
@@ -101,7 +101,7 @@ class Cobot extends CI_Controller {
 		$subdomain = substr($booking_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
 		$id = substr($booking_url, $id_start);
-		$booking = json_decode($this->get_booking_details($booking_url));
+		$booking = json_decode($this->get_booking_details($booking_url, $subdomain));
 		$sql = "UPDATE cobot_bookings SET from_datetime = '$booking->from_datetime', to_datetime = '$booking->to_datetime', title = '$booking->title', resource_id = '$booking->resource_id', resource_name = '$booking->resource_name', membership_id = '$booking->membership_id', membership_name = '$booking->membership_name', price = $booking->price, tax_rate = $booking->tax_rate, cancellation_period = $booking->cancellation_period, comments = '$booking->comments' WHERE space_id = '$subdomain' and id = '$id' ";
 		error_log($sql);
 		$this->db->query($sql);
@@ -124,11 +124,14 @@ class Cobot extends CI_Controller {
 		return $booking_url;
 	}
 
-	function get_booking_details($booking_url) {
-		global $cobot_admin_access_token;
+	function get_booking_details($booking_url, $space_id) {
+		global $environmentsToAccessToken;
 		$booking_details = array();
+		$util = new utilities;
+		$environment = $util->get_environment_for($space_id);
+		$admin_access_token = $environmentsToAccessToken[$environment];
 		$curl = curl_init();
-		$url = $booking_url.'?access_token='.$cobot_admin_access_token;
+		$url = $booking_url.'?access_token='.$admin_access_token;
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		$result = curl_exec($curl);
@@ -175,7 +178,7 @@ class Cobot extends CI_Controller {
 		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
 		$id = substr($membership_url, $id_start);
-		$membership = json_decode($this->get_membership_details($membership_url));
+		$membership = json_decode($this->get_membership_details($membership_url, $subdomain));
 		error_log(json_encode($membership));
 		if($membership->cobot_user_id) {
 			$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name";
@@ -207,7 +210,7 @@ class Cobot extends CI_Controller {
 		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
 		$id = substr($membership_url, $id_start);
-		$membership = json_decode($this->get_membership_details($membership_url));
+		$membership = json_decode($this->get_membership_details($membership_url, $subdomain));
 		$sql = "UPDATE cobot_memberships SET canceled_to = '$membership->canceled_to' where space_id = '$subdomain' and id = '$id'";
 		error_log($sql);
 		$this->db->query($sql);
@@ -230,11 +233,14 @@ class Cobot extends CI_Controller {
 		$this->db->query($sql);
 	}
 
-	function get_membership_details($membership_url) {
-		global $cobot_admin_access_token, $cobot_network_name;
+	function get_membership_details($membership_url, $space_id) {
+		global $environmentsToAccessToken, $cobot_network_name;
 		$membership_details = array();
+		$util = new utilities;
+		$environment = $util->get_environment_for($space_id);
+		$admin_access_token = $environmentsToAccessToken[$environment];
 		$curl = curl_init();
-		$url = $membership_url.'?access_token='.$cobot_admin_access_token;
+		$url = $membership_url.'?access_token='.$admin_access_token;
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		$result = curl_exec($curl);

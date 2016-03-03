@@ -124,11 +124,11 @@ class LoginModel extends CI_Model {
     }
 
     private function create_cobot_user($user_id, $email){
-      global $cobot_admin_access_token, $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
+      global $environmentsToAccessToken, $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
       $url = 'https://www.cobot.me/api/users';
-
+      $environment = "dev";
       $data = array(
-        'access_token' => $cobot_admin_access_token,
+        'access_token' => $environmentsToAccessToken[$environment],
         'email' => $email,
         'password' => $cobot_user_default_password
       );
