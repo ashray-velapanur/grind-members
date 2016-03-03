@@ -1,15 +1,12 @@
 <?
-/*
 include_once APPPATH . 'libraries/utilities.php';
 include_once APPPATH . 'libraries/enumerations.php';
 include_once APPPATH . 'libraries/constants.php';
 
 require(APPPATH.'/config/cobot.php');
 require(APPPATH.'/controllers/admin/spaces_dict.php');
-*/
-require('../controllers/admin/spaces_dict.php');
 
-class LoginModel /*extends CI_Model*/ {
+class LoginModel extends CI_Model {
 
     function linkedin($access_token, $id) {
         error_log('In linkedin login');
@@ -117,6 +114,7 @@ class LoginModel /*extends CI_Model*/ {
             );
             $context  = stream_context_create($options);
             $result = file_get_contents($url, false, $context);
+            error_log($result);
         }
     }
 
@@ -256,6 +254,4 @@ class LoginModel /*extends CI_Model*/ {
 
 };
 
-$temp = new LoginModel;
-$temp->create_cobot_membership();
 ?>
