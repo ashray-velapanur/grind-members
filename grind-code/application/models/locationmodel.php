@@ -605,11 +605,12 @@ class LocationModel extends CI_Model {
 	$environment = $util->get_environment_for($space_id);
 	error_log($environment);
   	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
-
+  	$from = date_create();
+  	$to = date_add(date_create(), date_interval_create_from_date_string("5 hours"));
   	$data = array(
 		"membership_id"=>$membership_id,
-		"from"=> "2016-03-03 18:00 +0000",
-		"to"=> "2016-03-03 22:00 +0000",
+		"from"=> date_format($from, 'Y-m-d H:i O'), //date_create()->format('Y-m-d H:i:s')
+		"to"=> date_format($to, 'Y-m-d H:i O'),
 		"title"=> "test booking",
 		"comments"=> "tea please"
   		);
