@@ -42,8 +42,7 @@ $spacePlansMap = array(
 				'grind-broadway-39th' => '8055361a86538eac54ef5a46ef62beda',
 				'grind-lasalle-washington' => '8055361a86538eac54ef5a46effc0279',
 				'grind-park-ave' => 'da3041b37c8a05b04b59250713e2656f')
-				)
-);
+				);
 
 $environmentSpaces = array();
 foreach ($environments as $environment) {
