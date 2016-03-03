@@ -501,15 +501,11 @@ class LocationModel extends CI_Model {
 	}
 
 	function determine_membership($space_id, $memberships) {
-		global $spacePlansMap;
-		$util = new utilities;
-		$environment = $util->get_environment_for($space_id);
-		$plans = $spacePlansMap[$environment];
-		$plan_id = $plans[$space_id];
+		$daily_plan_name = 'Daily';
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
-			if($membership["id"] != $plan_id) {
+			if(strtolower($membership["plan_name"]) != strtolower($daily_plan_name)) {
 				$retValue = true;
 			}
 		}
@@ -561,9 +557,7 @@ class LocationModel extends CI_Model {
 	        'lon' => $longitude,
 	        'address' => $address,
 	        'rate' => '$'.$rate.'/day',
-	        'resources' => $resources,
-	        'is_member' => count($memberships) > 0,
-	        'memberships' => $memberships
+	        'resources' => $resources
 	      );
 	      array_push($space_data, $spacedata);
     	}
