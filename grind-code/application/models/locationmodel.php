@@ -608,8 +608,8 @@ class LocationModel extends CI_Model {
 
   	$data = array(
 		"membership_id"=>$membership_id,
-		"from"=> "2015-03-03 18:00 +0000",
-		"to"=> "2015-03-03 22:00 +0000",
+		"from"=> "2016-03-03 18:00 +0000",
+		"to"=> "2016-03-03 22:00 +0000",
 		"title"=> "test booking",
 		"comments"=> "tea please"
   		);
@@ -625,7 +625,7 @@ class LocationModel extends CI_Model {
     $context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
     error_log(json_encode($result));
-    return $result;
+    return json_decode($result);
   }
 
 }
