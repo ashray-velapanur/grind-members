@@ -468,8 +468,10 @@ class Api extends REST_Controller
     $space_id = $this->post('space_id');
     $user_id = $this->post('user_id');
     $resource_id = $this->post('resource_id');
+    $from = $this->post('from');
+    $to = $this->post('to');
     $this->load->model('locationmodel', 'lm', true);
-    $success = $this->lm->book_space($space_id, $user_id, $resource_id);
+    $success = $this->lm->book_space($space_id, $user_id, $resource_id, $from, $to);
     $this->response(array('success' => $success), 200);
   }
 

@@ -608,7 +608,7 @@ class LocationModel extends CI_Model {
 	    return $resource_data;
   }
 
-  function book_space($space_id, $user_id, $resource_id=null) {
+  function book_space($space_id, $user_id, $resource_id=null, $from=null, $to=null) {
   	error_log('booking space');
     global $spaceToMainArea, $environmentsToAccessToken;
     if(!$resource_id) {
@@ -626,12 +626,18 @@ class LocationModel extends CI_Model {
 	$environment = $util->get_environment_for($space_id);
 	error_log($environment);
   	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
-  	$from = date_create();
-  	$to = date_add(date_create(), date_interval_create_from_date_string("5 hours"));
+  	if(!$from){
+  		$from = date_create();
+  		$from = date_format($from, 'Y-m-d H:i O')
+  	}
+  	if(!$to){
+  		$to = date_add(date_create(), date_interval_create_from_date_string("5 hours"));
+  		$to = date_format($to, 'Y-m-d H:i O')
+  	}
   	$data = array(
 		"membership_id"=>$membership_id,
-		"from"=> date_format($from, 'Y-m-d H:i O'), //date_create()->format('Y-m-d H:i:s')
-		"to"=> date_format($to, 'Y-m-d H:i O'),
+		"from"=> $from,
+		"to"=> $to,
 		"title"=> "test booking",
 		"comments"=> "tea please"
   		);
