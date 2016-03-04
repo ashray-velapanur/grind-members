@@ -648,11 +648,12 @@ class LocationModel extends CI_Model {
             'content' => http_build_query($data),
         ),
     );
-    error_log(json_encode($options));
-    error_log(json_encode($data));
+    error_log('... creating booking');
+    error_log($options);
+    error_log($data);
     $context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
-    error_log(json_encode($result));
+    error_log(json_decode($result));
     return json_decode($result);
   }
 
