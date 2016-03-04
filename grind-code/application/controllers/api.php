@@ -471,8 +471,12 @@ class Api extends REST_Controller
     $from = $this->post('from');
     $to = $this->post('to');
     $this->load->model('locationmodel', 'lm', true);
-    $success = $this->lm->book_space($space_id, $user_id, $resource_id, $from, $to);
-    $this->response(array('success' => $success), 200);
+    $response = $this->lm->book_space($space_id, $user_id, $resource_id, $from, $to);
+    if ($response) {
+      $this->response(array('success' => true, 'data' => $response), 200);
+    } else {
+      $this->response(array('success' => false, 'message' => 'Booking error'), 200);
+    }
   }
 
   function create_event_post() {
