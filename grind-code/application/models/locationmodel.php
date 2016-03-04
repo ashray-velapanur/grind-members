@@ -653,7 +653,7 @@ class LocationModel extends CI_Model {
     error_log(json_encode($data));
     $context  = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
-    error_log(json_decode($result));
+    error_log($result);
     return json_decode($result);
   }
 
