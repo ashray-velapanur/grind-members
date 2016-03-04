@@ -173,11 +173,9 @@ class Cobot extends CI_Controller {
 		$_POST = json_decode($_json, true);
 		$membership_url = $_POST['url'];
 		error_log($membership_url);
-		$subdomain_start = strpos($membership_url, '://') + 3;
-		$subdomain_end = strpos($membership_url, '.cobot.me/api/memberships/');
-		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
-		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
-		$id = substr($membership_url, $id_start);
+		$id_subdomain = $this->get_membership_id_and_subdomain($membership_url);
+		$subdomain = $id_subdomain['subdomain'];
+		$id = $id_subdomain['id'];
 		$membership = json_decode($this->get_membership_details($membership_url, $subdomain));
 		error_log(json_encode($membership));
 		if($membership->cobot_user_id) {
@@ -205,16 +203,38 @@ class Cobot extends CI_Controller {
 		$_json = file_get_contents("php://input");
 		$_POST = json_decode($_json, true);
 		$membership_url = $_POST['url'];
-		$subdomain_start = strpos($membership_url, '://') + 3;
-		$subdomain_end = strpos($membership_url, '.cobot.me/api/memberships/');
-		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
-		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + 26;
-		$id = substr($membership_url, $id_start);
+		$id_subdomain = $this->get_membership_id_and_subdomain($membership_url);
+		$subdomain = $id_subdomain['subdomain'];
+		$id = $id_subdomain['id'];
 		$membership = json_decode($this->get_membership_details($membership_url, $subdomain));
 		$sql = "UPDATE cobot_memberships SET canceled_to = '$membership->canceled_to' where space_id = '$subdomain' and id = '$id'";
 		error_log($sql);
 		$this->db->query($sql);
 		return $membership_url;
+	}
+
+	function membership_plan_changed() {
+		error_log('Handling membership plan changed webhook');
+		$_json = file_get_contents("php://input");
+		$_POST = json_decode($_json, true);
+		$membership_url = $_POST['url'];
+		$id_subdomain = $this->get_membership_id_and_subdomain($membership_url);
+		$subdomain = $id_subdomain['subdomain'];
+		$id = $id_subdomain['id'];
+		$membership = json_decode($this->get_membership_details($membership_url, $subdomain));
+		$sql = "UPDATE cobot_memberships SET plan_name = '$membership->plan_name' where space_id = '$subdomain' and id = '$id'";
+		error_log($sql);
+		$this->db->query($sql);
+		return $membership_url;
+	}
+
+	function get_membership_id_and_subdomain($membership_url) {
+		$subdomain_start = strpos($membership_url, '://') + strlen('://');
+		$subdomain_end = strpos($membership_url, '.cobot.me/api/memberships/');
+		$subdomain = substr($membership_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		$id_start = strpos($membership_url, '.cobot.me/api/memberships/') + strlen('.cobot.me/api/memberships/');
+		$id = substr($membership_url, $id_start);
+		return array('subdomain'=>$subdomain, 'id'=>$id);
 	}
 
 	function update_space_capacity() {
