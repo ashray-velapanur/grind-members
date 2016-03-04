@@ -589,7 +589,7 @@ class LocationModel extends CI_Model {
 	    $resource_data = array();
 	    foreach ($resources as $resource_arr) {
 	      $resource = (array)$resource_arr;
-	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource['id']."' and membership.canceled_to is not null";
+	      $sql = "select booking.id, booking.from_datetime, booking.to_datetime from cobot_bookings booking left outer join cobot_memberships membership on booking.membership_id = membership.id and booking.space_id = membership.space_id where booking.resource_id = '".$resource['id']."' and membership.canceled_to is null";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $bookings = $query->result();
