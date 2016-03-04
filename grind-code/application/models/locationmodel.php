@@ -628,11 +628,11 @@ class LocationModel extends CI_Model {
   	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
   	if(!$from){
   		$from = date_create();
-  		$from = date_format($from, 'Y-m-d H:i O')
+  		$from = date_format($from, 'Y-m-d H:i O');
   	}
   	if(!$to){
   		$to = date_add(date_create(), date_interval_create_from_date_string("5 hours"));
-  		$to = date_format($to, 'Y-m-d H:i O')
+  		$to = date_format($to, 'Y-m-d H:i O');
   	}
   	$data = array(
 		"membership_id"=>$membership_id,
