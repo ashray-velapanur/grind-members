@@ -518,7 +518,8 @@ class LocationModel extends CI_Model {
 			$cms = $query->result();
 			if(count($cms) > 0) {				
 				$cm = current($cms);
-				$sql = "select id from cobot_bookings where space_id = '".$space_id."' and resource_id = '".$main_area_resource_id."' and membership_id = '".$cm->id."'";
+				$to_datetime = gmdate('Y-m-d H:i:s');
+				$sql = "select id from cobot_bookings where space_id = '".$space_id."' and resource_id = '".$main_area_resource_id."' and membership_id = '".$cm->id."' and to_datetime > '".$to_datetime."'";
 				error_log($sql);
 				$query = $this->db->query($sql);
 				$result = $query->result();
