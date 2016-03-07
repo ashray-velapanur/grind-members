@@ -20,7 +20,7 @@ class utilities {
         $env = null;
         switch (SITE) {
             case "STAGING":
-                $env = "dev";
+                $env = "prod";
                 break;
             case "PRODUCTION":
                 $env = "prod";
