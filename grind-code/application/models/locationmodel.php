@@ -506,7 +506,7 @@ class LocationModel extends CI_Model {
 		$main_area_resource_id = $spaceToMainArea[$space_id];
 		$retValue = false;
 		foreach ($memberships as $membership) {
-			$membership = (array)$membership;
+			error_log(json_encode($membership));
 			if(strtolower($membership["plan_name"]) != strtolower($daily_plan_name)) {
 				$retValue = true;
 			}
