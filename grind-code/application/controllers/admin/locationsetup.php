@@ -53,10 +53,11 @@ class LocationSetup extends CI_Controller {
 
 	public function add_update_space($space, $environment) {
 		$sql = "INSERT INTO cobot_spaces";
-		$sql .= "(id, image, capacity, lat, lon, address, rate, name, description) 
-				VALUES 
-				(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\") ";
+		$sql .= "(id, image, capacity, lat, lon, address, rate, name, description) ".
+				"VALUES ".
+				"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\") ";
 		try {
+			error_log($sql);
 			if ($this->db->query($sql) === TRUE) {
 				echo "Record created/updated successfully";
 				$this->setup_webhook_subscriptions($space['id'], $environment);

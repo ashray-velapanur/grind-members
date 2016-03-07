@@ -29,7 +29,30 @@ $defaultParamValues = array(
 							'address' => '419 Park Avenue South New York NY 10016',
 							'rate' => 55,
 							'name' => 'PARK AVE',
-							'description' => 'Description Here...');
+							'description' => '<div style=\"color:#CCD1D9;font-family:\'Montserrat\', sans-serif;font-size: 14px;\">'.
+												 '<p>'.
+												 	"Grind Park is Grind's first location, built in 2011. It is predominantly open, non-dedicated space, but contains Team Rooms and Conference Rooms in addition, making it a home for almost all of Grind's varied memberships.".
+												 '</p>'.
+												 '<h6 style=\'color:#F15A40;\'>AMENITIES</h6>'.
+												 '<ol>'.
+												 	'<li>One 8 person conference room</li>'.
+												 	'<li>One 4-5 person conference room</li>'.
+												 	'<li>Two 2-3 person chat rooms</li>'.
+												 	'<li>Private phone booths</li>'.
+												 	'<li>Kitchen</li>'.
+												 	'<li>Event Space</li>'.
+												 	'<li>Intelligentsia coffee and tea</li>'.
+												 	'<li>Purified water</li>'.
+												 	'<li>Complimentary snacks</li>'.
+												 	'<li>AV equipment</li>'.
+												 	'<li>High speed WiFi and ethernet</li>'.
+												 	'<li>Printer, copier and scanner access</li>'.
+												 	'<li>Full time, on-site community management</li>'.
+												 	'<li>Access to the national Grind network</li>'.
+												 	'<li>Storage (for monthly subscribers)</li>'.
+												 '</ol>'.
+											'</div>'
+							);
 
 $spacePlansMap = array(
 				"dev" => array(
