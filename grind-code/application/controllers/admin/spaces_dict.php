@@ -9,9 +9,9 @@ $spaceValMap = array("grind-park-avenue" => array('name' => 'PARK AVE'),
 					 "pirates-downtown" => array('name' => 'DOWNTOWN'),
 					 "pirates-broadway-30" => array('name' => 'BROADWAY 30'),
 					 "pirates-broadway" => array('name' => 'BROADWAY'),
-					 "grind-park-ave" => array('name' => 'Grind Park Ave/29th'),
-					 "grind-lasalle-washington" => array('name' => 'Grind LaSalle/Washington'),
-					 "grind-broadway-39th" => array('name' => 'Grind Broadway/39th'));
+					 "grind-park-ave" => array('name' => 'Park Ave/29th'),
+					 "grind-lasalle-washington" => array('name' => 'LaSalle'),
+					 "grind-broadway-39th" => array('name' => 'Broadway/39th'));
 $spaceToMainArea = array("grind-park-avenue" => 'c306ddebd5f7f14637bb85a29378b101',
 						 "pirates-lasalle" => '5a96701a08a584f27bd710467ef0ab73',
 						 "pirates-downtown" => '5a96701a08a584f27bd710467ef094ba',
