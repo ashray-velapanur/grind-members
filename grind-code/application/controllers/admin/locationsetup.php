@@ -100,7 +100,7 @@ class LocationSetup extends CI_Controller {
 	public function add_update_resource($resource, $space_id) {
 		$imgName = $resource['id'].'.png';
 		$sql = "INSERT INTO cobot_resources";
-		$rate = $resource['rate'] ? $resource['rate'] : 0.0;
+		$rate = $resource['price_per_hour'] ? $resource['price_per_hour'] : 0.0;
 		$sql .= "(id, space_id, image, name, capacity, rate, description) VALUES ('".$resource['id']."', '$space_id', '$imgName', '".$resource['name']."', 10, ".$rate.", \"".$resource['description']."\")";
 		try {
 			error_log($sql);
