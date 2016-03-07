@@ -615,7 +615,7 @@ class LocationModel extends CI_Model {
     if(!$resource_id) {
 	  	$resource_id = $spaceToMainArea[$space_id];
     }
-  	$sql = "select * from cobot_memberships where user_id='".$user_id."' and space_id='".$space_id."'";
+  	$sql = "select m.*, u.first_name, u.last_name from cobot_memberships m join user u on m.user_id = u.id where u.id='".$user_id."' and m.space_id='".$space_id."'";
   	error_log($sql);
   	$query = $this->db->query($sql);
   	$result = $query->result();
@@ -623,6 +623,7 @@ class LocationModel extends CI_Model {
   	$membership = current($result);
   	error_log($membership);
   	$membership_id = $membership->id;
+  	$title = $membership->first_name.' '.$membership->last_name;
 	$util = new utilities;
 	$environment = $util->get_environment_for($space_id);
 	error_log($environment);
@@ -639,7 +640,7 @@ class LocationModel extends CI_Model {
 		"membership_id"=>$membership_id,
 		"from"=> $from,
 		"to"=> $to,
-		"title"=> "test booking",
+		"title"=> $title,
 		"comments"=> "tea please"
   		);
     $options = array(
