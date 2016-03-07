@@ -533,6 +533,7 @@ class LocationModel extends CI_Model {
 
 	function spaces($user_id) {
 		$space_data = array();
+		$daily_plan_name = 'Daily';
 	    $query = $this->db->get("cobot_spaces");
 	    $spaces = $query->result();
 	    foreach ($spaces as $space_arr) {
@@ -543,13 +544,26 @@ class LocationModel extends CI_Model {
 	      $latitude = $space['lat'];
 	      $longitude = $space['lon'];
 	      $address = $space['address'];
-	      $rate = $space['rate'];
+	      $rate = '$'.$space['rate'].'/day';
 	      $description = $space['description'];
 	      $name = $space['name'];
 	      $sql = "select membership.id, membership.plan_name from cobot_memberships membership where membership.space_id = '".$space_id."' and membership.user_id = '".$user_id."'";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
-		  $memberships = $query->result();
+		  $memberships_result = $query->result();
+		  $memberships = array();
+		  foreach ($memberships_result as $membership) {
+		  	$id = $membership->id;
+		  	$plan_name = $membership->plan_name;
+		  	if($plan_name == $daily_plan_name) {
+		  		$plan_name = $rate;
+		  	}
+		  	$m = array(
+		  			'id' => $id,
+		  			'plan_name' => $plan_name
+		  		);
+		  	array_push($memberships, $m);
+		  }
 		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
 	      $resourcedata = array(
@@ -558,7 +572,7 @@ class LocationModel extends CI_Model {
             'img_src' => $space_img_src,
             'description' => $description,
             'capacity' => $capacity.' seats free',
-            'rate' => '$'.$rate.'/day',
+            'rate' => $rate,
 	        'is_member' => $this->determine_membership($space_id, $memberships),
 	        'memberships' => $memberships,
 	        'plans_url' => $plans_url
@@ -575,7 +589,7 @@ class LocationModel extends CI_Model {
 	        'lat' => $latitude,
 	        'lon' => $longitude,
 	        'address' => $address,
-	        'rate' => '$'.$rate.'/day',
+	        'rate' => $rate,
 	        'resources' => $resources
 	      );
 	      array_push($space_data, $spacedata);
