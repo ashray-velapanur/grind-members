@@ -506,6 +506,7 @@ class LocationModel extends CI_Model {
 		$main_area_resource_id = $spaceToMainArea[$space_id];
 		$retValue = false;
 		foreach ($memberships as $membership) {
+			$membership = (array)$membership;
 			error_log(json_encode($membership));
 			if(strtolower($membership["plan_name"]) != strtolower($daily_plan_name)) {
 				$retValue = true;
@@ -550,9 +551,9 @@ class LocationModel extends CI_Model {
 	      $sql = "select membership.id, membership.plan_name from cobot_memberships membership where membership.space_id = '".$space_id."' and membership.user_id = '".$user_id."'";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
-		  $memberships_result = $query->result();
-		  $memberships = array();
-		  foreach ($memberships_result as $membership) {
+		  $memberships = $query->result();
+		  $memberships_arr = array();
+		  foreach ($memberships as $membership) {
 		  	$id = $membership->id;
 		  	$plan_name = $membership->plan_name;
 		  	if($plan_name == $daily_plan_name) {
@@ -562,7 +563,7 @@ class LocationModel extends CI_Model {
 		  			'id' => $id,
 		  			'plan_name' => $plan_name
 		  		);
-		  	array_push($memberships, $m);
+		  	array_push($memberships_arr, $m);
 		  }
 		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
@@ -574,7 +575,7 @@ class LocationModel extends CI_Model {
             'capacity' => $capacity.' seats free',
             'rate' => $rate,
 	        'is_member' => $this->determine_membership($space_id, $memberships),
-	        'memberships' => $memberships,
+	        'memberships' => $memberships_arr,
 	        'plans_url' => $plans_url
           );
 	      $resources = array();
