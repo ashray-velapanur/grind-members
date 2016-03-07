@@ -16,7 +16,7 @@ class utilities {
         return "";
     }
 
-    public function get_cobot_environment() {
+    public function get_current_environment() {
         $env = null;
         switch (SITE) {
             case "STAGING":

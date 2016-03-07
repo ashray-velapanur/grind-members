@@ -93,7 +93,8 @@ class LoginModel extends CI_Model {
     public function create_cobot_membership($id, $plan_name) {
         error_log('... creating cobot membership');
         global $environmentsToSpaces, $environmentsToAccessToken, $spacePlansMap;
-        $environment = 'dev';
+        $util = new utilities;
+        $environment = $util->get_current_environment();
         $spaces = $environmentsToSpaces[$environment];
         error_log(json_encode($spacePlansMap));
         foreach ($spaces as $space) {
@@ -134,7 +135,8 @@ class LoginModel extends CI_Model {
       error_log('... creating cobot user');
       global $environmentsToAccessToken, $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
       $url = 'https://www.cobot.me/api/users';
-      $environment = "dev";
+      $util = new utilities;
+      $environment = $util->get_current_environment();
       $data = array(
         'access_token' => $environmentsToAccessToken[$environment],
         'email' => $email,
