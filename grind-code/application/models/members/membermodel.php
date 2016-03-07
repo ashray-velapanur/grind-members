@@ -273,7 +273,7 @@ class MemberModel extends CI_Model {
                 third_party_user.profile_picture as profile_picture
         from 
                 user 
-                left outer join third_party_user on third_party_user.user_id = user.id
+                left outer join third_party_user on third_party_user.user_id = user.id and network='linkedin'
                 left outer join company on company.id = user.company_id
                 left outer join subscription_sync on subscription_sync.user_id = user.id
                 left outer join address on user.id = address.user_id and address.is_primary = 1
