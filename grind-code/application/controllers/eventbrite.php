@@ -7,6 +7,7 @@ class Eventbrite extends CI_Controller {
 		$request_body = file_get_contents('php://input');
 		$data = json_decode($request_body);
 		$url = $data->api_url;
+		error_log($url);
 	  	$data = array(
 			"token"=>"EYFPEMS6IJLSNOXNVH56"
 	  		);
