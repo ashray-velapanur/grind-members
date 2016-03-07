@@ -9,9 +9,12 @@ class Eventbrite extends CI_Controller {
 		$url = $data->api_url;
 		$url = $url."?token=EYFPEMS6IJLSNOXNVH56";
 		error_log($url);
-		$response = file_get_contents($url);
+		$response = json_encode(file_get_contents($url));
 		error_log($response);
-		error_log(json_decode($response));
+		$name = $response->name;
+		$id = $response->id;
+		$sql = "INSERT INTO events (id, name) VALUES ('$id', '$name->text')";
+		$this->db->query($sql);
 	}
 }
 
