@@ -1631,11 +1631,15 @@ class MemberModel extends CI_Model {
             array_push($spaces, $result->space_id);
         }
 
+        $this->load->model("usertagsmodel","utm",true);
+        $user_tags = $this->utm->get_tags_with_count($user_id);
+
         $profile = array(
             "name" => $user->first_name.' '.$user->last_name,
             "profile_picture" => $user->profile_picture,
             "work_history" => $work_history,
-            "spaces" => $spaces
+            "spaces" => $spaces,
+            "tags" => $user_tags
         );
 
         return $profile;
