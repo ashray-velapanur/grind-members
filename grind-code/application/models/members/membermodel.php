@@ -1618,10 +1618,24 @@ class MemberModel extends CI_Model {
             array_push($work_history, $work);
         }
 
+        $sql = "   
+            select
+                cm.space_id
+            from 
+                cobot_memberships cm
+            where cm.user_id = ".$user_id." and cm.canceled_to is null";
+        $query = $this->db->query($sql);
+        $results = $query->result();
+        $spaces = array();
+        foreach ($results as $result) {
+            array_push($spaces, $result->space_id);
+        }
+
         $profile = array(
             "name" => $user->first_name.' '.$user->last_name,
             "profile_picture" => $user->profile_picture,
-            "work_history" => $work_history
+            "work_history" => $work_history,
+            "spaces" => $spaces
         );
 
         return $profile;
