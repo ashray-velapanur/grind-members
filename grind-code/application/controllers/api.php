@@ -233,18 +233,11 @@ class Api extends REST_Controller
           } else {
             $this->load->model("positionsmodel","pm",true);
             $this->load->model("usertagsmodel","utm",true);
-            $this->load->model("jobtagsmodel","jtm",true);
-            $this->load->model("tagsmodel","tm",true);
             $response_data = array();
             foreach ($this->pm->get($company_id) as $position) {
               $user_id = $position['user_id'];
-              foreach ($this->utm->get($user_id) as $user_tag) {
-                $tag_id = $user_tag['tag_id'];
-                $tag = $this->tm->get($tag_id);
-                $name = $tag['name'];
-                $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
-                array_push($response_data, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
-              }
+              $resp = $this->utm->get_tags_with_count($user_id);
+              array_push($response_data, $resp);
             }
             $response = array('success'=>TRUE, 'data'=>$response_data);
           }
@@ -257,17 +250,7 @@ class Api extends REST_Controller
             $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
           } else {
             $this->load->model("usertagsmodel","utm",true);
-            $this->load->model("jobtagsmodel","jtm",true);
-            $this->load->model("tagsmodel","tm",true);
-            $user_tags = $this->utm->get($user_id);
-            $response_data = array();
-            foreach ($user_tags as $user_tag) {
-              $tag_id = $user_tag['tag_id'];
-              $total_count = $this->utm->count($tag_id) + $this->jtm->count($tag_id);
-              $tag = $this->tm->get($tag_id);
-              $name = $tag['name'];
-              array_push($response_data, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
-            }
+            $response_data = $this->utm->get_tags_with_count($user_id);
             $response = array('success'=>TRUE, 'data'=>$response_data);
           }
           $this->response($response, 200);

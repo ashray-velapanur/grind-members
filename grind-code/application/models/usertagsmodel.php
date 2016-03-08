@@ -27,6 +27,19 @@ class UserTagsModel extends CI_Model {
 		return $count;
 	}
 
-
+	function get_tags_with_count($user_id) {
+		$this->load->model("jobtagsmodel","jtm",true);
+		$this->load->model("tagsmodel","tm",true);
+		$user_tags = $this->get($user_id);
+        $response_data = array();
+        foreach ($user_tags as $user_tag) {
+          $tag_id = $user_tag['tag_id'];
+          $total_count = $this->count($tag_id) + $this->jtm->count($tag_id);
+          $tag = $this->tm->get($tag_id);
+          $name = $tag['name'];
+          array_push($response_data, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+        }
+        return $response_data;
+	}
 };
 ?>
