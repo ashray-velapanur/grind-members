@@ -268,6 +268,18 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
+      function tag_companies_get() {
+          $tag_id = $this->get('tag_id');
+          if (!$tag_id) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("usertagsmodel","utm",true);
+            $response_data = $this->utm->get_companies($tag_id);
+            $response = array('success'=>TRUE, 'data'=>$response_data);
+          }
+          $this->response($response, 200);
+      }
+
      function search_get(){
       $this->benchmark->mark('search_start');
       $q = $this->get('q');

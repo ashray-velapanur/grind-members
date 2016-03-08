@@ -59,5 +59,20 @@ class UserTagsModel extends CI_Model {
         $response_data = $query->result();
         return $response_data;
 	}
+
+	function get_companies($tag_id) {
+        $response_data = array();
+        $sql = "select ".
+        			"company.id as company_id, company.name as company_name, company.logo_url as company_logo ".
+        		"from ".
+        			"company ".
+        			"left outer join positions on positions.company_id = company.id ".
+        			"left outer join user_tags on user_tags.user_id = positions.user_id ".
+        		"where user_tags.tag_id = ".$tag_id;
+        error_log($sql);
+        $query = $this->db->query($sql);
+        $response_data = $query->result();
+        return $response_data;
+	}
 };
 ?>
