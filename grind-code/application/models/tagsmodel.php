@@ -21,7 +21,11 @@ class TagsModel extends CI_Model {
 	function all(){
         $query = mysql_query("SELECT * FROM tags");
         $response = array();
+        $this->load->model("jobtagsmodel","jtm",true);
+		$this->load->model("usertagsmodel","utm",true);
         while($row = mysql_fetch_assoc($query)) {
+        	$total_count = $this->utm->count($row['id']) + $this->jtm->count($row['id']);
+        	$row["count"] = $total_count;
 	      	array_push($response, $row);
         }
         return $response;
