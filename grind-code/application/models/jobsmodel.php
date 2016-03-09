@@ -21,6 +21,7 @@ class JobsModel extends CI_Model {
 		} else {
 			$query = mysql_query($base_query);
 		}
+		error_log($query);
 		$response = array();
         while($row = mysql_fetch_assoc($query)) {
 	      	array_push($response, $row);
