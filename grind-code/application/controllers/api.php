@@ -267,6 +267,18 @@ class Api extends REST_Controller
           $this->response($response, 200);
      }
 
+     function event_tags_get() {
+          $event_id = $this->get('event_id');
+          if (!$event_id) {
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("eventtagsmodel","etm",true);
+            $response_data = $this->etm->get($event_id);
+            $response = array('success'=>TRUE, 'data'=>$response_data);
+          }
+          $this->response($response, 200);
+     }
+
      function user_tags_get() {
           $user_id = $this->get('user_id');
           if (!$user_id) {
