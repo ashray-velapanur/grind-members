@@ -331,7 +331,7 @@ class Api extends REST_Controller
     if (count($results)>0) {
       foreach ($results as $result) {
         $arr = array();
-        $arr['title'] = $result->title;
+        $arr['name'] = $result->title;
         $arr['image'] = $result->image;
         $arr['rank'] = $result->rank;
         array_push($bubbles, $arr);
