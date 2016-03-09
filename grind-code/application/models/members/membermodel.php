@@ -261,29 +261,17 @@ class MemberModel extends CI_Model {
         }
         $sql = "
         select 
-                user.id, user.rfid, user.wp_users_id, user.first_name, user.last_name, 
+                user.id, user.first_name, user.last_name, 
                 company.name as company,
-                '[placeholder]' as full_address_w_linebreaks,
-                phone.number as phone_number,
-                email.address as email_address,
-                vadmin.is_admin as is_admin,
-                subscription_sync.plan_code as plan_code,
-                signin.last_sign_in,
                 positions.designation as designation,
                 third_party_user.profile_picture as profile_picture
         from 
                 user 
                 left outer join third_party_user on third_party_user.user_id = user.id and network='linkedin'
                 left outer join company on company.id = user.company_id
-                left outer join subscription_sync on subscription_sync.user_id = user.id
-                left outer join address on user.id = address.user_id and address.is_primary = 1
-                left outer join phone on phone.user_id = user.id and phone.is_primary = 1
-                left outer join email on email.user_id = user.id and email.is_primary = 1
-                left outer join (select user_id, max(sign_in) last_sign_in from signin_sheet group by user_id) signin on signin.user_id = user.id
-                inner join v_user_adminstatus vadmin on vadmin.id = user.id
                 left outer join positions on positions.company_id = user.company_id and positions.user_id = user.id
         where
-                user.membership_status_luid = ".MembershipStatus::ACTIVE_MEMBER."
+                user.id is not null
                 ".$exclude_current_query."
                 ".$filters_query."
         order by
@@ -294,6 +282,7 @@ class MemberModel extends CI_Model {
         if (isset($offset)){
                 $sql .= " offset ".$offset;
         }
+        error_log($sql);
         $query = $this->db->query($sql);
         $users = $query->result();
         
