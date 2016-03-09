@@ -252,7 +252,7 @@ class MemberModel extends CI_Model {
         error_log($num . " :: ".$offset,0);
         $sql = "";
         if($company_id) {
-            $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name, company.id , positions.designation
+            $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
                             join third_party_user on third_party_user.user_id = user.id and network='linkedin'
@@ -265,7 +265,7 @@ class MemberModel extends CI_Model {
                             user.first_name, user.last_name";
         }
         else {
-            $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name, positions.designation
+            $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
                             join third_party_user on third_party_user.user_id = user.id and network='linkedin'
