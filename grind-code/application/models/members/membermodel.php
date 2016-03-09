@@ -1620,15 +1620,19 @@ class MemberModel extends CI_Model {
 
         $sql = "   
             select
-                cm.space_id
+                cs.name
             from 
                 cobot_memberships cm
+                join
+                cobot_spaces cs
+                on cm.space_id = cs.id
             where cm.user_id = ".$user_id." and cm.canceled_to is null";
         $query = $this->db->query($sql);
         $results = $query->result();
+        error_log(json_encode($results));
         $spaces = array();
         foreach ($results as $result) {
-            array_push($spaces, $result->space_id);
+            array_push($spaces, $result->name);
         }
 
         $this->load->model("usertagsmodel","utm",true);
