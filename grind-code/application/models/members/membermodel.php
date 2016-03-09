@@ -248,7 +248,7 @@ class MemberModel extends CI_Model {
     
     }
 
-    function new_listing($num, $offset=NULL, $filters=NULL, $exclude_current=NULL, $user_id=NULL){
+    function new_listing($num, $offset=NULL, $filters=NULL, $user_id=NULL){
         error_log($num . " :: ".$offset,0);
         $filters_query = "";
         if ($filters) {
@@ -256,27 +256,18 @@ class MemberModel extends CI_Model {
                 $filters_query = $filters_query." and positions.".$key." = ".$value;
             }
         }
-        if ($exclude_current) {
-            $exclude_current_query = " and user.id <> ".$user_id;
-        }
         $sql = "
-        select 
-                user.id, user.first_name, user.last_name, 
-                company.name as company,
-                positions.designation as designation,
-                third_party_user.profile_picture as profile_picture
-        from 
+        select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name, positions.designation
+            from 
                 user 
-                left outer join third_party_user on third_party_user.user_id = user.id and network='linkedin'
-                left outer join positions on positions.user_id = user.id
-                left outer join company on company.id = positions.company_id
-        where
-                user.id is not null
-                ".$exclude_current_query."
-                ".$filters_query."
-        order by
-                user.first_name, user.last_name
-        ";
+                join third_party_user on third_party_user.user_id = user.id and network='linkedin'
+                join company on company.id = user.company_id
+                join positions on positions.company_id = user.company_id
+            where
+                user.id <> ".$user_id
+                .$filters_query."
+            order by
+                user.first_name, user.last_name";
         if (isset($num)) {
                 $sql .= " limit ".$num;
         } 
