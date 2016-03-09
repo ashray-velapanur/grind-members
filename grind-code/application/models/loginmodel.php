@@ -235,6 +235,7 @@ class LoginModel extends CI_Model {
     private function add_companies($newUserId, $profile) {
         $positions = (array)$profile["positions"];
         $values = (array)$positions["values"];
+        $set_current_company = true;
         foreach ($values as $value) {
             $value = (array)$value;
             $company = (array)$value["company"];
@@ -252,9 +253,10 @@ class LoginModel extends CI_Model {
             if($company_id == 0) {
                 $company_id = $this->db->insert_id();
             }
-            if($is_current) {
+            if($is_current && $set_current_company) {
                 $sql = "UPDATE user SET company_id = '".$company_id."' WHERE id = '".$newUserId."'";
                 $this->db->query($sql);
+                $set_current_company = false;
             }
             $sql = "INSERT INTO positions (user_id, company_id, designation, start_date) VALUES ('$newUserId', '".$company_id."', '".$title."', '".$start_date."') ON DUPLICATE KEY UPDATE designation='".$title."', start_date='".$start_date."'";
             $this->db->query($sql);
