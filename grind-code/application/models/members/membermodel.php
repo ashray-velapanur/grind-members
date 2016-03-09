@@ -262,7 +262,7 @@ class MemberModel extends CI_Model {
                 user 
                 join third_party_user on third_party_user.user_id = user.id and network='linkedin'
                 join company on company.id = user.company_id
-                join positions on positions.company_id = user.company_id
+                join positions on positions.company_id = user.company_id and positions.user_id = user.id
             where
                 user.id <> ".$user_id
                 .$filters_query."
