@@ -211,6 +211,29 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
+     function event_tag_put() {
+          $event_id = $this->put('event_id');
+          $tag_id = $this->put('tag_id');
+          error_log($event_id);
+          error_log($tag_id);
+          if (!$event_id or !$tag_id) {
+            error_log('No event_id or tag_id');
+            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+          } else {
+            $this->load->model("eventtagsmodel","utm",true);
+            error_log('Loaded eventtagsmodel');
+            if ($this->utm->create($event_id, $tag_id)) {
+              error_log('Creation success');
+              $response = array('success'=> TRUE);
+            } else {
+              error_log('Creation failure');
+              $response = array('success'=> FALSE);
+            }
+          }
+          error_log(json_encode($response));
+          $this->response($response, 200);
+      }
+
 // clean this up
      function positions_put(){
         $user_id = $this->get('user_id');
