@@ -179,7 +179,12 @@ class Api extends REST_Controller
 
      function tags_get() {
           $this->load->model("tagsmodel","tm",true);
-          $response_data = $this->tm->all();
+          $company_id = $this->get('company_id');
+          if($company_id) {
+            $response_data = $this->tm->company_tags($company_id);  
+          } else {
+            $response_data = $this->tm->all();  
+          }
           if ($response_data) {
               $response = array('success'=> TRUE, 'data'=>$response_data);
           } else {

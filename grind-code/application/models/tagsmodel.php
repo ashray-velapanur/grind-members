@@ -30,5 +30,17 @@ class TagsModel extends CI_Model {
         }
         return $response;
 	}
+
+        function company_tags($company_id) {
+            $this->load->model("positionsmodel","pm",true);
+            $this->load->model("usertagsmodel","utm",true);
+            $response_data = array();
+            foreach ($this->pm->get($company_id) as $position) {
+              $user_id = $position['user_id'];
+              $resp = $this->utm->get_tags_with_count($user_id);
+              array_push($response_data, $resp);
+            }
+            return $response_data;
+        }
 };
 ?>
