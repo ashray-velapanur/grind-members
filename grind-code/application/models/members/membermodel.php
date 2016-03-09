@@ -250,7 +250,7 @@ class MemberModel extends CI_Model {
 
     function new_listing($num, $offset=NULL, $company_id=NULL, $user_id=NULL){
         error_log($num . " :: ".$offset,0);
-        $sql = ""
+        $sql = "";
         if($company_id) {
             $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name, company.id , positions.designation
                         from 
