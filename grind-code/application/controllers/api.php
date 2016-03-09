@@ -450,6 +450,20 @@ class Api extends REST_Controller
     $this->response($profile, 200);
   }
 
+  function user_profile_get() {
+    $this->benchmark->mark('user_profile_start');
+    $id = $this->get('id');
+    if (!$id) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $this->load->model('/members/membermodel','mm',true);
+      $response = $this->mm->get_profile_data($id);
+    }
+    $this->benchmark->mark('user_profile_end');
+    error_log('User Profile Time: '.$this->benchmark->elapsed_time('user_profile_start', 'user_profile_end'));
+    $this->response($response, 200);
+  }
+
   function create_company_post() {
     $name = $this->post('name');
     $description = $this->post('description');
