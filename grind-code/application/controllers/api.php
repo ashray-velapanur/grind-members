@@ -402,10 +402,7 @@ class Api extends REST_Controller
     $filters = NULL;
     $company_id = $this->get('company_id');
     $user_id = $this->get('user_id');
-    if ($company_id){
-      $filters = array("company_id"=>$company_id);
-    } 
-    $data["users"] = $this->membermodel->new_listing($config['per_page'], $row, $filters, $user_id);
+    $data["users"] = $this->membermodel->new_listing($config['per_page'], $row, $company_id, $user_id);
     $this->pagination->initialize($config);
     $data["pagination"] = $this->pagination->create_links();
     $this->benchmark->mark('members_end');
