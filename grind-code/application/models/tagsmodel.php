@@ -38,7 +38,7 @@ class TagsModel extends CI_Model {
             foreach ($this->pm->get($company_id) as $position) {
               $user_id = $position['user_id'];
               $resp = $this->utm->get_tags_with_count($user_id);
-              array_push($response_data, $resp);
+              $response_data = array_merge($response_data, $resp);
             }
             return $response_data;
         }
