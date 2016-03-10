@@ -320,7 +320,6 @@ class LocationManagement extends CI_Controller {
         }
         $data = array('space_data' => $space_data);
         return $data;
-        // $this->load->view('/admin/show_spaces.php', $data);
 	}
 
 	public function cobot_resource() {
@@ -409,7 +408,6 @@ class LocationManagement extends CI_Controller {
 		}
 		$data = array('resource_data' => $resource_data);
 		return $data;
-        //$this->load->view('/admin/show_resources.php', $data);
 	}
 }
 
