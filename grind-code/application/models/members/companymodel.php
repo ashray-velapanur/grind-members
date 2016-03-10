@@ -84,6 +84,16 @@ class CompanyModel extends CI_Model {
         return $retval; // no companies
 	}
 
+	function listing($tag_id) {
+		if($tag_id) {
+			$this->load->model("usertagsmodel","utm",true);
+            $result = $this->utm->get_companies($tag_id);
+		} else {
+			$result = $this->get_all();
+		}
+		return $result;
+	}
+
 	public function get_jobs($id) {
 		$data = array();
 		$jobs = array();
