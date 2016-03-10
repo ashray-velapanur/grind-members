@@ -583,5 +583,9 @@ class Api extends REST_Controller
     $this->response($subscription_url, 200);
   }
 
+  function eventbrite_token_get() {
+    $response = array("token" => "EYFPEMS6IJLSNOXNVH56");
+    $this->response($response, 200);
+  }
 }
 ?>
