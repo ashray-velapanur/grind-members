@@ -248,10 +248,15 @@ class MemberModel extends CI_Model {
     
     }
 
-    function new_listing($num, $offset=NULL, $company_id=NULL, $user_id=NULL){
+    function new_listing($num, $offset=NULL, $company_id=NULL, $user_id=NULL, $tag_id=NULL){
         error_log($num . " :: ".$offset,0);
         $sql = "";
-        if($company_id) {
+        if($tag_id) {
+            $this->load->model("usertagsmodel","utm",true);
+            $users = $this->utm->get_users($tag_id);
+            return $users;
+        }
+        elseif($company_id) {
             $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 

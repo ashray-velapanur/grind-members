@@ -296,18 +296,6 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
-      function tag_users_get() {
-          $tag_id = $this->get('tag_id');
-          if (!$tag_id) {
-            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-          } else {
-            $this->load->model("usertagsmodel","utm",true);
-            $response_data = $this->utm->get_users($tag_id);
-            $response = array('success'=>TRUE, 'data'=>$response_data);
-          }
-          $this->response($response, 200);
-      }
-
       function tag_companies_get() {
           $tag_id = $this->get('tag_id');
           if (!$tag_id) {
@@ -405,9 +393,10 @@ class Api extends REST_Controller
     $config['full_tag_close'] = '</div>';
     $config['uri_segment'] = 4;
     $filters = NULL;
+    $tag_id = $this->get('tag_id');
     $company_id = $this->get('company_id');
     $user_id = $this->get('user_id');
-    $data["users"] = $this->membermodel->new_listing($config['per_page'], $row, $company_id, $user_id);
+    $data["users"] = $this->membermodel->new_listing($config['per_page'], $row, $company_id, $user_id, $tag_id);
     $this->pagination->initialize($config);
     $data["pagination"] = $this->pagination->create_links();
     $this->benchmark->mark('members_end');

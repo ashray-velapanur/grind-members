@@ -49,10 +49,10 @@ class UserTagsModel extends CI_Model {
         			"third_party_user.profile_picture as profile_picture, positions.designation as designation, company.name as company_name ".
         		"from ".
         			"user ".
-        			"left outer join user_tags on user_tags.user_id = user.id ".
-        			"left outer join third_party_user on third_party_user.user_id = user.id ".
-        			"left outer join positions on positions.company_id = user.company_id and positions.user_id = user.id ".
-        			"left outer join company on user.company_id = company.id ".
+        			"join user_tags on user_tags.user_id = user.id ".
+        			"join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'".
+        			"join positions on positions.company_id = user.company_id and positions.user_id = user.id ".
+        			"join company on user.company_id = company.id ".
         		"where user_tags.tag_id = ".$tag_id;
         error_log($sql);
         $query = $this->db->query($sql);
