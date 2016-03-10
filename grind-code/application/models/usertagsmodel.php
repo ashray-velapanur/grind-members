@@ -45,8 +45,8 @@ class UserTagsModel extends CI_Model {
 	function get_users($tag_id) {
         $response_data = array();
         $sql = "select ".
-        			"user.id as id, concat_ws(' ', user.first_name , user.last_name) as name, ".
-        			"third_party_user.profile_picture as profile_picture, positions.designation as designation, company.name as company_name ".
+        			"user.id, user.first_name, user.last_name, ".
+        			"third_party_user.profile_picture as profile_picture, positions.designation as designation, company.name as company ".
         		"from ".
         			"user ".
         			"join user_tags on user_tags.user_id = user.id ".
