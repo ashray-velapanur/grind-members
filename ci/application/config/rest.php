@@ -10,7 +10,7 @@
 |	Default: xml
 |
 */
-$config['rest_default_format'] = 'json';
+$config['rest_default_format'] = 'xml';
 
 /*
 |--------------------------------------------------------------------------
