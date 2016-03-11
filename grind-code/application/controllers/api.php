@@ -455,11 +455,11 @@ class Api extends REST_Controller
   }
 
 // error handling
-  function profile_post() {
-    $id = $this->post('user_id');
-    $company_name = $this->post('company_name');
-    $title = $this->post('designation');
-    $tags_str = $this->post('tags');
+  function profile_put() {
+    $id = $this->put('user_id');
+    $company_name = $this->put('company_name');
+    $title = $this->put('designation');
+    $tags_str = $this->put('tags');
     $tags = explode("##", $tags_str);
     $this->load->model('/members/membermodel','mm',true);
     $success = false;

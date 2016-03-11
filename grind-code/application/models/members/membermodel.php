@@ -1656,18 +1656,27 @@ class MemberModel extends CI_Model {
             $company_id = $company->id;
         } else {
             $sql = "INSERT INTO company (id, name) VALUES ('0', '".$company_name."')";
+            error_log($sql);
             $this->db->query($sql);
             $company_id = $this->db->insert_id();
         }
         $sql = "UPDATE user SET company_id = '".$company_id."' WHERE id = '".$id."'";
+        error_log($sql);
         $this->db->query($sql);
         $sql = "INSERT INTO positions (user_id, company_id, designation, start_date) VALUES ('$id', '".$company_id."', '".$title."', '".date('Y-m-d')."') ON DUPLICATE KEY UPDATE company_id='".$company_id."', designation='".$title."'";
+        error_log($sql);
         $this->db->query($sql);
         $sql = "DELETE FROM user_tags where user_id='".$id."'";
+        error_log($sql);
         $this->db->query($sql);
+        error_log(json_encode($tags));
         foreach ($tags as $tag) {
-            $sql = "INSERT INTO user_tags (user_id, tag_id) VALUES ('$id', '$tag')";
-            $this->db->query($sql);
+            $tag = trim($tag);
+            if($tag) {
+                $sql = "INSERT INTO user_tags (user_id, tag_id) VALUES ('$id', '$tag')";
+                error_log($sql);
+                $this->db->query($sql);
+            }
         }
         return true;
     }
