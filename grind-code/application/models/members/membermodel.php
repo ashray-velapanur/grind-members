@@ -1629,9 +1629,6 @@ class MemberModel extends CI_Model {
             array_push($spaces, $result->name);
         }
 
-        $this->load->model("jobsmodel","jm",true);
-        $user_jobs = $this->jm->get(null, $user_id);
-
         $this->load->model("usertagsmodel","utm",true);
         $user_tags = $this->utm->get_tags_with_count($user_id);
 
@@ -1640,7 +1637,6 @@ class MemberModel extends CI_Model {
             "profile_picture" => $user->profile_picture,
             "work_history" => $work_history,
             "spaces" => $spaces,
-            "jobs" => $user_jobs,
             "tags" => $user_tags
         );
 
