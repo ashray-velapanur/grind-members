@@ -362,6 +362,8 @@ class Api extends REST_Controller
         $arr['name'] = $result->title;
         $arr['image'] = '/grind-members/grind-code/images/bubbles/'.$result->image;
         $arr['rank'] = $result->rank;
+        $arr['type'] = $result->type;
+        $arr['type_id'] = $result->id;
         array_push($bubbles, $arr);
       }
     }
