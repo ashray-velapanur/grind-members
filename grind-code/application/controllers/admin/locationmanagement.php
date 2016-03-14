@@ -1,5 +1,6 @@
 <?
 require(APPPATH.'/config/cobot.php');
+require(APPPATH.'/libraries/utilities.php');
 
 class LocationManagement extends CI_Controller {
 
@@ -408,6 +409,60 @@ class LocationManagement extends CI_Controller {
 		}
 		$data = array('resource_data' => $resource_data);
 		return $data;
+	}
+
+	public function add_bubble() {
+		error_log("In add_bubble");
+		if(isset($_POST["submit"])) {
+			$type = $_POST["type"];
+			$id = $_POST[$type];
+			error_log($type.' '.$id);
+			if($id && $type) {
+				$title = $_POST["title"];
+				$rank = $_POST["rank"];
+				$imgName = $_FILES['fileToUpload']['name'];
+				$sql = "INSERT INTO bubbles (title, image, rank, type, id) VALUES ('$title', '$imgName', $rank, '$type', '$id')";
+				error_log($sql);
+				if ($this->db->query($sql) === TRUE) {
+					error_log("New record created successfully");
+				} else {
+					error_log("Error: " . $sql . "<br>" . $this->db->error);
+				}
+			}
+		}
+		$util = new utilities;
+		$environment = $util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/locationmanagement/show_bubbles');
+	}
+
+	public function delete_bubble() {
+		error_log("In delete_bubble");
+		$type = $_GET["type"];
+		$id = $_GET["id"];
+		error_log($type.' '.$id);
+		if($id && $type) {
+			$sql = "DELETE FROM bubbles WHERE type='".$type."' and id='".$id."'";
+			error_log($sql);
+			if ($this->db->query($sql) === TRUE) {
+				error_log("Deleted record successfully");
+			} else {
+				error_log("Error: " . $sql . "<br>" . $this->db->error);
+			}
+		}
+		$util = new utilities;
+		$environment = $util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/locationmanagement/show_bubbles');
+	}
+
+	public function show_bubbles() {
+		error_log("In show_bubbles");
+		$this->db->order_by('rank', 'asc');
+		$query = $this->db->get('bubbles');
+    	$results = $query->result();
+    	$query = $this->db->get('events');
+    	$events = $query->result();
+    	$query = $this->db->get('user');
+    	$users = $query->result();
+    	$data = array('bubbles'=>$results, 'types'=>array('user','event'), 'events'=>$events, 'users'=>$users);
+    	$this->load->view("/admin/show_bubbles.php", $data);
 	}
 }
 

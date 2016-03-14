@@ -4,6 +4,15 @@ date_default_timezone_set("EST");
 require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class utilities {
+
+    public function redirect($url, $permanent = false) {
+        if($permanent) {
+            header('HTTP/1.1 301 Moved Permanently');
+        }
+        header('Location: '.$url);
+        exit();
+    }
+
     public function get_environment_for($subdomain) {
         global $environmentsToSpaces;
         foreach ($environmentsToSpaces as $environment => $spaces) {

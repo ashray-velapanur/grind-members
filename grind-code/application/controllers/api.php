@@ -360,7 +360,7 @@ class Api extends REST_Controller
       foreach ($results as $result) {
         $arr = array();
         $arr['name'] = $result->title;
-        $arr['image'] = $result->image;
+        $arr['image'] = '/grind-members/grind-code/images/bubbles/'.$result->image;
         $arr['rank'] = $result->rank;
         array_push($bubbles, $arr);
       }
