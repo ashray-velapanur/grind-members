@@ -167,8 +167,9 @@ class Api extends REST_Controller
           $type = $this->get('type');
           $posted_by = $this->get('posted_by');
           $company_id = $this->get('company_id');
+          $id = $this->get('id');
           $this->load->model("jobsmodel","jm",true);
-          $response_data = $this->jm->get($type, $posted_by, $company_id);
+          $response_data = $this->jm->get($type, $posted_by, $company_id, $id);
           if ($response_data) {
             $response = array('success'=> TRUE, 'data'=>$response_data);
           } else {
