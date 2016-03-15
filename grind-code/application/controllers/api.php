@@ -181,7 +181,10 @@ class Api extends REST_Controller
      function tags_get() {
           $this->load->model("tagsmodel","tm",true);
           $company_id = $this->get('company_id');
-          if($company_id) {
+          $event_id = $this->get('event_id');
+          if($event_id) {
+            $response_data = $this->tm->event_tags($event_id);  
+          } elseif($company_id) {
             $response_data = $this->tm->company_tags($company_id);  
           } else {
             $response_data = $this->tm->all();  

@@ -23,8 +23,9 @@ class TagsModel extends CI_Model {
         $response = array();
         $this->load->model("jobtagsmodel","jtm",true);
 		$this->load->model("usertagsmodel","utm",true);
+        $this->load->model("eventtagsmodel","etm",true);
         while($row = mysql_fetch_assoc($query)) {
-        	$total_count = $this->utm->count($row['id']) + $this->jtm->count($row['id']);
+        	$total_count = $this->utm->count($row['id']) + $this->jtm->count($row['id']) + $this->etm->count($row['id']);
         	$row["count"] = $total_count;
 	      	array_push($response, $row);
         }
@@ -40,6 +41,13 @@ class TagsModel extends CI_Model {
             $resp = $this->utm->get_tags_with_count($user_id);
             $response_data = array_merge($response_data, $resp);
         }
+        return $response_data;
+    }
+
+    function event_tags($event_id) {
+        $this->load->model("eventtagsmodel","etm",true);
+        $response_data = array();
+        $response_data = $this->etm->get_tags_with_count($event_id);
         return $response_data;
     }
 };

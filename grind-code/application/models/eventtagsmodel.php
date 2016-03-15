@@ -32,16 +32,17 @@ class EventTagsModel extends CI_Model {
 	}
 
 	function get_tags_with_count($event_id) {
-		$this->load->model("eventtagsmodel","jtm",true);
+		$this->load->model("jobtagsmodel","jtm",true);
+		$this->load->model("usertagsmodel","utm",true);
 		$this->load->model("tagsmodel","tm",true);
 		$event_tags = $this->get($event_id);
         $response_data = array();
         foreach ($event_tags as $event_tag) {
           $tag_id = $event_tag['tag_id'];
-          $total_count = $this->count($tag_id) + $this->jtm->count($tag_id);
+          $total_count = $this->count($tag_id) + $this->jtm->count($tag_id) + $this->utm->count($tag_id);
           $tag = $this->tm->get($tag_id);
           $name = $tag['name'];
-          array_push($response_data, array('name'=>$name, 'id'=>$user_tag['tag_id'], 'count'=>$total_count));
+          array_push($response_data, array('name'=>$name, 'id'=>$event_tag['tag_id'], 'count'=>$total_count));
         }
         return $response_data;
 	}
