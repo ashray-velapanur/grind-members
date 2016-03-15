@@ -10,7 +10,7 @@ class JobsModel extends CI_Model {
 		return $this->db->query($sql);
 	}
 
-	function get($type=null, $posted_by=null, $company_id=null){
+	function get($type=null, $posted_by=null, $company_id=null, $id=null){
 		$base_query = "select jobs.title, jobs.company_id,  date_format(jobs.created_at, '%e-%M') created_at, jobs.type, jobs.url, jobs.posted_by, company.name as company_name, user.first_name, user.last_name from jobs left join company on jobs.company_id = company.id left join user on jobs.posted_by = user.id";
 		if ($company_id) {
 			$query = mysql_query($base_query." where jobs.company_id='".$company_id."'");
@@ -18,6 +18,8 @@ class JobsModel extends CI_Model {
 			$query = mysql_query($base_query." where jobs.type='".$type."'");
 		} elseif ($posted_by) {
 			$query = mysql_query($base_query." where jobs.posted_by='".$posted_by."'");
+		} elseif ($id) {
+			$query = mysql_query($base_query." where jobs.id='".$id."'");
 		} else {
 			$query = mysql_query($base_query);
 		}
