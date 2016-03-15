@@ -23,7 +23,7 @@ class EventTagsModel extends CI_Model {
         return $response;
 	}
 
-	function count($event_id){
+	function count($tag_id){
 		$query = mysql_query("SELECT COUNT(*) as count FROM event_tags WHERE tag_id='".$tag_id."'");
 		$query_result = mysql_fetch_assoc($query);
 		$query_result_count = $query_result['count'];
