@@ -38,11 +38,11 @@ class EventTagsModel extends CI_Model {
 		$event_tags = $this->get($event_id);
         $response_data = array();
         foreach ($event_tags as $event_tag) {
-          $tag_id = $event_tag['tag_id'];
+          $tag_id = $event_tag['id'];
           $total_count = $this->count($tag_id) + $this->jtm->count($tag_id) + $this->utm->count($tag_id);
           $tag = $this->tm->get($tag_id);
           $name = $tag['name'];
-          array_push($response_data, array('name'=>$name, 'id'=>$event_tag['tag_id'], 'count'=>$total_count));
+          array_push($response_data, array('name'=>$name, 'id'=>$event_tag['id'], 'count'=>$total_count));
         }
         return $response_data;
 	}
