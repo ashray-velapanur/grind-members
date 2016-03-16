@@ -11,5 +11,22 @@ class EventsModel extends CI_Model {
 		$sql = "INSERT INTO events (id, name) VALUES ('$id', '$name')";
 		return $this->db->query($sql);
 	}
+
+	function get_events($tag_id=NULL) {
+        $response_data = array();
+        $sql = "select ".
+        			"events.id, events.name ".
+        		"from ".
+        			"events ";
+        if($tag_id) {
+        	$sql .= "join event_tags on event_tags.event_id = events.id ".
+        			"where event_tags.tag_id = ".$tag_id;
+        }
+        		
+        error_log($sql);
+        $query = $this->db->query($sql);
+        $response_data = $query->result();
+        return $response_data;
+	}
 };
 ?>

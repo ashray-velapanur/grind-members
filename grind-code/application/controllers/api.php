@@ -312,6 +312,14 @@ class Api extends REST_Controller
           $this->response($response, 200);
       }
 
+    function events_get() {
+        $tag_id = $this->get('tag_id');
+        $this->load->model("eventsmodel","em",true);
+        $response_data = $this->em->get_events($tag_id);
+        $response = array('success'=>TRUE, 'data'=>$response_data);
+        $this->response($response, 200);
+    }
+
      function search_get(){
       $this->benchmark->mark('search_start');
       $q = $this->get('q');
