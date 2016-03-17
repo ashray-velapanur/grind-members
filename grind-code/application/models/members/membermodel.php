@@ -260,7 +260,7 @@ class MemberModel extends CI_Model {
             $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
-                            join third_party_user on third_party_user.user_id = user.id and network='linkedin'
+                            join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
                             join positions on positions.user_id = user.id
                             join company on company.id = positions.company_id
                         where
@@ -273,7 +273,7 @@ class MemberModel extends CI_Model {
             $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
-                            join third_party_user on third_party_user.user_id = user.id and network='linkedin'
+                            join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
                             join company on company.id = user.company_id
                             join positions on positions.company_id = user.company_id and positions.user_id = user.id
                         where
@@ -1585,7 +1585,7 @@ class MemberModel extends CI_Model {
             from 
                 user
                 left outer join third_party_user on third_party_user.user_id = user.id
-            where user.id = ".$user_id;
+            where third_party_user.network='linkedin' and user.id = ".$user_id;
         $query = $this->db->query($sql);
         $users = $query->result();
         $user = current($users);
