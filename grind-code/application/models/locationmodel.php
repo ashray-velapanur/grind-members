@@ -663,6 +663,7 @@ class LocationModel extends CI_Model {
             'header'  => "Authorization: Bearer ".$environmentsToAccessToken[$environment]."\r\n",
             'method'  => 'POST',
             'content' => http_build_query($data),
+            'ignore_errors' => true
         ),
     );
     error_log('... creating booking');
