@@ -144,7 +144,7 @@ class MemberModel extends CI_Model {
         $sql = "select company_id from user where id = ".$user_id;
         $query = $this->db->query($sql);
         $company_id = $query->result();
-        return $company_id[0];
+        return $company_id[0]["company_id"];
     }
     
      /**
