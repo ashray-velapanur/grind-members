@@ -164,7 +164,7 @@ class Api extends REST_Controller
           $this->response($response, 200);
           */
           $this->load->model("members/membermodel", "mm", true);
-          $response = array('success' => TRUE, 'message' => 'Hello world...');
+          $response = array('success' => TRUE, 'message' => $this->mm->get_company_id("1"));
           $this->response($response, 200);
       }
 
