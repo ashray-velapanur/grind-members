@@ -139,6 +139,10 @@ class MemberModel extends CI_Model {
         // returns a member array
         return $this->member;
     }
+
+    function get($user_id){
+        
+    }
     
      /**
      * get_basicMemberData
