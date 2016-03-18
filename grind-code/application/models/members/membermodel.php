@@ -140,8 +140,11 @@ class MemberModel extends CI_Model {
         return $this->member;
     }
 
-    function get($user_id){
-        
+    function get_company_id($user_id){
+        $sql = "select company_id from user where id = ".$user_id;
+        $query = $this->db->query($sql);
+        $company_id = $query->result();
+        return $company_id
     }
     
      /**
