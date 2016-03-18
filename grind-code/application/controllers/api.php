@@ -145,6 +145,7 @@ class Api extends REST_Controller
       }
 
      function jobs_put() {
+          /*
           $title = $this->put('title');
           $company_id = $this->put('company_id');
           $type = $this->put('type');
@@ -160,6 +161,9 @@ class Api extends REST_Controller
               $response = array('success'=> FALSE);
             }
           }
+          $this->response($response, 200);
+          */
+          $response = array('success' => TRUE, 'message' => 'Hello world...');
           $this->response($response, 200);
       }
 
