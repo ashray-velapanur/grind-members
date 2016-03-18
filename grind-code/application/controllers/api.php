@@ -398,21 +398,12 @@ class Api extends REST_Controller
 // error handling
   function members_get() {
     $this->benchmark->mark('members_start');
-    $this->load->library('pagination');
     $query = $this->load->model("members/membermodel", "", true);
-    $config['base_url'] = site_url('/grind-code/api/members/');
-    $config['total_rows'] = $this->membermodel->count_members();
-    $config['per_page'] = 200;
-    $config['full_tag_open'] = '<div style="display:inline-block" class="navigation">';
-    $config['full_tag_close'] = '</div>';
-    $config['uri_segment'] = 4;
-    $filters = NULL;
     $tag_id = $this->get('tag_id');
     $company_id = $this->get('company_id');
     $user_id = $this->get('user_id');
-    $data["users"] = $this->membermodel->new_listing($config['per_page'], $row, $company_id, $user_id, $tag_id);
-    $this->pagination->initialize($config);
-    $data["pagination"] = $this->pagination->create_links();
+    $limit = 200;
+    $data["users"] = $this->membermodel->new_listing($limit, $row, $company_id, $user_id, $tag_id);
     $this->benchmark->mark('members_end');
     error_log('Members Time: '.$this->benchmark->elapsed_time('members_start', 'members_end'));
     $this->response($data, 200);
