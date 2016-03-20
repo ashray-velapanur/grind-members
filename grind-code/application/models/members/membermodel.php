@@ -1651,6 +1651,7 @@ class MemberModel extends CI_Model {
     }
 
     function update_profile_data($id, $company_name, $title, $tags) {
+        /*
         $sql = "select * from company where company.name = '".$company_name."'";
         $query = $this->db->query($sql);
         $results = $query->result();
@@ -1669,6 +1670,7 @@ class MemberModel extends CI_Model {
         $sql = "INSERT INTO positions (user_id, company_id, designation, start_date) VALUES ('$id', '".$company_id."', '".$title."', '".date('Y-m-d')."') ON DUPLICATE KEY UPDATE company_id='".$company_id."', designation='".$title."'";
         error_log($sql);
         $this->db->query($sql);
+        */
         $sql = "DELETE FROM user_tags where user_id='".$id."'";
         error_log($sql);
         $this->db->query($sql);
