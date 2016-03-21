@@ -20,7 +20,7 @@ class Api extends REST_Controller
 	function __construct() {
     parent::__construct();
     $this->output->enable_profiler(TRUE);
-    if($this->uri->uri_string != 'api/login') {
+    if($this->uri->uri_string != 'api/login' || $this->uri->uri_string != 'api/layercontacts') {
       $id = $this->_args['user_id'];
       if(!$id) {
         $this->response(array('message'=>'User ID not provided', 'success'=>FALSE), 404);
