@@ -395,6 +395,10 @@ class Api extends REST_Controller
     $this->response(array('success' => $success), 200);
   }
 
+  function layercontacts_get() {
+    $this->response(array('message' => 'Hello world'), 200);
+  }
+
 // error handling
   function profile_get() {
     $this->benchmark->mark('profile_start');
