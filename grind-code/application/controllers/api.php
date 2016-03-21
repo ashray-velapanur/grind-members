@@ -258,60 +258,6 @@ class Api extends REST_Controller
         }
      }
 
-     function company_tags_get() {
-          $company_id = $this->get('company_id');
-          if (!$company_id) {
-            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-          } else {
-            $this->load->model("positionsmodel","pm",true);
-            $this->load->model("usertagsmodel","utm",true);
-            $response_data = array();
-            foreach ($this->pm->get($company_id) as $position) {
-              $user_id = $position['user_id'];
-              $resp = $this->utm->get_tags_with_count($user_id);
-              array_push($response_data, $resp);
-            }
-            $response = array('success'=>TRUE, 'data'=>$response_data);
-          }
-          $this->response($response, 200);
-     }
-
-     function event_tags_get() {
-          $event_id = $this->get('event_id');
-          if (!$event_id) {
-            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-          } else {
-            $this->load->model("eventtagsmodel","etm",true);
-            $response_data = $this->etm->get($event_id);
-            $response = array('success'=>TRUE, 'data'=>$response_data);
-          }
-          $this->response($response, 200);
-     }
-
-     function user_tags_get() {
-          $user_id = $this->get('user_id');
-          if (!$user_id) {
-            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-          } else {
-            $this->load->model("usertagsmodel","utm",true);
-            $response_data = $this->utm->get_tags_with_count($user_id);
-            $response = array('success'=>TRUE, 'data'=>$response_data);
-          }
-          $this->response($response, 200);
-      }
-
-      function tag_companies_get() {
-          $tag_id = $this->get('tag_id');
-          if (!$tag_id) {
-            $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-          } else {
-            $this->load->model("usertagsmodel","utm",true);
-            $response_data = $this->utm->get_companies($tag_id);
-            $response = array('success'=>TRUE, 'data'=>$response_data);
-          }
-          $this->response($response, 200);
-      }
-
     function events_get() {
         $tag_id = $this->get('tag_id');
         $this->load->model("eventsmodel","em",true);
@@ -433,30 +379,6 @@ class Api extends REST_Controller
     $this->benchmark->mark('companies_end');
     error_log('Companies Time: '.$this->benchmark->elapsed_time('companies_start', 'companies_end'));
     $this->response($data, 200);
-  }
-
-  //duplicate
-  function company_jobs_get() {
-    $id = $this->get('id');
-    if (!$id) {
-      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-    } else {
-      $this->load->model('members/companymodel','',true);
-      $response = $this->companymodel->get_jobs($id);
-    }
-    $this->response($response, 200);
-  }
-
-  //duplicate
-  function company_members_get() {
-    $id = $this->get('id');
-    if (!$id) {
-      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-    } else {
-      $this->load->model('members/companymodel','',true);
-      $response = $this->companymodel->get_members($id);
-    }
-    $this->response($response, 200);
   }
 
 // error handling
