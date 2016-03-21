@@ -145,8 +145,9 @@ class Api extends REST_Controller
       }
 
      function jobs_put() {
+          $this->load->model("members/membermodel", "mm", true);
           $title = $this->put('title');
-          $company_id = $this->put('company_id');
+          $company_id = $this->mm->get_company_id($this->put('user_id'));
           $type = $this->put('type');
           $posted_by = $this->put('user_id');
           $url = $this->put('url');
