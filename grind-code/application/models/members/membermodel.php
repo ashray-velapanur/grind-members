@@ -255,6 +255,15 @@ class MemberModel extends CI_Model {
     
     }
 
+    function layercontacts() {
+        $sql = "select user.first_name, user.last_name, third_party_user.network_id as id
+                from  user 
+                join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'";
+        $query = $this->db->query($sql);
+        $users = $query->result();
+        return $users;
+    }
+
     function new_listing($num, $offset=NULL, $company_id=NULL, $user_id=NULL, $tag_id=NULL){
         error_log($num . " :: ".$offset,0);
         $sql = "";

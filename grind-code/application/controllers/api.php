@@ -396,7 +396,9 @@ class Api extends REST_Controller
   }
 
   function layercontacts_get() {
-    $this->response(array('message' => 'Hello world'), 200);
+    $this->load->model('/members/membermodel','mm',true);
+    $users = $this->mm->layercontacts();
+    $this->response($users, 200);
   }
 
 // error handling
