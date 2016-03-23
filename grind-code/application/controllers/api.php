@@ -401,6 +401,10 @@ class Api extends REST_Controller
     $this->response($users, 200);
   }
 
+  function grindadmin_get() {
+    $this->response(array('id' => "SX_tNqvsBg"), 200);
+  }
+
 // error handling
   function profile_get() {
     $this->benchmark->mark('profile_start');
