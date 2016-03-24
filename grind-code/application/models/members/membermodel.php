@@ -1685,9 +1685,21 @@ class MemberModel extends CI_Model {
         $this->db->query($sql);
         error_log(json_encode($tags));
         foreach ($tags as $tag) {
-            $tag = trim($tag);
+            $tag = strtolower(trim($tag));
             if($tag) {
-                $sql = "INSERT INTO user_tags (user_id, tag_id) VALUES ('$id', '$tag')";
+                $sql = "select * from tags where name = '".$tag."'";
+                $query = $this->db->query($sql);
+                $results = $query->result();
+                if(count($results) > 0) {
+                    $tag = current($results);
+                    $tag_id = $tag->id;
+                } else {
+                    $sql = "INSERT INTO tags (id, name) VALUES ('0', '".$tag."')";
+                    error_log($sql);
+                    $this->db->query($sql);
+                    $tag_id = $this->db->insert_id();
+                }
+                $sql = "INSERT INTO user_tags (user_id, tag_id) VALUES ('".$id."', '".$tag_id."')";
                 error_log($sql);
                 $this->db->query($sql);
             }
