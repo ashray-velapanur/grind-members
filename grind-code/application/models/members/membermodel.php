@@ -273,7 +273,7 @@ class MemberModel extends CI_Model {
             return $users;
         }
         elseif($company_id) {
-            $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
+            $sql = "select user.id, user.first_name, user.last_name, third_party_user.network_id as linkedin_id, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
                             join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
@@ -286,7 +286,7 @@ class MemberModel extends CI_Model {
                             user.first_name, user.last_name";
         }
         else {
-            $sql = "select user.id, user.first_name, user.last_name, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
+            $sql = "select user.id, user.first_name, user.last_name, third_party_user.network_id as linkedin_id, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
                             join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
