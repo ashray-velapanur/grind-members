@@ -319,7 +319,7 @@ class Api extends REST_Controller
       foreach ($results as $result) {
         $arr = array();
         $arr['name'] = $result->title;
-        $arr['image'] = '/grind-members/grind-code/images/bubbles/'.$result->image;
+        $arr['image'] = '/grind-members/grind-code/index.php/image/get?id='.$result->image_id;
         $arr['rank'] = $result->rank;
         $arr['type'] = $result->type;
         $arr['type_id'] = $result->id;

@@ -420,11 +420,13 @@ class LocationManagement extends CI_Controller {
 			if($id && $type) {
 				$title = $_POST["title"];
 				$rank = $_POST["rank"];
-				$imgName = $_FILES['fileToUpload']['name'];
-				$sql = "INSERT INTO bubbles (title, image, rank, type, id) VALUES ('$title', '$imgName', $rank, '$type', '$id')";
+				$image = $_FILES['fileToUpload'];
+				$this->load->model("imagesmodel","im",true);
+    			$image_id = $this->im->save_image($image);
+				$sql = "INSERT INTO bubbles (title, image_id, rank, type, id) VALUES ('$title', '$image_id', $rank, '$type', '$id')";
 				error_log($sql);
 				if ($this->db->query($sql) === TRUE) {
-					error_log("New record created successfully");
+					error_log("New bubble created successfully");
 				} else {
 					error_log("Error: " . $sql . "<br>" . $this->db->error);
 				}
@@ -440,10 +442,25 @@ class LocationManagement extends CI_Controller {
 		$id = $_GET["id"];
 		error_log($type.' '.$id);
 		if($id && $type) {
+			$sql = "SELECT image_id FROM bubbles WHERE type='".$type."' and id='".$id."'";
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$bubbles = $query->result();
+			error_log(json_encode($bubbles));
+			$bubble = current($bubbles);
+			if($bubble) {
+				$sql = "DELETE FROM image WHERE id='".$bubble->image_id."'";
+				error_log($sql);
+				if ($this->db->query($sql) === TRUE) {
+					error_log("Deleted image successfully");
+				} else {
+					error_log("Error: " . $sql . "<br>" . $this->db->error);
+				}
+			}
 			$sql = "DELETE FROM bubbles WHERE type='".$type."' and id='".$id."'";
 			error_log($sql);
 			if ($this->db->query($sql) === TRUE) {
-				error_log("Deleted record successfully");
+				error_log("Deleted bubble successfully");
 			} else {
 				error_log("Error: " . $sql . "<br>" . $this->db->error);
 			}
