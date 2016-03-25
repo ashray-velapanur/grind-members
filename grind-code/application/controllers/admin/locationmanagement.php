@@ -199,8 +199,8 @@ class LocationManagement extends CI_Controller {
 			if($cobot_id) {
 				$image = $_FILES['fileToUpload'];
 				$this->load->model("imagesmodel","im",true);
-    			$image_id = $this->im->save_image($image);
-    			$main_area_id = $_POST["main_area_id"];
+				$image_id = $this->im->save_image($image);
+				$main_area_id = $_POST["main_area_id"];
 				$capacity = $_POST["capacity"];
 				if(!$capacity) {
 					$capacity = 0;
@@ -236,8 +236,44 @@ class LocationManagement extends CI_Controller {
 				$environment = $util->get_current_environment();
 				$this->load->model("locationmodel","lm",true);
 				$this->lm->add_space_and_resources($cobot_id, $environment, $space);
+				$this->db->where("space_id", $cobot_id);
+				$query = $this->db->get("cobot_resources");
+				$resources = $query->result();
+				$data = array();
+				$data['resources'] = $resources;
+				$data['space_id'] = $cobot_id;
+				$this->load->view("/admin/add_space_resources.php", $data);
 			} else {
 				echo "Specify a cobot ID for the space";
+			}
+		}
+	}
+
+	public function add_space_resources() {
+		error_log("In add_space_resources");
+		if(isset($_POST["submit"])) {
+			$space_id = $_POST["space_id"];
+			$this->load->model("imagesmodel","im",true);
+			
+			$this->db->where("space_id", $space_id);
+			$query = $this->db->get("cobot_resources");
+			$resources = $query->result();
+
+			foreach ($resources as $resource) {
+				$resource_id = $resource->id;
+				$image = $_FILES['image'.$resource_id];
+				$image_id = $this->im->save_image($image);
+				$sql = "UPDATE cobot_resources SET image = '".$image_id."' WHERE space_id = '".$space_id."' AND id='".$resource_id."'";
+				error_log($sql);
+				try {
+					if ($this->db->query($sql) === TRUE) {
+						echo "Resource updated successfully";
+					} else {
+						echo "Error: " . $sql . "<br>" . $this->db->error;
+					}
+				} catch (Exception $e) {
+				    error_log('Caught exception: ',  $e->getMessage(), "\n");
+				}
 			}
 		}
 	}
