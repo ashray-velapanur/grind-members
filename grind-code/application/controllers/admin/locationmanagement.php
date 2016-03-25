@@ -200,6 +200,7 @@ class LocationManagement extends CI_Controller {
 				$image = $_FILES['fileToUpload'];
 				$this->load->model("imagesmodel","im",true);
     			$image_id = $this->im->save_image($image);
+    			$main_area_id = $_POST["main_area_id"];
 				$capacity = $_POST["capacity"];
 				if(!$capacity) {
 					$capacity = 0;
@@ -228,12 +229,13 @@ class LocationManagement extends CI_Controller {
 					'address' => $address,
 					'rate' => $rate,
 					'name' => $name,
-					'description' => $description
+					'description' => $description,
+					'main_area_id' => $main_area_id
 				);
 				$util = new utilities;
 				$environment = $util->get_current_environment();
-				$locationsetup = new LocationSetup;
-				$environment = $locationsetup->add_update_space($space, $environment);
+				$this->load->model("locationmodel","lm",true);
+				$this->lm->add_space_and_resources($cobot_id, $environment, $space);
 			} else {
 				echo "Specify a cobot ID for the space";
 			}

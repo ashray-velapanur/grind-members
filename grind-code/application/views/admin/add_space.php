@@ -2,7 +2,7 @@
 <html>
 <body>
 <?php get_header(); ?>
-<form action="<?=ROOTMEMBERPATH?>grind-members/grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
+<form action="<?=ROOTMEMBERPATH?>grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
     <p><b>Cobot Space</b></p><br><br>
     <input type="hidden" name="space_id">
     <table>
@@ -16,6 +16,10 @@
             <tr>
                 <td>Cobot ID:</td>
                 <td><input type="text" name="cobot_id"></td>
+            </tr>
+            <tr>
+                <td>Main Area Resource ID:</td>
+                <td><input type="text" name="main_area_id"></td>
             </tr>
             <tr>
                 <td>Display Name:</td>
