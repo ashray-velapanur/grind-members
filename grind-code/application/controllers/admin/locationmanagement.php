@@ -1,6 +1,7 @@
 <?
 require(APPPATH.'/config/cobot.php');
 require(APPPATH.'/libraries/utilities.php');
+require(APPPATH.'/controllers/admin/locationsetup.php');
 
 class LocationManagement extends CI_Controller {
 
@@ -196,11 +197,13 @@ class LocationManagement extends CI_Controller {
 		if(isset($_POST["submit"])) {
 			$cobot_id = $_POST["cobot_id"];
 			if($cobot_id) {
+				$image = $_FILES['fileToUpload'];
+				$this->load->model("imagesmodel","im",true);
+    			$image_id = $this->im->save_image($image);
 				$capacity = $_POST["capacity"];
 				if(!$capacity) {
 					$capacity = 0;
 				}
-				$imgName = $_FILES['fileToUpload']['name'];
 				$lat = $_POST["latitude"];
 				$long = $_POST["longitude"];
 				$address_street = $_POST["address-street"];
@@ -216,72 +219,21 @@ class LocationManagement extends CI_Controller {
 				}
 				$name = $_POST["name"];
 				$description = $_POST["description"];
-				$sql = "INSERT INTO cobot_spaces";
-				$sql .= "(id, image, capacity, lat, lon, address, rate, name, description) VALUES ('$cobot_id', '$imgName', $capacity, '$lat', '$long', '$address', $rate, '$name', '$description') ";
-				if($imgName || $capacity || $lat || $long || $address || $rate || $name || $description) {
-					$sql .= " ON DUPLICATE KEY UPDATE ";
-					$comma = " ";
-					if($imgName) {
-						$sql = $sql.$comma." image = '".$imgName."'";
-						$comma = " , ";
-					}
-					if($capacity) {
-						$sql = $sql.$comma." capacity = ".$capacity;
-						$comma = " , ";
-					}
-					if($lat) {
-						$sql = $sql.$comma." lat = '".$lat."'";
-						$comma = " , ";
-					}
-					if($long) {
-						$sql = $sql.$comma." lon = '".$long."'";
-						$comma = " , ";
-					}
-					if($address) {
-						$sql = $sql.$comma." address = '".$address."'";
-						$comma = " , ";
-					}
-					if($rate) {
-						$sql = $sql.$comma." rate = ".$rate;
-						$comma = " , ";
-					}
-					if($name) {
-						$sql = $sql.$comma." name = '".$name."'";
-						$comma = " , ";
-					}
-					if($description) {
-						$sql = $sql.$comma." description = '".$description."'";
-						$comma = " , ";
-					}
-				}
-				try {
-					error_log($sql);
-					if ($this->db->query($sql) === TRUE) {
-						echo "Record created/updated successfully";
-						$host = $_SERVER['SERVER_NAME'];
-						$is_https = $_SERVER['HTTPS'];
-						$callback_url = 'http://';
-						if($is_https) {
-							$callback_url = 'https://';
-						}
-						// Create created_booking webhook
-						$callback_url = $callback_url.$host.'/grind-members/grind-code/index.php/cobot/booking_created';
-						$event = 'created_booking';
-						$subdomain = $cobot_id;
-						$this->load->model("subscriptionmodel","sm",true);
-    					$subscription_url = $this->sm->create_webhook_subscription($event, $callback_url, $subdomain);
-    					// Create created_membership webhook
-						$callback_url = $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_created';
-						$event = 'created_membership';
-						$subdomain = $cobot_id;
-						$this->load->model("subscriptionmodel","sm",true);
-    					$subscription_url = $this->sm->create_webhook_subscription($event, $callback_url, $subdomain);
-					} else {
-						echo "Error: " . $sql . "<br>" . $this->db->error;
-					}
-				} catch (Exception $e) {
-				    error_log('Caught exception: ',  $e->getMessage(), "\n");
-				}
+				$space = array(
+					'id' => $cobot_id,
+					'imgName' => $image_id,
+					'capacity' => $capacity,
+					'lat' => $lat,
+					'long' => $long,
+					'address' => $address,
+					'rate' => $rate,
+					'name' => $name,
+					'description' => $description
+				);
+				$util = new utilities;
+				$environment = $util->get_current_environment();
+				$locationsetup = new LocationSetup;
+				$environment = $locationsetup->add_update_space($space, $environment);
 			} else {
 				echo "Specify a cobot ID for the space";
 			}

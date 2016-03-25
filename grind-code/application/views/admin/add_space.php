@@ -1,25 +1,75 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-<form action="/grind-members/grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
-    <p><b>Cobot Space</b></p>
+<?php get_header(); ?>
+<form action="<?=ROOTMEMBERPATH?>grind-members/grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
+    <p><b>Cobot Space</b></p><br><br>
     <input type="hidden" name="space_id">
-    Cobot ID: <input type="text" name="cobot_id"><br><br>
-    Display Name: <input type="text" name="name"><br><br>
-    Description: <textarea name="description"></textarea><br><br>
-    Capacity: <input type="number" name="capacity" min="0"><br><br>
-    Select image to upload: <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
-    Latitude: <input type="text" name="latitude"><br><br>
-    Longitude: <input type="text" name="longitude"><br><br>
-    Address Street: <input type="text" name="address-street"><br><br>
-    Address City: <input type="text" name="address-city"><br><br>
-    Address State: <input type="text" name="address-state"><br><br>
-    Address Country: <input type="text" name="address-country"><br><br>
-    Address ZIP: <input type="text" name="address-zip"><br><br>
-    Rate: <input type="number" name="rate" min="0" step="0.01"><br><br>
+    <table>
+        <thead>
+            <tr>
+                <td>Field</td>
+                <td>Value</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cobot ID:</td>
+                <td><input type="text" name="cobot_id"></td>
+            </tr>
+            <tr>
+                <td>Display Name:</td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td><textarea name="description"></textarea></td>
+            </tr>
+            <tr>
+                <td>Capacity:</td>
+                <td><input type="number" name="capacity" min="0"></td>
+            </tr>
+            <tr>
+                <td>Select image to upload:</td>
+                <td><input type="file" name="fileToUpload" id="fileToUpload"></td>
+            </tr>
+            <tr>
+                <td>Latitude:</td>
+                <td><input type="text" name="latitude"></td>
+            </tr>
+            <tr>
+                <td>Longitude:</td>
+                <td><input type="text" name="longitude"></td>
+            </tr>
+            <tr>
+                <td>Address Street:</td>
+                <td><input type="text" name="address-street"></td>
+            </tr>
+            <tr>
+                <td>Address City:</td>
+                <td><input type="text" name="address-city"></td>
+            </tr>
+            <tr>
+                <td>Address State:</td>
+                <td><input type="text" name="address-state"></td>
+            </tr>
+            <tr>
+                <td>Address Country:</td>
+                <td><input type="text" name="address-country"></td>
+            </tr>
+            <tr>
+                <td>Address ZIP:</td>
+                <td><input type="text" name="address-zip"></td>
+            </tr>
+            <tr>
+                <td>Rate:</td>
+                <td><input type="number" name="rate" min="0" step="0.01"></td>
+            </tr>
+        </tbody>
+    </table>
+
     <input type="submit" value="Add Space" name="submit">
 </form>
-
+<?php get_footer(); ?>
 </body>
 </html>
