@@ -9,7 +9,7 @@
 <script type="text/javascript" src="<?=ROOTMEMBERPATH?>grind-code/js/libs/jquery-1.6.2.min.js"></script>
 </head>
 <body>
-
+<?php get_header(); ?>
 <p><h4>Bubbles</h4></p>
 <table>
 <thead>
@@ -56,6 +56,6 @@
 		$('#'+$(e).val()).show();
 	}
 </script>
-
+<?php get_footer(); ?>
 </body>
 </html>
