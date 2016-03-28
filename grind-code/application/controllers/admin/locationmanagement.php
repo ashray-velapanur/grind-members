@@ -289,6 +289,17 @@ class LocationManagement extends CI_Controller {
 		$util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/locationmanagement/update_space_images');
 	}
 
+	public function update_space_resources() {
+		$space_id = $_GET["space_id"];
+		$this->db->where("space_id", $space_id);
+		$query = $this->db->get("cobot_resources");
+		$resources = $query->result();
+		$data = array();
+		$data['resources'] = $resources;
+		$data['space_id'] = $space_id;
+		$this->load->view("/admin/add_space_resources.php", $data);
+	}
+
 	public function add_space_resources() {
 		error_log("In add_space_resources");
 		if(isset($_POST["submit"])) {
@@ -318,6 +329,8 @@ class LocationManagement extends CI_Controller {
 					}
 				}
 			}
+			$util = new utilities;
+			$util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/locationmanagement/update_space_resources?space_id='.$space_id);
 		}
 	}
 

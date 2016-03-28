@@ -10,6 +10,7 @@
             <?php foreach ($resources as $resource) {?>
                 <tr>
                     <td><span>Resource Name: <?= $resource->name ?></span></td>
+                    <td><img height="100" width="150" src="<?=ROOTMEMBERPATH?>grind-code/index.php/image/get?id=<?= $resource->image ?>"/></td>
                     <td>Select image to upload: <input type="file" name="image<?= $resource->id ?>" id="image<?= $resource->id ?>"></td>
                 </tr>
             <?php } ?>
