@@ -249,6 +249,46 @@ class LocationManagement extends CI_Controller {
 		}
 	}
 
+	public function update_space_images() {
+		$query = $this->db->get("cobot_spaces");
+		$spaces = $query->result();
+		$data = array();
+		$data['spaces'] = $spaces;
+		$this->load->view("/admin/add_space_images.php", $data);
+	}
+
+	public function add_space_images() {
+		error_log("In add_space_images");
+		if(isset($_POST["submit"])) {
+			$this->load->model("imagesmodel","im",true);
+			
+			$query = $this->db->get("cobot_spaces");
+			$spaces = $query->result();
+
+			foreach ($spaces as $space) {
+				$space_id = $space->id;
+				$image = $_FILES['image'.$space_id];
+				if(!$image['error']) {
+					$this->im->delete_image($space->image);
+					$image_id = $this->im->save_image($image);
+					$sql = "UPDATE cobot_spaces SET image = '".$image_id."' WHERE id = '".$space_id."'";
+					error_log($sql);
+					try {
+						if ($this->db->query($sql) === TRUE) {
+							echo "Space updated successfully";
+						} else {
+							echo "Error: " . $sql . "<br>" . $this->db->error;
+						}
+					} catch (Exception $e) {
+					    error_log('Caught exception: ',  $e->getMessage(), "\n");
+					}
+				}
+			}
+		}
+		$util = new utilities;
+		$util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/locationmanagement/update_space_images');
+	}
+
 	public function add_space_resources() {
 		error_log("In add_space_resources");
 		if(isset($_POST["submit"])) {
@@ -262,7 +302,8 @@ class LocationManagement extends CI_Controller {
 			foreach ($resources as $resource) {
 				$resource_id = $resource->id;
 				$image = $_FILES['image'.$resource_id];
-				if($image) {
+				if(!$image['error']) {
+					$this->im->delete_image($resource->image);
 					$image_id = $this->im->save_image($image);
 					$sql = "UPDATE cobot_resources SET image = '".$image_id."' WHERE space_id = '".$space_id."' AND id='".$resource_id."'";
 					error_log($sql);
@@ -441,13 +482,8 @@ class LocationManagement extends CI_Controller {
 			error_log(json_encode($bubbles));
 			$bubble = current($bubbles);
 			if($bubble) {
-				$sql = "DELETE FROM image WHERE id='".$bubble->image_id."'";
-				error_log($sql);
-				if ($this->db->query($sql) === TRUE) {
-					error_log("Deleted image successfully");
-				} else {
-					error_log("Error: " . $sql . "<br>" . $this->db->error);
-				}
+				$this->load->model("imagesmodel","im",true);
+    			$this->im->delete_image($bubble->image_id);
 			}
 			$sql = "DELETE FROM bubbles WHERE type='".$type."' and id='".$id."'";
 			error_log($sql);
