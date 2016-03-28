@@ -274,14 +274,14 @@ class Api extends REST_Controller
         $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
       } else {
         $query = mysql_query(sprintf("
-                      (select id, first_name as name, 'user' as type from user where first_name like '%%%s%%')
+                      (select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%')
                       union
                       (select id, name, 'company' as type from company where name like '%%%s%%')
                       union
                       (select id, name, 'event' as type from events where name like '%%%s%%')
                       union
                       (select id, title as name, 'job' as type from jobs where title like '%%%s%%')
-                      ", $q, $q, $q, $q));
+                      ", $q, $q, $q, $q, $q));
         $response_data = array();
         while($row = mysql_fetch_assoc($query)) {
           array_push($response_data, $row);
