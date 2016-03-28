@@ -262,17 +262,19 @@ class LocationManagement extends CI_Controller {
 			foreach ($resources as $resource) {
 				$resource_id = $resource->id;
 				$image = $_FILES['image'.$resource_id];
-				$image_id = $this->im->save_image($image);
-				$sql = "UPDATE cobot_resources SET image = '".$image_id."' WHERE space_id = '".$space_id."' AND id='".$resource_id."'";
-				error_log($sql);
-				try {
-					if ($this->db->query($sql) === TRUE) {
-						echo "Resource updated successfully";
-					} else {
-						echo "Error: " . $sql . "<br>" . $this->db->error;
+				if($image) {
+					$image_id = $this->im->save_image($image);
+					$sql = "UPDATE cobot_resources SET image = '".$image_id."' WHERE space_id = '".$space_id."' AND id='".$resource_id."'";
+					error_log($sql);
+					try {
+						if ($this->db->query($sql) === TRUE) {
+							echo "Resource updated successfully";
+						} else {
+							echo "Error: " . $sql . "<br>" . $this->db->error;
+						}
+					} catch (Exception $e) {
+					    error_log('Caught exception: ',  $e->getMessage(), "\n");
 					}
-				} catch (Exception $e) {
-				    error_log('Caught exception: ',  $e->getMessage(), "\n");
 				}
 			}
 		}
