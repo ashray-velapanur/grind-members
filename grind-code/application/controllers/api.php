@@ -527,7 +527,10 @@ class Api extends REST_Controller
   }
 
   function eventbrite_token_get() {
-    $response = array("token" => "EYFPEMS6IJLSNOXNVH56", "user.id" => "152621267415");
+    $this->load->model("eventsmodel","em",true);
+    $eventbrite = $this->em->get_eventbrite_token();
+    //$response = array("token" => "EYFPEMS6IJLSNOXNVH56", "user.id" => "152621267415");
+    $response = array("token" => $eventbrite->token, "user.id" => $eventbrite->eb_user_id);
     $this->response($response, 200);
   }
 }
