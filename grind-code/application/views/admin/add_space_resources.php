@@ -6,12 +6,19 @@
     <h1>Space: <?= $space_id ?></h1>
     <input type="hidden" name="space_id" value="<?= $space_id ?>">
     <table>
+        <thead>
+            <tr>
+                <td><b>Resource Name</b></td>
+                <td><b>Current Image</b></td>
+                <td><b>Select image to upload</b></td>
+            </tr>
+        </thead>
         <tbody>
             <?php foreach ($resources as $resource) {?>
                 <tr>
-                    <td><span>Resource Name: <?= $resource->name ?></span></td>
+                    <td><?= $resource->name ?></td>
                     <td><img height="100" width="150" src="<?=ROOTMEMBERPATH?>grind-code/index.php/image/get?id=<?= $resource->image ?>"/></td>
-                    <td>Select image to upload: <input type="file" name="image<?= $resource->id ?>" id="image<?= $resource->id ?>"></td>
+                    <td><input type="file" name="image<?= $resource->id ?>" id="image<?= $resource->id ?>"></td>
                 </tr>
             <?php } ?>
         </tbody>
