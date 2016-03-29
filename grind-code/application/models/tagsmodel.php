@@ -36,10 +36,17 @@ class TagsModel extends CI_Model {
         $this->load->model("positionsmodel","pm",true);
         $this->load->model("usertagsmodel","utm",true);
         $response_data = array();
+        $response_set = array();
         foreach ($this->pm->get($company_id) as $position) {
             $user_id = $position['user_id'];
             $resp = $this->utm->get_tags_with_count($user_id);
-            $response_data = array_merge($response_data, $resp);
+            foreach ($resp as $tag) {
+                error_log(json_encode($tag));
+                $response_set[$tag['id']] = $tag;
+            }
+        }
+        foreach ($response_set as $key => $value) {
+            array_push($response_data, $value);
         }
         return $response_data;
     }
