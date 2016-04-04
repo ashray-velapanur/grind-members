@@ -219,6 +219,9 @@ class Cobot extends CI_Controller {
 			$name = $membership['name'];
 			$plan_name = $membership['plan']->name;
 			$cobot_user_id = $membership['user']->id;
+			error_log('cobot_user_id');
+			error_log($result);
+			error_log($cobot_user_id);
 		    $sql = "SELECT user_id from third_party_user where network = '".$cobot_network_name."' and network_id = '".$cobot_user_id."'";
 			error_log($sql);
 			$query = $this->db->query($sql);
