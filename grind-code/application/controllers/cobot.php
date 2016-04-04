@@ -142,8 +142,6 @@ class Cobot extends CI_Controller {
 			$sql = $sql.$values;
 			error_log($sql);
 			$this->db->query($sql);
-		} else {
-			error_log('... no cobot_user_id');
 		}
 		return $membership_url;
 	}
@@ -220,7 +218,7 @@ class Cobot extends CI_Controller {
 			$membership = (array)json_decode($result);
 			$name = $membership['name'];
 			$plan_name = $membership['plan']->name;
-			$cobot_user_id = $membership->id;
+			$cobot_user_id = $membership['user']->id;
 			error_log('cobot_user_id');
 			error_log($result);
 			error_log($cobot_user_id);
