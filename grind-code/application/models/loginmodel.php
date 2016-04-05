@@ -92,6 +92,7 @@ class LoginModel extends CI_Model {
 
     public function create_cobot_membership($id, $plan_name) {
         error_log('... creating cobot membership');
+        error_log($id);
         global $environmentsToSpaces, $environmentsToAccessToken, $spacePlansMap;
         $util = new utilities;
         $environment = $util->get_current_environment();
