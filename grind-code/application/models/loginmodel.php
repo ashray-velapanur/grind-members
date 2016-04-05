@@ -37,8 +37,9 @@ class LoginModel extends CI_Model {
             }
             if(!$this->tp->get($userId, 'cobot')){
                 $profile = (array)$profile;
-                $this->create_cobot_user($userId, $profile['emailAddress']);
-                $this->create_cobot_membership($userId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
+                $cobotUserId = $this->create_cobot_user($userId, $profile['emailAddress']);
+                error_log($cobotUserId);
+                $this->create_cobot_membership($cobotUserId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
             }
             if($userId) {
                 error_log("Updating third party");
