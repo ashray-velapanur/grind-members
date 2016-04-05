@@ -127,8 +127,8 @@ class Cobot extends CI_Controller {
 		$membership = json_decode($this->get_membership_details($membership_url, $subdomain));
 		error_log(json_encode($membership));
 		if($membership->cobot_user_id) {
-			$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name";
-			$values = " VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name'";
+			$sql = "INSERT INTO cobot_memberships (space_id, id, user_id, cobot_user_id, name, plan_name, plan_id";
+			$values = " VALUES ('$subdomain', '$id', '$membership->user_id', '$membership->cobot_user_id', '$membership->name', '$membership->plan_name', '$membership->plan_id'";
 			if($membership->starts_at) {
 				$sql = $sql.", starts_at";
 				$values = $values.", '$membership->starts_at'";
@@ -218,6 +218,7 @@ class Cobot extends CI_Controller {
 			$membership = (array)json_decode($result);
 			$name = $membership['name'];
 			$plan_name = $membership['plan']->name;
+			$plan_id = $membership['parent_plan']->id;
 			$cobot_user_id = $membership['user']->id;
 			error_log('cobot_user_id');
 			error_log($result);
@@ -239,6 +240,7 @@ class Cobot extends CI_Controller {
 			$membership_details = array(
 				'name' => $name,
 				'plan_name' => $plan_name,
+				'plan_id' => $plan_id,
 				'cobot_user_id' => $cobot_user_id,
 				'user_id' => $user_id,
 				'canceled_to' => $canceled_to,
