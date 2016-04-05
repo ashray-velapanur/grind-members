@@ -218,7 +218,10 @@ class Cobot extends CI_Controller {
 			$membership = (array)json_decode($result);
 			$name = $membership['name'];
 			$plan_name = $membership['plan']->name;
-			$plan_id = $membership['parent_plan']->id;
+			$plan = $membership['plan']->parent_plan;
+			$plan_id = $plan->id;
+			error_log('plan_id');
+			error_log($plan_id);			
 			$cobot_user_id = $membership['user']->id;
 			error_log('cobot_user_id');
 			error_log($result);
