@@ -292,12 +292,13 @@ class MemberModel extends CI_Model {
                             join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
                             join company on company.id = user.company_id
                             join positions on positions.company_id = user.company_id and positions.user_id = user.id
-                        where
-                            user.id <> ".$user_id;
+                        where";
             if($member_id) {
                 $sql = $sql." 
-                and
                     user.id = ".$member_id;
+            } else {
+                $sql = $sql." 
+                    user.id <> ".$user_id;
             }
             $sql = $sql."
                         order by
