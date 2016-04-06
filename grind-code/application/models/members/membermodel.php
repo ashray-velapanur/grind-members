@@ -264,7 +264,7 @@ class MemberModel extends CI_Model {
         return $users;
     }
 
-    function new_listing($num, $offset=NULL, $company_id=NULL, $user_id=NULL, $tag_id=NULL){
+    function new_listing($num, $offset=NULL, $company_id=NULL, $user_id=NULL, $tag_id=NULL, $member_id=NULL){
         error_log($num . " :: ".$offset,0);
         $sql = "";
         if($tag_id) {
@@ -293,7 +293,13 @@ class MemberModel extends CI_Model {
                             join company on company.id = user.company_id
                             join positions on positions.company_id = user.company_id and positions.user_id = user.id
                         where
-                            user.id <> ".$user_id."
+                            user.id <> ".$user_id;
+            if($member_id) {
+                $sql = $sql." 
+                and
+                    user.id = ".$member_id;
+            }
+            $sql = $sql."
                         order by
                             user.first_name, user.last_name";
         }

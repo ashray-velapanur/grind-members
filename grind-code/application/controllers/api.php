@@ -348,9 +348,10 @@ class Api extends REST_Controller
     $query = $this->load->model("members/membermodel", "", true);
     $tag_id = $this->get('tag_id');
     $company_id = $this->get('company_id');
+    $member_id = $this->get('member_id');
     $user_id = $this->get('user_id');
     $limit = 200;
-    $data["users"] = $this->membermodel->new_listing($limit, $row, $company_id, $user_id, $tag_id);
+    $data["users"] = $this->membermodel->new_listing($limit, $row, $company_id, $user_id, $tag_id, $member_id);
     $this->benchmark->mark('members_end');
     error_log('Members Time: '.$this->benchmark->elapsed_time('members_start', 'members_end'));
     $this->response($data, 200);
