@@ -500,7 +500,7 @@ class LocationModel extends CI_Model {
 		
 	}
 
-	function determine_membership($space_id, $memberships) {
+	function determine_membership($user_id, $space_id, $memberships) {
 		global $spaceToMainArea;
 		$daily_plan_name = 'Daily';
 		$main_area_resource_id = $spaceToMainArea[$space_id];
@@ -513,7 +513,7 @@ class LocationModel extends CI_Model {
 			}
 		}
 		if (!$retValue) {
-			$sql = "select id from cobot_memberships where space_id = '".$space_id."' and plan_name = '".$daily_plan_name."'";
+			$sql = "select id from cobot_memberships where space_id = '".$space_id."' and plan_name = '".$daily_plan_name."' and user_id = '".$user_id."'";
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$cms = $query->result();
@@ -574,7 +574,7 @@ class LocationModel extends CI_Model {
             'description' => $description,
             'capacity' => $capacity.' seats free',
             'rate' => $rate,
-	        'is_member' => $this->determine_membership($space_id, $memberships),
+	        'is_member' => $this->determine_membership($user_id, $space_id, $memberships),
 	        'memberships' => $memberships_arr,
 	        'plans_url' => $plans_url
           );
