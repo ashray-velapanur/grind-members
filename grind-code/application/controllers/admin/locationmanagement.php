@@ -519,7 +519,9 @@ class LocationManagement extends CI_Controller {
     	$events = $query->result();
     	$query = $this->db->get('user');
     	$users = $query->result();
-    	$data = array('bubbles'=>$results, 'types'=>array('user','event'), 'events'=>$events, 'users'=>$users);
+    	$query = $this->db->get('company');
+    	$companies = $query->result();
+    	$data = array('bubbles'=>$results, 'types'=>array('user','event', 'company'), 'events'=>$events, 'users'=>$users, 'companies'=>$companies);
     	$this->load->view("/admin/show_bubbles.php", $data);
 	}
 }

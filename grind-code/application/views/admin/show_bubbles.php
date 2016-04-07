@@ -44,6 +44,12 @@
 			<option value="<?= $user->id ?>"><?= $user->first_name.' '.$user->last_name ?></option>
 		<? } ?>
 	</select>
+	<select id="company" name="company" class="type-values">
+		<option value="">Select Company</option>
+		<? foreach ($companies as $company) { ?>
+			<option value="<?= $company->id ?>"><?= $company->name ?></option>
+		<? } ?>
+	</select>
     Title: <input type="text" name="title"><br><br>
     Select image to upload: <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
     Rank: <input type="number" name="rank" min="1" step="1"><br><br>
