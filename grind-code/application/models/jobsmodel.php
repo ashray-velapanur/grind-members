@@ -23,7 +23,7 @@ class JobsModel extends CI_Model {
 		} else {
 			$query = $base_query;
 		}
-		$query = $query." order by created_at desc";
+		$query = $query." order by jobs.created_at desc";
 		error_log(json_encode($query));
 		$response = array();
 		$mysql_query = mysql_query($query);
