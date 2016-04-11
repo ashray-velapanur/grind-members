@@ -96,9 +96,9 @@ class Auth extends CI_Controller {
 			$sql = "DELETE FROM wpmember_users WHERE id = (SELECT WP_USERS_ID FROM USER WHERE ID='".$linkedinuserid."')";
 	        $this->db->query($sql);
 	        //Delete linkedinuser
-			$sql = "DELETE FROM user WHERE id = '".$linkedinuserid."'";
-	        $this->db->query($sql);
 			$sql = "DELETE FROM third_party_user WHERE user_id = '".$linkedinuserid."' AND network = 'cobot'";
+	        $this->db->query($sql);
+			$sql = "DELETE FROM user WHERE id = '".$linkedinuserid."'";
 	        $this->db->query($sql);
 		}
 	}
