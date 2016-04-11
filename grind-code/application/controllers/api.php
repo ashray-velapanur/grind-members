@@ -271,11 +271,18 @@ class Api extends REST_Controller
 
      function search_get(){
       $this->benchmark->mark('search_start');
+      global $default_page_size;
+      $limit = $default_page_size;
       $q = $this->get('q');
       if (!$q) {
         $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
       } else {
-        $query = mysql_query(sprintf("
+        $page_size = $this->get('page_size');
+        $page = $this->get('page');
+        $limit_and_offset = $this->get_limit_and_offset($page, $page_size);
+        $limit = $limit_and_offset['limit'];
+        $offset = $limit_and_offset['offset'];
+        $sql = sprintf("
                       (select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%')
                       union
                       (select id, name, 'company' as type from company where name like '%%%s%%')
@@ -283,7 +290,15 @@ class Api extends REST_Controller
                       (select id, name, 'event' as type from events where name like '%%%s%%')
                       union
                       (select id, title as name, 'job' as type from jobs where title like '%%%s%%')
-                      ", $q, $q, $q, $q, $q));
+                      ", $q, $q, $q, $q, $q);
+        if (isset($limit)) {
+                $sql .= " limit ".$limit;
+        } 
+        if (isset($offset)){
+                $sql .= " offset ".$offset;
+        }
+        error_log($sql);
+        $query = mysql_query($sql);
         $response_data = array();
         while($row = mysql_fetch_assoc($query)) {
           array_push($response_data, $row);
@@ -346,8 +361,6 @@ class Api extends REST_Controller
 
 // error handling
   function members_get() {
-    global $default_page_size;
-    $limit = $default_page_size;
     $this->benchmark->mark('members_start');
     $query = $this->load->model("members/membermodel", "", true);
     $tag_id = $this->get('tag_id');
@@ -355,14 +368,11 @@ class Api extends REST_Controller
     $member_id = $this->get('member_id');
     $user_id = $this->get('user_id');
     $page_size = $this->get('page_size');
-    if($page_size) {
-      $limit = $page_size;
-    }
     $page = $this->get('page');
-    if($page) {
-      $row = (($page - 1)*$limit);
-    }
-    $data["users"] = $this->membermodel->new_listing($limit, $row, $company_id, $user_id, $tag_id, $member_id);
+    $limit_and_offset = $this->get_limit_and_offset($page, $page_size);
+    $limit = $limit_and_offset['limit'];
+    $offset = $limit_and_offset['offset'];
+    $data["users"] = $this->membermodel->new_listing($limit, $offset, $company_id, $user_id, $tag_id, $member_id);
     $this->benchmark->mark('members_end');
     error_log('Members Time: '.$this->benchmark->elapsed_time('members_start', 'members_end'));
     $this->response($data, 200);
@@ -547,6 +557,19 @@ class Api extends REST_Controller
     //$response = array("token" => "EYFPEMS6IJLSNOXNVH56", "user.id" => "152621267415");
     $response = array("token" => $eventbrite->token, "user.id" => $eventbrite->eb_user_id);
     $this->response($response, 200);
+  }
+
+  function get_limit_and_offset($page, $page_size) {
+    global $default_page_size;
+    $limit = $default_page_size;
+    $offset = 0;
+    if($page_size) {
+      $limit = $page_size;
+    }
+    if($page) {
+      $offset = (($page - 1)*$limit);
+    }
+    return array('limit' => $limit, 'offset' => $offset);
   }
 }
 ?>
