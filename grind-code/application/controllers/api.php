@@ -15,6 +15,8 @@ require(APPPATH.'/libraries/REST_Controller.php');
 require(APPPATH.'/config/cobot.php');
 require(APPPATH.'/controllers/admin/spaces_dict.php');
 
+$default_page_size = 20;
+
 class Api extends REST_Controller
 {
 	function __construct() {
@@ -344,13 +346,22 @@ class Api extends REST_Controller
 
 // error handling
   function members_get() {
+    global $default_page_size;
+    $limit = $default_page_size;
     $this->benchmark->mark('members_start');
     $query = $this->load->model("members/membermodel", "", true);
     $tag_id = $this->get('tag_id');
     $company_id = $this->get('company_id');
     $member_id = $this->get('member_id');
     $user_id = $this->get('user_id');
-    $limit = 200;
+    $page_size = $this->get('page_size');
+    if($page_size) {
+      $limit = $page_size;
+    }
+    $page = $this->get('page');
+    if($page) {
+      $row = (($page - 1)*$limit);
+    }
     $data["users"] = $this->membermodel->new_listing($limit, $row, $company_id, $user_id, $tag_id, $member_id);
     $this->benchmark->mark('members_end');
     error_log('Members Time: '.$this->benchmark->elapsed_time('members_start', 'members_end'));
