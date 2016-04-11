@@ -374,7 +374,9 @@ class Api extends REST_Controller
     $this->load->model('members/companymodel','',true);
     $tag_id = $this->get('tag_id');
     $company_id = $this->get('company_id');
-    $companies = $this->companymodel->listing($tag_id, $company_id);
+    $page_size = $this->get('page_size');
+    $page = $this->get('page');
+    $companies = $this->companymodel->listing($tag_id, $company_id, $page, $page_size);
     $companies_data = array();
     foreach ($companies as $company) {
       $company = (array)$company;

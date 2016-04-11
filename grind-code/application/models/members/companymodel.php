@@ -71,9 +71,10 @@ class CompanyModel extends CI_Model {
 		
 	}
 	
-	function get_all($company_id=NULL)
+	function get_all($company_id=NULL, $limit=NULL, $offset=NULL)
 	{
 		$retval = false;
+		$this->db->limit($limit, $offset);
 		if($company_id) {
 			$this->db->where('id',$company_id);
 		}
@@ -87,12 +88,20 @@ class CompanyModel extends CI_Model {
         return $retval; // no companies
 	}
 
-	function listing($tag_id, $company_id=NULL) {
+	function listing($tag_id, $company_id=NULL, $page=NULL, $page_size=NULL) {
+		$limit = 20;
+		$offset = 0;
+		if($page_size) {
+			$limit = $page_size;
+		}
+		if($page) {
+	      $offset = (($page - 1)*$limit);
+	    }
 		if($tag_id) {
 			$this->load->model("usertagsmodel","utm",true);
-            $result = $this->utm->get_companies($tag_id);
+            $result = $this->utm->get_companies($tag_id, $limit, $offset);
 		} else {
-			$result = $this->get_all($company_id);
+			$result = $this->get_all($company_id, $limit, $offset);
 		}
 		return $result;
 	}

@@ -60,7 +60,7 @@ class UserTagsModel extends CI_Model {
         return $response_data;
 	}
 
-	function get_companies($tag_id) {
+	function get_companies($tag_id, $limit=NULL, $offset=NULL) {
         $response_data = array();
         $sql = "select ".
         			"company.id, company.name, company.logo_url, company.header, company.description ".
@@ -69,6 +69,12 @@ class UserTagsModel extends CI_Model {
         			"left outer join positions on positions.company_id = company.id ".
         			"left outer join user_tags on user_tags.user_id = positions.user_id ".
         		"where user_tags.tag_id = ".$tag_id;
+        if (isset($limit)) {
+                $sql .= " limit ".$limit;
+        } 
+        if (isset($offset)){
+                $sql .= " offset ".$offset;
+        }
         error_log($sql);
         $query = $this->db->query($sql);
         $response_data = $query->result();
