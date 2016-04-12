@@ -171,9 +171,7 @@ class Api extends REST_Controller
           $posted_by = $this->get('posted_by');
           $company_id = $this->get('company_id');
           $id = $this->get('id');
-          $page_size = $this->get('page_size');
-          $page = $this->get('page');
-          $limit_and_offset = $this->get_limit_and_offset($page, $page_size);
+          $limit_and_offset = $this->get_limit_and_offset();
           $limit = $limit_and_offset['limit'];
           $offset = $limit_and_offset['offset'];
           $this->load->model("jobsmodel","jm",true);
@@ -268,8 +266,11 @@ class Api extends REST_Controller
 
     function events_get() {
         $tag_id = $this->get('tag_id');
+        $limit_and_offset = $this->get_limit_and_offset();
+        $limit = $limit_and_offset['limit'];
+        $offset = $limit_and_offset['offset'];
         $this->load->model("eventsmodel","em",true);
-        $response_data = $this->em->get_events($tag_id);
+        $response_data = $this->em->get_events($tag_id, $limit, $offset);
         $response = array('success'=>TRUE, 'data'=>$response_data);
         $this->response($response, 200);
     }
@@ -282,9 +283,7 @@ class Api extends REST_Controller
       if (!$q) {
         $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
       } else {
-        $page_size = $this->get('page_size');
-        $page = $this->get('page');
-        $limit_and_offset = $this->get_limit_and_offset($page, $page_size);
+        $limit_and_offset = $this->get_limit_and_offset();
         $limit = $limit_and_offset['limit'];
         $offset = $limit_and_offset['offset'];
         $sql = sprintf("
@@ -372,9 +371,7 @@ class Api extends REST_Controller
     $company_id = $this->get('company_id');
     $member_id = $this->get('member_id');
     $user_id = $this->get('user_id');
-    $page_size = $this->get('page_size');
-    $page = $this->get('page');
-    $limit_and_offset = $this->get_limit_and_offset($page, $page_size);
+    $limit_and_offset = $this->get_limit_and_offset();
     $limit = $limit_and_offset['limit'];
     $offset = $limit_and_offset['offset'];
     $data["users"] = $this->membermodel->new_listing($limit, $offset, $company_id, $user_id, $tag_id, $member_id);
@@ -564,8 +561,10 @@ class Api extends REST_Controller
     $this->response($response, 200);
   }
 
-  function get_limit_and_offset($page, $page_size) {
+  function get_limit_and_offset() {
     global $default_page_size;
+    $page_size = $this->get('page_size');
+    $page = $this->get('page');
     $limit = $default_page_size;
     $offset = 0;
     if($page_size) {

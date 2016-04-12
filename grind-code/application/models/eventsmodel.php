@@ -12,7 +12,7 @@ class EventsModel extends CI_Model {
 		return $this->db->query($sql);
 	}
 
-	function get_events($tag_id=NULL) {
+	function get_events($tag_id=NULL, $limit=NULL, $offset=NULL) {
         $response_data = array();
         $sql = "select ".
         			"events.id, events.name ".
@@ -22,7 +22,12 @@ class EventsModel extends CI_Model {
         	$sql .= "join event_tags on event_tags.event_id = events.id ".
         			"where event_tags.tag_id = ".$tag_id;
         }
-        		
+        if (isset($limit)) {
+                $sql .= " limit ".$limit;
+        } 
+        if (isset($offset)){
+                $sql .= " offset ".$offset;
+        }
         error_log($sql);
         $query = $this->db->query($sql);
         $response_data = $query->result();
