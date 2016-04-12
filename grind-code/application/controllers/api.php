@@ -171,8 +171,13 @@ class Api extends REST_Controller
           $posted_by = $this->get('posted_by');
           $company_id = $this->get('company_id');
           $id = $this->get('id');
+          $page_size = $this->get('page_size');
+          $page = $this->get('page');
+          $limit_and_offset = $this->get_limit_and_offset($page, $page_size);
+          $limit = $limit_and_offset['limit'];
+          $offset = $limit_and_offset['offset'];
           $this->load->model("jobsmodel","jm",true);
-          $response_data = $this->jm->get($type, $posted_by, $company_id, $id);
+          $response_data = $this->jm->get($type, $posted_by, $company_id, $id, $limit, $offset);
           if ($response_data) {
             $response = array('success'=> TRUE, 'data'=>$response_data);
           } else {
