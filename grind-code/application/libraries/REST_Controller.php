@@ -254,8 +254,6 @@ class REST_Controller extends CI_Controller {
 		header('HTTP/1.1: ' . $http_code);
 		header('Status: ' . $http_code);
 		header('Content-Length: ' . strlen($output));
-		error_log(bin2hex($output));
-		error_log(json_encode($output));
 		exit($output);
 	}
 
