@@ -36,6 +36,11 @@ class Cobot extends CI_Controller {
 		$sql = "INSERT INTO cobot_bookings (space_id, id, from_datetime, to_datetime, title, resource_id, resource_name, membership_id, membership_name, price, tax_rate, cancellation_period, comments) VALUES ('$subdomain', '$id', '$booking->from_datetime', '$booking->to_datetime', '$booking->title', '$booking->resource_id', '$booking->resource_name', '$booking->membership_id', '$booking->membership_name', $booking->price, $booking->tax_rate, $booking->cancellation_period, '$booking->comments')";
 		error_log($sql);
 		$this->db->query($sql);
+		if(strtolower($booking->resource_name) == 'main area') {
+			$sql = "UPDATE cobot_spaces SET checkins = checkins + 1 where id = '".$subdomain."'";
+			error_log($sql);
+			$this->db->query($sql);
+		}
 		return $booking_url;
 	}
 
@@ -69,6 +74,11 @@ class Cobot extends CI_Controller {
 		$sql = "DELETE FROM cobot_bookings WHERE space_id='".$subdomain."' and id='".$id."'";
 		error_log($sql);
 		$this->db->query($sql);
+		if(strtolower($booking->resource_name) == 'main area') {
+			$sql = "UPDATE cobot_spaces SET checkins = checkins - 1 where id = '".$subdomain."'";
+			error_log($sql);
+			$this->db->query($sql);
+		}
 		return $booking_url;
 	}
 
