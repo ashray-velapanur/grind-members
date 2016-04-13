@@ -573,6 +573,7 @@ class LocationModel extends CI_Model {
             'img_src' => $space_img_src,
             'description' => $description,
             'capacity' => $capacity.' seats free',
+	        'address' => $address,
             'rate' => $rate,
 	        'is_member' => $this->determine_membership($user_id, $space_id, $memberships),
 	        'memberships' => $memberships_arr,
@@ -580,7 +581,7 @@ class LocationModel extends CI_Model {
           );
 	      $resources = array();
 	      array_push($resources, $resourcedata);
-	      $resources = array_merge($resources, $this->resources($space_id));
+	      $resources = array_merge($resources, $this->resources($space_id, $name));
 	      $spacedata = array(
 	        'id' => $space_id,
 	        'img_src' => $space_img_src,
@@ -589,7 +590,6 @@ class LocationModel extends CI_Model {
 	        'capacity' => $capacity.' seats free',
 	        'lat' => $latitude,
 	        'lon' => $longitude,
-	        'address' => $address,
 	        'rate' => $rate,
 	        'resources' => $resources
 	      );
@@ -598,7 +598,7 @@ class LocationModel extends CI_Model {
     	return $space_data;
 	}
 
-	function resources($space_id) {
+	function resources($space_id, $space_name) {
 	    $this->db->where("space_id", $space_id);
 	    $query = $this->db->get('cobot_resources');
 	    $resources = $query->result();
@@ -613,6 +613,7 @@ class LocationModel extends CI_Model {
 	        'id' => $resource['id'],
 	        'space_id' => $space_id,
 	        'name' => $resource['name'],
+	        'space_name' => $space_name,
             'img_src' => '/grind-members/grind-code/images/resources/'.$resource['image'],
             'description' => $resource['description'],
             'capacity' => $resource['capacity'].' people',
