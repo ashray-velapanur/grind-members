@@ -33,13 +33,20 @@ class Cobot extends CI_Controller {
 		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
 		$id = substr($booking_url, $id_start);
 		$booking = json_decode($this->get_booking_details($booking_url, $subdomain));
-		$sql = "INSERT INTO cobot_bookings (space_id, id, from_datetime, to_datetime, title, resource_id, resource_name, membership_id, membership_name, price, tax_rate, cancellation_period, comments) VALUES ('$subdomain', '$id', '$booking->from_datetime', '$booking->to_datetime', '$booking->title', '$booking->resource_id', '$booking->resource_name', '$booking->membership_id', '$booking->membership_name', $booking->price, $booking->tax_rate, $booking->cancellation_period, '$booking->comments')";
+		$sql = "SELECT * FROM cobot_bookings where space_id = '".$subdomain."' AND id='".$id."'";
 		error_log($sql);
-		$this->db->query($sql);
-		if(strtolower($booking->resource_name) == 'main area') {
-			$sql = "UPDATE cobot_spaces SET checkins = checkins + 1 where id = '".$subdomain."'";
+		$query = $this->db->query($sql);
+		$bookings = $query->result();
+		error_log(count($bookings));
+		if(count($bookings) <= 0) {
+			$sql = "INSERT INTO cobot_bookings (space_id, id, from_datetime, to_datetime, title, resource_id, resource_name, membership_id, membership_name, price, tax_rate, cancellation_period, comments) VALUES ('$subdomain', '$id', '$booking->from_datetime', '$booking->to_datetime', '$booking->title', '$booking->resource_id', '$booking->resource_name', '$booking->membership_id', '$booking->membership_name', $booking->price, $booking->tax_rate, $booking->cancellation_period, '$booking->comments')";
 			error_log($sql);
 			$this->db->query($sql);
+			if(strtolower($booking->resource_name) == 'main area') {
+				$sql = "UPDATE cobot_spaces SET checkins = checkins + 1 where id = '".$subdomain."'";
+				error_log($sql);
+				$this->db->query($sql);
+			}
 		}
 		return $booking_url;
 	}
@@ -71,13 +78,20 @@ class Cobot extends CI_Controller {
 		$subdomain = substr($booking_url, $subdomain_start, $subdomain_end-$subdomain_start);
 		$id_start = strpos($booking_url, '.cobot.me/api/bookings/') + 23;
 		$id = substr($booking_url, $id_start);
-		$sql = "DELETE FROM cobot_bookings WHERE space_id='".$subdomain."' and id='".$id."'";
+		$sql = "SELECT * FROM cobot_bookings where space_id = '".$subdomain."' AND id='".$id."'";
 		error_log($sql);
-		$this->db->query($sql);
-		if(strtolower($booking->resource_name) == 'main area') {
-			$sql = "UPDATE cobot_spaces SET checkins = checkins - 1 where id = '".$subdomain."'";
+		$query = $this->db->query($sql);
+		$bookings = $query->result();
+		error_log(count($bookings));
+		if(count($bookings) > 0) {
+			$sql = "DELETE FROM cobot_bookings WHERE space_id='".$subdomain."' and id='".$id."'";
 			error_log($sql);
 			$this->db->query($sql);
+			if(strtolower($booking->resource_name) == 'main area') {
+				$sql = "UPDATE cobot_spaces SET checkins = checkins - 1 where id = '".$subdomain."'";
+				error_log($sql);
+				$this->db->query($sql);
+			}
 		}
 		return $booking_url;
 	}
