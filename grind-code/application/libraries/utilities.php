@@ -5,6 +5,26 @@ require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class utilities {
 
+    public function do_get($url, $params=array()) {
+        $get_result = array();
+        $curl = curl_init();
+        $url = $url.'?';
+        foreach ($params as $key => $value) {
+            $url.="&".$key."=".$value;
+        }
+        error_log("GET: ".$url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($curl);
+        $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if($result_code == 200) {
+            $get_result = (array)json_decode($result);
+        }
+        error_log($get_result);
+        return $get_result;
+    }
+
     public function redirect($url, $permanent = false) {
         if($permanent) {
             header('HTTP/1.1 301 Moved Permanently');

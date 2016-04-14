@@ -533,6 +533,7 @@ class LocationModel extends CI_Model {
 	}
 
 	function spaces($user_id) {
+		global $environmentsToAccessToken;
 		$space_data = array();
 		$daily_plan_name = 'Daily';
 	    $query = $this->db->get("cobot_spaces");
@@ -567,6 +568,18 @@ class LocationModel extends CI_Model {
 		  }
 		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
+		  $booking_credits = [];
+		  if(count($memberships) > 0) {
+			$current_membership = current($memberships);
+			$current_plan_id = $current_membership->plan_id;
+			$current_plan_url = $plans_url.'/'.$current_plan_id;
+			error_log($current_plan_url);
+			$util = new utilities;
+			$current_plan = $util->do_get($current_plan_url, $params=array('access_token' => $environmentsToAccessToken[$util->get_environment_for($space_id)]));
+			error_log(json_encode($current_plan));
+			$booking_credits = $current_plan['booking_credits'];
+		  }
+
 	      $resourcedata = array(
 	        'id' => $space_id,
 	        'name' => $name,
@@ -581,7 +594,7 @@ class LocationModel extends CI_Model {
           );
 	      $resources = array();
 	      array_push($resources, $resourcedata);
-	      $resources = array_merge($resources, $this->resources($space_id, $name));
+	      $resources = array_merge($resources, $this->resources($space_id, $name, $booking_credits));
 	      $spacedata = array(
 	        'id' => $space_id,
 	        'img_src' => $space_img_src,
@@ -598,7 +611,7 @@ class LocationModel extends CI_Model {
     	return $space_data;
 	}
 
-	function resources($space_id, $space_name) {
+	function resources($space_id, $space_name, $booking_credits) {
 	    $this->db->where("space_id", $space_id);
 	    $query = $this->db->get('cobot_resources');
 	    $resources = $query->result();
@@ -617,13 +630,28 @@ class LocationModel extends CI_Model {
             'img_src' => '/grind-members/grind-code/images/resources/'.$resource['image'],
             'description' => $resource['description'],
             'capacity' => $resource['capacity'].' people',
-            'rate' => '$'.$resource['rate'].'/hr',
+            'rate' => $this->get_resource_rate($resource, $booking_credits),
             'bookings' => $bookings
           );
           array_push($resource_data, $resourcedata);
 	    }
 	    return $resource_data;
   }
+
+	function get_resource_rate($resource, $booking_credits) {
+		$rate = '$'.$resource['rate'].'/hr';
+		$id = $resource['id'];
+		foreach ($booking_credits as $booking_credit) {
+			$credit_resources = $booking_credit['resources'];
+			foreach ($credit_resources as $credit_resource) {
+				if($credit_resource['id'] == $id) {
+					$rate = $booking_credit['hours'].' hours free';
+					break;
+				}
+			}
+		}
+		return $rate;
+	}
 
   function book_space($space_id, $user_id, $resource_id=null, $from=null, $to=null) {
   	error_log('booking space');
