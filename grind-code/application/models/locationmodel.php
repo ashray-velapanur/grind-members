@@ -533,6 +533,7 @@ class LocationModel extends CI_Model {
 	}
 
 	function spaces($user_id) {
+		error_log('Getting spaces');
 		global $environmentsToAccessToken;
 		$space_data = array();
 		$daily_plan_name = 'Daily';
@@ -569,6 +570,7 @@ class LocationModel extends CI_Model {
 		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
 		  $booking_credits = [];
+		  error_log('Memberships count: '.count($memberships));
 		  if(count($memberships) > 0) {
 			$current_membership = current($memberships);
 			$current_plan_id = $current_membership->plan_id;
@@ -639,6 +641,7 @@ class LocationModel extends CI_Model {
   }
 
 	function get_resource_rate($resource, $booking_credits) {
+		error_log(json_encode($booking_credits));
 		$rate = '$'.$resource['rate'].'/hr';
 		$id = $resource['id'];
 		foreach ($booking_credits as $booking_credit) {
@@ -650,6 +653,7 @@ class LocationModel extends CI_Model {
 				}
 			}
 		}
+		error_log('Resource rate: '.$rate);
 		return $rate;
 	}
 
