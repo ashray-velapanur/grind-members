@@ -722,9 +722,9 @@ class LocationModel extends CI_Model {
 
 	public function add_update_space($space, $environment) {
 		$sql = "INSERT INTO cobot_spaces";
-		$sql .= "(id, image, capacity, lat, lon, address, rate, name, description) ".
+		$sql .= "(id, image, capacity, lat, lon, address, rate, name, description, main_area_id) ".
 				"VALUES ".
-				"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\") ";
+				"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\") ";
 		try {
 			error_log($sql);
 			error_log(json_encode($this));
