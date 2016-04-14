@@ -6,6 +6,7 @@ include_once APPPATH . 'libraries/constants.php';
 class ImagesModel extends CI_Model {
 
 	function save_image($image) {
+		error_log(json_encode($image));
 		$image_id = NULL;
 		$imgName = $image['tmp_name'];
 		$imgType = $image['type'];
