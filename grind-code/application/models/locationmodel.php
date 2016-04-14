@@ -569,7 +569,7 @@ class LocationModel extends CI_Model {
 		  }
 		  $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
 
-		  $booking_credits = [];
+		  $booking_credits = array();
 		  error_log('Memberships count: '.count($memberships));
 		  if(count($memberships) > 0) {
 			$current_membership = current($memberships);
