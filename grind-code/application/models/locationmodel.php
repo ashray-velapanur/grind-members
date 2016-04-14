@@ -649,7 +649,7 @@ class LocationModel extends CI_Model {
 			foreach ($credit_resources as $credit_resource) {
 				$credit_resource = (array)$credit_resource;
 				if($credit_resource['id'] == $id) {
-					$rate = $booking_credit['hours'].' hrs free';
+					$rate = $booking_credit['hours'].' hrs';
 					break;
 				}
 			}
