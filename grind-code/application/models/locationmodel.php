@@ -533,7 +533,6 @@ class LocationModel extends CI_Model {
 	}
 
 	function spaces($user_id) {
-		error_log('Getting spaces');
 		global $environmentsToAccessToken;
 		$space_data = array();
 		$daily_plan_name = 'Daily';
@@ -573,15 +572,12 @@ class LocationModel extends CI_Model {
 		  error_log('Memberships count: '.count($memberships));
 		  if(count($memberships) > 0) {
 			$current_membership = current($memberships);
-			error_log(json_encode($current_membership));
 			$current_plan_id = $current_membership->plan_id;
-			error_log($current_plan_id);
 			if($current_plan_id) {
 				$current_plan_url = $plans_url.'/'.$current_plan_id;
 				error_log($current_plan_url);
 				$util = new utilities;
 				$current_plan = $util->do_get($current_plan_url, $params=array('access_token' => $environmentsToAccessToken[$util->get_environment_for($space_id)]));
-				error_log(json_encode($current_plan));
 				$booking_credits = $current_plan['booking_credits'];
 			}
 		  }
@@ -645,7 +641,6 @@ class LocationModel extends CI_Model {
   }
 
 	function get_resource_rate($resource, $booking_credits) {
-		error_log(json_encode($booking_credits));
 		$rate = '$'.$resource['rate'].'/hr';
 		$id = $resource['id'];
 		foreach ($booking_credits as $booking_credit) {
@@ -659,7 +654,6 @@ class LocationModel extends CI_Model {
 				}
 			}
 		}
-		error_log('Resource rate: '.$rate);
 		return $rate;
 	}
 
