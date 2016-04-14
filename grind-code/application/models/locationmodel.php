@@ -550,7 +550,7 @@ class LocationModel extends CI_Model {
 	      $rate = '$'.$space['rate'].'/day';
 	      $description = $space['description'];
 	      $name = $space['name'];
-	      $sql = "select membership.id, membership.plan_name from cobot_memberships membership where membership.space_id = '".$space_id."' and membership.user_id = '".$user_id."'";
+	      $sql = "select membership.id, membership.plan_name, membership.plan_id from cobot_memberships membership where membership.space_id = '".$space_id."' and membership.user_id = '".$user_id."'";
 		  error_log($sql);
 		  $query = $this->db->query($sql);
 		  $memberships = $query->result();
@@ -573,13 +573,17 @@ class LocationModel extends CI_Model {
 		  error_log('Memberships count: '.count($memberships));
 		  if(count($memberships) > 0) {
 			$current_membership = current($memberships);
+			error_log(json_encode($current_membership));
 			$current_plan_id = $current_membership->plan_id;
-			$current_plan_url = $plans_url.'/'.$current_plan_id;
-			error_log($current_plan_url);
-			$util = new utilities;
-			$current_plan = $util->do_get($current_plan_url, $params=array('access_token' => $environmentsToAccessToken[$util->get_environment_for($space_id)]));
-			error_log(json_encode($current_plan));
-			$booking_credits = $current_plan['booking_credits'];
+			error_log($current_plan_id);
+			if($current_plan_id) {
+				$current_plan_url = $plans_url.'/'.$current_plan_id;
+				error_log($current_plan_url);
+				$util = new utilities;
+				$current_plan = $util->do_get($current_plan_url, $params=array('access_token' => $environmentsToAccessToken[$util->get_environment_for($space_id)]));
+				error_log(json_encode($current_plan));
+				$booking_credits = $current_plan['booking_credits'];
+			}
 		  }
 
 	      $resourcedata = array(
