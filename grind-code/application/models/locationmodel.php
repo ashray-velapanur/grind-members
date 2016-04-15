@@ -541,7 +541,7 @@ class LocationModel extends CI_Model {
 	    foreach ($spaces as $space_arr) {
 	      $space = (array)$space_arr;
 	      $space_id = $space['id'];
-	      $space_img_src = '/grind-members/grind-code/images/spaces/'.$space['image'];
+	      $space_img_src = '/grind-members/grind-code/index.php/image/get?id='.$space['image'];
 	      $capacity = $space['capacity'] - $space['checkins'];
 	      $latitude = $space['lat'];
 	      $longitude = $space['lon'];
