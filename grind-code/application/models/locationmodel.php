@@ -629,7 +629,7 @@ class LocationModel extends CI_Model {
 	        'space_id' => $space_id,
 	        'name' => $resource['name'],
 	        'space_name' => $space_name,
-            'img_src' => '/grind-members/grind-code/images/resources/'.$resource['image'],
+            'img_src' => '/grind-members/grind-code/index.php/image/get?id='.$resource['image'],
             'description' => $resource['description'],
             'capacity' => $resource['capacity'].' people',
             'rate' => $this->get_resource_rate($resource, $booking_credits),
