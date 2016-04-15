@@ -757,6 +757,7 @@ class LocationModel extends CI_Model {
 		$sql .= "(id, image, capacity, lat, lon, address, rate, name, description, main_area_id) ".
 				"VALUES ".
 				"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\") ";
+		$sql .= " ON DUPLICATE KEY UPDATE name="."'".$space['name']."', address="."'".$space['address']."', description="."'".$space['description']."', lat="."'".$space['lat']."', lon="."'".$space['long']."', capacity="."'".$space['capacity']."', rate="."'".$space['rate']."'";
 		try {
 			error_log($sql);
 			error_log(json_encode($this));
