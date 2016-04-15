@@ -753,19 +753,31 @@ class LocationModel extends CI_Model {
 	}
 
 	public function add_update_space($space, $environment) {
-		$sql = "INSERT INTO cobot_spaces";
-		$sql .= "(id, image, capacity, lat, lon, address, rate, name, description, main_area_id) ".
-				"VALUES ".
-				"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\") ";
-		$sql .= " ON DUPLICATE KEY UPDATE name="."'".$space['name']."', address="."'".$space['address']."', description="."'".$space['description']."', lat="."'".$space['lat']."', lon="."'".$space['long']."', capacity="."'".$space['capacity']."', rate="."'".$space['rate']."'";
+		$sql = "SELECT * FROM cobot_spaces where id = '".$space['id']."'";
+		error_log($sql);
+		$query = $this->db->query($sql);
+		$spaces = $query->result();
+		error_log(count($spaces));
 		try {
-			error_log($sql);
-			error_log(json_encode($this));
-			if ($this->db->query($sql) === TRUE) {
-				echo "Record created/updated successfully";
-				$this->setup_webhook_subscriptions($space['id'], $environment);
+			if(count($spaces) <= 0) {
+				$sql = "INSERT INTO cobot_spaces";
+				$sql .= "(id, image, capacity, lat, lon, address, rate, name, description, main_area_id) ".
+						"VALUES ".
+						"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\") ";
+				error_log($sql);
+				if ($this->db->query($sql) === TRUE) {
+					error_log("Cobot space created successfully");
+					$this->setup_webhook_subscriptions($space['id'], $environment);
+				} else {
+					error_log("Error: " . $sql . "<br>" . $this->db->error);
+				}
 			} else {
-				echo "Error: " . $sql . "<br>" . $this->db->error;
+				$sql = "UPDATE cobot_spaces SET image = \"".$space['imgName']."\", capacity = ".$space['capacity'].", lat = \"".$space['lat']."\", lon = \"".$space['long']."\", address = \"".$space['address']."\", rate = ".$space['rate'].", name = \"".$space['name']."\", description = \"".$space['description']."\", main_area_id = \"".$space['main_area_id']."\" WHERE id='".$space['id']."'";
+				error_log($sql);
+				$this->db->query($sql);
+				$sql = "DELETE from cobot_resources where space_id = '".$space['id']."'";
+				error_log($sql);
+				$this->db->query($sql);
 			}
 		} catch (Exception $e) {
 		    error_log('Caught exception: ',  $e->getMessage(), "\n");
@@ -808,9 +820,9 @@ class LocationModel extends CI_Model {
 		try {
 			error_log($sql);
 			if ($this->db->query($sql) === TRUE) {
-				echo "Record created/updated successfully";
+				error_log("Cobot resource created successfully");
 			} else {
-				echo "Error: " . $sql . "<br>" . $this->db->error;
+				error_log("Error: " . $sql . "<br>" . $this->db->error);
 			}
 		} catch (Exception $e) {
 		    error_log('Caught exception: ',  $e->getMessage(), "\n");
