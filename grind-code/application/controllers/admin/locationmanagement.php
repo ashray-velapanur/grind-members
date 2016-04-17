@@ -212,8 +212,8 @@ class LocationManagement extends CI_Controller {
 				$address_state = $_POST["address-state"];
 				$address_country = $_POST["address-country"];
 				$address_zip = $_POST["address-zip"];
-				$address = $address_street.' '.$address_city.' '.$address_state.' '.$address_zip;
-				$address = trim($address);
+				$address_1 = trim($address_street);
+				$address_2 = trim($address_city.' '.$address_state.' '.$address_zip);
 				$rate = $_POST["rate"];
 				if(!$rate) {
 					$rate = 0.0;
@@ -226,7 +226,8 @@ class LocationManagement extends CI_Controller {
 					'capacity' => $capacity,
 					'lat' => $lat,
 					'long' => $long,
-					'address' => $address,
+					'address_1' => $address_1,
+					'address_2' => $address_2,
 					'rate' => $rate,
 					'name' => $name,
 					'description' => $description,

@@ -545,7 +545,8 @@ class LocationModel extends CI_Model {
 	      $capacity = $space['capacity'] - $space['checkins'];
 	      $latitude = $space['lat'];
 	      $longitude = $space['lon'];
-	      $address = $space['address'];
+	      $address_1 = $space['address_1'];
+	      $address_2 = $space['address_2'];
 	      $rate = '$'.$space['rate'].'/day';
 	      $description = $space['description'];
 	      $name = $space['name'];
@@ -588,7 +589,8 @@ class LocationModel extends CI_Model {
             'img_src' => $space_img_src,
             'description' => $description,
             'capacity' => $capacity.' seats free',
-	        'address' => $address,
+	        'address_1' => $address_1,
+	        'address_2' => $address_2,
             'rate' => $rate,
 	        'is_member' => $this->determine_membership($user_id, $space_id, $memberships),
 	        'memberships' => $memberships_arr,
@@ -761,9 +763,9 @@ class LocationModel extends CI_Model {
 		try {
 			if(count($spaces) <= 0) {
 				$sql = "INSERT INTO cobot_spaces";
-				$sql .= "(id, image, capacity, lat, lon, address, rate, name, description, main_area_id) ".
+				$sql .= "(id, image, capacity, lat, lon, address_1, address_2, rate, name, description, main_area_id) ".
 						"VALUES ".
-						"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\") ";
+						"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address_1']."\", \"".$space['address_2']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\") ";
 				error_log($sql);
 				if ($this->db->query($sql) === TRUE) {
 					error_log("Cobot space created successfully");
@@ -772,7 +774,7 @@ class LocationModel extends CI_Model {
 					error_log("Error: " . $sql . "<br>" . $this->db->error);
 				}
 			} else {
-				$sql = "UPDATE cobot_spaces SET image = \"".$space['imgName']."\", capacity = ".$space['capacity'].", lat = \"".$space['lat']."\", lon = \"".$space['long']."\", address = \"".$space['address']."\", rate = ".$space['rate'].", name = \"".$space['name']."\", description = \"".$space['description']."\", main_area_id = \"".$space['main_area_id']."\" WHERE id='".$space['id']."'";
+				$sql = "UPDATE cobot_spaces SET image = \"".$space['imgName']."\", capacity = ".$space['capacity'].", lat = \"".$space['lat']."\", lon = \"".$space['long']."\", address_1 = \"".$space['address_1']."\", address_2 = \"".$space['address_2']."\", rate = ".$space['rate'].", name = \"".$space['name']."\", description = \"".$space['description']."\", main_area_id = \"".$space['main_area_id']."\" WHERE id='".$space['id']."'";
 				error_log($sql);
 				$this->db->query($sql);
 				$sql = "DELETE from cobot_resources where space_id = '".$space['id']."'";
