@@ -577,6 +577,7 @@ class LocationModel extends CI_Model {
 			$util = new utilities;
 			$booking_credits = $util->do_get($booking_credits_url, $params=array('access_token' => $environmentsToAccessToken[$util->get_environment_for($space_id)]));
 		  }
+		  error_log(json_encode($booking_credits));
 
 	      $resourcedata = array(
 	        'id' => $space_id,
