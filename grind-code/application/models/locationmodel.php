@@ -652,9 +652,9 @@ class LocationModel extends CI_Model {
 			$remaining_hours = $booking_credit->hours_remaining;
 			$price_per_hour = $booking_credit->price_per_hour;
 			if($remaining_hours) {
-				$hours = $remaining_hours.' hrs';
+				$hours = $remaining_hours.' hrs remaining';
 			} elseif ($total_hours) {
-				$hours = $total_hours.' hrs';
+				$hours = $total_hours.' hrs remaining';
 			}
 			if($price_per_hour) {
 				$rate = '$'.$price_per_hour.'/hr';
