@@ -24,17 +24,34 @@ class Eventbrite extends CI_Controller {
 	}
 
 	public function add_token() {
+		$util = new utilities;
 		if(isset($_POST["submit"])) {
 			$eb_user_id = $_POST["eb_user_id"];
 			$eb_token = $_POST["eb_token"];
 			$this->load->model("eventsmodel","em",true);
 			if ($this->em->add_eventbrite_token($eb_user_id, $eb_token) === TRUE) {
 				error_log("Added Eventbrite access token successfully");
+				//Delete events fetched with older token and user ID
+				$sql = "TRUNCATE TABLE events";
+				error_log($sql);
+				$this->db->query($sql);
+				//Pull events with newer token and user ID
+				$url = 'https://www.eventbriteapi.com/v3/users/'.$eb_user_id.'/owned_events/';
+				$params = array(
+					'token' => $eb_token,
+					'status' => 'live,started,ended'
+				);
+				$results = $util->do_get($url, $params);
+				$events = $results['events'];
+				foreach ($events as $event) {
+					$event = (array)$event;
+					$event_name = $event['name'];
+					$this->em->create($event['id'], $event_name->text);
+				}
 			} else {
 				error_log("Error adding Eventbrite access token");
 			}
 		}
-		$util = new utilities;
 		$util->redirect(ROOTMEMBERPATH.'grind-code/index.php/eventbrite/tokens');
 	}
 
