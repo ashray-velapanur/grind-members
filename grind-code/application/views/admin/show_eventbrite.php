@@ -6,14 +6,12 @@
 <table>
     <thead>
         <tr>
-            <td>Eventbrite User ID</td>
             <td>Eventbrite Token</td>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($results as $result) {?>
             <tr>
-                <td><?= $result->eb_user_id ?></td>
                 <td><?= $result->token ?></td>
             </tr>
         <?php } ?>
@@ -22,7 +20,6 @@
 <hr>
 <form action="<?=ROOTMEMBERPATH?>grind-code/index.php/eventbrite/add_token" method="post" enctype="multipart/form-data">
     <h2>Add Eventbrite Token</h2>
-    Eventbrite User ID: <input type="text" name="eb_user_id"><br><br>
     Eventbrite Access Token: <input type="text" name="eb_token"><br><br>
     <input type="submit" value="Add Token" name="submit">
 </form>

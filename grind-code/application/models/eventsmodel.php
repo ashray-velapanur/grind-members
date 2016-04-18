@@ -35,8 +35,16 @@ class EventsModel extends CI_Model {
         return $response_data;
 	}
 
-        function add_eventbrite_token($eb_user_id, $eb_token) {
-                $sql = "INSERT INTO eventbrite (eb_user_id, token) VALUES ('$eb_user_id', '$eb_token')";
+        function add_eventbrite_token($eb_token, $eb_user_id=NULL) {
+                $sql = "INSERT INTO eventbrite (";
+                if($eb_user_id) {
+                        $sql .= "eb_user_id, ";
+                }
+                $sql .= "token) VALUES (";
+                if($eb_user_id) {
+                        $sql .= "'$eb_user_id', ";
+                }
+                $sql .= "'$eb_token')";
                 error_log($sql);
                 return $this->db->query($sql);
         }
