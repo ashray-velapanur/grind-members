@@ -651,7 +651,7 @@ class LocationModel extends CI_Model {
 			$total_hours = $booking_credit->total_hours;
 			$remaining_hours = $booking_credit->hours_remaining;
 			$price_per_hour = $booking_credit->price_per_hour;
-			if($remaining_hours) {
+			if($remaining_hours || (intval($remaining_hours) == 0 && $total_hours && $total_hours > 0)) {
 				$hours = $remaining_hours.' hrs remaining';
 			} elseif ($total_hours) {
 				$hours = $total_hours.' hrs remaining';
