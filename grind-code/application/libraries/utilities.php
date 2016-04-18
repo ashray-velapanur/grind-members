@@ -16,10 +16,13 @@ class utilities {
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($curl);
+        $error_message = curl_error($curl);
         $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
         if($result_code == 200) {
             $get_result = (array)json_decode($result);
+        } else {
+            error_log('Error: '.$error_message.', HTTP Code: '.$result_code);
         }
         error_log($get_result);
         return $get_result;
