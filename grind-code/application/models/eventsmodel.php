@@ -9,6 +9,7 @@ class EventsModel extends CI_Model {
 
 	function create($id, $name){
 		$sql = "INSERT INTO events (id, name) VALUES ('$id', '$name')";
+                error_log($sql);
 		return $this->db->query($sql);
 	}
 
@@ -40,8 +41,12 @@ class EventsModel extends CI_Model {
                 return $this->db->query($sql);
         }
 
-        function delete_eventbrite_token($eb_user_id) {
-                $sql = "DELETE FROM eventbrite WHERE eb_user_id='".$eb_user_id."'";
+        function delete_eventbrite_token($eb_user_id=NULL) {
+                if($eb_user_id) {
+                        $sql = "DELETE FROM eventbrite WHERE eb_user_id='".$eb_user_id."'";
+                } else {
+                        $sql = "TRUNCATE TABLE eventbrite";
+                }
                 error_log($sql);
                 return $this->db->query($sql);
         }

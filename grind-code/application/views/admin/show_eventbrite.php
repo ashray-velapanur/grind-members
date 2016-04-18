@@ -8,7 +8,6 @@
         <tr>
             <td>Eventbrite User ID</td>
             <td>Eventbrite Token</td>
-            <td>Action</td>
         </tr>
     </thead>
     <tbody>
@@ -16,7 +15,6 @@
             <tr>
                 <td><?= $result->eb_user_id ?></td>
                 <td><?= $result->token ?></td>
-                <td><a href="<?=ROOTMEMBERPATH?>grind-code/index.php/eventbrite/delete_token?eb_user_id=<?= $result->eb_user_id ?>">Delete</a></td>
             </tr>
         <?php } ?>
     </tbody>
