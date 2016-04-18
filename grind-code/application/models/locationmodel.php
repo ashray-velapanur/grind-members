@@ -745,6 +745,7 @@ class LocationModel extends CI_Model {
 		    $resource_id = $resource['id'];
 		    if($resource_id == $main_area_resource_id) {
 		    	$sql = "UPDATE cobot_spaces SET capacity = ".$resource['capacity'].", rate = ".$resource['price_per_hour']." WHERE id = '".$space_id."'";
+		    	error_log($sql);
 				$this->db->query($sql);
 		    }
 		    else {
