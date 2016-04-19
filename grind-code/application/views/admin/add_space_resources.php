@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <td><b>Resource Name</b></td>
+                <td><b>Capacity</b></td>
                 <td><b>Current Image</b></td>
                 <td><b>Select image to upload</b></td>
             </tr>
@@ -17,6 +18,7 @@
             <?php foreach ($resources as $resource) {?>
                 <tr>
                     <td><?= $resource->name ?></td>
+                    <td><input type="number" name="capacity<?= $resource->id ?>" min="0" value="<?= $resource->capacity ?>"></td>
                     <td><img height="100" width="150" src="<?=ROOTMEMBERPATH?>grind-code/index.php/image/get?id=<?= $resource->image ?>"/></td>
                     <td><input type="file" name="image<?= $resource->id ?>" id="image<?= $resource->id ?>"></td>
                 </tr>
