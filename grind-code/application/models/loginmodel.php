@@ -3,10 +3,39 @@ include_once APPPATH . 'libraries/utilities.php';
 include_once APPPATH . 'libraries/enumerations.php';
 include_once APPPATH . 'libraries/constants.php';
 
+require(APPPATH.'/config/linkedin.php');
 require(APPPATH.'/config/cobot.php');
 require(APPPATH.'/controllers/admin/spaces_dict.php');
 
 class LoginModel extends CI_Model {
+
+    public function linkedin_authorization_url() {
+        global $linkedin_client_id, $linkedin_state, $linkedin_scope, $linkedin_authorization_url, $linkedin_callback_url, $cobot_user_default_password;
+        error_log('The authorization url template: '.$linkedin_authorization_url);
+        $url = sprintf($linkedin_authorization_url, $linkedin_client_id, $linkedin_callback_url, $linkedin_state, $linkedin_scope);
+        error_log('The authorization url formatted: '.$url);
+        return $url;
+    }
+
+    public function exchange_linkedin_code_for_access_token($code, $state) {
+        global $linkedin_callback_url, $linkedin_client_id, $linkedin_client_secret, $linkedin_state, $linkedin_access_token_fetch_url;
+        $access_token = NULL;
+        if($state == $linkedin_state) {
+            $url = $linkedin_access_token_fetch_url;
+            $params = array(
+                'grant_type' => 'authorization_code',
+                'code' => $code,
+                'redirect_uri' => $linkedin_callback_url,
+                'client_id' => $linkedin_client_id,
+                'client_secret' => $linkedin_client_secret
+            );
+            $util = new utilities;
+            $response = $util->do_get($url, $params);
+            $access_token = $response['access_token'];
+        }
+        error_log('AT: '.$access_token);
+        return $access_token;
+    }
 
     function linkedin($access_token, $id) {
         error_log('In linkedin login');

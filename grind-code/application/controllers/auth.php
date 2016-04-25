@@ -1,10 +1,33 @@
 <?
 
+require(APPPATH.'/config/linkedin.php');
+
 class Auth extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
 		$this->output->enable_profiler(TRUE);
+	}
+
+	public function authorize_with_linkedin() {
+		$this->load->model("loginmodel","lm",true);
+		$authorization_url = $this->lm->linkedin_authorization_url();
+		error_log($authorization_url);
+		$util = new utilities;
+        $util->redirect($authorization_url);
+	}
+
+	public function fetch_linkedin_access_token() {
+		$error = $_GET['error'];
+		if($error) {
+			$error_desc = $_GET['error_description'];
+			error_log('Linkedin error: '.$error_desc);
+		} else {
+			$code = $_GET['code'];
+			$state = $_GET['state'];
+			$this->load->model("loginmodel","lm",true);
+			$access_token = $this->lm->exchange_linkedin_code_for_access_token($code, $state);
+		}
 	}
 
 	public function harmonize_users() {

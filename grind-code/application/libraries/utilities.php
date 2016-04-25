@@ -24,7 +24,7 @@ class utilities {
         } else {
             error_log('Error: '.$error_message.', HTTP Code: '.$result_code);
         }
-        error_log($get_result);
+        error_log(json_encode($get_result));
         return $get_result;
     }
 
