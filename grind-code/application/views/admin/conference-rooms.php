@@ -32,22 +32,36 @@
         <tr class="resources" id="<?= $space->id ?>" style="display:none;">
             <?php foreach ($resources[$space->id] as $resource) {?>
             <td>
-                <img height="100" width="150" src="<?=ROOTMEMBERPATH?>grind-code/index.php/image/get?id=<?= $resource->image ?>"/>
-                <p>
-                    <b><?= $resource->name ?></b>
-                </p>
-                <p>
-                    <?= $resource->description ?>
-                </p>
-                <p>
-                    <b>Monthiles:</b> $<?= $resource->rate ?>/hour
-                </p>
+                <a onclick="loadCalendar('b-eagles.com_j6ed1i4hc1981lqgovb2rk3c8o%40group.calendar.google.com')">
+                    <img height="100" width="150" src="<?=ROOTMEMBERPATH?>grind-code/index.php/image/get?id=<?= $resource->image ?>"/>
+                    <p>
+                        <b><?= $resource->name ?></b>
+                    </p>
+                    <p>
+                        <?= $resource->description ?>
+                    </p>
+                    <p>
+                        <b>Monthlies:</b> $<?= $resource->rate ?>/hour
+                    </p>
+                </a>
             </td>
             <?php } ?>
         </tr>
         <?php } ?>
+        <tr>
+            <td>
+                <iframe id="gcal" src="" style="border: 0;display:none;" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+            </td>
+        </tr>
     </tbody>
 </table>
 <?php get_footer(); ?>
+<script type="text/javascript">
+    function loadCalendar(cal_name) {
+        var cal_src = 'https://calendar.google.com/calendar/embed?src='+cal_name+'&ctz=America/New_York';
+        $("#gcal").attr('src',cal_src);
+        $("#gcal").show();
+    }
+</script>
 </body>
 </html>
