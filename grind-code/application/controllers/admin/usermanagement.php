@@ -465,6 +465,23 @@ public function viewprofile($user_id,$id_type=NULL) {
 		
 	}
 
+	public function conferencerooms() {
+		$query = $this->db->get("cobot_spaces");
+		$spaces = $query->result();
+		$data = array();
+		$data['spaces'] = $spaces;
+		$data['resources'] = array();
+		foreach ($spaces as $space) {
+			$space_id = $space->id;
+			$this->db->where("space_id", $space_id);
+			$query = $this->db->get("cobot_resources");
+			$resources = $query->result();
+			$data['resources'][$space_id] = $resources;
+		}
+		
+		$this->load->view("/admin/conference-rooms.php", $data);
+	}
+
 }
 
 ?>
