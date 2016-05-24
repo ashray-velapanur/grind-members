@@ -2,6 +2,8 @@
 <html>
 <body>
 <?php get_header(); ?>
+<?php
+include '../wp-config.php'; ?>
 <nav id="primary">
   <ul class="clearfix">
     <li><?=g_anchor("../conferencerooms", "My Account")?></li>
@@ -16,7 +18,7 @@
         <tr>
             <?php foreach ($spaces as $space) {?>
                 <td>
-                    <a onclick="$('.resources').hide();$('#<?= $space->id ?>').show();">
+                    <a onclick="$('.resources').hide(); $('.bookings').hide(); $('#resource-<?= $space->id ?>').show(); $('#booking-<?= $space->id ?>').show();">
                         <img height="100" width="150" src="<?=ROOTMEMBERPATH?>grind-code/index.php/image/get?id=<?= $space->image ?>"/>
                         <p>
                             <b><?= $space->name ?></b>
@@ -29,7 +31,7 @@
     <tbody>
         <tr><td><h1>Select a Room</h1></td></tr>
         <?php foreach ($spaces as $space) {?>
-        <tr class="resources" id="<?= $space->id ?>" style="display:none;">
+        <tr class="resources" id="resource-<?= $space->id ?>" style="display:none;">
             <?php foreach ($resources[$space->id] as $resource) {?>
             <td>
                 <a onclick="loadCalendar('b-eagles.com_j6ed1i4hc1981lqgovb2rk3c8o%40group.calendar.google.com')">
@@ -44,6 +46,23 @@
                         <b>Monthlies:</b> $<?= $resource->rate ?>/hour
                     </p>
                 </a>
+            </td>
+            <?php } ?>
+        </tr>
+        <?php } ?>
+        <?php foreach ($spaces as $space) {?>
+        <tr class="bookings" id="booking-<?= $space->id ?>" style="display:none;">
+            <?php foreach ($bookings[$space->id] as $booking) {?>
+            <td>
+                <p>
+                    <b><?= $booking->name ?></b>
+                </p>
+                <p>
+                    <?= $booking->from_time ?>
+                </p>
+                <p>
+                    <?= $booking->to_time ?>
+                </p>
             </td>
             <?php } ?>
         </tr>

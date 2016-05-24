@@ -467,6 +467,7 @@ public function viewprofile($user_id,$id_type=NULL) {
 
 	public function conferencerooms() {
 		$query = $this->db->get("cobot_spaces");
+		$current_user = wp_get_current_user();
 		$spaces = $query->result();
 		$data = array();
 		$data['spaces'] = $spaces;
@@ -477,6 +478,11 @@ public function viewprofile($user_id,$id_type=NULL) {
 			$query = $this->db->get("cobot_resources");
 			$resources = $query->result();
 			$data['resources'][$space_id] = $resources;
+			$sql = "SELECT resource_name as name, from_datetime as from_time, to_datetime as to_time FROM cobot_bookings cb JOIN cobot_memberships cm on cb.membership_id = cm.id join user u on cm.user_id = u.id  WHERE u.wp_users_id = ".$current_user->ID;
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$bookings = $query->result();
+			$data['bookings'][$space_id] = $bookings;
 		}
 		
 		$this->load->view("/admin/conference-rooms.php", $data);
