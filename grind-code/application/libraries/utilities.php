@@ -29,14 +29,14 @@ class utilities {
     }
 
     public function do_post($url, $params=array()) {
-        foreach($params as $key=>$value) { $params_string .= $key.'='.$value.'&'; }
-        rtrim($params_string, '&');
+        $params_string = http_build_query($params);
         error_log($params_string);
         $post_result = array();
         $curl = curl_init();
         error_log("POST: ".$url);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, true);
+        //curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: multipart/form-data"));
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params_string);
         $result = curl_exec($curl);
         $error_message = curl_error($curl);
