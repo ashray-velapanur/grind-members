@@ -17,6 +17,7 @@ class Cron extends CI_Controller {
 
     public function invoice_cobot_bookings() {
     	global $environmentsToAccessToken;
+    	$access_token = $environmentsToAccessToken[$util->get_current_environment()];
     	$util = new utilities;
     	if(!$from){
 			$to = date_create();
@@ -33,7 +34,7 @@ class Cron extends CI_Controller {
 	    foreach ($spaces as $space) {
 	    	$bookings_url = 'https://'.$space->id.'.cobot.me/api/bookings';
 			$bookings = $util->do_get($bookings_url, $params=array(
-				'access_token' => $environmentsToAccessToken[$util->get_current_environment()],
+				'access_token' => $access_token,
 				'from' => rawurlencode($from),
 				'to' => rawurlencode($to)
 			));
@@ -56,6 +57,7 @@ class Cron extends CI_Controller {
 					$membership_id = $membership->id;
 					$invoice_url = 'https://'.$space->id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
 					$params = array(
+						'access_token' => $access_token,
 						"items" => array(
 							array(
 							"amount" => '"'.$price.'"',
