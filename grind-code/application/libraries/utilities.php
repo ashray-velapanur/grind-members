@@ -28,6 +28,27 @@ class utilities {
         return $get_result;
     }
 
+    public function do_post($url, $params=array()) {
+        $post_result = array();
+        $curl = curl_init();
+        error_log("POST: ".$url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+        $result = curl_exec($curl);
+        $error_message = curl_error($curl);
+        $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if($result_code == 200) {
+            $post_result = (array)json_decode($result);
+        } else {
+            error_log('Error: '.$error_message.', HTTP Code: '.$result_code);
+        }
+        error_log(json_encode($post_result));
+        return $post_result;
+    }
+
     public function redirect($url, $permanent = false) {
         if($permanent) {
             header('HTTP/1.1 301 Moved Permanently');
