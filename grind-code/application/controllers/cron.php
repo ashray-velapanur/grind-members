@@ -41,6 +41,7 @@ class Cron extends CI_Controller {
 				echo " *** No bookings in the last 24 hours for space: ".$space->id;
 			}
 			foreach ($bookings as $booking) {
+				$booking = (array)$booking;
 				$booking_id = $booking['id'];
 				echo " *** Trying to generate invoice for booking id: ".$booking_id;
 				$membership = $booking['membership'];
