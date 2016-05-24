@@ -50,13 +50,13 @@ class Cron extends CI_Controller {
 					$membership_id = $membership->id;
 					$invoice_url = 'https://'.$space->id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
 					$params = array(
-						"items" => [
+						"items" => array(
 							array(
 							"amount" => '"'.$price.'"',
 							"description" => $title.' - '.$resource_name,
 							"quantity" => "1",
 							),
-						]
+						)
 					);
 					$result = $util.do_post($invoice_url, $params);
 					if($result && count($result) > 0) {
