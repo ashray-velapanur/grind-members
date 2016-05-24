@@ -34,8 +34,8 @@ class Cron extends CI_Controller {
 	    	$bookings_url = 'https://'.$space->id.'.cobot.me/api/bookings';
 			$bookings = $util->do_get($bookings_url, $params=array(
 				'access_token' => $environmentsToAccessToken[$util->get_current_environment()],
-				'from' => $from,
-				'to' => $to
+				'from' => rawurlencode($from),
+				'to' => rawurlencode($to)
 			));
 			if(count($bookings) < 1) {
 				echo " *** No bookings in the last 24 hours for space: ".$space->id;
