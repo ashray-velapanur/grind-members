@@ -17,8 +17,8 @@ class Cron extends CI_Controller {
 
     public function invoice_cobot_bookings() {
     	global $environmentsToAccessToken;
-    	$access_token = $environmentsToAccessToken[$util->get_current_environment()];
     	$util = new utilities;
+    	$access_token = $environmentsToAccessToken[$util->get_current_environment()];
     	if(!$from){
 			$to = date_create();
 			$from = date_add(date_create(), date_interval_create_from_date_string("-24 hours"));
