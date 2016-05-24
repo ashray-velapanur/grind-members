@@ -478,7 +478,7 @@ public function viewprofile($user_id,$id_type=NULL) {
 			$query = $this->db->get("cobot_resources");
 			$resources = $query->result();
 			$data['resources'][$space_id] = $resources;
-			$sql = "SELECT resource_name as name, from_datetime as from_time, to_datetime as to_time FROM cobot_bookings cb JOIN cobot_memberships cm on cb.membership_id = cm.id join user u on cm.user_id = u.id and cm.space_id = ".$space_id."  WHERE u.wp_users_id = ".$current_user->ID;
+			$sql = "SELECT resource_name as name, from_datetime as from_time, to_datetime as to_time FROM cobot_bookings cb JOIN cobot_memberships cm on cb.membership_id = cm.id join user u on cm.user_id = u.id and cm.space_id = '".$space_id."'  WHERE u.wp_users_id = ".$current_user->ID;
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$bookings = $query->result();
