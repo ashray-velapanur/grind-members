@@ -64,7 +64,7 @@ class Cron extends CI_Controller {
 							),
 						)
 					);
-					$result = $util.do_post($invoice_url, $params);
+					$result = $util->do_post($invoice_url, $params);
 					if($result && count($result) > 0) {
 						error_log('Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id);
 						echo ' *** Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id;
