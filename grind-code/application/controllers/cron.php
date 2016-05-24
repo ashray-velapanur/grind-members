@@ -16,6 +16,7 @@ class Cron extends CI_Controller {
     }
 
     public function invoice_cobot_bookings() {
+    	global $environmentsToAccessToken;
     	$util = new utilities;
     	if(!$from){
 			$to = date_create();
