@@ -297,6 +297,31 @@ class Cobot extends CI_Controller {
 		error_log($get_result);
 		return $get_result;
 	}
+
+	function add_rfid_tokens() {
+		global $environmentsToAccessToken;
+		$util = new utilities;
+    	$access_token = $environmentsToAccessToken[$util->get_current_environment()];
+		$query = $this->db->get("cobot_spaces");
+	    $spaces = $query->result();
+	    foreach ($spaces as $space) {
+	    	$token_url = 'https://'.$space->id.'.cobot.me/api/check_in_tokens';
+			$sql = "SELECT u.id as user_id, u.rfid as user_rfid, cm.id as membership_id FROM cobot_memberships cm join user u on cm.user_id = u.id where cm.space_id = '".$space->id."'";
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$members = $query->result();
+			error_log(json_encode($members));
+			foreach ($members as $member) {
+				$params = array(
+					"access_token" => "$access_token",
+					"membership_id" => "$member->membership_id",
+					//"token" => "$member->user_rfid"
+					"token" => "test-token-"."$member->membership_id"
+				);
+				$util->do_post($token_url, $params);
+			}
+		}
+	}
 }
 
 //$temp = new Cobot;
