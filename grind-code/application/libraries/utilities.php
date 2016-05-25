@@ -28,17 +28,23 @@ class utilities {
         return $get_result;
     }
 
-    public function do_post($url, $params=array()) {
+    public function do_post($url, $params=array(), $oauth_authorization_token) {
         error_log(json_encode($params));
-        $params_string = http_build_query($params);
+        $params_string = json_encode($params);
         error_log($params_string);
         $post_result = array();
         $curl = curl_init();
         error_log("POST: ".$url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST"); 
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        //curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: multipart/form-data"));
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params_string);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);                                                                      
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(                                                                          
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($params_string),
+            'Authorization: OAuth '.$oauth_authorization_token
+            )
+        );
         $result = curl_exec($curl);
         $error_message = curl_error($curl);
         $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
