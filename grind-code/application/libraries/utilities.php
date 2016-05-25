@@ -29,6 +29,7 @@ class utilities {
     }
 
     public function do_post($url, $params=array()) {
+        error_log(json_encode($params));
         $params_string = http_build_query($params);
         error_log($params_string);
         $post_result = array();
