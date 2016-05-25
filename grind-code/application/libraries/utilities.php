@@ -43,10 +43,11 @@ class utilities {
         $error_message = curl_error($curl);
         $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
-        if($result_code == 200) {
+        if($result_code >= 200 && $result_code < 300) {
             $post_result = (array)json_decode($result);
         } else {
             error_log('Error: '.$error_message.', HTTP Code: '.$result_code);
+            $post_result = array('error' => $error_message);
         }
         error_log(json_encode($post_result));
         return $post_result;
