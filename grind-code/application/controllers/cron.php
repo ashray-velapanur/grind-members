@@ -61,9 +61,9 @@ class Cron extends CI_Controller {
 					if($result && count($result) > 0) {
 						error_log('Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id);
 						echo ' *** Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id."\r\n";
-						$charge_url = 'https://'.$space->id.'.cobot.me/api/invoices/'.$result['id'].'/charges';
+						$charge_url = 'https://'.$space->id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
 						$charge_result = $util->do_post($charge_url, array(), $access_token);
-						echo " *** Charge made for invoice with id: ".$result['id']."\r\n";
+						echo " *** Charge made for invoice with id: ".$result['invoice_number']."\r\n";
 					}
 				}
 			}
