@@ -270,18 +270,22 @@ class LocationManagement extends CI_Controller {
 				$space_id = $space->id;
 				$image = $_FILES['image'.$space_id];
 				if(!$image['error']) {
-					$this->im->delete_image($space->image);
 					$image_id = $this->im->save_image($image);
-					$sql = "UPDATE cobot_spaces SET image = '".$image_id."' WHERE id = '".$space_id."'";
-					error_log($sql);
-					try {
-						if ($this->db->query($sql) === TRUE) {
-							echo "Space updated successfully";
-						} else {
-							echo "Error: " . $sql . "<br>" . $this->db->error;
+					if(!$image_id || $image_id == NULL) {
+						error_log('Error uploading image');
+					} else {
+						$this->im->delete_image($space->image);
+						$sql = "UPDATE cobot_spaces SET image = '".$image_id."' WHERE id = '".$space_id."'";
+						error_log($sql);
+						try {
+							if ($this->db->query($sql) === TRUE) {
+								echo "Space updated successfully";
+							} else {
+								echo "Error: " . $sql . "<br>" . $this->db->error;
+							}
+						} catch (Exception $e) {
+						    error_log('Caught exception: ',  $e->getMessage(), "\n");
 						}
-					} catch (Exception $e) {
-					    error_log('Caught exception: ',  $e->getMessage(), "\n");
 					}
 				}
 			}
