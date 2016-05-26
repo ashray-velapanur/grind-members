@@ -324,19 +324,23 @@ class LocationManagement extends CI_Controller {
 				}
 				$image = $_FILES['image'.$resource_id];
 				if(!$image['error']) {
-					$this->im->delete_image($resource->image);
 					$image_id = $this->im->save_image($image);
-				}
-				$sql = "UPDATE cobot_resources SET capacity = ".$capacity.", image = '".$image_id."' WHERE space_id = '".$space_id."' AND id='".$resource_id."'";
-				error_log($sql);
-				try {
-					if ($this->db->query($sql) === TRUE) {
-						echo "Resource updated successfully";
+					if(!$image_id || $image_id == NULL) {
+						error_log('Error uploading image');
 					} else {
-						echo "Error: " . $sql . "<br>" . $this->db->error;
+						$this->im->delete_image($resource->image);
+						$sql = "UPDATE cobot_resources SET capacity = ".$capacity.", image = '".$image_id."' WHERE space_id = '".$space_id."' AND id='".$resource_id."'";
+						error_log($sql);
+						try {
+							if ($this->db->query($sql) === TRUE) {
+								echo "Resource updated successfully";
+							} else {
+								echo "Error: " . $sql . "<br>" . $this->db->error;
+							}
+						} catch (Exception $e) {
+						    error_log('Caught exception: ',  $e->getMessage(), "\n");
+						}
 					}
-				} catch (Exception $e) {
-				    error_log('Caught exception: ',  $e->getMessage(), "\n");
 				}
 			}
 			$util = new utilities;
