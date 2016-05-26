@@ -39,12 +39,12 @@ class Cron extends CI_Controller {
 				'to' => rawurlencode($to)
 			));
 			if(count($bookings) < 1) {
-				echo " *** No bookings in the last 24 hours for space: ".$space->id;
+				echo " *** No bookings in the last 24 hours for space: ".$space->id."\r\n";
 			}
 			foreach ($bookings as $booking) {
 				$booking = (array)$booking;
 				$booking_id = $booking['id'];
-				echo " *** Trying to generate invoice for booking id: ".$booking_id;
+				echo " *** Trying to generate invoice for booking id: ".$booking_id."\r\n";
 				$membership = $booking['membership'];
 				$resource = $booking['resource'];
 				$resource_name = '';
@@ -60,9 +60,10 @@ class Cron extends CI_Controller {
 					$result = $util->do_post($invoice_url, $params, $access_token);
 					if($result && count($result) > 0) {
 						error_log('Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id);
-						echo ' *** Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id;
+						echo ' *** Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id."\r\n";
 						$charge_url = 'https://'.$space->id.'.cobot.me/api/invoices/'.$result['id'].'/charges';
 						$charge_result = $util->do_post($charge_url, array(), $access_token);
+						echo " *** Charge made for invoice with id: ".$result['id']."\r\n";
 					}
 				}
 			}
