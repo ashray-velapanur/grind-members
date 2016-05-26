@@ -57,11 +57,11 @@ class Cron extends CI_Controller {
 					$membership_id = $membership->id;
 					$invoice_url = 'https://'.$space->id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
 					$params = array("items" => array(array("amount" => "$price","description" => "$title".' - '."$resource_name","quantity" => "1")));
-					$result = $util->do_post($invoice_url, $params, $access_token);
-					if($result && count($result) > 0) {
-						error_log('Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id);
-						echo ' *** Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id;
-					}
+					//$result = $util->do_post($invoice_url, $params, $access_token);
+					// if($result && count($result) > 0) {
+					// 	error_log('Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id);
+					// 	echo ' *** Invoice created with id: '.$result['id'].' and url: '.$result['url'].' for booking id: '.$booking_id;
+					// }
 				}
 			}
 	    }
