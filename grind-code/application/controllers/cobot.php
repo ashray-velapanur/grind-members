@@ -324,6 +324,15 @@ class Cobot extends CI_Controller {
 			}
 		}
 	}
+
+	function create_cobot_memberships() {
+		$cobot_user_id = $_GET["cobot_user_id"];
+		$user_name = $_GET["user name"];
+		if($cobot_user_id && $user_name) {
+			$this->load->model("loginmodel","lgnm",true);
+        	$this->lgnm->create_cobot_membership($cobot_user_id, $user_name." Daily Plan");
+		}
+	}
 }
 
 //$temp = new Cobot;
