@@ -312,11 +312,14 @@ class Cobot extends CI_Controller {
 			$members = $query->result();
 			error_log(json_encode($members));
 			foreach ($members as $member) {
+				$token = "test-token-"."$member->membership_id";
+				if($member->user_rfid) {
+					$token = "$member->user_rfid";
+				}
 				$params = array(
 					"access_token" => "$access_token",
 					"membership_id" => "$member->membership_id",
-					//"token" => "$member->user_rfid"
-					"token" => "test-token-"."$member->membership_id"
+					"token" => $token
 				);
 				$util->do_post($token_url, $params);
 			}
