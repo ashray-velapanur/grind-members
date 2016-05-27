@@ -317,11 +317,10 @@ class Cobot extends CI_Controller {
 					$token = "$member->user_rfid";
 				}
 				$params = array(
-					"access_token" => "$access_token",
 					"membership_id" => "$member->membership_id",
 					"token" => $token
 				);
-				$util->do_post($token_url, $params);
+				$util->do_post($token_url, $params, $access_token);
 			}
 		}
 	}
