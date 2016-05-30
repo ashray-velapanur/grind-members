@@ -500,10 +500,8 @@ class LocationModel extends CI_Model {
 		
 	}
 
-	function determine_membership($user_id, $space_id, $memberships) {
-		global $spaceToMainArea;
+	function determine_membership($user_id, $space_id, $memberships, $main_area_resource_id) {
 		$daily_plan_name = 'Daily';
-		$main_area_resource_id = $spaceToMainArea[$space_id];
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
@@ -533,7 +531,6 @@ class LocationModel extends CI_Model {
 	}
 
 	function spaces($user_id) {
-		global $environmentsToAccessToken;
 		$space_data = array();
 		$daily_plan_name = 'Daily';
 	    $query = $this->db->get("cobot_spaces");
@@ -575,7 +572,7 @@ class LocationModel extends CI_Model {
 			$current_membership = current($memberships);
 			$booking_credits_url = 'https://'.$space_id.'.cobot.me/api/memberships/'.$current_membership->id.'/booking_credits';
 			$util = new utilities;
-			$booking_credits = $util->do_get($booking_credits_url, $params=array('access_token' => $environmentsToAccessToken[$util->get_environment_for($space_id)]));
+			$booking_credits = $util->do_get($booking_credits_url, $params=array('access_token' => $util->get_current_environment_cobot_access_token()));
 		  }
 		  error_log(json_encode($booking_credits));
 
@@ -588,7 +585,7 @@ class LocationModel extends CI_Model {
 	        'address_1' => $address_1,
 	        'address_2' => $address_2,
             'rate' => $rate,
-	        'is_member' => $this->determine_membership($user_id, $space_id, $memberships),
+	        'is_member' => $this->determine_membership($user_id, $space_id, $memberships, $space['main_area_id']),
 	        'memberships' => $memberships_arr,
 	        'plans_url' => $plans_url
           );
@@ -668,7 +665,7 @@ class LocationModel extends CI_Model {
 
   function book_space($space_id, $user_id, $resource_id=null, $from=null, $to=null) {
   	error_log('booking space');
-    global $spaceToMainArea, $environmentsToAccessToken;
+    global $spaceToMainArea;
     if(!$resource_id) {
 	  	$resource_id = $spaceToMainArea[$space_id];
     }
@@ -682,8 +679,6 @@ class LocationModel extends CI_Model {
   	$membership_id = $membership->id;
   	$title = $membership->first_name.' '.$membership->last_name;
 	$util = new utilities;
-	$environment = $util->get_environment_for($space_id);
-	error_log($environment);
   	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
   	if(!$from){
   		$from = date_create();
@@ -702,7 +697,7 @@ class LocationModel extends CI_Model {
   		);
     $options = array(
         'http' => array(
-            'header'  => "Authorization: Bearer ".$environmentsToAccessToken[$environment]."\r\n",
+            'header'  => "Authorization: Bearer ".$util->get_current_environment_cobot_access_token()."\r\n",
             'method'  => 'POST',
             'content' => http_build_query($data),
             'ignore_errors' => true
@@ -717,25 +712,21 @@ class LocationModel extends CI_Model {
     return json_decode($result);
   }
 
-	public function add_space_and_resources($space_id, $environment, $space=NULL) {
-		global $environmentSpaces, $environmentsToAccessToken, $spaceToMainArea;
-
+	public function add_space_and_resources($space_id, $space=NULL) {
+		$util = new utilities;
 		$main_area_resource_id = NULL;
 
 		if($space) {
 			$main_area_resource_id = $space['main_area_id'];
-		} else {
-			$space = $environmentSpaces[$space_id];
-			$main_area_resource_id = $spaceToMainArea[$space_id];
 		}
 
-		$this->add_update_space($space, $environment);
+		$this->add_update_space($space);
 
 		$resource_data = array();
 		$curl = curl_init();
 		$url = 'https://'.$space_id.'.cobot.me/api/resources';
 		$rdata = array(
-		  'access_token' => $environmentsToAccessToken[$environment]
+		  'access_token' => $util->get_current_environment_cobot_access_token()
 		);
 		if ($rdata)
 		      $url = sprintf("%s?%s", $url, http_build_query($rdata));
@@ -762,7 +753,13 @@ class LocationModel extends CI_Model {
 		}
 	}
 
-	public function add_update_space($space, $environment) {
+	public function add_update_space($space) {
+		$util = new utilities;
+		$plan = $util->get_cobot_plan('Daily', $space['id']);
+		$daily_plan_id = "";
+		if($plan) {
+			$daily_plan_id = $plan->id;
+		}
 		$sql = "SELECT * FROM cobot_spaces where id = '".$space['id']."'";
 		error_log($sql);
 		$query = $this->db->query($sql);
@@ -771,18 +768,18 @@ class LocationModel extends CI_Model {
 		try {
 			if(count($spaces) <= 0) {
 				$sql = "INSERT INTO cobot_spaces";
-				$sql .= "(id, image, capacity, lat, lon, address_1, address_2, rate, name, description, main_area_id) ".
+				$sql .= "(id, image, capacity, lat, lon, address_1, address_2, rate, name, description, main_area_id, daily_plan_id) ".
 						"VALUES ".
-						"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address_1']."\", \"".$space['address_2']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\") ";
+						"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address_1']."\", \"".$space['address_2']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\", \"".$daily_plan_id."\") ";
 				error_log($sql);
 				if ($this->db->query($sql) === TRUE) {
 					error_log("Cobot space created successfully");
-					$this->setup_webhook_subscriptions($space['id'], $environment);
+					$this->setup_webhook_subscriptions($space['id']);
 				} else {
 					error_log("Error: " . $sql . "<br>" . $this->db->error);
 				}
 			} else {
-				$sql = "UPDATE cobot_spaces SET image = \"".$space['imgName']."\", capacity = ".$space['capacity'].", lat = \"".$space['lat']."\", lon = \"".$space['long']."\", address_1 = \"".$space['address_1']."\", address_2 = \"".$space['address_2']."\", rate = ".$space['rate'].", name = \"".$space['name']."\", description = \"".$space['description']."\", main_area_id = \"".$space['main_area_id']."\" WHERE id='".$space['id']."'";
+				$sql = "UPDATE cobot_spaces SET image = \"".$space['imgName']."\", capacity = ".$space['capacity'].", lat = \"".$space['lat']."\", lon = \"".$space['long']."\", address_1 = \"".$space['address_1']."\", address_2 = \"".$space['address_2']."\", rate = ".$space['rate'].", name = \"".$space['name']."\", description = \"".$space['description']."\", main_area_id = \"".$space['main_area_id']."\", daily_plan_id = \"".$daily_plan_id."\" WHERE id='".$space['id']."'";
 				error_log($sql);
 				$this->db->query($sql);
 				$sql = "DELETE from cobot_resources where space_id = '".$space['id']."'";
@@ -794,8 +791,7 @@ class LocationModel extends CI_Model {
 		}
 	}
 
-	public function setup_webhook_subscriptions($space_id, $environment) {
-		global $environmentsToAccessToken;
+	public function setup_webhook_subscriptions($space_id) {
 		$host = $_SERVER['SERVER_NAME'];
 		if($host != 'localhost' && $host != '127.0.0.1') {
 			$is_https = $_SERVER['HTTPS'];
@@ -817,7 +813,7 @@ class LocationModel extends CI_Model {
 			foreach ($callbacks as $event => $url) {
 				$subdomain = $space_id;
 				$this->load->model("subscriptionmodel","sm",true);
-				$this->sm->create_webhook_subscription($event, $url, $subdomain, $environmentsToAccessToken[$environment]);
+				$this->sm->create_webhook_subscription($event, $url, $subdomain);
 			}
 		}
 	}

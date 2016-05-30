@@ -97,11 +97,9 @@ class Cobot extends CI_Controller {
 	}
 
 	function get_booking_details($booking_url, $space_id) {
-		global $environmentsToAccessToken;
 		$booking_details = array();
 		$util = new utilities;
-		$environment = $util->get_environment_for($space_id);
-		$admin_access_token = $environmentsToAccessToken[$environment];
+		$admin_access_token = $util->get_current_environment_cobot_access_token();
 		$curl = curl_init();
 		$url = $booking_url.'?access_token='.$admin_access_token;
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -226,11 +224,10 @@ class Cobot extends CI_Controller {
 	}
 
 	function get_membership_details($membership_url, $space_id) {
-		global $environmentsToAccessToken, $cobot_network_name;
+		global $cobot_network_name;
 		$membership_details = array();
 		$util = new utilities;
-		$environment = $util->get_environment_for($space_id);
-		$admin_access_token = $environmentsToAccessToken[$environment];
+		$admin_access_token = $util->get_current_environment_cobot_access_token();
 		$curl = curl_init();
 		$url = $membership_url.'?access_token='.$admin_access_token;
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -278,10 +275,10 @@ class Cobot extends CI_Controller {
 	}
 
 	function do_get($url, $environment, $params=array()) {
-		global $environmentsToAccessToken;
+		$util = new utilities;
 		$get_result = array();
 		$curl = curl_init();
-		$url = $url.'?access_token='.$environmentsToAccessToken[$environment];
+		$url = $url.'?access_token='.$util->get_current_environment_cobot_access_token();
 		foreach ($params as $key => $value) {
 			$url.="&".$key."=".$value;
 		}
@@ -299,9 +296,8 @@ class Cobot extends CI_Controller {
 	}
 
 	function add_rfid_tokens() {
-		global $environmentsToAccessToken;
 		$util = new utilities;
-    	$access_token = $environmentsToAccessToken[$util->get_current_environment()];
+    	$access_token = $util->get_current_environment_cobot_access_token();
 		$query = $this->db->get("cobot_spaces");
 	    $spaces = $query->result();
 	    foreach ($spaces as $space) {

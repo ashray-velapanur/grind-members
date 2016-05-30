@@ -93,7 +93,25 @@ class utilities {
                 break;
         };
         return $env;
-    }  
+    }
+
+    public function get_current_environment_cobot_access_token() {
+        global $environmentsToAccessToken;
+        $environment = $this->get_current_environment();
+        return $environmentsToAccessToken[$environment];
+    }
+
+    public function get_cobot_plan($plan_name, $space_id) {
+        $cobot_authorization_token = $this->get_current_environment_cobot_access_token();
+        $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
+        $plans = $this->do_get($plans_url, $params=array('access_token' => $cobot_authorization_token));
+        foreach ($plans as $plan) {
+            if(strtolower($plan->name) == strtolower($plan_name)) {
+                return $plan;
+            }
+        }
+        return NULL;
+    }
 
     public function get_random_password($chars_min=8, $chars_max=10, $use_upper_case=true, $include_numbers=true, $include_special_chars=true)
     {

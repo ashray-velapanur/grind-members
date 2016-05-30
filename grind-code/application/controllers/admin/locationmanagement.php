@@ -234,9 +234,8 @@ class LocationManagement extends CI_Controller {
 					'main_area_id' => $main_area_id
 				);
 				$util = new utilities;
-				$environment = $util->get_current_environment();
 				$this->load->model("locationmodel","lm",true);
-				$this->lm->add_space_and_resources($cobot_id, $environment, $space);
+				$this->lm->add_space_and_resources($cobot_id, $space);
 				$this->db->where("space_id", $cobot_id);
 				$query = $this->db->get("cobot_resources");
 				$resources = $query->result();

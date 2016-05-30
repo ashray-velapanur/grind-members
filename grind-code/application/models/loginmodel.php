@@ -123,16 +123,11 @@ class LoginModel extends CI_Model {
     public function create_cobot_membership($id, $plan_name) {
         error_log('... creating cobot membership');
         error_log($id);
-        global $environmentsToSpaces, $environmentsToAccessToken, $spacePlansMap;
         $util = new utilities;
-        $environment = $util->get_current_environment();
-        $spaces = $environmentsToSpaces[$environment];
-        error_log(json_encode($spacePlansMap));
+        $cobot_authorization_token = $util->get_current_environment_cobot_access_token();
+        $query = $this->db->get("cobot_spaces");
+        $spaces = $query->result();
         foreach ($spaces as $space) {
-            error_log(json_encode($space));
-            $currEnvSpacePlansMap = $spacePlansMap[$environment];
-            $plan_id = $currEnvSpacePlansMap[$space];
-            error_log(json_encode($plan_id));
             $d = array(
                 'address' => array(
                     'name' => $plan_name,
@@ -140,17 +135,17 @@ class LoginModel extends CI_Model {
                     'country'=>'USA'
                 ),
                 'plan'=>array(
-                    'id'=>$plan_id
+                    'id'=>$space->daily_plan_id
                 ),
                 'phone'=>'9999999999',
                 'user'=>array(
                     'id'=>$id
                 )
             );
-            $url = 'https://'.$space.'.cobot.me/api/memberships'; 
+            $url = 'https://'.$space->id.'.cobot.me/api/memberships'; 
             $options = array(
                 'http' => array(
-                    'header'  => "Authorization: Bearer ".$environmentsToAccessToken[$environment]."\r\n",
+                    'header'  => "Authorization: Bearer ".$cobot_authorization_token."\r\n",
                     'method'  => 'POST',
                     'content' => http_build_query($d),
                 ),
@@ -164,12 +159,12 @@ class LoginModel extends CI_Model {
 
     private function create_cobot_user($user_id, $email){
       error_log('... creating cobot user');
-      global $environmentsToAccessToken, $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
+      global $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
       $url = 'https://www.cobot.me/api/users';
       $util = new utilities;
       $environment = $util->get_current_environment();
       $data = array(
-        'access_token' => $environmentsToAccessToken[$environment],
+        'access_token' => $util->get_current_environment_cobot_access_token(),
         'email' => $email,
         'password' => $cobot_user_default_password
       );

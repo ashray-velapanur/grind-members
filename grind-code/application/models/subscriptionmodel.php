@@ -6,10 +6,11 @@ require(APPPATH.'/config/cobot.php');
 
 class SubscriptionModel extends CI_Model {
 
-	function create_webhook_subscription($event, $callback_url, $subdomain, $admin_access_token) {
+	function create_webhook_subscription($event, $callback_url, $subdomain) {
+		$util = new utilities;
 		$url = 'https://'.$subdomain.'.cobot.me/api/subscriptions';
 		$data = array(
-		  'access_token' => $admin_access_token,
+		  'access_token' => $util->get_current_environment_cobot_access_token(),
 		  'event' => $event,
 		  'callback_url' => $callback_url
 		);

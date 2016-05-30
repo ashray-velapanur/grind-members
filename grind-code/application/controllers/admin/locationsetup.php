@@ -19,7 +19,7 @@ class LocationSetup extends CI_Controller {
 		$spaces = $environmentsToSpaces[$environment];
 		$this->load->model("locationmodel","lm",true);
 		foreach ($spaces as $space_id) {
-			$this->lm->add_space_and_resources($space_id, $environment);
+			$this->lm->add_space_and_resources($space_id);
 		}
 	}
 

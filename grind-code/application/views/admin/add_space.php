@@ -4,6 +4,7 @@
 <?php get_header(); ?>
 <form action="<?=ROOTMEMBERPATH?>grind-code/index.php/admin/locationmanagement/add_update_space" method="post" enctype="multipart/form-data">
     <p><b>Cobot Space</b></p><br><br>
+    <p><b>It is assumed that the Space has already been setup on Cobot with at least a plan named 'Daily'</b></p><br><br>
     <input type="hidden" name="space_id">
     <table>
         <thead>
