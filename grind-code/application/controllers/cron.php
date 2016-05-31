@@ -40,32 +40,32 @@ class Cron extends CI_Controller {
 			if(count($bookings) < 1) {
 				echo " *** No bookings in the last 24 hours for space: ".$space->id."\r\n";
 			}
+			$memberships = array();
 			foreach ($bookings as $booking) {
 				$booking = (array)$booking;
-				$booking_id = $booking['id'];
-				echo " *** Trying to generate invoice for booking id: ".$booking_id."\r\n";
 				$membership = $booking['membership'];
-				$resource = $booking['resource'];
-				$resource_name = '';
-				if($resource) {
-					$resource_name = $resource->name;
-				}
-				$title = $booking['title'];
-				$price = $booking['price'];
 				if($membership) {
-					$membership_id = $membership->id;
-					$invoice_url = 'https://'.$space->id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
-					$params = array("items" => array(array("amount" => "$price","description" => "$title".' - '."$resource_name","quantity" => "1")));
-					echo "Will create invoice for membership_id: ".$membership_id." for price: $".$price." for booking_id: ".$booking_id;
-					error_log("Will create invoice for membership_id: ".$membership_id." for price: $".$price." for booking_id: ".$booking_id);
-					$result = $util->do_post($invoice_url, $params, $access_token);
-					if($result && count($result) > 0) {
-						error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for booking id: '.$booking_id);
-						echo ' *** Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for booking id: '.$booking_id."\r\n";
-						$charge_url = 'https://'.$space->id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
-						$charge_result = $util->do_post($charge_url, array(), $access_token);
-						echo " *** Charge made for invoice number: ".$result['invoice_number']."\r\n";
+					if(!isset($memberships[$membership->id])) {
+						$memberships[$membership->id] = 0;
 					}
+					$memberships[$membership->id] += 1;
+				}
+			}
+
+			$membership_ids = array_keys($memberships);
+			error_log(json_encode($membership_ids));
+
+			foreach ($membership_ids as $membership_id) {
+				echo " *** Trying to generate invoice for membership id: ".$membership_id."\r\n";
+				$invoice_url = 'https://'.$space->id.'.cobot.me/api/memberships/'.$membership_id.'/charges_based_invoices';
+				$params = array();
+				$result = $util->do_post($invoice_url, $params, $access_token);
+				if($result && count($result) > 0 && !array_key_exists('error', $result)) {
+					error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for membership id: '.$membership_id);
+					echo ' *** Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for membership id: '.$membership_id."\r\n";
+					$charge_url = 'https://'.$space->id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
+					$charge_result = $util->do_post($charge_url, array(), $access_token);
+					echo " *** Charge made for invoice number: ".$result['invoice_number']."\r\n";
 				}
 			}
 	    }
