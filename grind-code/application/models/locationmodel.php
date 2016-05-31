@@ -665,51 +665,67 @@ class LocationModel extends CI_Model {
 
   function book_space($space_id, $user_id, $resource_id=null, $from=null, $to=null) {
   	error_log('booking space');
-    global $spaceToMainArea;
+  	$response = array();
     if(!$resource_id) {
-	  	$resource_id = $spaceToMainArea[$space_id];
+    	$sql = "SELECT main_area_id FROM cobot_spaces where id = '".$space_id."'";
+		error_log($sql);
+		$query = $this->db->query($sql);
+		$results = (array)$query->result();
+		error_log(json_encode($results));
+		$main_area_id = NULL;
+		if(count($results) > 0) {
+			$main_area_id = current($results)->main_area_id;
+		}
+		error_log($main_area_id);
+	  	$resource_id = $main_area_id;
     }
-  	$sql = "select m.*, u.first_name, u.last_name from cobot_memberships m join user u on m.user_id = u.id where u.id='".$user_id."' and m.space_id='".$space_id."'";
-  	error_log($sql);
-  	$query = $this->db->query($sql);
-  	$result = $query->result();
-  	error_log($result);
-  	$membership = current($result);
-  	error_log($membership);
-  	$membership_id = $membership->id;
-  	$title = $membership->first_name.' '.$membership->last_name;
-	$util = new utilities;
-  	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
-  	if(!$from){
-  		$from = date_create();
-  		$from = date_format($from, 'Y-m-d H:i O');
+  	if($resource_id) {
+  		$sql = "select m.*, u.first_name, u.last_name from cobot_memberships m join user u on m.user_id = u.id where u.id='".$user_id."' and m.space_id='".$space_id."'";
+	  	error_log($sql);
+	  	$query = $this->db->query($sql);
+	  	$result = $query->result();
+	  	error_log($result);
+	  	$membership = current($result);
+	  	error_log($membership);
+	  	$membership_id = $membership->id;
+	  	$title = $membership->first_name.' '.$membership->last_name;
+		$util = new utilities;
+	  	$url = "https://".$space_id.".cobot.me/api/resources/".$resource_id."/bookings";
+	  	error_log('Booking url: '.$url);
+	  	if(!$from){
+	  		$from = date_create();
+	  		$from = date_format($from, 'Y-m-d H:i O');
+	  	}
+	  	if(!$to){
+	  		$to = date_add(date_create(), date_interval_create_from_date_string("5 hours"));
+	  		$to = date_format($to, 'Y-m-d H:i O');
+	  	}
+	  	$data = array(
+			"membership_id"=>$membership_id,
+			"from"=> $from,
+			"to"=> $to,
+			"title"=> $title,
+			"comments"=> "tea please"
+	  		);
+	    $options = array(
+	        'http' => array(
+	            'header'  => "Authorization: Bearer ".$util->get_current_environment_cobot_access_token()."\r\n",
+	            'method'  => 'POST',
+	            'content' => http_build_query($data),
+	            'ignore_errors' => true
+	        ),
+	    );
+	    error_log('... creating booking');
+	    error_log(json_encode($options));
+	    error_log(json_encode($data));
+	    $context  = stream_context_create($options);
+	    $result = file_get_contents($url, false, $context);
+	    error_log($result);
+	    $response = json_decode($result);
+  	} else {
+  		$response['errors'] = "No resource to book";
   	}
-  	if(!$to){
-  		$to = date_add(date_create(), date_interval_create_from_date_string("5 hours"));
-  		$to = date_format($to, 'Y-m-d H:i O');
-  	}
-  	$data = array(
-		"membership_id"=>$membership_id,
-		"from"=> $from,
-		"to"=> $to,
-		"title"=> $title,
-		"comments"=> "tea please"
-  		);
-    $options = array(
-        'http' => array(
-            'header'  => "Authorization: Bearer ".$util->get_current_environment_cobot_access_token()."\r\n",
-            'method'  => 'POST',
-            'content' => http_build_query($data),
-            'ignore_errors' => true
-        ),
-    );
-    error_log('... creating booking');
-    error_log(json_encode($options));
-    error_log(json_encode($data));
-    $context  = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
-    error_log($result);
-    return json_decode($result);
+  	return $response;
   }
 
 	public function add_space_and_resources($space_id, $space=NULL) {
