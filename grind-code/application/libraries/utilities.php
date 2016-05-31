@@ -52,7 +52,7 @@ class utilities {
         if($result_code >= 200 && $result_code < 300) {
             $post_result = (array)json_decode($result);
         } else {
-            error_log('Error: '.$error_message.', HTTP Code: '.$result_code);
+            $error_message = $error_message.', HTTP Code: '.$result_code;
             $post_result = array('error' => $error_message);
         }
         error_log(json_encode($post_result));
