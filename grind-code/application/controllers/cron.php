@@ -50,7 +50,7 @@ class Cron extends CI_Controller {
 			error_log(json_encode($membership_ids));
 
 			foreach ($membership_ids as $membership_id) {
-				echo " *** Trying to generate invoice for membership id: ".$membership_id."\r\n";
+				echo " *** Trying to generate invoice for membership id: ".$membership_id." for space: ".$space->id."\r\n";
 				$invoice_url = 'https://'.$space->id.'.cobot.me/api/memberships/'.$membership_id.'/charges_based_invoices';
 				$params = array();
 				$result = $util->do_post($invoice_url, $params, $access_token);
