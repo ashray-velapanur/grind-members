@@ -18,13 +18,8 @@ class Cron extends CI_Controller {
     public function invoice_cobot_bookings() {
     	$util = new utilities;
     	$access_token = $util->get_current_environment_cobot_access_token();
-    	if(!$from){
-			$to = date_create();
-			$from = date_add(date_create(), date_interval_create_from_date_string("-24 hours"));
-		}
-		if(!$to){
-			$to = date_create();
-		}
+    	$to = date_create();
+		$from = date_add($to, date_interval_create_from_date_string("-24 hours"));
 		$from = date_format($from, 'Y-m-d H:i O');
 		$to = date_format($to, 'Y-m-d H:i O');
 
@@ -46,9 +41,8 @@ class Cron extends CI_Controller {
 				$membership = $booking['membership'];
 				if($membership) {
 					if(!isset($memberships[$membership->id])) {
-						$memberships[$membership->id] = 0;
+						$memberships[$membership->id] = 1;
 					}
-					$memberships[$membership->id] += 1;
 				}
 			}
 
@@ -64,7 +58,7 @@ class Cron extends CI_Controller {
 					error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for membership id: '.$membership_id);
 					echo ' *** Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for membership id: '.$membership_id."\r\n";
 					$charge_url = 'https://'.$space->id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
-					$charge_result = $util->do_post($charge_url, array(), $access_token);
+					//$charge_result = $util->do_post($charge_url, array(), $access_token);
 					echo " *** Charge made for invoice number: ".$result['invoice_number']."\r\n";
 				}
 			}
