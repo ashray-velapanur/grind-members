@@ -19,7 +19,7 @@ class Cron extends CI_Controller {
     	$util = new utilities;
     	$access_token = $util->get_current_environment_cobot_access_token();
     	$to = date_create();
-		$from = date_add($to, date_interval_create_from_date_string("-24 hours"));
+		$from = date_add(date_create(), date_interval_create_from_date_string("-24 hours"));
 		$from = date_format($from, 'Y-m-d H:i O');
 		$to = date_format($to, 'Y-m-d H:i O');
 
