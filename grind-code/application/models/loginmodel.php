@@ -37,61 +37,94 @@ class LoginModel extends CI_Model {
         return $access_token;
     }
 
-    function linkedin($access_token, $id) {
-        error_log('In linkedin login');
-        $response = array("success"=>False, "message"=>"");
-        $userId = null;
+    function get_and_verify_linkedin_data($access_token, $id){
         $url = "https://api.linkedin.com/v1/people/~:(id,email-address,picture-url,first-name,last-name,positions)?format=json&oauth2_access_token=".$access_token;
         error_log('1. Getting LinkedIn data for: '.$url);
         //TODO: Should use the same curl method. This curl method should be in a UTIL class
         $profile = json_decode(file_get_contents($url));
         error_log('2. Verifying LinkedIn data sent from iPhone');
+        $msg = NULL;
         if ($profile == False) {
             $msg = "Invalid LinkedIn access token.";
-            $response = array("success"=>False, "message"=>$msg);
-            error_log($msg);
         } elseif ($id != $profile->id) {
             $msg = "Your LinkedIn ID does not match the access token. Please contact the administrator to login.";
-            $response = array("success"=>False, "message"=>$msg);
-            error_log($msg);
         } 
-        else {
-            error_log('3. LinkedIn verification passed!');
-            $network_id = $profile->id;
-            $pictureUrl = $profile->pictureUrl;
-            $this->load->model('/members/membermodel','mm',true);
-            $this->load->model('thirdpartyusermodel', 'tp', true);
-            //TODO: linkedin string should come from a constants file
-            error_log('4. Checking if this is a first time login or a repeat login');
-            $userId = $this->mm->isNewUser($id, 'linkedin');
+        if($msg) {
+            $this->throw_exp($msg);
+        }
+        return $profile;
+    }
+
+    function handle_wordpress_login($profile){
+        error_log('3. LinkedIn verification passed!');
+        $this->load->model('/members/membermodel','mm',true);
+        //TODO: linkedin string should come from a constants file
+        error_log('4. Checking if this is a first time login or a repeat login');
+        $userId = $this->mm->isNewUser($profile->id, 'linkedin');
+        if(!$userId) {
+            error_log("4.a. User is logging in for the first time!");
+            $userId = $this->create_user($profile);
             if(!$userId) {
-                error_log("4.a. User is logging in for the first time!");
-                $userId = $this->create_user($profile);
+                $this->throw_exp("Could not create a user entry. Please contact the administrator to login.");
             }
-            else {
-                error_log("4.b. User has logged in before");
-            }
-            error_log("5. Checking if we have Cobot access token for this user");
-            if(!$this->tp->get($userId, 'cobot')){
-                error_log("5.a. No Cobot access token found, creating Cobot user");
-                $profile = (array)$profile;
-                $cobotUserId = $this->create_cobot_user($userId, $profile['emailAddress']);
+        }
+        else {
+            error_log("4.b. User has logged in before");
+        }
+        return $userId;
+    }
+
+    function handle_cobot_access($userId, $profile) {
+        error_log("5. Checking if we have Cobot access token for this user");
+        $this->load->model('thirdpartyusermodel', 'tp', true);
+        if(!$this->tp->get($userId, 'cobot')){
+            error_log("5.a. No Cobot access token found, creating Cobot user");
+            $profile = (array)$profile;
+            $cobotUserId = $this->create_cobot_user($userId, $profile['emailAddress']);
+            if ($cobotUserId) {
                 error_log($cobotUserId);
+                //TODO: This should throw an exception..
                 $this->create_cobot_membership($cobotUserId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
             }
             else {
-                error_log("5.b. Cobot access token found for user!");
-            }
-            error_log("6. Updating LinkedIn access token");
-            $added_tp = $this->add_third_party_user($userId, $network_id, $pictureUrl, $access_token);
-            if($added_tp) {
-                $response = array("success"=>True, "user_id"=>$userId);
-            } else {
-                $msg = "Could not save LinkedIn Access Token";
-                $response = array("success"=>False, "message"=>$msg);
+                $this->throw_exp("Could not create a Cobot user for you. Please contact administrator to login.");
             }
         }
-        error_log(json_encode($response));
+        else {
+            error_log("5.b. Cobot access token found for user!");
+        }
+    }
+
+    function update_linkedin_third_party($profile, $userId, $access_token) {
+        error_log("6. Updating LinkedIn access token");
+        $added_tp = $this->add_third_party_user($userId, $profile->id, $profile->pictureUrl, $access_token);
+        if(!$added_tp) {
+            $this->throw_exp("Could not save LinkedIn Access Token");
+        }
+    }
+
+    function throw_exp($msg) {
+        error_log($msg);
+        throw new Exception($msg);
+    }
+
+    function linkedin($access_token, $id) {
+        error_log('In linkedin login');
+        $response = array("success"=>False, "message"=>"");
+        $userId = null;
+        try {
+            $profile = $this->get_and_verify_linkedin_data($access_token, $id);
+            $userId = $this->handle_wordpress_login($profile);
+            $this->handle_cobot_access($userId, $profile);
+            $this->update_linkedin_third_party($profile, $userId, $access_token);
+            $response["success"] = True;
+            $response["user_id"] = $userId;
+        } catch(Exception $e){
+            error_log('Exception during login: '.$e->getMessage());
+            $response["message"] = $e->getMessage();
+        } finally {
+            error_log(json_encode($response));
+        }
         return $response;
     }
 
