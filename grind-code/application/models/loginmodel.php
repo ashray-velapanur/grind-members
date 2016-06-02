@@ -42,45 +42,55 @@ class LoginModel extends CI_Model {
         $response = array("success"=>False, "message"=>"");
         $userId = null;
         $url = "https://api.linkedin.com/v1/people/~:(id,email-address,picture-url,first-name,last-name,positions)?format=json&oauth2_access_token=".$access_token;
-        error_log('In linkedin URL: '.$url);
+        error_log('1. Getting LinkedIn data for: '.$url);
+        //TODO: Should use the same curl method. This curl method should be in a UTIL class
         $profile = json_decode(file_get_contents($url));
-        $network_id = $profile->id;
-        $pictureUrl = $profile->pictureUrl;
-        error_log('In linkedin profile: ');
+        error_log('2. Verifying LinkedIn data sent from iPhone');
         if ($profile == False) {
-            $response = array("success"=>False, "message"=>"Invalid access token.");
-            error_log("Invalid access_token");
+            $msg = "Invalid LinkedIn access token.";
+            $response = array("success"=>False, "message"=>$msg);
+            error_log($msg);
         } elseif ($id != $profile->id) {
-            $response = array("success"=>False, "message"=>"Invalid ID.");
-            error_log("Invalid linkedin ID");
+            $msg = "Your LinkedIn ID does not match the access token. Please contact the administrator to login.";
+            $response = array("success"=>False, "message"=>$msg);
+            error_log($msg);
         } 
         else {
+            error_log('3. LinkedIn verification passed!');
+            $network_id = $profile->id;
+            $pictureUrl = $profile->pictureUrl;
             $this->load->model('/members/membermodel','mm',true);
             $this->load->model('thirdpartyusermodel', 'tp', true);
-            error_log("Loaded member model");
+            //TODO: linkedin string should come from a constants file
+            error_log('4. Checking if this is a first time login or a repeat login');
             $userId = $this->mm->isNewUser($id, 'linkedin');
-            error_log("New User: ".$userId);
             if(!$userId) {
-                error_log("Creating new user");
+                error_log("4.a. User is logging in for the first time!");
                 $userId = $this->create_user($profile);
             }
+            else {
+                error_log("4.b. User has logged in before");
+            }
+            error_log("5. Checking if we have Cobot access token for this user");
             if(!$this->tp->get($userId, 'cobot')){
+                error_log("5.a. No Cobot access token found, creating Cobot user");
                 $profile = (array)$profile;
                 $cobotUserId = $this->create_cobot_user($userId, $profile['emailAddress']);
                 error_log($cobotUserId);
                 $this->create_cobot_membership($cobotUserId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
             }
-            if($userId) {
-                error_log("Updating third party");
-                $this->add_third_party_user($userId, $network_id, $pictureUrl, $access_token);
-                $response = array("success"=>True, "user_id"=>$userId);
+            else {
+                error_log("5.b. Cobot access token found for user!");
             }
+            error_log("6. Updating LinkedIn access token");
+            $this->add_third_party_user($userId, $network_id, $pictureUrl, $access_token);
+            $response = array("success"=>True, "user_id"=>$userId);
         }
-        error_log('Returning response');
         error_log(json_encode($response));
         return $response;
     }
 
+    //TODO: Rename to create_user_if_necessary
     private function create_user($profile) {
         $this->mm->load->model("billing/accountmodel","am",true);
         $this->mm->load->model("members/emailmodel","em",true);
