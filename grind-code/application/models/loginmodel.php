@@ -83,8 +83,13 @@ class LoginModel extends CI_Model {
                 error_log("5.b. Cobot access token found for user!");
             }
             error_log("6. Updating LinkedIn access token");
-            $this->add_third_party_user($userId, $network_id, $pictureUrl, $access_token);
-            $response = array("success"=>True, "user_id"=>$userId);
+            $added_tp = $this->add_third_party_user($userId, $network_id, $pictureUrl, $access_token);
+            if($added_tp) {
+                $response = array("success"=>True, "user_id"=>$userId);
+            } else {
+                $msg = "Could not save LinkedIn Access Token";
+                $response = array("success"=>False, "message"=>$msg);
+            }
         }
         error_log(json_encode($response));
         return $response;
@@ -302,7 +307,7 @@ class LoginModel extends CI_Model {
     private function add_third_party_user($userId, $network_id, $pictureUrl, $access_token) {
         $sql = "INSERT INTO third_party_user (network_id, user_id, network, access_token, profile_picture) VALUES ('$network_id', $userId, 'linkedin', '$access_token', '$pictureUrl') ON DUPLICATE KEY UPDATE access_token='".$access_token."' , profile_picture='".$pictureUrl."'";
         error_log($sql);
-        $this->db->query($sql);
+        return $this->db->query($sql);
     }
 
 };
