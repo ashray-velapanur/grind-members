@@ -156,15 +156,16 @@ class LoginModel extends CI_Model {
         return $newUserId;
     }
 
-    private function make_request($url, $data) {
+    private function make_post_request($url, $data) {
+        error_log(json_encode($data));
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
         $result = curl_exec($curl);
         curl_close($curl);
+        error_log(json_encode($result));
         return (array)json_decode($result);
     }
 
@@ -205,30 +206,35 @@ class LoginModel extends CI_Model {
         }
     }
 
-    private function create_cobot_user($user_id, $email){
-      error_log('... creating cobot user');
-      global $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
-      $url = 'https://www.cobot.me/api/users';
-      $util = new utilities;
-      $environment = $util->get_current_environment();
-      $data = array(
-        'access_token' => $util->get_current_environment_cobot_access_token(),
-        'email' => $email,
-        'password' => $cobot_user_default_password
-      );
-      error_log(json_encode($data));
-      $curl = curl_init();
-      curl_setopt($curl, CURLOPT_POST, 1);
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-      curl_setopt($curl, CURLOPT_URL, $url);
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    function check_cobot_error($cobot_response) {
+        if(array_key_exists("error", $cobot_response)) {
+            $msg = "Cobot Error: ".$cobot_response['error'].".";
+            if(array_key_exists("error_description", $cobot_response)) {
+                $msg = $msg." Error Description: ".$cobot_response['error_description'];
+            }
+            $this->throw_exp($msg);
+        }
+    }
 
-      $result = curl_exec($curl);
-      error_log(json_encode($result));
-      curl_close($curl);
-      $result = (array)json_decode($result);
+    function create_cobot_user_for_email($email) {
+        error_log("5.a.1. Trying to create Cobot user with email from LinkedIn");
+        global $cobot_user_default_password;
+        $url = 'https://www.cobot.me/api/users';
+        $util = new utilities;
+        $data = array(
+            'access_token' => $util->get_current_environment_cobot_access_token(),
+            'email' => $email,
+            'password' => $cobot_user_default_password
+        );
+        $result = $this->make_post_request($url, $data);
+        $this->check_cobot_error($result);
+        return $result;
+    }
 
-      if($result['errors']->email) {
+    function fetch_access_token_for_existing_cobot_user($email) {
+        error_log("5.a.2.a. Trying to get access token as Cobot user already exists");
+        global $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
+        $access_token = NULL;
         $url = 'https://www.cobot.me/oauth/access_token';
         $data = array(
             'scope' => 'read_resources read_plans read_memberships write write_memberships write_user',
@@ -238,54 +244,84 @@ class LoginModel extends CI_Model {
             'client_id' => $cobot_api_key,
             'client_secret' => $cobot_client_secret
         );
-        error_log(json_encode($data));
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = $this->make_post_request($url, $data);
+        $this->check_cobot_error($result);
+        if(array_key_exists('access_token', $result)) {
+            $access_token = $result['access_token'];
+        }
+        if(!$access_token) {
+            $this->throw_exp("Could not get access token for existing Cobot user with email: ".$email);
+        }
+        return $access_token;
+    }
 
-        $result = curl_exec($curl);
-        $result = (array)json_decode($result);
-        error_log(json_encode($result));
-        curl_close($curl);
-        $access_token = $result['access_token'];
+    function handle_cobot_user_creation_error($result, $user_id, $email) {
+        $id = NULL;
+        error_log("5.a.2. Error creating Cobot user: ".json_encode($result['errors']));
+        if(array_key_exists('email', $result['errors'])) {
+            $access_token = $this->fetch_access_token_for_existing_cobot_user($email);
+            error_log("5.a.2.a.1. Got access token for Cobot user. Trying to get Cobot ID using the access token.");
+            $id = $this->get_cobot_id($access_token);
+            if($id) {
+                error_log("5.a.2.a.2. Got ID for Cobot user. Trying to save Cobot access token.");
+                $network = 'cobot';
+                $added_cobot_tp = $this->tp->create($user_id, $id, $network, $access_token);
+                if(!$added_cobot_tp) {
+                    $this->throw_exp("Could not save access token for the existing Cobot user");
+                }
+            } else {
+                $this->throw_exp("Could not get ID for existing Cobot user with access_token: ".$access_token);
+            }
+        } else {
+            $this->throw_exp("Cannot proceed with Cobot user creation due to error: ".json_encode($result['errors'])." Please contact administrator to login.");
+        }
+        return $id;
+    }
 
-        $id = $this->get_cobot_id($access_token);
-        $network = 'cobot';
-
-        $this->load->model("thirdpartyusermodel","tpum",true);
-        $this->tpum->create($user_id, $id, $network, $access_token);
-      }
-      else if ($result['grant_code']) {
-          $id = $result['id'];
-          $url = 'https://www.cobot.me/oauth/access_token?';
-          $data = array(
+    function handle_new_cobot_user($new_cobot_user, $user_id) {
+        error_log("5.a.3. Successfully created Cobot user. Trying to get access token for the new Cobot user.");
+        global $cobot_api_key, $cobot_client_secret;
+        $id = $new_cobot_user['id'];
+        $url = 'https://www.cobot.me/oauth/access_token?';
+        $data = array(
             'client_id' => $cobot_api_key,
             'client_secret' => $cobot_client_secret,
             'grant_type' => 'authorization_code',
-            'code' => $result['grant_code']
-          );
-          error_log(json_encode($data));
-          $curl = curl_init();
-          curl_setopt($curl, CURLOPT_POST, 1);
-          curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-          curl_setopt($curl, CURLOPT_URL, $url);
-          curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            'code' => $new_cobot_user['grant_code']
+        );
+        $result = $this->make_post_request($url, $data);
+        $this->check_cobot_error($result);
+        if(array_key_exists('access_token', $result)) {
+            error_log("5.a.3.a. Got access token for the new Cobot user.");
+            $access_token = $result['access_token'];
+            $network = 'cobot';
+            $added_cobot_tp = $this->tp->create($user_id, $id, $network, $access_token);
+            if(!$added_cobot_tp) {
+                $this->throw_exp("Could not save access token for the new Cobot user");
+            }
+        } else {
+            $this->throw_exp("Could not get access token for the new Cobot user");
+        }
+        return $id;
+    }
 
-          $result = curl_exec($curl);
-          error_log(json_encode($result));
-          curl_close($curl);
+    private function create_cobot_user($user_id, $email) {
+        error_log('... creating cobot user');
 
-          $result = (array)json_decode($result);
+        $id = NULL;
+        $result = $this->create_cobot_user_for_email($email);
+        if(array_key_exists('errors', $result)) {
+            $id = $this->handle_cobot_user_creation_error($result, $user_id, $email);
+        } elseif (array_key_exists("grant_code", $result)) {
+            $id = $this->handle_new_cobot_user($result, $user_id);
+        }
 
-        $access_token = $result['access_token'];
-        $network = 'cobot';
+        if(!$id) {
+            $this->throw_exp("Could not create Cobot user with email: ".$email);
+        }
 
-        $this->load->model("thirdpartyusermodel","tpum",true);
-        $this->tpum->create($user_id, $id, $network, $access_token);
-      }
-      return $id;
+        error_log("5.a.5. Successfully created Cobot user with email: ".$email);
+        return $id;
     }
 
     function get_cobot_id($access_token) {
