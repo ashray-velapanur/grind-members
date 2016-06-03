@@ -9,7 +9,12 @@ class ThirdPartyUserModel extends CI_Model {
 
 	public function create($user_id, $network_id, $network, $access_token){
 		$sql = "INSERT INTO third_party_user (user_id, network_id, network, access_token) VALUES ('$user_id', '$network_id', '$network', '$access_token')";
-		return $this->db->query($sql);
+		error_log($sql);
+		$result = $this->db->query($sql);
+		if(!$result) {
+			error_log("Could not save ".$network." third party entry for Grind User ID: ".$user_id);
+		}
+		return $result;
 	}
 
 	public function get($user_id, $network) {
