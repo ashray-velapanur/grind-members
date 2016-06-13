@@ -122,9 +122,8 @@ class LoginModel extends CI_Model {
         } catch(Exception $e){
             error_log('Exception during login: '.$e->getMessage());
             $response["message"] = $e->getMessage();
-        } finally {
-            error_log(json_encode($response));
         }
+        error_log(json_encode($response));
         return $response;
     }
 
