@@ -347,9 +347,10 @@ class Api extends REST_Controller
         array_push($bubbles, $arr);
       }
     }
+    $response = array('success'=>TRUE, 'data'=>$bubbles, 'message'=>'');
     $this->benchmark->mark('bubbles_end');
     error_log('Bubbles Time: '.$this->benchmark->elapsed_time('bubbles_start', 'bubbles_end'));
-    $this->response($bubbles, 200);
+    $this->response($response, 200);
   }
 
 // error handling
