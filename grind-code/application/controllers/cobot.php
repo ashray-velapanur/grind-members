@@ -225,16 +225,20 @@ class Cobot extends CI_Controller {
 		// Get checkin id
 		$checkinid_start = strpos($checkin_url, '.cobot.me/api/check_ins/');
 		$checkinid = substr($checkin_url, $checkinid_start);
+		error_log('Checkin Id: '.$checkinid);
 		// Get membership id from checkin id
 		$result = $this->do_get($checkin_url, $util->get_environment_for($subdomain));
 		$membership_id = $result['membership_id'];
+		error_log('Membership Id: '.$membership_id);
 		if($membership_id) {
 			// Check if membership id daily plan
-			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$subdomain."';";
+			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$subdomain."'";
+			error_log($sql);
 			$query = $this->db->query($sql);
 			$results = $query->result();
 			if($results) {
 				$result = current($results);
+				error_log(json_encode($result));
 				$plan_name = $result->plan_name;
 				$price = $result->rate;
 				if(strtolower($plan_name) == 'daily') {
