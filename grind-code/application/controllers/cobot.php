@@ -221,6 +221,40 @@ class Cobot extends CI_Controller {
 		$sql = "UPDATE cobot_spaces SET checkins = $checkin_count where id = '$subdomain'";
 		error_log($sql);
 		$this->db->query($sql);
+
+		// Get checkin id
+		$checkinid_start = strpos($checkin_url, '.cobot.me/api/check_ins/');
+		$checkinid = substr($checkin_url, $checkinid_start);
+		// Get membership id from checkin id
+		$result = $this->do_get($checkin_url, $util->get_environment_for($subdomain));
+		$membership_id = $result['membership_id'];
+		if($membership_id) {
+			// Check if membership id daily plan
+			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$subdomain."';";
+			$query = $this->db->query($sql);
+			$results = $query->result();
+			if($results) {
+				$result = current($results);
+				$plan_name = $result->plan_name;
+				$price = $result->rate;
+				if(strtolower($plan_name) == 'daily') {
+					$invoice_url = 'https://'.$subdomain.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
+					$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$subdomain,"quantity" => "1")));
+					echo "Will create invoice for checkin_id: ".$checkinid." for price: $".$price;
+					error_log("Will create invoice for checkin_id: ".$checkinid." for price: $".$price);
+					$access_token = $util->get_current_environment_cobot_access_token();
+					$result = $util->do_post($invoice_url, $params, $access_token);
+					if($result && count($result) > 0) {
+						error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid);
+						echo ' *** Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid."\r\n";
+						$charge_url = 'https://'.$subdomain.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
+						//$charge_result = $util->do_post($charge_url, array(), $access_token);
+						echo " *** Charge made for invoice number: ".$result['invoice_number']."\r\n";
+						error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
+					}
+				}
+			}
+		}
 	}
 
 	function get_membership_details($membership_url, $space_id) {
