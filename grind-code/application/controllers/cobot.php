@@ -223,7 +223,7 @@ class Cobot extends CI_Controller {
 		$this->db->query($sql);
 
 		// Get checkin id
-		$checkinid_start = strpos($checkin_url, '.cobot.me/api/check_ins/');
+		$checkinid_start = strpos($checkin_url, '.cobot.me/api/check_ins/') + strlen('.cobot.me/api/check_ins/');
 		$checkinid = substr($checkin_url, $checkinid_start);
 		error_log('Checkin Id: '.$checkinid);
 		// Get membership id from checkin id
