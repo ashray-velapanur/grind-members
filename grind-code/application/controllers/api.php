@@ -439,9 +439,10 @@ class Api extends REST_Controller
     $id = $this->get('user_id');
     $this->load->model('/members/membermodel','mm',true);
     $profile = $this->mm->get_profile_data($id);
+    $response = array('success'=>TRUE, 'data'=>$profile, 'message'=>'');
     $this->benchmark->mark('profile_end');
     error_log('Profile Time: '.$this->benchmark->elapsed_time('profile_start', 'profile_end'));
-    $this->response($profile, 200);
+    $this->response($response, 200);
   }
 
   function user_profile_get() {
