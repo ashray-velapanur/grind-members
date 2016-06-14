@@ -232,7 +232,7 @@ class Cobot extends CI_Controller {
 		error_log('Membership Id: '.$membership_id);
 		if($membership_id) {
 			// Check if membership id daily plan
-			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$subdomain."'";
+			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$subdomain."' and cm.id='".$membership_id."'";
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$results = $query->result();
