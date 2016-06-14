@@ -397,7 +397,7 @@ class Cobot extends CI_Controller {
 								error_log('expected_callback found... removing');
 								error_log('callback_url: '.$callback_url);
 								error_log('subscription_url: '.$subscription_url);
-								//$this->sm->delete_webhook_subscription($subscription_url);
+								$this->sm->delete_webhook_subscription($subscription_url);
 							}
 						}
 					}
