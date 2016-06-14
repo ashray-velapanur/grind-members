@@ -329,7 +329,7 @@ class Cobot extends CI_Controller {
 		if($result_code == 200) {
 			$get_result = (array)json_decode($result);
 		}
-		error_log($get_result);
+		//error_log(json_encode($get_result));
 		return $get_result;
 	}
 
@@ -366,6 +366,46 @@ class Cobot extends CI_Controller {
 			$this->load->model("loginmodel","lgnm",true);
         	$this->lgnm->create_cobot_membership($cobot_user_id, $user_name." Daily Plan");
 		}
+	}
+
+	function clear_unwanted_subscriptions() {
+		$this->load->model("subscriptionmodel","sm",true);
+		$query = $this->db->get("cobot_spaces");
+	    $spaces = $query->result();
+	    foreach ($spaces as $space) {
+	    	try {
+	    		$sql = "SELECT url FROM cobot_webhook_subscriptions where space_id = '".$space->id."'";
+				error_log($sql);
+				$query = $this->db->query($sql);
+				$results = $query->result();
+				$valid_urls = [];
+				foreach ($results as $result) {
+					array_push($valid_urls, $result->url);
+				}
+				error_log('Valid urls: '.json_encode($valid_urls));
+		    	$subscriptions_listing_url = "https://".$space->id.".cobot.me/api/subscriptions";
+				$result = $this->do_get($subscriptions_listing_url, NULL);
+				foreach ($result as $subscription) {
+					$callback_url = $subscription->callback_url;
+					$subscription_url = $subscription->url;
+					if(!in_array($subscription_url, $valid_urls)) {
+						$expected_callback = ROOTMEMBERPATH."grind-code/index.php/cobot/";
+						error_log('expected_callback: '.$expected_callback);
+						if($callback_url) {
+							$pos = strpos($callback_url, $expected_callback);
+							if (!($pos === false)) {
+								error_log('expected_callback found... removing');
+								error_log('callback_url: '.$callback_url);
+								error_log('subscription_url: '.$subscription_url);
+								//$this->sm->delete_webhook_subscription($subscription_url);
+							}
+						}
+					}
+				}
+	    	} catch(Exception $e){
+				error_log('Exception during clearing unwanted subscriptions : '.$e->getMessage());
+			}
+	    }
 	}
 }
 

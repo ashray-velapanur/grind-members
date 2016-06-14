@@ -41,9 +41,9 @@ class SubscriptionModel extends CI_Model {
 	}
 
 	function delete_webhook_subscription($subscription_url) {
-		global $cobot_admin_access_token;
+		$util = new utilities;
 		$data = array(
-	      'access_token' => $cobot_admin_access_token
+	      'access_token' => $util->get_current_environment_cobot_access_token()
 	    );
 
 	    $curl = curl_init();
