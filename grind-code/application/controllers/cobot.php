@@ -252,7 +252,7 @@ class Cobot extends CI_Controller {
 						error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid);
 						echo ' *** Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid."\r\n";
 						$charge_url = 'https://'.$subdomain.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
-						$charge_result = $util->do_post($charge_url, array(), $access_token);
+						//$charge_result = $util->do_post($charge_url, array(), $access_token);
 						echo " *** Charge made for invoice number: ".$result['invoice_number']."\r\n";
 						error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
 					}
