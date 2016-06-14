@@ -378,7 +378,7 @@ class Cobot extends CI_Controller {
 				error_log($sql);
 				$query = $this->db->query($sql);
 				$results = $query->result();
-				$valid_urls = [];
+				$valid_urls = array();
 				foreach ($results as $result) {
 					array_push($valid_urls, $result->url);
 				}
