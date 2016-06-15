@@ -22,10 +22,15 @@ class Cobot extends CI_Controller {
 		}
 	}
 
-	function booking_created() {
+	function get_webhook_url() {
 		$_json = file_get_contents("php://input");
 		$_POST = json_decode($_json, true);
-		$booking_url = $_POST['url'];
+		$url = $_POST['url'];
+		return $url;
+	}
+
+	function booking_created() {
+		$booking_url = $this->get_webhook_url();
 		error_log('Booking URL: '.$booking_url);
 		$subdomain_start = strpos($booking_url, '://') + 3;
 		$subdomain_end = strpos($booking_url, '.cobot.me/api/bookings/');
@@ -52,9 +57,7 @@ class Cobot extends CI_Controller {
 	}
 
 	function booking_updated() {
-		$_json = file_get_contents("php://input");
-		$_POST = json_decode($_json, true);
-		$booking_url = $_POST['url'];
+		$booking_url = $this->get_webhook_url();
 		error_log('Booking URL: '.$booking_url);
 		$subdomain_start = strpos($booking_url, '://') + 3;
 		$subdomain_end = strpos($booking_url, '.cobot.me/api/bookings/');
@@ -69,9 +72,7 @@ class Cobot extends CI_Controller {
 	}
 
 	function booking_deleted() {
-		$_json = file_get_contents("php://input");
-		$_POST = json_decode($_json, true);
-		$booking_url = $_POST['url'];
+		$booking_url = $this->get_webhook_url();
 		error_log('Booking URL: '.$booking_url);
 		$subdomain_start = strpos($booking_url, '://') + 3;
 		$subdomain_end = strpos($booking_url, '.cobot.me/api/bookings/');
@@ -139,9 +140,7 @@ class Cobot extends CI_Controller {
 
 	function membership_created() {
 		error_log('Handling membership created webhook');
-		$_json = file_get_contents("php://input");
-		$_POST = json_decode($_json, true);
-		$membership_url = $_POST['url'];
+		$membership_url = $this->get_webhook_url();
 		error_log($membership_url);
 		$id_subdomain = $this->get_membership_id_and_subdomain($membership_url);
 		$subdomain = $id_subdomain['subdomain'];
@@ -170,9 +169,7 @@ class Cobot extends CI_Controller {
 
 	function membership_canceled() {
 		error_log('Handling membership canceled webhook');
-		$_json = file_get_contents("php://input");
-		$_POST = json_decode($_json, true);
-		$membership_url = $_POST['url'];
+		$membership_url = $this->get_webhook_url();
 		$id_subdomain = $this->get_membership_id_and_subdomain($membership_url);
 		$subdomain = $id_subdomain['subdomain'];
 		$id = $id_subdomain['id'];
@@ -185,9 +182,7 @@ class Cobot extends CI_Controller {
 
 	function membership_plan_changed() {
 		error_log('Handling membership plan changed webhook');
-		$_json = file_get_contents("php://input");
-		$_POST = json_decode($_json, true);
-		$membership_url = $_POST['url'];
+		$membership_url = $this->get_webhook_url();
 		$id_subdomain = $this->get_membership_id_and_subdomain($membership_url);
 		$subdomain = $id_subdomain['subdomain'];
 		$id = $id_subdomain['id'];
@@ -207,32 +202,29 @@ class Cobot extends CI_Controller {
 		return array('subdomain'=>$subdomain, 'id'=>$id);
 	}
 
-	function update_space_capacity() {
-		$_json = file_get_contents("php://input");
-		$_POST = json_decode($_json, true);
-		$checkin_url = $_POST['url'];
-		$subdomain_start = strpos($checkin_url, '://') + strlen('://');
-		$subdomain_end = strpos($checkin_url, '.cobot.me/api/check_ins/');
-		$subdomain = substr($checkin_url, $subdomain_start, $subdomain_end-$subdomain_start);
-		$url = 'https://'.$subdomain.'.cobot.me/api/check_ins';
+	function update_checkin_count($space_id) {
+		$url = 'https://'.$space_id.'.cobot.me/api/check_ins';
 		$util = new utilities;
-		$result = $this->do_get($url, $util->get_environment_for($subdomain));
+		$result = $this->do_get($url, $util->get_environment_for($space_id));
 		$checkin_count = count($result);
-		$sql = "UPDATE cobot_spaces SET checkins = $checkin_count where id = '$subdomain'";
+		$sql = "UPDATE cobot_spaces SET checkins = $checkin_count where id = '$space_id'";
 		error_log($sql);
 		$this->db->query($sql);
+	}
 
+	function charge_checkin($checkin_url, $space_id) {
 		// Get checkin id
 		$checkinid_start = strpos($checkin_url, '.cobot.me/api/check_ins/') + strlen('.cobot.me/api/check_ins/');
 		$checkinid = substr($checkin_url, $checkinid_start);
 		error_log('Checkin Id: '.$checkinid);
 		// Get membership id from checkin id
-		$result = $this->do_get($checkin_url, $util->get_environment_for($subdomain));
+		$util = new utilities;
+		$result = $this->do_get($checkin_url, $util->get_environment_for($space_id));
 		$membership_id = $result['membership_id'];
 		error_log('Membership Id: '.$membership_id);
 		if($membership_id) {
 			// Check if membership id daily plan
-			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$subdomain."' and cm.id='".$membership_id."'";
+			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$space_id."' and cm.id='".$membership_id."'";
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$results = $query->result();
@@ -242,23 +234,57 @@ class Cobot extends CI_Controller {
 				$plan_name = $result->plan_name;
 				$price = $result->rate;
 				if(strtolower($plan_name) == 'daily') {
-					$invoice_url = 'https://'.$subdomain.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
-					$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$subdomain,"quantity" => "1")));
-					echo "Will create invoice for checkin_id: ".$checkinid." for price: $".$price;
+					$invoice_url = 'https://'.$space_id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
+					$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$space_id,"quantity" => "1")));
 					error_log("Will create invoice for checkin_id: ".$checkinid." for price: $".$price);
 					$access_token = $util->get_current_environment_cobot_access_token();
 					$result = $util->do_post($invoice_url, $params, $access_token);
 					if($result && count($result) > 0) {
 						error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid);
-						echo ' *** Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid."\r\n";
-						$charge_url = 'https://'.$subdomain.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
+						$charge_url = 'https://'.$space_id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
 						$charge_result = $util->do_post($charge_url, array(), $access_token);
-						echo " *** Charge made for invoice number: ".$result['invoice_number']."\r\n";
 						error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
 					}
 				}
 			}
 		}
+	}
+
+	function get_checkin_space($checkin_url) {
+		$subdomain_start = strpos($checkin_url, '://') + strlen('://');
+		$subdomain_end = strpos($checkin_url, '.cobot.me/api/check_ins/');
+		$subdomain = substr($checkin_url, $subdomain_start, $subdomain_end-$subdomain_start);
+		return $subdomain;
+	}
+
+	function handle_checkin() {
+		$checkin_url = $this->get_webhook_url();
+		$space_id = $this->get_checkin_space($checkin_url);
+		
+		//Update checkin count for space
+		$this->update_checkin_count($space_id);
+
+		//Charge checkin
+		$this->charge_checkin($checkin_url, $space_id);
+	}
+
+	function handle_checkout() {
+		$checkin_url = $this->get_webhook_url();
+		$space_id = $this->get_checkin_space($checkin_url);
+		
+		//Update checkin count for space
+		$this->update_checkin_count($space_id);
+	}
+
+	function update_space_capacity() {
+		$checkin_url = $this->get_webhook_url();
+		$space_id = $this->get_checkin_space($checkin_url);
+		
+		//Update checkin count for space
+		$this->update_checkin_count($space_id);
+
+		//Charge checkin
+		$this->charge_checkin($checkin_url, $space_id);
 	}
 
 	function get_membership_details($membership_url, $space_id) {

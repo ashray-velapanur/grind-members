@@ -822,8 +822,8 @@ class LocationModel extends CI_Model {
 							   "confirmed_membership" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_created',
 							   "connected_user" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_created',
 							   "canceled_membership" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_canceled',
-							   "created_checkin" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/update_space_capacity',
-							   "created_checkout" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/update_space_capacity',
+							   "created_checkin" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/handle_checkin',
+							   "created_checkout" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/handle_checkout',
 							   "changed_membership_plan" => $callback_url.$host.'/grind-members/grind-code/index.php/cobot/membership_plan_changed'
 							   );
 			foreach ($callbacks as $event => $url) {
