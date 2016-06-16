@@ -92,6 +92,7 @@ class LoginModel extends CI_Model {
         }
         else {
             error_log("5.b. Cobot access token found for user!");
+            $this->ensure_cobot_memberships($userId);
         }
     }
 
@@ -106,6 +107,22 @@ class LoginModel extends CI_Model {
     function throw_exp($msg) {
         error_log($msg);
         throw new Exception($msg);
+    }
+
+    function ensure_cobot_memberships($userId) {
+        $cobot_user = $this->tp->get($userId, 'cobot');
+        error_log(json_encode($cobot_user));
+        $query = $this->db->get("cobot_spaces");
+        $spaces = $query->result();
+        foreach ($spaces as $space) {
+            $sql = "SELECT cm.id id FROM cobot_memberships cm WHERE cm.space_id='".$space->id."' and cm.user_id='".$userId."' and cm.cobot_user_id='".$cobot_user['network_id']."'";
+            error_log($sql);
+            $query = $this->db->query($sql);
+            $results = $query->result();
+            if(!($results && count($results) == 1)) {
+                $this->throw_exp("Cobot memberships have not been setup correctly for space: ".$space->id);
+            }
+        }
     }
 
     function linkedin($access_token, $id) {
