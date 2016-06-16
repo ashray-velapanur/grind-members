@@ -16,6 +16,7 @@ class Cron extends CI_Controller {
     }
 
     public function invoice_cobot_bookings() {
+    	error_log('In invoice and charge last 24 hours bookings');
     	$util = new utilities;
     	$access_token = $util->get_current_environment_cobot_access_token();
     	$to = date_create();
@@ -34,6 +35,9 @@ class Cron extends CI_Controller {
 			));
 			if(count($bookings) < 1) {
 				echo " *** No bookings in the last 24 hours for space: ".$space->id."\r\n";
+				error_log(" *** No bookings in the last 24 hours for space: ".$space->id);
+			} else {
+				error_log('Bookings for space: '.$space->id.' are: '.json_encode($bookings));
 			}
 			$memberships = array();
 			foreach ($bookings as $booking) {
@@ -47,10 +51,11 @@ class Cron extends CI_Controller {
 			}
 
 			$membership_ids = array_keys($memberships);
-			error_log(json_encode($membership_ids));
+			error_log('Memberships to be charged: '.json_encode($membership_ids));
 
 			foreach ($membership_ids as $membership_id) {
 				echo " *** Trying to generate invoice for membership id: ".$membership_id." for space: ".$space->id."\r\n";
+				error_log(" *** Trying to generate invoice for membership id: ".$membership_id." for space: ".$space->id);
 				$invoice_url = 'https://'.$space->id.'.cobot.me/api/memberships/'.$membership_id.'/charges_based_invoices';
 				$params = array();
 				$result = $util->do_post($invoice_url, $params, $access_token);
@@ -60,6 +65,7 @@ class Cron extends CI_Controller {
 					$charge_url = 'https://'.$space->id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
 					$charge_result = $util->do_post($charge_url, array(), $access_token);
 					echo " *** Charge made for invoice number: ".$result['invoice_number']."\r\n";
+					error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
 				}
 			}
 	    }
