@@ -25,7 +25,7 @@
             <?php } ?>
         </tbody>
     </table>
-    <input type="submit" value="Add Resources" name="submit">
+    <input type="submit" value="Save" name="submit">
 </form>
 <?php get_footer(); ?>
 </body>
