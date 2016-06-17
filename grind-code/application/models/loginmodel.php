@@ -120,7 +120,7 @@ class LoginModel extends CI_Model {
             $query = $this->db->query($sql);
             $results = $query->result();
             if(!($results && count($results) == 1)) {
-                $this->throw_exp("Cobot memberships have not been setup correctly for space: ".$space->id);
+                $this->throw_exp("Cobot memberships have not been setup correctly for Grind User Id: ".$userId." for space: ".$space->id);
             }
         }
     }
