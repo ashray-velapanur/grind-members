@@ -224,26 +224,34 @@ class Cobot extends CI_Controller {
 		error_log('Membership Id: '.$membership_id);
 		if($membership_id) {
 			// Check if membership id daily plan
-			$sql = "SELECT cm.plan_name plan_name, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$space_id."' and cm.id='".$membership_id."'";
+			$sql = "SELECT cm.plan_name plan_name, cm.plan_id plan_id, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$space_id."' and cm.id='".$membership_id."'";
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$results = $query->result();
 			if($results) {
 				$result = current($results);
 				error_log(json_encode($result));
-				$plan_name = $result->plan_name;
+				$plan_id = $result->plan_id;
 				$price = $result->rate;
-				if(strtolower($plan_name) == 'daily') {
-					$invoice_url = 'https://'.$space_id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
-					$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$space_id,"quantity" => "1")));
-					error_log("Will create invoice for checkin_id: ".$checkinid." for price: $".$price);
-					$access_token = $util->get_current_environment_cobot_access_token();
-					$result = $util->do_post($invoice_url, $params, $access_token);
-					if($result && count($result) > 0) {
-						error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid);
-						$charge_url = 'https://'.$space_id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
-						$charge_result = $util->do_post($charge_url, array(), $access_token);
-						error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
+				if($plan_id) {
+					$plan_url = "https://".$space_id.".cobot.me/api/plans/".$plan_id;
+					$result = $this->do_get($plan_url, NULL);
+					$plan = (array)$result;
+					error_log(json_encode($plan));
+					$time_passes = $plan['time_passes'];
+					error_log('Time Passes: '.json_encode($time_passes));
+					if($time_passes && count($time_passes) > 0) {
+						$invoice_url = 'https://'.$space_id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
+						$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$space_id,"quantity" => "1")));
+						error_log("Will create invoice for checkin_id: ".$checkinid." for price: $".$price);
+						$access_token = $util->get_current_environment_cobot_access_token();
+						$result = $util->do_post($invoice_url, $params, $access_token);
+						if($result && count($result) > 0) {
+							error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid);
+							$charge_url = 'https://'.$space_id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
+							$charge_result = $util->do_post($charge_url, array(), $access_token);
+							error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
+						}
 					}
 				}
 			}
