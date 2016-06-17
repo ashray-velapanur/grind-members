@@ -92,7 +92,7 @@ class LoginModel extends CI_Model {
         }
         else {
             error_log("5.b. Cobot access token found for user!");
-            $this->ensure_cobot_memberships($userId);
+            //$this->ensure_cobot_memberships($userId);
         }
     }
 
