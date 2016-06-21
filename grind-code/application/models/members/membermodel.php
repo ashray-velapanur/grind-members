@@ -1112,6 +1112,8 @@ class MemberModel extends CI_Model {
 
         try {
             
+            $this->db->_trans_status = TRUE;
+            
             //$this->load->library('utilities');
             $temporaryPassword = $this->get_random_password();
             $registerHash = md5(uniqid('', true));
@@ -1192,6 +1194,8 @@ class MemberModel extends CI_Model {
                 if($this->db->insert("company", $companydata)) {
                     $companyId = $this->db->insert_id();
                     if ($companyId > 0) $userdata["company_id"] = $companyId;
+                } else {
+                    error_log('Could not insert companydata: '.json_encode($companydata));
                 }
             }
 
@@ -1211,6 +1215,8 @@ class MemberModel extends CI_Model {
                     $this->member->id = $this->db->insert_id();
                     $newUserId = $this->member->id;
                     error_log('Done user creation: '.$newUserId);
+                } else {
+                    error_log('Could not insert userdata: '.json_encode($userdata));
                 }
             }
             
@@ -1267,6 +1273,7 @@ class MemberModel extends CI_Model {
             error_log('completed transaction');
             if ($this->db->trans_status() === FALSE)
             {
+                error_log('Error Message: '.$this->db->_error_message());
                 $this->db->trans_rollback();
                 throw new Exception("Database error, Couldn't Create User");
             }
@@ -1284,8 +1291,10 @@ class MemberModel extends CI_Model {
                             
             
             wp_delete_user($wpid);
-            $this->am->delete();
-            $this->em->email_list_remove($this->member->id);
+            // Recurly has been skipped for now
+            // $this->am->delete();
+            // Email has been skipped for now
+            // $this->em->email_list_remove($this->member->id);
             
             issue_log("0","exception attempting to create account:". $e->getMessage(), MemberIssueType::GENERAL);
             return null;
