@@ -375,16 +375,19 @@ class LoginModel extends CI_Model {
             }
             $company_name = $company["name"];
             $sql = "INSERT INTO company (id, name) VALUES ('".$company_id."', '".$company_name."') ON DUPLICATE KEY UPDATE name='".$company_name."'";
+            error_log($sql);
             $this->db->query($sql);
             if($company_id == 0) {
                 $company_id = $this->db->insert_id();
             }
             if($is_current && $set_current_company) {
                 $sql = "UPDATE user SET company_id = '".$company_id."' WHERE id = '".$newUserId."'";
+                error_log($sql);
                 $this->db->query($sql);
                 $set_current_company = false;
             }
             $sql = "INSERT INTO positions (user_id, company_id, designation, start_date) VALUES ('$newUserId', '".$company_id."', '".$title."', '".$start_date."') ON DUPLICATE KEY UPDATE designation='".$title."', start_date='".$start_date."'";
+            error_log($sql);
             $this->db->query($sql);
         }
     }

@@ -7,6 +7,7 @@ class JobsModel extends CI_Model {
 
 	function create($title, $company_id, $type, $url, $posted_by){
 		$sql = "INSERT INTO jobs (title, company_id, type, url, posted_by) VALUES ('$title', '$company_id', '$type', '$url', '$posted_by')";
+		error_log($sql);
 		return $this->db->query($sql);
 	}
 
