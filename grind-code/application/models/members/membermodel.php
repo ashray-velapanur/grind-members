@@ -269,7 +269,7 @@ class MemberModel extends CI_Model {
         $sql = "";
         if($tag_id) {
             $this->load->model("usertagsmodel","utm",true);
-            $users = $this->utm->get_users($tag_id);
+            $users = $this->utm->get_users($tag_id, $num, $offset);
             return $users;
         }
         elseif($company_id) {
@@ -1113,7 +1113,7 @@ class MemberModel extends CI_Model {
         try {
             
             $this->db->_trans_status = TRUE;
-            
+
             //$this->load->library('utilities');
             $temporaryPassword = $this->get_random_password();
             $registerHash = md5(uniqid('', true));
