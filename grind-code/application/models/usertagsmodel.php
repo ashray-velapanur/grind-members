@@ -42,7 +42,7 @@ class UserTagsModel extends CI_Model {
         return $response_data;
 	}
 
-	function get_users($tag_id) {
+	function get_users($tag_id, $limit=NULL, $offset=NULL) {
         $response_data = array();
         $sql = "select ".
         			"user.id, user.first_name, user.last_name, ".
@@ -54,6 +54,12 @@ class UserTagsModel extends CI_Model {
         			"join positions on positions.company_id = user.company_id and positions.user_id = user.id ".
         			"join company on user.company_id = company.id ".
         		"where user_tags.tag_id = ".$tag_id;
+        if (isset($limit)) {
+                $sql .= " limit ".$limit;
+        } 
+        if (isset($offset)){
+                $sql .= " offset ".$offset;
+        }
         error_log($sql);
         $query = $this->db->query($sql);
         $response_data = $query->result();
