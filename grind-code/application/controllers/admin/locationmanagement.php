@@ -541,6 +541,35 @@ class LocationManagement extends CI_Controller {
     	$data = array('bubbles'=>$results, 'types'=>array('user','event', 'company'), 'events'=>$events, 'users'=>$users, 'companies'=>$companies);
     	$this->load->view("/admin/show_bubbles.php", $data);
 	}
+
+	public function drop_in_plans() {
+		error_log("In Drop-In Plans");
+		$query = $this->db->get('drop_in_plans');
+    	$drop_in_plans = $query->result();
+    	$query = $this->db->get('cobot_spaces');
+    	$spaces = $query->result();
+    	$data = array('results'=>$drop_in_plans, 'spaces'=>$spaces);
+    	$this->load->view("/admin/drop_in_plans.php", $data);
+	}
+
+	public function add_drop_in_plan() {
+		$util = new utilities;
+		if(isset($_POST["submit"])) {
+			$space_id = $_POST["space_id"];
+			$plan_id = $_POST["plan_id"];
+			$plan_name = $_POST["plan_name"];
+			if($space_id && $plan_id) {
+				$sql = "INSERT INTO drop_in_plans (space_id, plan_id, plan_name) VALUES ('$space_id', '$plan_id', '$plan_name')";
+				error_log($sql);
+				if ($this->db->query($sql) === TRUE) {
+					error_log("Drop in plan added successfully");
+				} else {
+					error_log("Error: " . $sql . "<br>" . $this->db->error);
+				}
+			}
+		}
+		$util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/locationmanagement/drop_in_plans');
+	}
 }
 
 ?>
