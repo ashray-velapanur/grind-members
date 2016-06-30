@@ -213,6 +213,7 @@ class Cobot extends CI_Controller {
 	}
 
 	function charge_checkin($checkin_url, $space_id) {
+		$drop_in_plans = array('Daily member plan', 'Virtual member plan', 'Conference room plan', 'Virtual Member');
 		// Get checkin id
 		$checkinid_start = strpos($checkin_url, '.cobot.me/api/check_ins/') + strlen('.cobot.me/api/check_ins/');
 		$checkinid = substr($checkin_url, $checkinid_start);
@@ -231,27 +232,19 @@ class Cobot extends CI_Controller {
 			if($results) {
 				$result = current($results);
 				error_log(json_encode($result));
-				$plan_id = $result->plan_id;
+				$plan_name = $result->plan_name;
 				$price = $result->rate;
-				if($plan_id) {
-					$plan_url = "https://".$space_id.".cobot.me/api/plans/".$plan_id;
-					$result = $this->do_get($plan_url, NULL);
-					$plan = (array)$result;
-					error_log(json_encode($plan));
-					$time_passes = $plan['time_passes'];
-					error_log('Time Passes: '.json_encode($time_passes));
-					if($time_passes && count($time_passes) > 0) {
-						$invoice_url = 'https://'.$space_id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
-						$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$space_id,"quantity" => "1")));
-						error_log("Will create invoice for checkin_id: ".$checkinid." for price: $".$price);
-						$access_token = $util->get_current_environment_cobot_access_token();
-						$result = $util->do_post($invoice_url, $params, $access_token);
-						if($result && count($result) > 0) {
-							error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid);
-							$charge_url = 'https://'.$space_id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
-							$charge_result = $util->do_post($charge_url, array(), $access_token);
-							error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
-						}
+				if($plan_name && in_array($plan_name, $drop_in_plans)) {
+					$invoice_url = 'https://'.$space_id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
+					$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$space_id,"quantity" => "1")));
+					error_log("Will create invoice for checkin_id: ".$checkinid." for price: $".$price);
+					$access_token = $util->get_current_environment_cobot_access_token();
+					$result = $util->do_post($invoice_url, $params, $access_token);
+					if($result && count($result) > 0) {
+						error_log('Invoice created with id: '.$result['id'].' and number: '.$result['invoice_number'].' and url: '.$result['url'].' for checkin id: '.$checkinid);
+						$charge_url = 'https://'.$space_id.'.cobot.me/api/invoices/'.$result['invoice_number'].'/charges';
+						$charge_result = $util->do_post($charge_url, array(), $access_token);
+						error_log(" *** Charge made for invoice number: ".$result['invoice_number']);
 					}
 				}
 			}
