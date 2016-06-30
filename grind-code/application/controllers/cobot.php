@@ -212,8 +212,17 @@ class Cobot extends CI_Controller {
 		$this->db->query($sql);
 	}
 
+	function is_drop_in_plan($plan_name) {
+		$drop_in_plans = array('Daily', 'Virtual', 'Conference');
+		foreach ($drop_in_plans as $drop_in_plan) {
+			if (strpos(strtolower($plan_name), strtolower($drop_in_plan)) !== false) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	function charge_checkin($checkin_url, $space_id) {
-		$drop_in_plans = array('Daily member plan', 'Virtual member plan', 'Conference room plan', 'Virtual Member');
 		// Get checkin id
 		$checkinid_start = strpos($checkin_url, '.cobot.me/api/check_ins/') + strlen('.cobot.me/api/check_ins/');
 		$checkinid = substr($checkin_url, $checkinid_start);
@@ -234,7 +243,7 @@ class Cobot extends CI_Controller {
 				error_log(json_encode($result));
 				$plan_name = $result->plan_name;
 				$price = $result->rate;
-				if($plan_name && in_array($plan_name, $drop_in_plans)) {
+				if($plan_name && $this->is_drop_in_plan($plan_name)) {
 					$invoice_url = 'https://'.$space_id.'.cobot.me/api/memberships/'.$membership_id.'/invoices';
 					$params = array("items" => array(array("amount" => "$price","description" => "Checkin: ".$checkinid." at space: ".$space_id,"quantity" => "1")));
 					error_log("Will create invoice for checkin_id: ".$checkinid." for price: $".$price);
