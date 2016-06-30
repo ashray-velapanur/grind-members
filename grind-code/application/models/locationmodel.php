@@ -506,7 +506,7 @@ class LocationModel extends CI_Model {
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
 			error_log(json_encode($membership));
-			if(strtolower($membership["plan_name"]) != strtolower($daily_plan_name)) {
+			if(strpos(strtolower($membership["plan_name"]), strtolower($daily_plan_name)) == false) {
 				$retValue = true;
 			}
 		}
