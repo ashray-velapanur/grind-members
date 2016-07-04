@@ -684,9 +684,9 @@ class LocationModel extends CI_Model {
 	  	error_log($sql);
 	  	$query = $this->db->query($sql);
 	  	$result = $query->result();
-	  	error_log($result);
+	  	error_log(json_encode($result));
 	  	$membership = current($result);
-	  	error_log($membership);
+	  	error_log(json_encode($membership));
 	  	$membership_id = $membership->id;
 	  	$title = $membership->first_name.' '.$membership->last_name;
 		$util = new utilities;
@@ -710,9 +710,11 @@ class LocationModel extends CI_Model {
 	  	$cobot_access_token = NULL;
 	  	$this->load->model("thirdpartyusermodel","tpum",true);
 	  	$tpu = $this->tpum->get($user_id, 'cobot');
+	  	error_log(json_encode($tpu));
 	  	if($tpu && $tpu->access_token) {
 	  		$cobot_access_token = $tpu->access_token;
 	  	}
+	  	error_log($cobot_access_token);
 	    if($cobot_access_token) {
 	    	$options = array(
 		        'http' => array(
@@ -735,6 +737,7 @@ class LocationModel extends CI_Model {
   	} else {
   		$response['errors'] = "No resource to book";
   	}
+  	error_log(json_encode($response));
   	return $response;
   }
 
