@@ -275,56 +275,56 @@ class Api extends REST_Controller
         $this->response($response, 200);
     }
 
-     function search_get(){
-      $this->benchmark->mark('search_start');
-      global $default_page_size;
-      $limit = $default_page_size;
-      $q = $this->get('q');
-      $type = $this->get('type');
-      if (!$q or !$type) {
-        $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
-      } else {
-        $limit_and_offset = $this->get_limit_and_offset();
-        $limit = $limit_and_offset['limit'];
-        $offset = $limit_and_offset['offset'];
-        $is_error = FALSE;
-        switch (strtolower($type)) {
-          case "user":
-              $sql = sprintf("select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%'", $q, $q);
-              break;
-          case "company":
-              $sql = sprintf("select id, name, 'company' as type from company where name like '%%%s%%'", $q);
-              break;
-          case "event":
-              $sql = sprintf("select id, name, 'event' as type from events where name like '%%%s%%'", $q);
-              break;
-          case "job":
-              $sql = sprintf("select id, title as name, 'job' as type from jobs where title like '%%%s%%'", $q);
-              break;
-          default:
-              $response = array('success'=> FALSE, 'message'=>'Invalid type');
-              $is_error = TRUE;
-        }
-        if(!$is_error) {
-          if (isset($limit)) {
-            $sql .= " limit ".$limit;
-          } 
-          if (isset($offset)){
-            $sql .= " offset ".$offset;
-          }
-          error_log($sql);
-          $query = mysql_query($sql);
-          $response_data = array();
-          while($row = mysql_fetch_assoc($query)) {
-            array_push($response_data, $row);
-          }
-          $response = array('success'=>TRUE, 'data'=>$response_data);
-        }
+  function search_get() {
+    $this->benchmark->mark('search_start');
+    global $default_page_size;
+    $limit = $default_page_size;
+    $q = $this->get('q');
+    $type = $this->get('type');
+    if (!$q or !$type) {
+      $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
+    } else {
+      $limit_and_offset = $this->get_limit_and_offset();
+      $limit = $limit_and_offset['limit'];
+      $offset = $limit_and_offset['offset'];
+      $is_error = FALSE;
+      switch (strtolower($type)) {
+        case "user":
+          $sql = sprintf("select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%'", $q, $q);
+          break;
+        case "company":
+          $sql = sprintf("select id, name, 'company' as type from company where name like '%%%s%%'", $q);
+          break;
+        case "event":
+          $sql = sprintf("select id, name, 'event' as type from events where name like '%%%s%%'", $q);
+          break;
+        case "job":
+          $sql = sprintf("select id, title as name, 'job' as type from jobs where title like '%%%s%%'", $q);
+          break;
+        default:
+          $response = array('success'=> FALSE, 'message'=>'Invalid type');
+          $is_error = TRUE;
       }
-      $this->benchmark->mark('search_end');
-      error_log('Search Time: '.$this->benchmark->elapsed_time('search_start', 'search_end'));
-      $this->response($response, 200);
-     }
+      if(!$is_error) {
+        if (isset($limit)) {
+          $sql .= " limit ".$limit;
+        } 
+        if (isset($offset)){
+          $sql .= " offset ".$offset;
+        }
+        error_log($sql);
+        $query = mysql_query($sql);
+        $response_data = array();
+        while($row = mysql_fetch_assoc($query)) {
+          array_push($response_data, $row);
+        }
+        $response = array('success'=>TRUE, 'data'=>$response_data);
+      }
+    }
+    $this->benchmark->mark('search_end');
+    error_log('Search Time: '.$this->benchmark->elapsed_time('search_start', 'search_end'));
+    $this->response($response, 200);
+  }
 
   function login_post() {
     $this->benchmark->mark('login_start');
