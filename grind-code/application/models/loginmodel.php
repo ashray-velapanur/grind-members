@@ -202,23 +202,11 @@ class LoginModel extends CI_Model {
                     'plan'=>array(
                         'id'=>$space->daily_plan_id
                     ),
-                    'phone'=>'9999999999',
-                    'user'=>array(
-                        'id'=>$id
-                    )
+                    'phone'=>'9999999999'
                 );
                 $url = 'https://'.$space->id.'.cobot.me/api/membership'; 
-                $options = array(
-                    'http' => array(
-                        'header'  => "Authorization: Bearer ".$cobot_authorization_token."\r\n",
-                        'method'  => 'POST',
-                        'content' => http_build_query($d),
-                    ),
-                );
-                error_log(json_encode($options));
-                $context  = stream_context_create($options);
-                $result = file_get_contents($url, false, $context);
-                error_log(json_encode($result));
+                $util = new utilities;
+                $response = $util->do_post($url, $params=$d, $cobot_authorization_token);
             }
         }
     }
