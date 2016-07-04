@@ -280,21 +280,29 @@ class Api extends REST_Controller
       global $default_page_size;
       $limit = $default_page_size;
       $q = $this->get('q');
-      if (!$q) {
+      $type = $this->get('type');
+      if (!$q or !$type) {
         $response = array('success'=> FALSE, 'message'=>'Invalid parameters.');
       } else {
         $limit_and_offset = $this->get_limit_and_offset();
         $limit = $limit_and_offset['limit'];
         $offset = $limit_and_offset['offset'];
-        $sql = sprintf("
-                      (select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%')
-                      union
-                      (select id, name, 'company' as type from company where name like '%%%s%%')
-                      union
-                      (select id, name, 'event' as type from events where name like '%%%s%%')
-                      union
-                      (select id, title as name, 'job' as type from jobs where title like '%%%s%%')
-                      ", $q, $q, $q, $q, $q);
+        switch (strtolower($type)) {
+          case "user":
+              $sql = sprintf("select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%'", $q, $q);
+              break;
+          case "company":
+              $sql = sprintf("select id, name, 'company' as type from company where name like '%%%s%%'", $q);
+              break;
+          case "event":
+              $sql = sprintf("select id, name, 'event' as type from events where name like '%%%s%%'", $q);
+              break;
+          case "job":
+              $sql = sprintf("select id, title as name, 'job' as type from jobs where title like '%%%s%%'", $q);
+              break;
+          default:
+              $response = array('success'=> FALSE, 'message'=>'Invalid type');
+        }
         if (isset($limit)) {
                 $sql .= " limit ".$limit;
         } 
