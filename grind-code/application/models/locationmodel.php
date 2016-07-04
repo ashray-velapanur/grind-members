@@ -707,21 +707,31 @@ class LocationModel extends CI_Model {
 			"title"=> $title,
 			"comments"=> "tea please"
 	  		);
-	    $options = array(
-	        'http' => array(
-	            'header'  => "Authorization: Bearer ".$util->get_current_environment_cobot_access_token()."\r\n",
-	            'method'  => 'POST',
-	            'content' => http_build_query($data),
-	            'ignore_errors' => true
-	        ),
-	    );
-	    error_log('... creating booking');
-	    error_log(json_encode($options));
-	    error_log(json_encode($data));
-	    $context  = stream_context_create($options);
-	    $result = file_get_contents($url, false, $context);
-	    error_log($result);
-	    $response = json_decode($result);
+	  	$cobot_access_token = NULL;
+	  	$this->load->model("thirdpartyusermodel","tpum",true);
+	  	$tpu = $this->tpum->get($user_id, 'cobot');
+	  	if($tpu && $tpu->access_token) {
+	  		$cobot_access_token = $tpu->access_token;
+	  	}
+	    if($cobot_access_token) {
+	    	$options = array(
+		        'http' => array(
+		            'header'  => "Authorization: Bearer ".$cobot_access_token."\r\n",
+		            'method'  => 'POST',
+		            'content' => http_build_query($data),
+		            'ignore_errors' => true
+		        ),
+		    );
+		    error_log('... creating booking');
+		    error_log(json_encode($options));
+		    error_log(json_encode($data));
+		    $context  = stream_context_create($options);
+		    $result = file_get_contents($url, false, $context);
+		    error_log($result);
+		    $response = json_decode($result);
+	    } else {
+	    	$response['errors'] = "Could not find Cobot Access Token for the user";
+	    }
   	} else {
   		$response['errors'] = "No resource to book";
   	}
