@@ -707,14 +707,8 @@ class LocationModel extends CI_Model {
 			"title"=> $title,
 			"comments"=> "tea please"
 	  		);
-	  	$cobot_access_token = NULL;
 	  	$this->load->model("thirdpartyusermodel","tpum",true);
-	  	$tpu = $this->tpum->get($user_id, 'cobot');
-	  	error_log(json_encode($tpu));
-	  	if($tpu) {
-	  		$cobot_access_token = $tpu['access_token'];
-	  	}
-	  	error_log($cobot_access_token);
+	  	$cobot_access_token = $this->tpum->get_cobot_access_token($user_id);
 	    if($cobot_access_token) {
 	    	$options = array(
 		        'http' => array(

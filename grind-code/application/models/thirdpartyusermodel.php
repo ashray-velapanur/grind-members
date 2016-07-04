@@ -22,5 +22,16 @@ class ThirdPartyUserModel extends CI_Model {
         $response = mysql_fetch_assoc($query);
         return $response;
 	}
+
+	public function get_cobot_access_token($user_id) {
+		$cobot_access_token = NULL;
+	  	$tpu = $this->get($user_id, 'cobot');
+	  	error_log(json_encode($tpu));
+	  	if($tpu) {
+	  		$cobot_access_token = $tpu['access_token'];
+	  	}
+	  	error_log($cobot_access_token);
+	  	return $cobot_access_token;
+	}
 };
 ?>
