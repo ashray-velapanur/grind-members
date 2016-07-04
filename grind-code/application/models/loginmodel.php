@@ -84,7 +84,7 @@ class LoginModel extends CI_Model {
             if ($cobotUserId) {
                 error_log($cobotUserId);
                 //TODO: This should throw an exception..
-                $this->create_cobot_membership($cobotUserId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
+                $this->create_cobot_membership($cobotUserId, $userId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
             }
             else {
                 $this->throw_exp("Could not create a Cobot user for you. Please contact administrator to login.");
@@ -185,40 +185,41 @@ class LoginModel extends CI_Model {
         return (array)json_decode($result);
     }
 
-    public function create_cobot_membership($id, $plan_name) {
+    public function create_cobot_membership($id, $user_id, $plan_name) {
         error_log('... creating cobot membership');
         error_log($id);
-        $this->load->model("thirdpartyusermodel","tpum",true);
-        $cobot_authorization_token = $this->tpum->get_cobot_access_token($user_id);
-        $query = $this->db->get("cobot_spaces");
-        $spaces = $query->result();
-        foreach ($spaces as $space) {
-            $d = array(
-                'address' => array(
-                    'name' => $plan_name,
-                    'full_address'=>'broadway 12345 New York',
-                    'country'=>'USA'
-                ),
-                'plan'=>array(
-                    'id'=>$space->daily_plan_id
-                ),
-                'phone'=>'9999999999',
-                'user'=>array(
-                    'id'=>$id
-                )
-            );
-            $url = 'https://'.$space->id.'.cobot.me/api/membership'; 
-            $options = array(
-                'http' => array(
-                    'header'  => "Authorization: Bearer ".$cobot_authorization_token."\r\n",
-                    'method'  => 'POST',
-                    'content' => http_build_query($d),
-                ),
-            );
-            error_log(json_encode($options));
-            $context  = stream_context_create($options);
-            $result = file_get_contents($url, false, $context);
-            error_log(json_encode($result));
+        $cobot_authorization_token = $this->tp->get_cobot_access_token($user_id);
+        if($cobot_authorization_token) {
+            $query = $this->db->get("cobot_spaces");
+            $spaces = $query->result();
+            foreach ($spaces as $space) {
+                $d = array(
+                    'address' => array(
+                        'name' => $plan_name,
+                        'full_address'=>'broadway 12345 New York',
+                        'country'=>'USA'
+                    ),
+                    'plan'=>array(
+                        'id'=>$space->daily_plan_id
+                    ),
+                    'phone'=>'9999999999',
+                    'user'=>array(
+                        'id'=>$id
+                    )
+                );
+                $url = 'https://'.$space->id.'.cobot.me/api/membership'; 
+                $options = array(
+                    'http' => array(
+                        'header'  => "Authorization: Bearer ".$cobot_authorization_token."\r\n",
+                        'method'  => 'POST',
+                        'content' => http_build_query($d),
+                    ),
+                );
+                error_log(json_encode($options));
+                $context  = stream_context_create($options);
+                $result = file_get_contents($url, false, $context);
+                error_log(json_encode($result));
+            }
         }
     }
 
