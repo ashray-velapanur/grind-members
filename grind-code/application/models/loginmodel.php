@@ -188,8 +188,8 @@ class LoginModel extends CI_Model {
     public function create_cobot_membership($id, $plan_name) {
         error_log('... creating cobot membership');
         error_log($id);
-        $util = new utilities;
-        $cobot_authorization_token = $util->get_current_environment_cobot_access_token();
+        $this->load->model("thirdpartyusermodel","tpum",true);
+        $cobot_authorization_token = $this->tpum->get_cobot_access_token($user_id);
         $query = $this->db->get("cobot_spaces");
         $spaces = $query->result();
         foreach ($spaces as $space) {
@@ -207,7 +207,7 @@ class LoginModel extends CI_Model {
                     'id'=>$id
                 )
             );
-            $url = 'https://'.$space->id.'.cobot.me/api/memberships'; 
+            $url = 'https://'.$space->id.'.cobot.me/api/membership'; 
             $options = array(
                 'http' => array(
                     'header'  => "Authorization: Bearer ".$cobot_authorization_token."\r\n",
