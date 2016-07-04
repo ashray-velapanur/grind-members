@@ -287,6 +287,7 @@ class Api extends REST_Controller
         $limit_and_offset = $this->get_limit_and_offset();
         $limit = $limit_and_offset['limit'];
         $offset = $limit_and_offset['offset'];
+        $is_error = FALSE;
         switch (strtolower($type)) {
           case "user":
               $sql = sprintf("select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%'", $q, $q);
@@ -302,20 +303,23 @@ class Api extends REST_Controller
               break;
           default:
               $response = array('success'=> FALSE, 'message'=>'Invalid type');
+              $is_error = TRUE;
         }
-        if (isset($limit)) {
-                $sql .= " limit ".$limit;
-        } 
-        if (isset($offset)){
-                $sql .= " offset ".$offset;
+        if(!$is_error) {
+          if (isset($limit)) {
+            $sql .= " limit ".$limit;
+          } 
+          if (isset($offset)){
+            $sql .= " offset ".$offset;
+          }
+          error_log($sql);
+          $query = mysql_query($sql);
+          $response_data = array();
+          while($row = mysql_fetch_assoc($query)) {
+            array_push($response_data, $row);
+          }
+          $response = array('success'=>TRUE, 'data'=>$response_data);
         }
-        error_log($sql);
-        $query = mysql_query($sql);
-        $response_data = array();
-        while($row = mysql_fetch_assoc($query)) {
-          array_push($response_data, $row);
-        }
-        $response = array('success'=>TRUE, 'data'=>$response_data);
       }
       $this->benchmark->mark('search_end');
       error_log('Search Time: '.$this->benchmark->elapsed_time('search_start', 'search_end'));
