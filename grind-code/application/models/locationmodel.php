@@ -712,10 +712,10 @@ class LocationModel extends CI_Model {
 	    if($cobot_access_token) {
             $response = $util->do_post($url, $params=$data, $cobot_access_token);
 	    } else {
-	    	$response['errors'] = "Could not find Cobot Access Token for the user";
+	    	$response['error'] = "Could not find Cobot Access Token for the user";
 	    }
   	} else {
-  		$response['errors'] = "No resource to book";
+  		$response['error'] = "No resource to book";
   	}
   	error_log(json_encode($response));
   	return $response;
