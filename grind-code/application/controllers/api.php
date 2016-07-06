@@ -289,16 +289,16 @@ class Api extends REST_Controller
       $offset = $limit_and_offset['offset'];
       $is_error = FALSE;
       switch (strtolower($type)) {
-        case "user":
+        case "members":
           $sql = sprintf("select id, CONCAT(first_name, ' ', last_name) as name, 'user' as type from user where first_name like '%%%s%%' or last_name like '%%%s%%'", $q, $q);
           break;
-        case "company":
+        case "companies":
           $sql = sprintf("select id, name, 'company' as type from company where name like '%%%s%%'", $q);
           break;
-        case "event":
+        case "events":
           $sql = sprintf("select id, name, 'event' as type from events where name like '%%%s%%'", $q);
           break;
-        case "job":
+        case "jobs":
           $sql = sprintf("select id, title as name, 'job' as type from jobs where title like '%%%s%%'", $q);
           break;
         default:
