@@ -53,10 +53,17 @@ class utilities {
             $post_result = (array)json_decode(mb_convert_encoding($result, "UTF-8"));
         }
         if($result_code < 200 || $result_code >= 300) {
+            // Handling Cobot Errors
             if($post_result && array_key_exists("errors", $post_result)) {
                 $errors = $post_result['errors'];
+                // Handling Cobot Booking Errors
                 if(array_key_exists("from", $errors)) {
-                    $error_message = $error_message.' , '.json_encode($errors->from);
+                    $from_errors = (array)$errors->from;
+                    $from_error_string = '';
+                    foreach ($from_errors as $from_error) {
+                        $from_error_string = $from_error_string.' , '.$from_error;
+                    }
+                    $error_message = $error_message.' , '.$from_error_string;
                 }
             }
             $post_result = array('error' => $error_message);
