@@ -50,15 +50,15 @@ class utilities {
         $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
         if($result) {
-            $post_result = (array)json_decode($result);
-            if($result_code < 200 || $result_code >= 300) {
-                $error_message = $error_message.', HTTP Code: '.$result_code;
-                if(array_key_exists("errors", $post_result)) {
-                    $errors = $post_result['errors'];
-                    $error_message = $error_message.', Errors: '.json_encode($errors);
-                }
-                $post_result = array('error' => $error_message);
+            $post_result = (array)json_decode(mb_convert_encoding($result, "UTF-8"));
+        }
+        if($result_code < 200 || $result_code >= 300) {
+            $error_message = $error_message.', HTTP Code: '.$result_code;
+            if($post_result && array_key_exists("errors", $post_result)) {
+                $errors = $post_result['errors'];
+                $error_message = $error_message.', Errors: '.json_encode($errors);
             }
+            $post_result = array('error' => $error_message);
         }
         error_log(json_encode($post_result));
         return $post_result;
