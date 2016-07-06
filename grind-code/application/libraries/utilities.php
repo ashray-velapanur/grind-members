@@ -53,6 +53,12 @@ class utilities {
             $post_result = (array)json_decode($result);
         } else {
             $error_message = $error_message.', HTTP Code: '.$result_code;
+            if($result) {
+                if(array_key_exists("errors", (array)json_decode($result))) {
+                    $errors = $result['errors'];
+                    $error_message = $error_message.', Errors: '.json_encode($errors);
+                }
+            }
             $post_result = array('error' => $error_message);
         }
         error_log(json_encode($post_result));
