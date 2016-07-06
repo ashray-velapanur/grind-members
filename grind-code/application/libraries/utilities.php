@@ -53,10 +53,11 @@ class utilities {
             $post_result = (array)json_decode(mb_convert_encoding($result, "UTF-8"));
         }
         if($result_code < 200 || $result_code >= 300) {
-            $error_message = $error_message.', HTTP Code: '.$result_code;
             if($post_result && array_key_exists("errors", $post_result)) {
                 $errors = $post_result['errors'];
-                $error_message = $error_message.', Errors: '.json_encode($errors);
+                if(array_key_exists("from", $errors)) {
+                    $error_message = $error_message.' , '.json_encode($errors->from);
+                }
             }
             $post_result = array('error' => $error_message);
         }
