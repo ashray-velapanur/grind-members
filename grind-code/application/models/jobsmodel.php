@@ -16,7 +16,7 @@ class JobsModel extends CI_Model {
 		if ($company_id) {
 			$query = $base_query." where jobs.company_id='".$company_id."'";
 		} elseif ($type) {
-			$query = $base_query." where jobs.type='".$type."'";
+			$query = $base_query." where jobs.type like '%".$type."%'";
 		} elseif ($posted_by) {
 			$query = $base_query." where jobs.posted_by='".$posted_by."'";
 		} elseif ($id) {
