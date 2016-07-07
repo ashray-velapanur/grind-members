@@ -501,7 +501,7 @@ class Api extends REST_Controller
     $this->load->model('locationmodel', 'lm', true);
     $response = $this->lm->book_space($space_id, $user_id, $resource_id, $from, $to);
     if (array_key_exists("error", $response)){
-        $this->response(array('success' => false, 'message' => json_encode($response['error'])), 200);
+        $this->response(array('success' => false, 'message' => $response['error']), 200);
     } else {
         $this->response(array('success' => true, 'data' => $response), 200);
     }
