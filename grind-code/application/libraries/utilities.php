@@ -63,10 +63,7 @@ class utilities {
                     foreach ($from_errors as $from_error) {
                         $from_error_string = $from_error_string.', '.$from_error;
                     }
-                    if($error_message) {
-                        $error_message = $error_message.', ';
-                    }
-                    $error_message = $error_message.$from_error_string;
+                    $error_message = $error_message.' '.$from_error_string;
                 }
             }
             $post_result = array('error' => $error_message);
