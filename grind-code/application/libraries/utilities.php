@@ -50,6 +50,8 @@ class utilities {
         $result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
         if($result) {
+            error_log('Post Result Encoding: ');
+            error_log(mb_detect_encoding($result));
             $post_result = (array)json_decode(mb_convert_encoding($result, "UTF-8"));
         }
         if($result_code < 200 || $result_code >= 300) {
