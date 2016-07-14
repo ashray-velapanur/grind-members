@@ -446,14 +446,21 @@ class Cobot extends CI_Controller {
 
 	function get_checkins() {
 		$all_checkins = array();
+		$from_datetime = $_GET["from"];
+		$to_datetime = $_GET["to"];
 		echo nl2br("id,last_name,first_name,company,sign_in,time,location_id,plan_code\n");
 		try {
 			$util = new utilities;
-			date_default_timezone_set('America/New_York');
-			$date_today = date('Y-m-d', time());
-			$time_tomorrow = strtotime("+1 day", strtotime($date_today));
-			$date_tomorrow = date("Y-m-d", $time_tomorrow);
-			$params = array('from' => urlencode($date_today." 00:00:00 -0400"), 'to' => urlencode($date_tomorrow." 00:00:00 -0400"));
+			if($from_datetime && $to_datetime) {
+				date_default_timezone_set('America/New_York');
+				$date_today = date('Y-m-d', time());
+				$time_tomorrow = strtotime("+1 day", strtotime($date_today));
+				$date_tomorrow = date("Y-m-d", $time_tomorrow);
+				$params = array('from' => urlencode($date_today." 00:00:00 -0400"), 'to' => urlencode($date_tomorrow." 00:00:00 -0400"));
+			} else {
+				$params = array('from' => urlencode($from_datetime), 'to' => urlencode($to_datetime));
+			}
+			
 			$query = $this->db->get("cobot_spaces");
 		    $spaces = $query->result();
 		    foreach ($spaces as $space) {
