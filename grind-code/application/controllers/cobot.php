@@ -458,7 +458,9 @@ class Cobot extends CI_Controller {
 		    foreach ($spaces as $space) {
 		    	$url = "https://".$space->id.".cobot.me/api/work_sessions";
 		    	$checkins = $this->do_get($url, NULL, $params);
+		    	error_log(json_encode($checkins));
 		    	foreach ($checkins as $checkin) {
+		    		error_log(json_encode($checkin));
 		    		$membership_id = $checkin->membership->id;
 		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, ".$checkin->valid_from." as sign_in, ".$space->id." as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
 					error_log($sql);
