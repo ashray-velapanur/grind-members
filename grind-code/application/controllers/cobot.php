@@ -362,7 +362,7 @@ class Cobot extends CI_Controller {
 		$result = curl_exec($curl);
 		$result_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
-		if($result_code == 200) {
+		if($result_code >= 200 && $result_code < 300) {
 			$get_result = (array)json_decode($result);
 		}
 		//error_log(json_encode($get_result));
@@ -452,7 +452,7 @@ class Cobot extends CI_Controller {
 			$date_today = date('Y-m-d', time());
 			$time_tomorrow = strtotime("+1 day", strtotime($date_today));
 			$date_tomorrow = date("Y-m-d", $time_tomorrow);
-			$params = array('from' => $date_today." 00:00:00 -0400", 'to' => $date_tomorrow." 00:00:00 -0400");
+			$params = array('from' => urlencode($date_today." 00:00:00 -0400"), 'to' => urlencode($date_tomorrow." 00:00:00 -0400"));
 			$query = $this->db->get("cobot_spaces");
 		    $spaces = $query->result();
 		    foreach ($spaces as $space) {
@@ -462,7 +462,7 @@ class Cobot extends CI_Controller {
 		    	foreach ($checkins as $checkin) {
 		    		error_log(json_encode($checkin));
 		    		$membership_id = $checkin->membership->id;
-		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, ".$checkin->valid_from." as sign_in, ".$space->id." as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
+		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$checkin->valid_from."' as sign_in, '".$space->id."' as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
 					error_log($sql);
 					$query = $this->db->query($sql);
 					$result = current($query->result());
