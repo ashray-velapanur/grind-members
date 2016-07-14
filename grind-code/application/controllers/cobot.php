@@ -449,14 +449,15 @@ class Cobot extends CI_Controller {
 		try {
 			$util = new utilities;
 			date_default_timezone_set('America/New_York');
-        	$date_today = date('Y-m-d', time());
-        	$time_tomorrow = strtotime("+1 day", strtotime($date_today));
-        	$date_tomorrow = date("Y-m-d", $time_tomorrow);
+			$date_today = date('Y-m-d', time());
+			$time_tomorrow = strtotime("+1 day", strtotime($date_today));
+			$date_tomorrow = date("Y-m-d", $time_tomorrow);
+			$params = array('from' => $date_today." 00:00:00 -4000", 'to' => $date_tomorrow." 00:00:00 -4000");
 			$query = $this->db->get("cobot_spaces");
 		    $spaces = $query->result();
 		    foreach ($spaces as $space) {
-		    	$url = "https://".$space->id.".cobot.me/api/work_sessions?from=".$date_today." 00:00:00 -4000&to=".$date_tomorrow." 00:00:00 -4000";
-		    	$checkins = $this->do_get($url, $util->get_current_environment_cobot_access_token());
+		    	$url = "https://".$space->id.".cobot.me/api/work_sessions";
+		    	$checkins = $this->do_get($url, NULL, $params);
 		    	foreach ($checkins as $checkin) {
 		    		$membership_id = $checkin->membership->id;
 		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, ".$checkin->valid_from." as sign_in, ".$space->id." as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
