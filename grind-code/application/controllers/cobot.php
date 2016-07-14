@@ -443,6 +443,35 @@ class Cobot extends CI_Controller {
 			}
 	    }
 	}
+
+	function get_checkins() {
+		$all_checkins = array();
+		try {
+			$util = new utilities;
+			date_default_timezone_set('America/New_York');
+        	$date_today = date('Y-m-d', time());
+        	$time_tomorrow = strtotime("+1 day", strtotime($date_today));
+        	$date_tomorrow = date("Y-m-d", $time_tomorrow);
+			$query = $this->db->get("cobot_spaces");
+		    $spaces = $query->result();
+		    foreach ($spaces as $space) {
+		    	$url = "https://".$space->id.".cobot.me/api/work_sessions?from=".$date_today." 00:00:00 -4000&to=".$date_tomorrow." 00:00:00 -4000";
+		    	$checkins = $this->do_get($url, $util->get_current_environment_cobot_access_token());
+		    	foreach ($checkins as $checkin) {
+		    		$membership_id = $checkin->membership->id;
+		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, ".$checkin->valid_from." as sign_in, ".$space->id." as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
+					error_log($sql);
+					$query = $this->db->query($sql);
+					$result = current($query->result());
+					array_push($all_checkins, $result);
+		    	}
+		    }
+		    error_log(json_encode($all_checkins));
+		    echo "".json_encode($all_checkins);
+		} catch(Exception $e){
+			error_log('Exception getting all checkins : '.$e->getMessage());
+		}
+	}
 }
 
 //$temp = new Cobot;
