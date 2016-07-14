@@ -452,7 +452,7 @@ class Cobot extends CI_Controller {
 			$date_today = date('Y-m-d', time());
 			$time_tomorrow = strtotime("+1 day", strtotime($date_today));
 			$date_tomorrow = date("Y-m-d", $time_tomorrow);
-			$params = array('from' => $date_today." 00:00:00 -4000", 'to' => $date_tomorrow." 00:00:00 -4000");
+			$params = array('from' => $date_today." 00:00:00 -0400", 'to' => $date_tomorrow." 00:00:00 -0400");
 			$query = $this->db->get("cobot_spaces");
 		    $spaces = $query->result();
 		    foreach ($spaces as $space) {
