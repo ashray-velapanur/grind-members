@@ -473,7 +473,7 @@ class Cobot extends CI_Controller {
 					$query = $this->db->query($sql);
 					$result = current($query->result());
 					if($result) {
-						echo nl2br($result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->location_id.','.$result->plan_code.'\n');
+						echo nl2br($result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->location_id.','.$result->plan_code."\n");
 						array_push($all_checkins, $result);
 					}
 		    	}
