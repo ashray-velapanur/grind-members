@@ -462,11 +462,18 @@ class Cobot extends CI_Controller {
 		    	foreach ($checkins as $checkin) {
 		    		error_log(json_encode($checkin));
 		    		$membership_id = $checkin->membership->id;
-		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$checkin->valid_from."' as sign_in, '".$space->id."' as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
+		    		$from = $checkin->valid_from;
+		    		if($from) {
+		    			$from_date = substr($from, 0, strpos($from, " "));
+		    			$from_time = substr($from, strpos($from, " ")+1);
+		    		}
+		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$from_date."' as sign_in, '".$from_time."' as time, '".$space->id."' as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
 					error_log($sql);
 					$query = $this->db->query($sql);
 					$result = current($query->result());
-					array_push($all_checkins, $result);
+					if($result) {
+						array_push($all_checkins, $result);
+					}
 		    	}
 		    }
 		    error_log(json_encode($all_checkins));
