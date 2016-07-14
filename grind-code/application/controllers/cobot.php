@@ -446,6 +446,7 @@ class Cobot extends CI_Controller {
 
 	function get_checkins() {
 		$all_checkins = array();
+		echo "id,last_name,first_name,company,sign_in,time,location_id,plan_code";
 		try {
 			$util = new utilities;
 			date_default_timezone_set('America/New_York');
@@ -472,12 +473,12 @@ class Cobot extends CI_Controller {
 					$query = $this->db->query($sql);
 					$result = current($query->result());
 					if($result) {
+						echo $result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->location_id.','.$result->plan_code;
 						array_push($all_checkins, $result);
 					}
 		    	}
 		    }
 		    error_log(json_encode($all_checkins));
-		    echo "".json_encode($all_checkins);
 		} catch(Exception $e){
 			error_log('Exception getting all checkins : '.$e->getMessage());
 		}
