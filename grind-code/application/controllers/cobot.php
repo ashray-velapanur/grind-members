@@ -451,7 +451,7 @@ class Cobot extends CI_Controller {
 		echo nl2br("id,last_name,first_name,company,sign_in,time,location_id,plan_code\n");
 		try {
 			$util = new utilities;
-			if($from_datetime && $to_datetime) {
+			if(!$from_datetime || !$to_datetime) {
 				date_default_timezone_set('America/New_York');
 				$date_today = date('Y-m-d', time());
 				$time_tomorrow = strtotime("+1 day", strtotime($date_today));
