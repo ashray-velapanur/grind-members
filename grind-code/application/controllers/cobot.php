@@ -510,6 +510,39 @@ class Cobot extends CI_Controller {
 			error_log('Exception getting all users : '.$e->getMessage());
 		}
 	}
+
+	function get_accounts() {
+		$all_accounts = array();
+		echo nl2br("cobot_user_id,grind_user_id,email,currency,quantity,unit_amount,add_on_amount,total_recurring_amount,next_invoice_at,activated_at,canceled_to,collection_method,plan_name\n");
+		try {
+			$sql = "SELECT cm.id, cm.space_id, cm.cobot_user_id, cm.user_id FROM cobot_memberships cm";
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$results = $query->result();
+			if($results) {
+				foreach ($results as $result) {
+					$url = "https://".$result->space_id.".cobot.me/api/memberships/".$result->id;
+			    	$membership = $this->do_get($url, NULL);
+			    	error_log(json_encode($membership));
+			    	if($membership) {
+			    		$plan = $membership['plan'];
+				    	$payment_method = $membership['payment_method'];
+				    	$add_on_amount = 0.0;
+				    	if($plan->extras) {
+							foreach ($plan->extras as $extra) {
+								$add_on_amount = $add_on_amount + $extra->price;
+							}
+				    	}
+						echo nl2br($result->cobot_user_id.','.$result->user_id.','.$membership['email'].','.$plan->currency.','.'1'.','.$plan->price_per_cycle.','.$add_on_amount.','.$plan->total_price_per_cycle.','.$membership['next_invoice_at'].','.$membership['confirmed_at'].','.$membership['canceled_to'].','.$payment_method->name.','.$plan->name."\n");
+						array_push($all_accounts, (string)($result->cobot_user_id.','.$result->user_id.','.$membership['email'].','.$plan->currency.','.'1'.','.$plan->price_per_cycle.','.$add_on_amount.','.$plan->total_price_per_cycle.','.$membership['next_invoice_at'].','.$membership['confirmed_at'].','.$membership['canceled_to'].','.$payment_method->name.','.$plan->name));
+			    	}
+				}
+			}
+			error_log(json_encode($all_accounts));
+		} catch(Exception $e){
+			error_log('Exception getting all accounts : '.$e->getMessage());
+		}
+	}
 }
 
 //$temp = new Cobot;
