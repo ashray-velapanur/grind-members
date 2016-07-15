@@ -490,6 +490,26 @@ class Cobot extends CI_Controller {
 			error_log('Exception getting all checkins : '.$e->getMessage());
 		}
 	}
+
+	function get_users() {
+		$all_users = array();
+		echo nl2br("id,company_id,name,rfid,wp_users_id,date_added,referrer,twitter,behance,email_address\n");
+		try {
+			$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address FROM user u join wpmember_users wp_user on u.wp_users_id = wp_user.id";
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$results = $query->result();
+			if($results) {
+				foreach ($results as $result) {
+					echo nl2br($result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.','.$result->referrer.','.$result->twitter.','.$result->behance.','.$result->email_address."\n");
+					array_push($all_users, $result);
+				}
+			}
+			error_log(json_encode($all_users));
+		} catch(Exception $e){
+			error_log('Exception getting all users : '.$e->getMessage());
+		}
+	}
 }
 
 //$temp = new Cobot;
