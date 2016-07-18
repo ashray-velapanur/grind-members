@@ -512,10 +512,18 @@ class Cobot extends CI_Controller {
 	}
 
 	function get_accounts() {
+		$space_id = $_GET["space_id"];
+		$email = $_GET["email"];
 		$all_accounts = array();
 		echo nl2br("cobot_user_id,grind_user_id,email,currency,quantity,unit_amount,add_on_amount,total_recurring_amount,next_invoice_at,activated_at,canceled_to,collection_method,plan_name\n");
 		try {
 			$sql = "SELECT cm.id, cm.space_id, cm.cobot_user_id, cm.user_id FROM cobot_memberships cm";
+			if($email) {
+				$sql = $sql . " join user u on cm.user_id = u.id join wpmember_users wp_user on u.wp_users_id = wp_user.id and wp_user.user_email = '".$email."'";
+			}
+			if($space_id) {
+				$sql = $sql . " where cm.space_id = '".$space_id."'";
+			}
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$results = $query->result();
