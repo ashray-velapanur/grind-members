@@ -223,17 +223,23 @@ class Cobot extends CI_Controller {
 	}
 
 	function is_first_member_checkin($membership_id, $space_id) {
-		$sql = "SELECT cm.cobot_user_id FROM cobot_memberships cm WHERE cm.space_id='".$space_id."' and cm.id='".$membership_id."'";
-		error_log($sql);
-		$query = $this->db->query($sql);
-		$results = $query->result();
-		if($results && count($results) > 0) {
-			$cobot_user_id = current($results);
-			// Uncomment below lines when we have the endpoint ready from Cobot
-			// $url = "https://".$space_id.".cobot.me/api/checkins/?user_id=".$cobot_user_id;
-			// $checked_in = $this->do_get($url, NULL);
+		$is_first_member_checkin = true;
+
+		date_default_timezone_set('America/New_York');
+		$date_today = date('Y-m-d', time());
+		$time_tomorrow = strtotime("+1 day", strtotime($date_today));
+		$date_tomorrow = date("Y-m-d", $time_tomorrow);
+		$params = array('from' => urlencode($date_today." 00:00:00 -0400"), 'to' => urlencode($date_tomorrow." 00:00:00 -0400"));
+		
+		$url = "https://".$space_id.".cobot.me/api/memberships/".$membership_id."/check_ins";
+		$checkins = $this->do_get($url, NULL, $params);
+		error_log(json_encode($checkins));
+
+		if(count($checkins) > 1) {
+			$is_first_member_checkin = false;
 		}
-		return true; // Change this to the value got from Cobot whether this is the user's first checkin or not
+
+		return $is_first_member_checkin;
 	}
 
 	function charge_checkin($checkin_url, $space_id) {

@@ -3,7 +3,7 @@ $environments = array("dev","prod");
 $environmentsToSpaces = array("dev" => array("grind-park-avenue", "pirates-lasalle", "pirates-downtown", "pirates-broadway-30", "pirates-broadway"),
 							  "prod" => array("grind-park-ave", "grind-lasalle-washington", "grind-broadway-39th"));
 $environmentsToAccessToken = array("dev" => "d1a9e9cb5360ccf114630818aaf0f6c057a13f49bec1c666513a26e5da050730",
-							  	   "prod" => "6cc06d0a4eaeb4ee3e26af9e9931b07f720454ffcb0293fabd5aaba98828ae65");
+							  	   "prod" => "0ab2386c065b7b3125ebad1466be12f45cbf3a13f3f6f7087083c25869735b5c");
 $spaceValMap = array("grind-park-avenue" => array('name' => 'PARK AVE'),
 					 "pirates-lasalle" => array('name' => 'LA SALLE'),
 					 "pirates-downtown" => array('name' => 'DOWNTOWN'),
