@@ -1,6 +1,7 @@
 <?php
 
 error_log('google_drive.php');
+require_once __DIR__ . '/_siteconfig.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 define('CLIENT_SECRET_PATH', __DIR__ . '/client_secret.json');
@@ -13,14 +14,18 @@ session_start();
 $client = new Google_Client();
 $client->setAuthConfigFile(CLIENT_SECRET_PATH);
 $client->addScope(SCOPES);
+$client->setAccessType('offline');
 
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 	$client->setAccessToken($_SESSION['access_token']);
 	if($client->isAccessTokenExpired()) {
 		error_log("Access Token has expired!");
-		$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/grind-members/oauth2callback.php';
-		error_log($redirect_uri);
-		header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+		$refresh_token = $client->getRefreshToken();
+		error_log('Refresh Token: ');
+    	error_log($refresh_token);
+		$client->refreshToken($refresh_token);
+		$_SESSION['access_token'] = $client->getAccessToken();
+		$client->setAccessToken($_SESSION['access_token']);
 	} else {
 		$drive_service = new Google_Service_Drive($client);
 		if(isset($_SESSION['not_authorized'])) {
@@ -35,7 +40,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 		}
 	}
 } else {
-	$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/grind-members/oauth2callback.php';
+	$redirect_uri = ROOTMEMBERPATH. 'oauth2callback.php';
 	error_log($redirect_uri);
 	header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 }

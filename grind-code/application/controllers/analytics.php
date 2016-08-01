@@ -7,19 +7,36 @@ include_once APPPATH . 'libraries/utilities.php';
 
 session_start();
 
-if (!(isset($_SESSION['access_token']) && $_SESSION['access_token'])) {
-	error_log('Access token not set');
-	$_SESSION['not_authorized'] = 1;
-}
-$request_uri = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-error_log($request_uri);
-$_SESSION['app_request_uri'] = $request_uri;
-
-include_once APPPATH . '../../google_drive.php';
-
-
-
 class Analytics extends CI_Controller {
+
+	public function __construct() {
+		parent::__construct();
+		$sql = "SELECT gd.access_token FROM google_drive gd";
+		error_log($sql);
+		$query = $this->db->query($sql);
+		$result = current($query->result());
+		if($result) {
+			error_log($result->access_token);
+			$_SESSION['access_token'] = $result->access_token;
+		}
+		if (!(isset($_SESSION['access_token']) && $_SESSION['access_token'])) {
+			error_log('Access token not set');
+			$_SESSION['not_authorized'] = 1;
+		}
+		$request_uri = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		error_log($request_uri);
+		$_SESSION['app_request_uri'] = $request_uri;
+
+		include_once APPPATH . '../../google_drive.php';
+		if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+			$sql = "TRUNCATE TABLE google_drive";
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$sql = "INSERT INTO google_drive (access_token) VALUES ('".$_SESSION['access_token']."')";
+			error_log($sql);
+			$query = $this->db->query($sql);
+		}
+	}
 
 	function do_get($url, $environment, $params=array()) {
 		$util = new utilities;
