@@ -70,10 +70,31 @@ class Analytics extends CI_Controller {
 		$client->setAccessType("offline");
 		$client->setAccessToken($_SESSION['access_token']);
 		$service = new Google_Service_Drive($client);
-		$file = $service->files->create($fileMetadata, array(
-			'data' => $content,
-			'mimeType' => 'text/csv',
-			'uploadType' => 'multipart'));
+		$sql = "SELECT gdf.id FROM google_drive_files gdf where gdf.name = '".$file_name."'";
+		error_log($sql);
+		$query = $this->db->query($sql);
+		$result = current($query->result());
+		$file = NULL;
+		error_log(json_encode($result));
+		if($result && $result->id) {
+			error_log('Updating google drive file: '.$file_name);
+			$file = $service->files->update($result->id, $fileMetadata, array(
+				'data' => $content,
+				'mimeType' => 'text/csv',
+				'uploadType' => 'multipart'));
+		} else {
+			error_log('Creating google drive file: '.$file_name);
+			$file = $service->files->create($fileMetadata, array(
+				'data' => $content,
+				'mimeType' => 'text/csv',
+				'uploadType' => 'multipart'));
+		}
+		if($file && $file->id) {
+			$sql = "INSERT INTO google_drive_files (id, name) VALUES ('".$file->id."', '".$file_name."')";
+			error_log($sql);
+			$query = $this->db->query($sql);
+		}
+		return $file;
 	}
 
 	function get_checkins() {
