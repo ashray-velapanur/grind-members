@@ -23,7 +23,7 @@ $client->setAccessType('offline');
 
 if (! isset($_GET['code'])) {
   $auth_url = $client->createAuthUrl();
-  //$auth_url = str_replace('approval_prompt=auto','prompt=consent',$auth_url);
+  $auth_url = str_replace('approval_prompt=auto','prompt=consent',$auth_url);
   error_log('Auth URL: '.$auth_url);
   header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
 } else {
