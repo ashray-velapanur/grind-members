@@ -12,9 +12,12 @@ define('SCOPES', implode(' ', array(
 
 session_start();
 
+$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+$base_url .= '://'. $_SERVER['HTTP_HOST'] .'/grind-members/';
+
 $client = new Google_Client();
 $client->setAuthConfigFile(CLIENT_SECRET_PATH);
-$client->setRedirectUri(ROOTMEMBERPATH . 'oauth2callback.php');
+$client->setRedirectUri($base_url . 'oauth2callback.php');
 $client->addScope(SCOPES);
 $client->setAccessType('offline');
 
@@ -26,6 +29,6 @@ if (! isset($_GET['code'])) {
 } else {
   $client->authenticate($_GET['code']);
   $_SESSION['access_token'] = $client->getAccessToken();
-  $redirect_uri = ROOTMEMBERPATH . 'google_drive.php';
+  $redirect_uri = $base_url . 'google_drive.php';
   header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 }

@@ -11,6 +11,9 @@ define('SCOPES', implode(' ', array(
 
 session_start();
 
+$base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+$base_url .= '://'. $_SERVER['HTTP_HOST'] .'/grind-members/';
+
 $client = new Google_Client();
 $client->setAuthConfigFile(CLIENT_SECRET_PATH);
 $client->addScope(SCOPES);
@@ -40,7 +43,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
 		}
 	}
 } else {
-	$redirect_uri = ROOTMEMBERPATH. 'oauth2callback.php';
+	$redirect_uri = $base_url. 'oauth2callback.php';
 	error_log($redirect_uri);
 	header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 }
