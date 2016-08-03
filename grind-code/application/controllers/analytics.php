@@ -104,10 +104,14 @@ class Analytics extends CI_Controller {
 		$header = "id,last_name,first_name,company,sign_in,time,location_id,plan_code\n";
 		echo nl2br($header);
 		try {
-			if(! $checkinsfile =  fopen(__DIR__."/../../../checkins.csv","a+")) {
+			$file_path = __DIR__."/../../../checkins.csv";
+			if(! $checkinsfile =  fopen($file_path,"a+")) {
 	        	throw new Exception("Unable to open file checkins.csv !");
 			}
-			fwrite($checkinsfile, $header);
+			$file_contents = fread($checkinsfile, filesize($file_path));
+			if(empty($file_contents)) {
+				fwrite($checkinsfile, $header);	
+			}
 			$util = new utilities;
 			if(!$from_datetime || !$to_datetime) {
 				date_default_timezone_set('America/New_York');
