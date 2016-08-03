@@ -104,7 +104,7 @@ class Analytics extends CI_Controller {
 		$header = "id,last_name,first_name,company,sign_in,time,location_id,plan_code\n";
 		echo nl2br($header);
 		try {
-			if(! $checkinsfile =  fopen(__DIR__."/../../../checkins.csv","w+")) {
+			if(! $checkinsfile =  fopen(__DIR__."/../../../checkins.csv","a+")) {
 	        	throw new Exception("Unable to open file checkins.csv !");
 			}
 			fwrite($checkinsfile, $header);
