@@ -59,11 +59,10 @@ class Analytics extends CI_Controller {
 		return $get_result;
 	}
 
-	function write_to_google_drive($file_name) {
+	function write_to_google_drive($file_name, $content=NULL, $header=NULL, $overwrite=true) {
 		$fileMetadata = new Google_Service_Drive_DriveFile(array(
 				'name' => $file_name,
 				'mimeType' => 'text/csv'));
-		$content = file_get_contents(__DIR__."/../../../".$file_name);
 		$client = new Google_Client();
 		$client->setAuthConfigFile(CLIENT_SECRET_PATH);
 		$client->addScope(SCOPES);
@@ -77,18 +76,28 @@ class Analytics extends CI_Controller {
 		$file = NULL;
 		error_log(json_encode($result));
 		if($result && $result->id) {
+			if($overwrite) {
+				$content = $header . $content;
+			} else {
+				$file_contents = $service->files->get($result->id, array( 'alt' => 'media' ));
+				error_log('File Contents: ');
+				error_log($file_contents);
+				$content = $file_contents . $content;
+			}
 			error_log('Updating google drive file: '.$file_name);
 			$file = $service->files->update($result->id, $fileMetadata, array(
 				'data' => $content,
 				'mimeType' => 'text/csv',
 				'uploadType' => 'multipart'));
 		} else {
+			$content = $header . $content;
 			error_log('Creating google drive file: '.$file_name);
 			$file = $service->files->create($fileMetadata, array(
 				'data' => $content,
 				'mimeType' => 'text/csv',
 				'uploadType' => 'multipart'));
 		}
+		echo nl2br($content);
 		if($file && $file->id) {
 			$sql = "INSERT INTO google_drive_files (id, name) VALUES ('".$file->id."', '".$file_name."')";
 			error_log($sql);
@@ -102,16 +111,8 @@ class Analytics extends CI_Controller {
 		$from_datetime = $_GET["from"];
 		$to_datetime = $_GET["to"];
 		$header = "id,last_name,first_name,company,sign_in,time,location_id,plan_code\n";
-		echo nl2br($header);
 		try {
-			$file_path = __DIR__."/../../../checkins.csv";
-			if(! $checkinsfile =  fopen($file_path,"a+")) {
-	        	throw new Exception("Unable to open file checkins.csv !");
-			}
-			$file_contents = fread($checkinsfile, filesize($file_path));
-			if(empty($file_contents)) {
-				fwrite($checkinsfile, $header);	
-			}
+			$checkinsfile = "";
 			$util = new utilities;
 			if(!$from_datetime || !$to_datetime) {
 				date_default_timezone_set('America/New_York');
@@ -143,19 +144,15 @@ class Analytics extends CI_Controller {
 					$result = current($query->result());
 					if($result) {
 						$record = $result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->location_id.','.$result->plan_code."\n";
-						echo nl2br($record);
-						fwrite($checkinsfile, $record);
+						//echo nl2br($record);
+						$checkinsfile .= $record;
 						array_push($all_checkins, $result);
 					}
 		    	}
 		    }
 		    error_log(json_encode($all_checkins));
-		    fclose($checkinsfile);
-		    $this->write_to_google_drive('checkins.csv');
+		    $this->write_to_google_drive('checkins.csv', $checkinsfile, $header, false);
 		} catch(Exception $e){
-			if($checkinsfile) {
-				fclose($checkinsfile);
-			}
 			$error_msg = 'Exception getting all checkins : '.$e->getMessage();
 			echo nl2br($error_msg);
 			error_log($error_msg);
@@ -165,13 +162,8 @@ class Analytics extends CI_Controller {
 	function get_users() {
 		$all_users = array();
 		$header = "id,company_id,name,rfid,wp_users_id,date_added,referrer,twitter,behance,email_address\n";
-		echo nl2br($header);
-
 		try {
-			if(! $usersfile =  fopen(__DIR__."/../../../users.csv","w+")) {
-	        	throw new Exception("Unable to open file users.csv !");
-			}
-			fwrite($usersfile, $header);
+			$usersfile = "";
 			$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address FROM user u join wpmember_users wp_user on u.wp_users_id = wp_user.id";
 			error_log($sql);
 			$query = $this->db->query($sql);
@@ -179,18 +171,14 @@ class Analytics extends CI_Controller {
 			if($results) {
 				foreach ($results as $result) {
 					$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.','.$result->referrer.','.$result->twitter.','.$result->behance.','.$result->email_address."\n";
-					echo nl2br($record);
-					fwrite($usersfile, $record);
+					//echo nl2br($record);
+					$usersfile .= $record;
 					array_push($all_users, $result);
 				}
 			}
 			error_log(json_encode($all_users));
-			fclose($usersfile);
-			$this->write_to_google_drive('users.csv');
+			$this->write_to_google_drive('users.csv', $usersfile, $header);
 		} catch(Exception $e){
-			if($usersfile) {
-				fclose($usersfile);
-			}
 			$error_msg = 'Exception getting all users : '.$e->getMessage();
 			echo nl2br($error_msg);
 			error_log($error_msg);
@@ -202,12 +190,8 @@ class Analytics extends CI_Controller {
 		$email = $_GET["email"];
 		$all_accounts = array();
 		$header = "cobot_user_id,grind_user_id,email,currency,quantity,unit_amount,add_on_amount,total_recurring_amount,next_invoice_at,activated_at,canceled_to,collection_method,plan_name\n";
-		echo nl2br($header);
 		try {
-			if(! $accountsfile =  fopen(__DIR__."/../../../accounts.csv","w+")) {
-	        	throw new Exception("Unable to open file accounts.csv !");
-			}
-			fwrite($accountsfile, $header);
+			$accountsfile = "";
 			$sql = "SELECT cm.id, cm.space_id, cm.cobot_user_id, cm.user_id FROM cobot_memberships cm";
 			if($email) {
 				$sql = $sql . " join user u on cm.user_id = u.id join wpmember_users wp_user on u.wp_users_id = wp_user.id and wp_user.user_email = '".$email."'";
@@ -233,19 +217,14 @@ class Analytics extends CI_Controller {
 							}
 				    	}
 				    	$record = $result->cobot_user_id.','.$result->user_id.','.$membership['email'].','.$plan->currency.','.'1'.','.$plan->price_per_cycle.','.$add_on_amount.','.$plan->total_price_per_cycle.','.$membership['next_invoice_at'].','.$membership['confirmed_at'].','.$membership['canceled_to'].','.$payment_method->name.','.$plan->name."\n";
-						echo nl2br($record);
-						fwrite($accountsfile, $record);
+						$accountsfile .= $record;
 						array_push($all_accounts, $record);
 			    	}
 				}
 			}
 			error_log(json_encode($all_accounts));
-			fclose($accountsfile);
-			$this->write_to_google_drive('accounts.csv');
+			$this->write_to_google_drive('accounts.csv', $accountsfile, $header);
 		} catch(Exception $e){
-			if($accountsfile) {
-				fclose($accountsfile);
-			}
 			$error_msg = 'Exception getting all accounts : '.$e->getMessage();
 			echo nl2br($error_msg);
 			error_log($error_msg);
