@@ -467,6 +467,17 @@ class Cobot extends CI_Controller {
 			}
 	    }
 	}
+
+	function add_cobot_third_party() {
+		global $cobot_network_name;
+		$grind_user_id = $_POST['grind_user_id'];
+		$cobot_user_id = $_POST['cobot_user_id'];
+		$cobot_access_token = $_POST['cobot_access_token'];
+		if($grind_user_id && $cobot_user_id && $cobot_access_token) {
+			$this->load->model("thirdpartyusermodel","tpum",true);
+			$this->tpum->create($grind_user_id, $cobot_user_id, $cobot_network_name, $cobot_access_token);
+		}
+	}
 }
 
 //$temp = new Cobot;
