@@ -121,7 +121,7 @@ class utilities {
         $plans_url = 'https://'.$space_id.'.cobot.me/api/plans';
         $plans = $this->do_get($plans_url, $params=array('access_token' => $cobot_authorization_token));
         foreach ($plans as $plan) {
-            if(strtolower($plan->name) == strtolower($plan_name)) {
+            if(strpos(strtolower($plan->name), strtolower($plan_name)) !== false) {
                 return $plan;
             }
         }
