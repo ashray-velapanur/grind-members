@@ -110,7 +110,7 @@ class Analytics extends CI_Controller {
 		$all_checkins = array();
 		$from_datetime = $_GET["from"];
 		$to_datetime = $_GET["to"];
-		$header = "id,last_name,first_name,company,sign_in,time,location_id,plan_code\n";
+		$header = "id,last_name,first_name,company,sign_in,time,checkin_count,location_id,plan_code\n";
 		try {
 			$checkinsfile = "";
 			$util = new utilities;
