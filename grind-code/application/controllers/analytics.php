@@ -114,6 +114,7 @@ class Analytics extends CI_Controller {
 		try {
 			$checkinsfile = "";
 			$util = new utilities;
+			$date_today = '';
 			if(!$from_datetime || !$to_datetime) {
 				date_default_timezone_set('America/New_York');
 				$date_today = date('Y-m-d', time());
@@ -130,20 +131,33 @@ class Analytics extends CI_Controller {
 		    	$url = "https://".$space->id.".cobot.me/api/work_sessions";
 		    	$checkins = $this->do_get($url, NULL, $params);
 		    	error_log(json_encode($checkins));
+		    	$member_checkins = array();
 		    	foreach ($checkins as $checkin) {
 		    		error_log(json_encode($checkin));
 		    		$membership_id = $checkin->membership->id;
 		    		$from = $checkin->valid_from;
 		    		if($from) {
 		    			$from_date = substr($from, 0, strpos($from, " "));
-		    			$from_time = substr($from, strpos($from, " ")+1);
+		    			$from_time = substr($from, strpos($from, " ")+1, strpos($from, " ", strpos($from, " ")+1));
 		    		}
-		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$from_date."' as sign_in, '".$from_time."' as time, '".$space->id."' as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
+		    		// Assuming only one day's checkins being handled; ignoring sorting by date; sorting only by time;
+		    		// Update this to handle sorting by date
+		    		if(!array_key_exists($membership_id, $member_checkins)) {
+		    			$member_checkins[$membership_id] = array();
+		    		}
+		    		array_push($member_checkins[$membership_id], $from_time);
+		    	}
+
+		    	foreach ($member_checkins as $membership_id => $checkin_times) {
+		    		error_log(json_encode($checkin_times));
+		    		$checkin_count = count($checkin_times);
+		    		$first_checkin = current(sort($checkin_times));
+		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$date_today."' as sign_in, '".$first_checkin."' as time, '".$checkin_count."' as checkin_count, '".$space->id."' as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
 					error_log($sql);
 					$query = $this->db->query($sql);
 					$result = current($query->result());
 					if($result) {
-						$record = $result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->location_id.','.$result->plan_code."\n";
+						$record = $result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->checkin_count.','.$result->location_id.','.$result->plan_code."\n";
 						//echo nl2br($record);
 						$checkinsfile .= $record;
 						array_push($all_checkins, $result);
