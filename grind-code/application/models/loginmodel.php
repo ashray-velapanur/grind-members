@@ -84,7 +84,7 @@ class LoginModel extends CI_Model {
             if ($cobotUserId) {
                 error_log($cobotUserId);
                 //TODO: This should throw an exception..
-                $this->create_cobot_membership($cobotUserId, $userId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
+                $this->create_cobot_membership($cobotUserId, $userId, $profile["firstName"].' '.$profile["lastName"].' Virtual Plan');
             }
             else {
                 $this->throw_exp("Could not create a Cobot user for you. Please contact administrator to login.");
@@ -200,7 +200,7 @@ class LoginModel extends CI_Model {
                         'country'=>'USA'
                     ),
                     'plan'=>array(
-                        'id'=>$space->daily_plan_id
+                        'id'=>$space->default_plan_id
                     ),
                     'phone'=>'9999999999'
                 );

@@ -256,7 +256,7 @@ class Cobot extends CI_Controller {
 		error_log('Membership Id: '.$membership_id);
 		if($membership_id) {
 			if($this->is_first_member_checkin($membership_id, $space_id)) {
-				// Check if membership id daily plan
+				// Check if membership is a drop in plan
 				$sql = "SELECT cm.plan_name plan_name, cm.plan_id plan_id, cs.rate rate FROM cobot_memberships cm join cobot_spaces cs on cm.space_id = cs.id WHERE cs.id='".$space_id."' and cm.id='".$membership_id."'";
 				error_log($sql);
 				$query = $this->db->query($sql);
@@ -424,7 +424,7 @@ class Cobot extends CI_Controller {
 		$user_name = $_GET["user_name"];
 		if($cobot_user_id && $user_name) {
 			$this->load->model("loginmodel","lgnm",true);
-        	$this->lgnm->create_cobot_membership($cobot_user_id, $user_name." Daily Plan");
+        	$this->lgnm->create_cobot_membership($cobot_user_id, $user_name." Virtual Plan");
 		}
 	}
 

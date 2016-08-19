@@ -21,7 +21,7 @@ class Scripts extends CI_Controller {
             if ($cobotUserId) {
                 error_log($cobotUserId);
                 //TODO: This should throw an exception..
-                $this->create_cobot_membership($cobotUserId, $userId, $profile["firstName"].' '.$profile["lastName"].' Daily Plan');
+                $this->create_cobot_membership($cobotUserId, $userId, $profile["firstName"].' '.$profile["lastName"].' Virtual Plan');
             }
             else {
                 $this->throw_exp("Could not create a Cobot user for you. Please contact administrator to login.");
@@ -66,7 +66,7 @@ class Scripts extends CI_Controller {
                         'country'=>'USA'
                     ),
                     'plan'=>array(
-                        'id'=>$space->daily_plan_id
+                        'id'=>$space->default_plan_id
                     ),
                     'phone'=>'9999999999'
                 );
@@ -230,14 +230,14 @@ class Scripts extends CI_Controller {
     }
 
     public function create_cobot_memberships($cobot_id, $membership_name, $user_id) {
-        error_log('Creating Cobot Daily memberships for Cobot Id: '.$cobot_id." ::::::");
+        error_log('Creating Cobot Virtual Plan memberships for Cobot Id: '.$cobot_id." ::::::");
         $query = $this->db->get("cobot_spaces");
         $spaces = $query->result();
         foreach ($spaces as $space) {
             $membership_id = $this->generateRandomString('alphanumeric', 32);
             $plan_id = $this->generateRandomString('alphanumeric', 32);
             $sql = "INSERT INTO `cobot_memberships` (`space_id`, `id`, `user_id`, `cobot_user_id`, `name`, `plan_name`, `starts_at`, `canceled_to`, `plan_id`)
-VALUES ('".$space->id."', '".$membership_id."', '".$user_id."', '".$cobot_id."', '".$membership_name."', 'Daily', NULL, NULL, '".$plan_id."')";
+VALUES ('".$space->id."', '".$membership_id."', '".$user_id."', '".$cobot_id."', '".$membership_name."', 'Virtual', NULL, NULL, '".$plan_id."')";
             error_log($sql);
             $this->db->query($sql);
         }

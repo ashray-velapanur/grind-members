@@ -501,17 +501,17 @@ class LocationModel extends CI_Model {
 	}
 
 	function determine_membership($user_id, $space_id, $memberships, $main_area_resource_id) {
-		$daily_plan_name = 'Daily';
+		$default_plan_name = 'Virtual';
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
 			error_log(json_encode($membership));
-			if(strpos(strtolower($membership["plan_name"]), strtolower($daily_plan_name)) == false) {
+			if(strpos(strtolower($membership["plan_name"]), strtolower($default_plan_name)) == false) {
 				$retValue = true;
 			}
 		}
 		if (!$retValue) {
-			$sql = "select id from cobot_memberships where space_id = '".$space_id."' and plan_name = '".$daily_plan_name."' and user_id = '".$user_id."'";
+			$sql = "select id from cobot_memberships where space_id = '".$space_id."' and plan_name = '".$default_plan_name."' and user_id = '".$user_id."'";
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$cms = $query->result();
@@ -532,7 +532,7 @@ class LocationModel extends CI_Model {
 
 	function spaces($user_id) {
 		$space_data = array();
-		$daily_plan_name = 'Daily';
+		$default_plan_name = 'Virtual';
 	    $query = $this->db->get("cobot_spaces");
 	    $spaces = $query->result();
 	    foreach ($spaces as $space_arr) {
@@ -555,7 +555,7 @@ class LocationModel extends CI_Model {
 		  foreach ($memberships as $membership) {
 		  	$id = $membership->id;
 		  	$plan_name = $membership->plan_name;
-		  	if($plan_name == $daily_plan_name) {
+		  	if($plan_name == $default_plan_name) {
 		  		$plan_name = $rate;
 		  	}
 		  	$m = array(
@@ -764,10 +764,10 @@ class LocationModel extends CI_Model {
 
 	public function add_update_space($space) {
 		$util = new utilities;
-		$plan = $util->get_cobot_plan('Daily', $space['id']);
-		$daily_plan_id = "";
+		$plan = $util->get_cobot_plan('Virtual', $space['id']);
+		$default_plan_id = "";
 		if($plan) {
-			$daily_plan_id = $plan->id;
+			$default_plan_id = $plan->id;
 		}
 		$sql = "SELECT * FROM cobot_spaces where id = '".$space['id']."'";
 		error_log($sql);
@@ -777,9 +777,9 @@ class LocationModel extends CI_Model {
 		try {
 			if(count($spaces) <= 0) {
 				$sql = "INSERT INTO cobot_spaces";
-				$sql .= "(id, image, capacity, lat, lon, address_1, address_2, rate, name, description, main_area_id, daily_plan_id) ".
+				$sql .= "(id, image, capacity, lat, lon, address_1, address_2, rate, name, description, main_area_id, default_plan_id) ".
 						"VALUES ".
-						"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address_1']."\", \"".$space['address_2']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\", \"".$daily_plan_id."\") ";
+						"(\"".$space['id']."\", \"".$space['imgName']."\", ".$space['capacity'].", \"".$space['lat']."\", \"".$space['long']."\", \"".$space['address_1']."\", \"".$space['address_2']."\", ".$space['rate'].", \"".$space['name']."\", \"".$space['description']."\", \"".$space['main_area_id']."\", \"".$default_plan_id."\") ";
 				error_log($sql);
 				if ($this->db->query($sql) === TRUE) {
 					error_log("Cobot space created successfully");
@@ -788,7 +788,7 @@ class LocationModel extends CI_Model {
 					error_log("Error: " . $sql . "<br>" . $this->db->error);
 				}
 			} else {
-				$sql = "UPDATE cobot_spaces SET image = \"".$space['imgName']."\", capacity = ".$space['capacity'].", lat = \"".$space['lat']."\", lon = \"".$space['long']."\", address_1 = \"".$space['address_1']."\", address_2 = \"".$space['address_2']."\", rate = ".$space['rate'].", name = \"".$space['name']."\", description = \"".$space['description']."\", main_area_id = \"".$space['main_area_id']."\", daily_plan_id = \"".$daily_plan_id."\" WHERE id='".$space['id']."'";
+				$sql = "UPDATE cobot_spaces SET image = \"".$space['imgName']."\", capacity = ".$space['capacity'].", lat = \"".$space['lat']."\", lon = \"".$space['long']."\", address_1 = \"".$space['address_1']."\", address_2 = \"".$space['address_2']."\", rate = ".$space['rate'].", name = \"".$space['name']."\", description = \"".$space['description']."\", main_area_id = \"".$space['main_area_id']."\", default_plan_id = \"".$default_plan_id."\" WHERE id='".$space['id']."'";
 				error_log($sql);
 				$this->db->query($sql);
 				$sql = "DELETE from cobot_resources where space_id = '".$space['id']."'";
