@@ -136,6 +136,8 @@ class Analytics extends CI_Controller {
 		    		error_log(json_encode($checkin));
 		    		$membership_id = $checkin->membership->id;
 		    		$from = $checkin->valid_from;
+		    		$from_date = '';
+		    		$from_time = '';
 		    		if($from) {
 		    			$from_date = substr($from, 0, strpos($from, " "));
 		    			$from_time = substr($from, strpos($from, " ")+1, strpos($from, " ", strpos($from, " ")+1));
@@ -151,7 +153,8 @@ class Analytics extends CI_Controller {
 		    	foreach ($member_checkins as $membership_id => $checkin_times) {
 		    		error_log(json_encode($checkin_times));
 		    		$checkin_count = count($checkin_times);
-		    		$first_checkin = current(sort($checkin_times));
+		    		sort($checkin_times);
+		    		$first_checkin = current($checkin_times);
 		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$date_today."' as sign_in, '".$first_checkin."' as time, '".$checkin_count."' as checkin_count, '".$space->id."' as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
 					error_log($sql);
 					$query = $this->db->query($sql);
