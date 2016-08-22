@@ -260,23 +260,59 @@ class LoginModel extends CI_Model {
         return $access_token;
     }
 
+    function fetch_access_token_for_existing_cobot_user_with_custom_password($code) {
+        error_log("Trying to get access token as Cobot user already exists but with custom password");
+        global $cobot_api_key, $cobot_client_secret;
+        $access_token = NULL;
+        $url = 'https://www.cobot.me/oauth/access_token';
+        $data = array(
+            'grant_type' => authorization_code,
+            'code' => $code,
+            'client_id' => $cobot_api_key,
+            'client_secret' => $cobot_client_secret
+        );
+        $result = $this->make_post_request($url, $data);
+        $this->check_cobot_error($result);
+        if(array_key_exists('access_token', $result)) {
+            $access_token = $result['access_token'];
+        }
+        if(!$access_token) {
+            $this->throw_exp("Could not get access token for existing Cobot user with custom password");
+        }
+        return $access_token;
+    }
+
+    function save_cobot_user($cobot_user_id, $grind_user_id, $access_token) {
+        $network = 'cobot';
+        $this->load->model('thirdpartyusermodel', 'tp', true);
+        $added_cobot_tp = $this->tp->create($grind_user_id, $cobot_user_id, $network, $access_token);
+        if(!$added_cobot_tp) {
+            $this->throw_exp("Could not save access token for Cobot user with id: ".$cobot_user_id);
+        }
+    }
+
+    function save_cobot_user_for_access_token($access_token, $grind_user_id) {
+        $id = $this->get_cobot_id($access_token);
+        if($id) {
+            error_log("5.a.2.a.2. Got ID for Cobot user. Trying to save Cobot access token.");
+            $this->save_cobot_user($id, $grind_user_id, $access_token);
+        } else {
+            $this->throw_exp("Could not get ID for existing Cobot user with access_token: ".$access_token);
+        }
+    }
+
+    function get_cobot_login_url($grind_user_id) {
+        $login_url = "https://www.cobot.me/oauth/authorize?response_type=code&client_id=a0c2d33b04aa47b0b810e64594c11695&redirect_uri=".ROOTMEMBERPATH."grind-code/index.php/cobot/login_callback&state=".$grind_user_id."&scope=checkin checkin_tokens list_spaces read read_booking_credits read_check_ins read_checkins read_memberships read_payment_records read_plans read_resources write write_invoices write_memberships write_user";
+        return $login_url;
+    }
+
     function handle_cobot_user_creation_error($result, $user_id, $email) {
         $id = NULL;
         error_log("5.a.2. Error creating Cobot user: ".json_encode($result['errors']));
         if(array_key_exists('email', $result['errors'])) {
             $access_token = $this->fetch_access_token_for_existing_cobot_user($email);
             error_log("5.a.2.a.1. Got access token for Cobot user. Trying to get Cobot ID using the access token.");
-            $id = $this->get_cobot_id($access_token);
-            if($id) {
-                error_log("5.a.2.a.2. Got ID for Cobot user. Trying to save Cobot access token.");
-                $network = 'cobot';
-                $added_cobot_tp = $this->tp->create($user_id, $id, $network, $access_token);
-                if(!$added_cobot_tp) {
-                    $this->throw_exp("Could not save access token for the existing Cobot user");
-                }
-            } else {
-                $this->throw_exp("Could not get ID for existing Cobot user with access_token: ".$access_token);
-            }
+            $this->save_cobot_user_for_access_token($access_token, $user_id);
         } else {
             $this->throw_exp("Cannot proceed with Cobot user creation due to error: ".json_encode($result['errors'])." Please contact administrator to login.");
         }
@@ -299,11 +335,7 @@ class LoginModel extends CI_Model {
         if(array_key_exists('access_token', $result)) {
             error_log("5.a.3.a. Got access token for the new Cobot user.");
             $access_token = $result['access_token'];
-            $network = 'cobot';
-            $added_cobot_tp = $this->tp->create($user_id, $id, $network, $access_token);
-            if(!$added_cobot_tp) {
-                $this->throw_exp("Could not save access token for the new Cobot user");
-            }
+            $this->save_cobot_user($id, $user_id, $access_token);
         } else {
             $this->throw_exp("Could not get access token for the new Cobot user");
         }

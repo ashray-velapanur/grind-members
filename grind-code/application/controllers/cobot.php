@@ -480,6 +480,18 @@ class Cobot extends CI_Controller {
 			$this->tpum->create($grind_user_id, $cobot_user_id, $cobot_network_name, $cobot_access_token);
 		}
 	}
+
+	function login_callback() {
+		$code = $_GET['code'];
+		$grind_user_id = $_GET['state'];
+		if($code) {
+			$this->load->model("loginmodel","lm",true);
+			$access_token = $this->lm->fetch_access_token_for_existing_cobot_user_with_custom_password($code);
+			$this->lm->save_cobot_user_for_access_token($access_token, $grind_user_id);
+		}
+		$util = new utilities;
+		$util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/usermanagement/save_cobot_token');
+	}
 }
 
 //$temp = new Cobot;

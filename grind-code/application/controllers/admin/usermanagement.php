@@ -488,6 +488,25 @@ public function viewprofile($user_id,$id_type=NULL) {
 		$this->load->view("/admin/conference-rooms.php", $data);
 	}
 
+	public function save_cobot_token() {
+		error_log("In save_cobot_token");
+    	$query = $this->db->get('user');
+    	$users = $query->result();
+    	$data = array('users'=>$users);
+    	$this->load->view("/members/save_cobot_token.php", $data);
+	}
+
+	public function fetch_cobot_user() {
+		error_log("In fetch_cobot_user");
+		if (isset($_POST['user'])) {
+			$grind_user_id = $_POST['user'];
+			$this->load->model("loginmodel",'lgm',true);
+			$cobot_login_url = $this->lgm->get_cobot_login_url($grind_user_id);
+			$util = new utilities;
+			$util->redirect($cobot_login_url);
+		}
+	}
+
 }
 
 ?>

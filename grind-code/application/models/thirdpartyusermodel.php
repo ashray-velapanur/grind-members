@@ -8,7 +8,7 @@ include_once APPPATH . 'libraries/constants.php';
 class ThirdPartyUserModel extends CI_Model {
 
 	public function create($user_id, $network_id, $network, $access_token){
-		$sql = "INSERT INTO third_party_user (user_id, network_id, network, access_token) VALUES ('$user_id', '$network_id', '$network', '$access_token')";
+		$sql = "INSERT INTO third_party_user (user_id, network_id, network, access_token) VALUES ('$user_id', '$network_id', '$network', '$access_token') ON DUPLICATE KEY UPDATE network_id='".$network_id."', access_token='".$access_token."'";
 		error_log($sql);
 		$result = $this->db->query($sql);
 		if(!$result) {
