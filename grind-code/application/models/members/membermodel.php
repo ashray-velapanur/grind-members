@@ -1616,8 +1616,8 @@ class MemberModel extends CI_Model {
             third_party_user.profile_picture as profile_picture
             from 
                 user
-                left outer join third_party_user on third_party_user.user_id = user.id
-            where third_party_user.network='linkedin' and user.id = ".$user_id;
+                left outer join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
+            where user.id = ".$user_id;
         $query = $this->db->query($sql);
         $users = $query->result();
         $user = current($users);
