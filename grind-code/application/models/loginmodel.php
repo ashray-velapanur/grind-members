@@ -299,6 +299,7 @@ class LoginModel extends CI_Model {
         } else {
             $this->throw_exp("Could not get ID for existing Cobot user with access_token: ".$access_token);
         }
+        return $id;
     }
 
     function get_cobot_login_url($grind_user_id) {
@@ -312,7 +313,7 @@ class LoginModel extends CI_Model {
         if(array_key_exists('email', $result['errors'])) {
             $access_token = $this->fetch_access_token_for_existing_cobot_user($email);
             error_log("5.a.2.a.1. Got access token for Cobot user. Trying to get Cobot ID using the access token.");
-            $this->save_cobot_user_for_access_token($access_token, $user_id);
+            $id = $this->save_cobot_user_for_access_token($access_token, $user_id);
         } else {
             $this->throw_exp("Cannot proceed with Cobot user creation due to error: ".json_encode($result['errors'])." Please contact administrator to login.");
         }
