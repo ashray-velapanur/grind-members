@@ -276,9 +276,9 @@ class MemberModel extends CI_Model {
             $sql = "select user.id, user.first_name, user.last_name, third_party_user.network_id as linkedin_id, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
-                            left join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
-                            left join positions on positions.user_id = user.id
-                            left join company on company.id = positions.company_id
+                            join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
+                            join positions on positions.user_id = user.id
+                            join company on company.id = positions.company_id
                         where
                             user.id <> ".$user_id."
                             and company.id = ".$company_id."
@@ -289,9 +289,9 @@ class MemberModel extends CI_Model {
             $sql = "select user.id, user.first_name, user.last_name, third_party_user.network_id as linkedin_id, third_party_user.profile_picture as profile_picture, company.name as company, positions.designation as designation
                         from 
                             user 
-                            left join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
-                            left join company on company.id = user.company_id
-                            left join positions on positions.company_id = user.company_id and positions.user_id = user.id
+                            join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin'
+                            join company on company.id = user.company_id
+                            join positions on positions.company_id = user.company_id and positions.user_id = user.id
                         where";
             if($member_id) {
                 $sql = $sql." 
