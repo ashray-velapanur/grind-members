@@ -5,5 +5,6 @@ $cobot_network_name = 'cobot';
 $cobot_api_key = 'a0c2d33b04aa47b0b810e64594c11695';
 $cobot_client_secret = '5ef3e29985d95dbd416561c4923cebf806151cbd00d1122af3981583feedd0b2';
 $cobot_user_default_password = 'temporary';
+$cobot_scope = 'read_resources read_plans read_memberships write write_memberships write_user';
 
 ?>

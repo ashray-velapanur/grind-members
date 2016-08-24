@@ -238,11 +238,11 @@ class LoginModel extends CI_Model {
 
     function fetch_access_token_for_existing_cobot_user($email) {
         error_log("5.a.2.a. Trying to get access token as Cobot user already exists");
-        global $cobot_api_key, $cobot_client_secret, $cobot_user_default_password;
+        global $cobot_api_key, $cobot_client_secret, $cobot_user_default_password, $cobot_scope;
         $access_token = NULL;
         $url = 'https://www.cobot.me/oauth/access_token';
         $data = array(
-            'scope' => 'read_resources read_plans read_memberships write write_memberships write_user',
+            'scope' => $cobot_scope,
             'grant_type' => password,
             'username' => $email,
             'password' => $cobot_user_default_password,
@@ -303,7 +303,8 @@ class LoginModel extends CI_Model {
     }
 
     function get_cobot_login_url($grind_user_id) {
-        $login_url = "https://www.cobot.me/oauth/authorize?response_type=code&client_id=a0c2d33b04aa47b0b810e64594c11695&redirect_uri=".ROOTMEMBERPATH."grind-code/index.php/cobot/login_callback&state=".$grind_user_id."&scope=checkin checkin_tokens list_spaces read read_booking_credits read_check_ins read_checkins read_memberships read_payment_records read_plans read_resources write write_invoices write_memberships write_user";
+        global $cobot_scope;
+        $login_url = "https://www.cobot.me/oauth/authorize?response_type=code&client_id=a0c2d33b04aa47b0b810e64594c11695&redirect_uri=".ROOTMEMBERPATH."grind-code/index.php/cobot/login_callback&state=".$grind_user_id."&scope=".$cobot_scope;
         return $login_url;
     }
 
