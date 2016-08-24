@@ -304,7 +304,9 @@ class LoginModel extends CI_Model {
 
     function get_cobot_login_url($grind_user_id) {
         global $cobot_scope;
-        $login_url = "https://www.cobot.me/oauth/authorize?response_type=code&client_id=a0c2d33b04aa47b0b810e64594c11695&redirect_uri=".ROOTMEMBERPATH."grind-code/index.php/cobot/login_callback&state=".$grind_user_id."&scope=".$cobot_scope;
+        $base_url = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+        $base_url .= '://'. $_SERVER['HTTP_HOST'] .'/grind-members/';
+        $login_url = "https://www.cobot.me/oauth/authorize?response_type=code&client_id=a0c2d33b04aa47b0b810e64594c11695&redirect_uri=".$base_url."grind-code/index.php/cobot/login_callback&state=".$grind_user_id."&scope=".$cobot_scope;
         return $login_url;
     }
 
