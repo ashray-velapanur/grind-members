@@ -1,6 +1,7 @@
 <?
 include_once APPPATH . 'libraries/recurlyaccess.php';
 include_once APPPATH . 'libraries/enumerations.php';
+require(APPPATH.'/config/cobot.php');
 
 class UserManagement extends CI_Controller {
 
@@ -497,6 +498,7 @@ public function viewprofile($user_id,$id_type=NULL) {
 	}
 
 	public function fetch_cobot_user() {
+		global $cobot_scope;
 		error_log("In fetch_cobot_user");
 		if (isset($_POST['user'])) {
 			$grind_user_id = $_POST['user'];
