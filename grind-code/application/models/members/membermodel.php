@@ -1628,9 +1628,9 @@ class MemberModel extends CI_Model {
             company.name as company_name,
             positions.designation as title
             from 
-                user
-                left outer join positions on positions.user_id = user.id
+                positions
                 left outer join company on company.id = positions.company_id
+                left outer join user on positions.user_id = user.id
             where user.id = ".$user_id." order by positions.start_date desc limit 4";
         $query = $this->db->query($sql);
         $results = $query->result();
