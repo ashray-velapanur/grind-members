@@ -78,6 +78,8 @@ class CompanyModel extends CI_Model {
 		if($company_id) {
 			$this->db->where('id',$company_id);
 		}
+		$where = "name is NOT NULL and name not like ''";
+		$this->db->where($where);
 		$this->db->order_by("name", "asc");
 		$query = $this->db->get('company');
 	    if ($query->num_rows() > 0)
