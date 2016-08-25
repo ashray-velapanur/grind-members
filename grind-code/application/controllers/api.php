@@ -176,11 +176,7 @@ class Api extends REST_Controller
           $offset = $limit_and_offset['offset'];
           $this->load->model("jobsmodel","jm",true);
           $response_data = $this->jm->get($type, $posted_by, $company_id, $id, $limit, $offset);
-          if ($response_data) {
-            $response = array('success'=> TRUE, 'data'=>$response_data);
-          } else {
-            $response = array('success'=> FALSE);
-          }
+          $response = array('success'=> TRUE, 'data'=>$response_data);
           $this->response($response, 200);
       }
 
@@ -195,11 +191,7 @@ class Api extends REST_Controller
           } else {
             $response_data = $this->tm->all();  
           }
-          if ($response_data) {
-              $response = array('success'=> TRUE, 'data'=>$response_data);
-          } else {
-            $response = array('success'=> FALSE);
-          }
+          $response = array('success'=> TRUE, 'data'=>$response_data);
           $this->response($response, 200);
       }
 
