@@ -15,7 +15,7 @@ class JobsModel extends CI_Model {
 		$base_query = "select jobs.title, jobs.company_id,  date_format(jobs.created_at, '%e-%M') created_at, jobs.type, jobs.url, jobs.posted_by, company.name as company_name, user.first_name, user.last_name from jobs left join company on jobs.company_id = company.id left join user on jobs.posted_by = user.id";
 		if ($company_id) {
 			$query = $base_query." where jobs.company_id='".$company_id."'";
-		} elseif ($type) {
+		} elseif ($type && strtolower($type) != 'all') {
 			$query = $base_query." where jobs.type like '%".$type."%'";
 		} elseif ($posted_by) {
 			$query = $base_query." where jobs.posted_by='".$posted_by."'";
