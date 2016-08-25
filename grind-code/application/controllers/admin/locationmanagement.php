@@ -534,8 +534,9 @@ class LocationManagement extends CI_Controller {
     	$results = $query->result();
     	$query = $this->db->get('events');
     	$events = $query->result();
-    	$query = $this->db->get('user');
-    	$users = $query->result();
+		$sql = "select u.* from user u join third_party_user tpu on u.id = tpu.user_id and tpu.network='linkedin'";
+		$query = $this->db->query($sql);
+		$users = $query->result();
     	$query = $this->db->get('company');
     	$companies = $query->result();
     	$data = array('bubbles'=>$results, 'types'=>array('user','event', 'company'), 'events'=>$events, 'users'=>$users, 'companies'=>$companies);
