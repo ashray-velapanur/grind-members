@@ -487,7 +487,12 @@ class Cobot extends CI_Controller {
 		if($code) {
 			$this->load->model("loginmodel","lm",true);
 			$access_token = $this->lm->fetch_access_token_for_existing_cobot_user_with_custom_password($code);
-			$this->lm->save_cobot_user_for_access_token($access_token, $grind_user_id);
+			$cobot_user_id = $this->lm->save_cobot_user_for_access_token($access_token, $grind_user_id);
+			$sql = "SELECT first_name, last_name FROM user where id = ".$grind_user_id;
+			error_log($sql);
+			$query = $this->db->query($sql);
+			$user = current($query->result());
+			$this->lm->create_cobot_membership($cobot_user_id, $grind_user_id, $user->first_name.' '.$user->last_name.' Virtual Plan');
 		}
 		$util = new utilities;
 		$util->redirect(ROOTMEMBERPATH.'grind-code/index.php/admin/usermanagement/save_cobot_token');
