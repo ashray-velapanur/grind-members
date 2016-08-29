@@ -500,13 +500,22 @@ class LocationModel extends CI_Model {
 		
 	}
 
+	function is_monthly_plan($plan_name) {
+		$monthly_plans = array('Moonlighter', 'Founding', 'Monthly', 'Global', 'Team');
+		foreach ($monthly_plans as $monthly_plan) {
+			if(strpos(strtolower($plan_name), strtolower($monthly_plan)) !== false) {
+				return true;
+			}	
+		}
+	}
+
 	function determine_membership($user_id, $space_id, $memberships, $main_area_resource_id) {
 		$default_plan_name = 'Virtual';
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
 			error_log(json_encode($membership));
-			if(strpos(strtolower($membership["plan_name"]), strtolower($default_plan_name)) == false) {
+			if($this->is_monthly_plan($membership["plan_name"])) {
 				$retValue = true;
 			}
 		}
