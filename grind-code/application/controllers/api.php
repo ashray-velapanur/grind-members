@@ -399,8 +399,6 @@ class Api extends REST_Controller
       $company = (array)$company;
       $company_data = array(
         'name' => $company['name'],
-        'header' => $company['header'],
-        'description' => $company['description'],
         'id' => $company['id']
       );
       array_push($companies_data, $company_data);

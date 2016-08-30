@@ -69,7 +69,7 @@ class UserTagsModel extends CI_Model {
 	function get_companies($tag_id, $limit=NULL, $offset=NULL) {
         $response_data = array();
         $sql = "select ".
-        			"company.id, company.name, company.header, company.description ".
+        			"company.id, company.name ".
         		"from ".
         			"company ".
         			"left outer join positions on positions.company_id = company.id ".
