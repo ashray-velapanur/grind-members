@@ -510,7 +510,6 @@ class LocationModel extends CI_Model {
 	}
 
 	function determine_membership($user_id, $space_id, $memberships, $main_area_resource_id) {
-		$default_plan_name = 'Virtual';
 		$retValue = false;
 		foreach ($memberships as $membership) {
 			$membership = (array)$membership;
@@ -520,20 +519,13 @@ class LocationModel extends CI_Model {
 			}
 		}
 		if (!$retValue) {
-			$sql = "select id from cobot_memberships where space_id = '".$space_id."' and plan_name = '".$default_plan_name."' and user_id = '".$user_id."'";
+			$to_datetime = gmdate('Y-m-d H:i:s');
+			$sql = "select id from cobot_bookings where space_id = '".$space_id."' and resource_id = '".$main_area_resource_id."' and membership_id in ("."select id from cobot_memberships where space_id = '".$space_id."' and user_id = '".$user_id."'".") and to_datetime > '".$to_datetime."'";
 			error_log($sql);
 			$query = $this->db->query($sql);
-			$cms = $query->result();
-			if(count($cms) > 0) {				
-				$cm = current($cms);
-				$to_datetime = gmdate('Y-m-d H:i:s');
-				$sql = "select id from cobot_bookings where space_id = '".$space_id."' and resource_id = '".$main_area_resource_id."' and membership_id = '".$cm->id."' and to_datetime > '".$to_datetime."'";
-				error_log($sql);
-				$query = $this->db->query($sql);
-				$result = $query->result();
-				if(count($result) > 0) {
-					$retValue = true;
-				}
+			$result = $query->result();
+			if(count($result) > 0) {
+				$retValue = true;
 			}
 		}
 		return $retValue;
