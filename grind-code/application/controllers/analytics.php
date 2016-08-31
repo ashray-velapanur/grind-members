@@ -178,16 +178,16 @@ class Analytics extends CI_Controller {
 
 	function get_users() {
 		$all_users = array();
-		$header = "id,company_id,name,rfid,wp_users_id,date_added,referrer,twitter,behance,email_address\n";
+		$header = "id,company_id,name,rfid,wp_users_id,date_added,referrer,twitter,behance,email_address,last_name,first_name,company,cobot_id\n";
 		try {
 			$usersfile = "";
-			$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address FROM user u join wpmember_users wp_user on u.wp_users_id = wp_user.id";
+			$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join wpmember_users wp_user on u.wp_users_id = wp_user.id join company c on u.company_id = c.id join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot'";
 			error_log($sql);
 			$query = $this->db->query($sql);
 			$results = $query->result();
 			if($results) {
 				foreach ($results as $result) {
-					$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.','.$result->referrer.','.$result->twitter.','.$result->behance.','.$result->email_address."\n";
+					$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.','.$result->referrer.','.$result->twitter.','.$result->behance.','.$result->email_address.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->cobot_id."\n";
 					//echo nl2br($record);
 					$usersfile .= $record;
 					array_push($all_users, $result);
