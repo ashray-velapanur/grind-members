@@ -257,6 +257,67 @@ class Analytics extends CI_Controller {
 		}
 	}
 
+	function get_invoices() {
+		$header = "id,account_code,account_name,invoice_number,plan_code,total_subtotal,vat_amount,currency,date,status,closed_at,purchase_country,vat_number,date_created,tax_amount,tax_type,tax_rate\n";
+		try {
+			$query = $this->db->get("cobot_spaces");
+			$spaces = $query->result();
+			foreach ($spaces as $space) {
+				$space_users = array();
+				$spacefile = "";
+				$url = "https://".$space->id.".cobot.me/api/invoices";
+				$invoices = $this->do_get($url, NULL);
+			    error_log(json_encode($invoices));
+			    if($invoices) {
+			    	foreach ($invoices as $invoice) {
+			    		$invoice_id = $invoice->id;
+			    		$membership_id = $invoice->membership_id;
+			    		$sql = "SELECT u.id as user_id, concat(u.first_name,' ',u.last_name) as name, cm.plan_name as plan_name from cobot_memberships cm join user u on cm.user_id = u.id where cm.id = '".$membership_id."' and cm.space_id = '".$space->id."'";
+						error_log($sql);
+						$query = $this->db->query($sql);
+						$results = $query->result();
+						$account_code = '';
+						$account_name = '';
+						$plan_code = '';
+						if($results) {
+							$result = current($results);
+							$account_code = $result->user_id;
+							$account_name = $result->name;
+							$plan_code = $result->plan_name;
+						}
+						$invoice_number = $invoice->invoice_number;
+						$total_subtotal = $invoice->total_amount_without_taxes;
+						$vat_amount = $invoice->tax_amount;
+						$currency = $invoice->currency;
+						$date = $invoice->created_at;
+						$status = $invoice->paid_status;
+						$closed_at = $invoice->paid_at;
+						$space_address = $invoice->space_address;
+						$purchase_country = '';
+						if($space_address) {
+							$purchase_country = $space_address->country;
+						}
+						$vat_number = $invoice->tax_id;
+						$date_created = $invoice->created_at;
+						$tax_amount = $invoice->tax_amount;
+						$tax_type = $invoice->tax_name;
+						$tax_rate = $invoice->tax_rate;
+
+			    		$record = $invoice_id.','.$account_code.','.$account_name.','.$invoice_number.','.$plan_code.','.$total_subtotal.','.$vat_amount.','.$currency.','.$date.','.$status.','.$closed_at.','.$purchase_country.','.$vat_number.','.$date_created.','.$tax_amount.','.$tax_type.','.$tax_rate."\n";
+			    		$spacefile .= $record;
+			    		array_push($space_users, $record);
+			    	}
+			    }
+			    error_log(json_encode($space_users));
+				$this->write_to_google_drive('invoices-'.$space->id.'.csv', $spacefile, $header);
+			}
+		} catch(Exception $e){
+			$error_msg = 'Exception getting space invoices : '.$e->getMessage();
+			echo nl2br($error_msg);
+			error_log($error_msg);
+		}
+	}
+
 	function get_accounts() {
 		$space_id = $_GET["space_id"];
 		$email = $_GET["email"];
