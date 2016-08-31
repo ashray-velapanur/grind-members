@@ -200,6 +200,61 @@ class Analytics extends CI_Controller {
 			echo nl2br($error_msg);
 			error_log($error_msg);
 		}
+
+		$header = "user_id,membership_id,plan_state,plan_code,activated_at,canceled_at,current_period_ends_at,email_address,next_invoice_date\n";
+		try {
+			$query = $this->db->get("cobot_spaces");
+			$spaces = $query->result();
+			foreach ($spaces as $space) {
+				$space_users = array();
+				$spacefile = "";
+				$url = "https://".$space->id.".cobot.me/api/memberships";
+				$memberships = $this->do_get($url, NULL);
+			    error_log(json_encode($memberships));
+			    if($memberships) {
+			    	foreach ($memberships as $membership) {
+			    		$membership_id = $membership->id;
+			    		$plan_state = 'active';
+			    		if($membership->canceled_to) {
+			    			$plan_state = 'canceled';
+			    		}
+			    		$plan = $membership->plan;
+			    		$plan_code = '';
+			    		if($plan) {
+			    			$plan_code = $plan->name;
+			    		}
+			    		$activated_at = $membership->confirmed_at;
+			    		$canceled_at = $membership->canceled_to;
+			    		$current_period_ends_at = $membership->next_invoice_at;
+			    		$user = $membership->user;
+			    		$email_address = $membership->email;
+			    		$user_id = '';
+			    		if($user) {
+			    			$cobot_id = $user->id;
+			    			$sql = "SELECT tpu.user_id as user_id from third_party_user tpu where tpu.network = 'cobot' and tpu.network_id = '".$cobot_id."'";
+							error_log($sql);
+							$query = $this->db->query($sql);
+							$results = $query->result();
+							if($results) {
+								$result = current($results);
+								$user_id = $result->user_id;
+							}
+			    		}
+			    		$next_invoice_date = $membership->next_invoice_at;
+
+			    		$record = $user_id.','.$membership_id.','.$plan_state.','.$plan_code.','.$activated_at.','.$canceled_at.','.$current_period_ends_at.','.$email_address.','.$next_invoice_date."\n";
+			    		$spacefile .= $record;
+			    		array_push($space_users, $record);
+			    	}
+			    }
+			    error_log(json_encode($space_users));
+				$this->write_to_google_drive('users-'.$space->id.'.csv', $spacefile, $header);
+			}
+		} catch(Exception $e){
+			$error_msg = 'Exception getting space users : '.$e->getMessage();
+			echo nl2br($error_msg);
+			error_log($error_msg);
+		}
 	}
 
 	function get_accounts() {
