@@ -110,7 +110,7 @@ class Analytics extends CI_Controller {
 		$all_checkins = array();
 		$from_datetime = $_GET["from"];
 		$to_datetime = $_GET["to"];
-		$header = "id,last_name,first_name,company,sign_in,time,checkin_count,location_id,plan_code\n";
+		$header = "id,last_name,first_name,company,sign_in,time,checkin_count,location_id,plan_code,day_of_week\n";
 		try {
 			$checkinsfile = "";
 			$util = new utilities;
@@ -123,6 +123,10 @@ class Analytics extends CI_Controller {
 				$params = array('from' => urlencode($date_today." 00:00:00 -0400"), 'to' => urlencode($date_tomorrow." 00:00:00 -0400"));
 			} else {
 				$params = array('from' => urlencode($from_datetime), 'to' => urlencode($to_datetime));
+			}
+			$day_of_week = '';
+			if($date_today) {
+				$day_of_week = date( "w", $date_today) + 1;
 			}
 			
 			$query = $this->db->get("cobot_spaces");
@@ -155,12 +159,12 @@ class Analytics extends CI_Controller {
 		    		$checkin_count = count($checkin_times);
 		    		sort($checkin_times);
 		    		$first_checkin = current($checkin_times);
-		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$date_today."' as sign_in, '".$first_checkin."' as time, '".$checkin_count."' as checkin_count, '".$space->id."' as location_id, cm.plan_name as plan_code FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
+		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$date_today."' as sign_in, '".$first_checkin."' as time, '".$checkin_count."' as checkin_count, '".$space->id."' as location_id, cm.plan_name as plan_code, ".$day_of_week." as day_of_week FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
 					error_log($sql);
 					$query = $this->db->query($sql);
 					$result = current($query->result());
 					if($result) {
-						$record = $result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->checkin_count.','.$result->location_id.','.$result->plan_code."\n";
+						$record = $result->id.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->sign_in.','.$result->time.','.$result->checkin_count.','.$result->location_id.','.$result->plan_code.','.$result->day_of_week."\n";
 						//echo nl2br($record);
 						$checkinsfile .= $record;
 						array_push($all_checkins, $result);
