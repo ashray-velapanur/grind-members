@@ -189,8 +189,9 @@ class Analytics extends CI_Controller {
 			foreach ($spaces as $space) {
 				$space_users = array();
 				$spacefile = "";
-				$url = "https://".$space->id.".cobot.me/api/memberships?all=true";
-				$memberships = $this->do_get($url, NULL);
+				$url = "https://".$space->id.".cobot.me/api/memberships";
+				$params = array("all" => true);
+				$memberships = $this->do_get($url, NULL, $params);
 			    error_log(json_encode($memberships));
 			    if($memberships) {
 			    	foreach ($memberships as $membership) {
