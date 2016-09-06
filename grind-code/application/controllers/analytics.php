@@ -181,31 +181,7 @@ class Analytics extends CI_Controller {
 	}
 
 	function get_users() {
-		$all_users = array();
-		$header = "id,company_id,name,rfid,wp_users_id,date_added,referrer,twitter,behance,email_address,last_name,first_name,company,cobot_id\n";
-		try {
-			$usersfile = "";
-			$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join wpmember_users wp_user on u.wp_users_id = wp_user.id join company c on u.company_id = c.id join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot'";
-			error_log($sql);
-			$query = $this->db->query($sql);
-			$results = $query->result();
-			if($results) {
-				foreach ($results as $result) {
-					$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.','.$result->referrer.','.$result->twitter.','.$result->behance.','.$result->email_address.','.$result->last_name.','.$result->first_name.','.$result->company.','.$result->cobot_id."\n";
-					//echo nl2br($record);
-					$usersfile .= $record;
-					array_push($all_users, $result);
-				}
-			}
-			error_log(json_encode($all_users));
-			$this->write_to_google_drive('users.csv', $usersfile, $header);
-		} catch(Exception $e){
-			$error_msg = 'Exception getting all users : '.$e->getMessage();
-			echo nl2br($error_msg);
-			error_log($error_msg);
-		}
-
-		$header = "user_id,membership_id,plan_state,plan_code,activated_at,canceled_at,current_period_ends_at,email_address,next_invoice_date\n";
+		$header = "id,company_id,name,rfid,wp_users_id,date_added,membership_status,referrer,twitter,behance,membership_id,plan_state,plan_code,quantity,activated_at,expires_at,canceled_at,current_period_started_at,current_period_ends_at,email_address,last_name,first_name,company,sign_in_method,sign_in,time,location_id,location_name,reason_for_unsubscribing,activated_date,date_activate_at,date_expires_at,date_date_added,cobot_id,last_invoice_date,next_invoice_date\n";
 		try {
 			$query = $this->db->get("cobot_spaces");
 			$spaces = $query->result();
@@ -217,38 +193,52 @@ class Analytics extends CI_Controller {
 			    error_log(json_encode($memberships));
 			    if($memberships) {
 			    	foreach ($memberships as $membership) {
-			    		$membership_id = $membership->id;
-			    		$plan_state = 'active';
-			    		if($membership->canceled_to) {
-			    			$plan_state = 'canceled';
-			    		}
-			    		$plan = $membership->plan;
-			    		$plan_code = '';
-			    		if($plan) {
-			    			$plan_code = $plan->name;
-			    		}
-			    		$activated_at = $membership->confirmed_at;
-			    		$canceled_at = $membership->canceled_to;
-			    		$current_period_ends_at = $membership->next_invoice_at;
 			    		$user = $membership->user;
-			    		$email_address = $membership->email;
-			    		$user_id = '';
 			    		if($user) {
+			    			$email_address = $membership->email;
+			    			$membership_id = $membership->id;
+				    		$plan_state = 'active';
+				    		if($membership->canceled_to) {
+				    			$plan_state = 'canceled';
+				    		}
+				    		$plan = $membership->plan;
+				    		$plan_code = '';
+				    		if($plan) {
+				    			$plan_code = $plan->name;
+				    		}
+				    		$activated_at = $membership->confirmed_at;
+				    		$canceled_at = $membership->canceled_to;
+				    		$current_period_ends_at = $membership->next_invoice_at;
+				    		$next_invoice_date = $membership->next_invoice_at;
+
 			    			$cobot_id = $user->id;
-			    			$sql = "SELECT tpu.user_id as user_id from third_party_user tpu where tpu.network = 'cobot' and tpu.network_id = '".$cobot_id."'";
+
+							$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot' join wpmember_users wp_user on u.wp_users_id = wp_user.id join company c on u.company_id = c.id where tpu.network_id = '".$cobot_id."'";
 							error_log($sql);
 							$query = $this->db->query($sql);
 							$results = $query->result();
 							if($results) {
 								$result = current($results);
-								$user_id = $result->user_id;
+
+								$url = "https://".$space->id.".cobot.me/api/memberships/".$membership_id."/custom_fields";
+								$custom_fields = $this->do_get($url, NULL);
+							    error_log(json_encode($custom_fields));
+							    if($custom_fields) {
+							    	$fields = $custom_fields['fields'];
+								    foreach ($fields as $label => $value) {
+								    	if(strpos($label, 'Home Space') !== false) {
+								    		$location_name = $value;
+								    		break;
+								    	}
+								    }
+							    }
+
+								$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.$result->referrer.','.$result->twitter.','.$result->behance.','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.$result->last_name.','.$result->first_name.','.$result->company.',,,,,'.$location_name.',,,,,,'.$result->cobot_id.',,'.$next_invoice_date."\n";
+								//echo nl2br($record);
+								$spacefile .= $record;
+				    			array_push($space_users, $record);
 							}
 			    		}
-			    		$next_invoice_date = $membership->next_invoice_at;
-
-			    		$record = $user_id.','.$membership_id.','.$plan_state.','.$plan_code.','.$activated_at.','.$canceled_at.','.$current_period_ends_at.','.$email_address.','.$next_invoice_date."\n";
-			    		$spacefile .= $record;
-			    		array_push($space_users, $record);
 			    	}
 			    }
 			    error_log(json_encode($space_users));
