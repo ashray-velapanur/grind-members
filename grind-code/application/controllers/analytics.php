@@ -181,6 +181,7 @@ class Analytics extends CI_Controller {
 	}
 
 	function get_users() {
+		echo nl2br("Fetching users ");
 		$header = "id,company_id,name,rfid,wp_users_id,date_added,membership_status,referrer,twitter,behance,membership_id,plan_state,plan_code,quantity,activated_at,expires_at,canceled_at,current_period_started_at,current_period_ends_at,email_address,last_name,first_name,company,sign_in_method,sign_in,time,location_id,location_name,reason_for_unsubscribing,activated_date,date_activate_at,date_expires_at,date_date_added,cobot_id,last_invoice_date,next_invoice_date\n";
 		try {
 			$query = $this->db->get("cobot_spaces");
@@ -188,11 +189,12 @@ class Analytics extends CI_Controller {
 			foreach ($spaces as $space) {
 				$space_users = array();
 				$spacefile = "";
-				$url = "https://".$space->id.".cobot.me/api/memberships";
+				$url = "https://".$space->id.".cobot.me/api/memberships?all=true";
 				$memberships = $this->do_get($url, NULL);
 			    error_log(json_encode($memberships));
 			    if($memberships) {
 			    	foreach ($memberships as $membership) {
+			    		echo nl2br(".");
 			    		$user = $membership->user;
 			    		if($user) {
 			    			$email_address = $membership->email;
@@ -233,7 +235,7 @@ class Analytics extends CI_Controller {
 								    }
 							    }
 
-								$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.$result->referrer.','.$result->twitter.','.$result->behance.','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.$result->last_name.','.$result->first_name.','.$result->company.',,,,,'.$location_name.',,,,,,'.$result->cobot_id.',,'.$next_invoice_date."\n";
+								$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.$result->twitter.','.$result->behance.','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.$result->last_name.','.$result->first_name.','.$result->company.',,,,,'.$location_name.',,,,,,'.$result->cobot_id.',,'.$next_invoice_date."\n";
 								//echo nl2br($record);
 								$spacefile .= $record;
 				    			array_push($space_users, $record);
@@ -242,6 +244,7 @@ class Analytics extends CI_Controller {
 			    	}
 			    }
 			    error_log(json_encode($space_users));
+			    echo nl2br('\n\n\n');
 				$this->write_to_google_drive('users-'.$space->id.'.csv', $spacefile, $header);
 			}
 		} catch(Exception $e){
