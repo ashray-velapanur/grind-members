@@ -308,13 +308,21 @@ class Analytics extends CI_Controller {
 						$tax_amount = $invoice->tax_amount;
 						$tax_type = $invoice->tax_name;
 						$tax_rate = $invoice->tax_rate;
-						$collection_method = '';
 						$items = $invoice->items;
 						$short_description = '';
 						if($items) {
 							foreach ($items as $item) {
-								$short_description = $short_description."; ".$item->description;
+								$short_description = $item->description."; ".$short_description;
 							}
+						}
+						$collection_method = '';
+						$url = "https://".$space->id.".cobot.me/api/invoices/payment_records";
+						$params = array("invoice_ids" => $invoice_id);
+						$payment_records = $this->do_get($url, NULL, $params);
+						error_log(json_encode($payment_records));
+						if(count($payment_records) > 0) {
+							$payment_record = current($payment_records);
+							$collection_method = $payment_record->note;
 						}
 
 			    		$record = $invoice_id.','.$account_code.','.$account_name.','.$invoice_number.',,'.$plan_code.',,'.$total_subtotal.','.$vat_amount.','.$currency.','.$date.','.$status.','.$closed_at.','.$purchase_country.','.$vat_number.',,,,,,,,,,'.$collection_method.','.$date_created.','.$short_description.','.$tax_amount.','.$tax_type.',,'.$tax_rate.",,,,,,,,".$cobot_id.",".$membership_id."\n";
