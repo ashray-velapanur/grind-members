@@ -236,7 +236,7 @@ class Analytics extends CI_Controller {
 								    }
 							    }
 
-								$record = $result->id.','.$result->company_id.','.$result->name.','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.$result->twitter.','.$result->behance.','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.$result->last_name.','.$result->first_name.','.$result->company.',,,,,'.$location_name.',,,,,,'.$result->cobot_id.',,'.$next_invoice_date."\n";
+								$record = $result->id.','.$result->company_id.','.str_replace(',', ' ', $result->name).','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.str_replace(',', ' ', $result->twitter).','.str_replace(',', ' ', $result->behance).','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.str_replace(',', ' ', $result->last_name).','.str_replace(',', ' ', $result->first_name).','.$result->company.',,,,,'.$location_name.',,,,,,'.$result->cobot_id.',,'.$next_invoice_date."\n";
 								//echo nl2br($record);
 								$spacefile .= $record;
 				    			array_push($space_users, $record);
