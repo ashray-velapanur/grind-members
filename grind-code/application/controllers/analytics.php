@@ -210,7 +210,10 @@ class Analytics extends CI_Controller {
 				    		$plan = $membership->plan;
 				    		$plan_code = '';
 				    		if($plan) {
-				    			$plan_code = $plan->name;
+				    			$parent_plan = $plan->parent_plan;
+				    			if($parent_plan) {
+				    				$plan_code = $parent_plan->id;
+				    			}
 				    		}
 				    		$activated_at = $membership->confirmed_at;
 				    		$canceled_at = $membership->canceled_to;
