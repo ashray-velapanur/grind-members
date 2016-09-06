@@ -67,6 +67,7 @@ class utilities {
                     }
                     $error_message = $error_message.' '.$from_error_string;
                 }
+                error_log(json_encode($errors));
             }
             $post_result = array('error' => $error_message);
         }
