@@ -310,22 +310,29 @@ class Analytics extends CI_Controller {
 						$tax_rate = $invoice->tax_rate;
 						$items = $invoice->items;
 						$short_description = '';
+						$discount = 0.0;
 						if($items) {
 							foreach ($items as $item) {
 								$short_description = $item->description."; ".$short_description;
+								$item_val = floatval($item->amount);
+								if($item_val < 0) {
+									$discount = $discount + abs($item_val);
+								}
 							}
 						}
 						$collection_method = '';
-						$url = "https://".$space->id.".cobot.me/api/invoices/payment_records";
-						$params = array("invoice_ids" => $invoice_id);
-						$payment_records = $this->do_get($url, NULL, $params);
-						error_log(json_encode($payment_records));
-						if(count($payment_records) > 0) {
-							$payment_record = current($payment_records);
-							$collection_method = $payment_record->note;
+						if(strtolower($status) == 'paid') {
+							$url = "https://".$space->id.".cobot.me/api/invoices/payment_records";
+							$params = array("invoice_ids" => $invoice_id);
+							$payment_records = $this->do_get($url, NULL, $params);
+							error_log(json_encode($payment_records));
+							if(count($payment_records) > 0) {
+								$payment_record = current($payment_records);
+								$collection_method = $payment_record->note;
+							}
 						}
 
-			    		$record = $invoice_id.','.$account_code.','.$account_name.','.$invoice_number.',,'.$plan_code.',,'.$total_subtotal.','.$vat_amount.','.$currency.','.$date.','.$status.','.$closed_at.','.$purchase_country.','.$vat_number.',,,,,,,,,,'.$collection_method.','.$date_created.','.$short_description.','.$tax_amount.','.$tax_type.',,'.$tax_rate.",,,,,,,,".$cobot_id.",".$membership_id."\n";
+			    		$record = $invoice_id.','.$account_code.','.$account_name.','.$invoice_number.',,'.$plan_code.',,'.$total_subtotal.','.$vat_amount.','.$currency.','.$date.','.$status.','.$closed_at.','.$purchase_country.','.$vat_number.',,,,,,,,,,'.$collection_method.','.$date_created.','.$short_description.','.$tax_amount.','.$tax_type.',,'.$tax_rate.",".$discount.",,,,,,,".$cobot_id.",".$membership_id."\n";
 			    		$spacefile .= $record;
 			    		array_push($space_users, $record);
 			    	}
