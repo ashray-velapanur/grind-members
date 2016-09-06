@@ -245,7 +245,7 @@ class Analytics extends CI_Controller {
 			    	}
 			    }
 			    error_log(json_encode($space_users));
-			    echo nl2br('\n\n\n');
+			    echo nl2br("\n");
 				$this->write_to_google_drive('users-'.$space->id.'.csv', $spacefile, $header);
 			}
 		} catch(Exception $e){
