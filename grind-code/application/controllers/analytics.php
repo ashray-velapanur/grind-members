@@ -161,7 +161,7 @@ class Analytics extends CI_Controller {
 		    		$checkin_count = count($checkin_times);
 		    		sort($checkin_times);
 		    		$first_checkin = current($checkin_times);
-		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$date_today."' as sign_in, '".$first_checkin."' as time, '".$checkin_count."' as checkin_count, '".$space->id."' as location_id, cm.plan_id as plan_code, ".$day_of_week." as day_of_week, cm.id as membership_id, cm.plan_name as plan_name FROM cobot_memberships cm join user u on cm.user_id = u.id join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
+		    		$sql = "SELECT u.id as id, u.last_name as last_name, u.first_name as first_name, c.name as company, '".$date_today."' as sign_in, '".$first_checkin."' as time, '".$checkin_count."' as checkin_count, '".$space->id."' as location_id, cm.plan_id as plan_code, ".$day_of_week." as day_of_week, cm.id as membership_id, cm.plan_name as plan_name FROM cobot_memberships cm left join user u on cm.user_id = u.id left join company c on u.company_id = c.id where cm.space_id = '".$space->id."' AND cm.id='".$membership_id."'";
 					error_log($sql);
 					$query = $this->db->query($sql);
 					$result = current($query->result());
@@ -222,7 +222,7 @@ class Analytics extends CI_Controller {
 
 			    			$cobot_id = $user->id;
 
-							$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot' join wpmember_users wp_user on u.wp_users_id = wp_user.id join company c on u.company_id = c.id where tpu.network_id = '".$cobot_id."'";
+							$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot' left join wpmember_users wp_user on u.wp_users_id = wp_user.id left join company c on u.company_id = c.id where tpu.network_id = '".$cobot_id."'";
 							error_log($sql);
 							$query = $this->db->query($sql);
 							$results = $query->result();
