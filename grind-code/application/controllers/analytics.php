@@ -313,7 +313,7 @@ class Analytics extends CI_Controller {
 						$short_description = '';
 						if($items) {
 							foreach ($items as $item) {
-								$short_description = $short_description." , ".$item->description;
+								$short_description = $short_description."; ".$item->description;
 							}
 						}
 
