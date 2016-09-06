@@ -262,7 +262,7 @@ class Analytics extends CI_Controller {
 	}
 
 	function get_invoices() {
-		$header = "id,account_code,account_name,invoice_number,plan_code,total_subtotal,vat_amount,currency,date,status,closed_at,purchase_country,vat_number,date_created,tax_amount,tax_type,tax_rate\n";
+		$header = "id,account_code,account_name,invoice_number,subscription_id,plan_code,coupon_code,total_subtotal,vat_amount,currency,date,status,closed_at,purchase_country,vat_number,line_item_total,line_item_description,line_item_origin,line_item_product_code,line_item_accounting_code,line_item_start_date,line_item_end_date,net_terms,po_number,collection_method,date_created,short_description,tax_amount,tax_type,tax_region,tax_rate,discount,line_item_uuid,date_closed_at,original_adjustment_uuid,modified_at,invoice_type,original_invoice_number,cobot_id,membership_id\n";
 		try {
 			$query = $this->db->get("cobot_spaces");
 			$spaces = $query->result();
@@ -276,18 +276,20 @@ class Analytics extends CI_Controller {
 			    	foreach ($invoices as $invoice) {
 			    		$invoice_id = $invoice->id;
 			    		$membership_id = $invoice->membership_id;
-			    		$sql = "SELECT u.id as user_id, concat(u.first_name,' ',u.last_name) as name, cm.plan_name as plan_name from cobot_memberships cm join user u on cm.user_id = u.id where cm.id = '".$membership_id."' and cm.space_id = '".$space->id."'";
+			    		$sql = "SELECT u.id as user_id, concat(u.first_name,' ',u.last_name) as name, cm.plan_id as plan_code, cm.cobot_user_id as cobot_id from cobot_memberships cm join user u on cm.user_id = u.id where cm.id = '".$membership_id."' and cm.space_id = '".$space->id."'";
 						error_log($sql);
 						$query = $this->db->query($sql);
 						$results = $query->result();
 						$account_code = '';
 						$account_name = '';
 						$plan_code = '';
+						$cobot_id = '';
 						if($results) {
 							$result = current($results);
 							$account_code = $result->user_id;
 							$account_name = $result->name;
-							$plan_code = $result->plan_name;
+							$plan_code = $result->plan_code;
+							$cobot_id = $result->cobot_id;
 						}
 						$invoice_number = $invoice->invoice_number;
 						$total_subtotal = $invoice->total_amount_without_taxes;
@@ -306,8 +308,16 @@ class Analytics extends CI_Controller {
 						$tax_amount = $invoice->tax_amount;
 						$tax_type = $invoice->tax_name;
 						$tax_rate = $invoice->tax_rate;
+						$collection_method = '';
+						$items = $invoice->items;
+						$short_description = '';
+						if($items) {
+							foreach ($items as $item) {
+								$short_description = $short_description." , ".$item->description;
+							}
+						}
 
-			    		$record = $invoice_id.','.$account_code.','.$account_name.','.$invoice_number.','.$plan_code.','.$total_subtotal.','.$vat_amount.','.$currency.','.$date.','.$status.','.$closed_at.','.$purchase_country.','.$vat_number.','.$date_created.','.$tax_amount.','.$tax_type.','.$tax_rate."\n";
+			    		$record = $invoice_id.','.$account_code.','.$account_name.','.$invoice_number.',,'.$plan_code.',,'.$total_subtotal.','.$vat_amount.','.$currency.','.$date.','.$status.','.$closed_at.','.$purchase_country.','.$vat_number.',,,,,,,,,,'.$collection_method.','.$date_created.','.$short_description.','.$tax_amount.','.$tax_type.',,'.$tax_rate.",,,,,,,,".$cobot_id.",".$membership_id."\n";
 			    		$spacefile .= $record;
 			    		array_push($space_users, $record);
 			    	}
