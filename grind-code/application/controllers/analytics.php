@@ -198,9 +198,9 @@ class Analytics extends CI_Controller {
 				$custom_fields = $this->do_get($url, NULL);
 			    if(count($custom_fields) > 0) {
 			    	foreach ($custom_fields as $custom_field) {
-			    		$membership_id = $custom_field['membership_id'];
+			    		$membership_id = $custom_field->membership_id;
 			    		$custom_fields_dict[$membership_id] = array();
-						$fields = $custom_field['fields'];
+						$fields = $custom_field->fields;
 						foreach ($fields as $label => $value) {
 							$custom_fields_dict[$membership_id][$label] = $value;
 						}
