@@ -195,13 +195,15 @@ class Analytics extends CI_Controller {
 
 				$custom_fields_dict = array();
 				$url = "https://".$space->id.".cobot.me/api/custom_fields";
-				$custom_fields = $this->do_get($url, NULL);
-			    if(count($custom_fields) > 0) {
-			    	foreach ($custom_fields as $custom_field) {
-			    		$membership_id = $custom_field->membership_id;
+				$membership_custom_fields = $this->do_get($url, NULL);
+			    if(count($membership_custom_fields) > 0) {
+			    	foreach ($membership_custom_fields as $membership_custom_field) {
+			    		$membership_id = $membership_custom_field->membership_id;
 			    		$custom_fields_dict[$membership_id] = array();
-						$fields = $custom_field->fields;
-						foreach ($fields as $label => $value) {
+						$custom_fields = $membership_custom_field->fields;
+						foreach ($custom_fields as $custom_field) {
+							$label = $custom_field['label'];
+							$value = $custom_field['value'];
 							$custom_fields_dict[$membership_id][$label] = $value;
 						}
 			    	}
