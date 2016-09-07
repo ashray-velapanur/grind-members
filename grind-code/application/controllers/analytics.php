@@ -192,6 +192,22 @@ class Analytics extends CI_Controller {
 			foreach ($spaces as $space) {
 				$space_users = array();
 				$spacefile = "";
+
+				$custom_fields_dict = array();
+				$url = "https://".$space->id.".cobot.me/api/custom_fields";
+				$custom_fields = $this->do_get($url, NULL);
+			    if(count($custom_fields) > 0) {
+			    	foreach ($custom_fields as $custom_field) {
+			    		$membership_id = $custom_field['membership_id'];
+			    		$custom_fields_dict[$membership_id] = array();
+						$fields = $custom_field['fields'];
+						foreach ($fields as $label => $value) {
+							$custom_fields_dict[$membership_id][$label] = $value;
+						}
+			    	}
+			    }
+			    error_log(json_encode($custom_fields_dict));
+
 				$url = "https://".$space->id.".cobot.me/api/memberships";
 				$params = array("all" => true);
 				$memberships = $this->do_get($url, NULL, $params);
@@ -226,21 +242,11 @@ class Analytics extends CI_Controller {
 							error_log($sql);
 							$query = $this->db->query($sql);
 							$results = $query->result();
-							if($results) {
+							if(count($results)>0) {
 								$result = current($results);
 
-								$url = "https://".$space->id.".cobot.me/api/memberships/".$membership_id."/custom_fields";
-								$custom_fields = $this->do_get($url, NULL);
-							    error_log(json_encode($custom_fields));
-							    if($custom_fields) {
-							    	$fields = $custom_fields['fields'];
-								    foreach ($fields as $label => $value) {
-								    	if(strpos($label, 'Home Space') !== false) {
-								    		$location_name = $value;
-								    		break;
-								    	}
-								    }
-							    }
+								$location_name = array_key_exists($membership_id, $custom_fields_dict) ? ( array_key_exists('Home Space', $custom_fields_dict[$membership_id]) ? $custom_fields_dict[$membership_id]['Home Space'] : '' ) : '';
+								error_log($location_name);
 
 								$record = $result->id.','.$result->company_id.','.str_replace(',', ' ', $result->name).','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.str_replace(',', ' ', $result->twitter).','.str_replace(',', ' ', $result->behance).','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.str_replace(',', ' ', $result->last_name).','.str_replace(',', ' ', $result->first_name).','.str_replace(',', ' ', $result->company).',,,,,'.str_replace(',', ' ', $location_name).',,,,,,'.$result->cobot_id.',,'.$next_invoice_date."\n";
 								//echo nl2br($record);
