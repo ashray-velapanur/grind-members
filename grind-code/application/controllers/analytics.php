@@ -202,8 +202,8 @@ class Analytics extends CI_Controller {
 			    		$custom_fields_dict[$membership_id] = array();
 						$custom_fields = $membership_custom_field->fields;
 						foreach ($custom_fields as $custom_field) {
-							$label = $custom_field['label'];
-							$value = $custom_field['value'];
+							$label = $custom_field->label;
+							$value = $custom_field->value;
 							$custom_fields_dict[$membership_id][$label] = $value;
 						}
 			    	}
