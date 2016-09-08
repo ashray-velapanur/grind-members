@@ -50,9 +50,9 @@ class UserTagsModel extends CI_Model {
         		"from ".
         			"user ".
         			"join user_tags on user_tags.user_id = user.id ".
-        			"join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin' ".
-        			"join positions on positions.company_id = user.company_id and positions.user_id = user.id ".
-        			"join company on user.company_id = company.id ".
+        			"left join third_party_user on third_party_user.user_id = user.id and third_party_user.network='linkedin' ".
+        			"left join positions on positions.company_id = user.company_id and positions.user_id = user.id ".
+        			"left join company on user.company_id = company.id ".
         		"where user_tags.tag_id = ".$tag_id;
         if (isset($limit)) {
                 $sql .= " limit ".$limit;
