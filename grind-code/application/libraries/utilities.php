@@ -59,13 +59,17 @@ class utilities {
             if($post_result && array_key_exists("errors", $post_result)) {
                 $errors = $post_result['errors'];
                 // Handling Cobot Booking Errors
-                if(array_key_exists("from", $errors)) {
-                    $from_errors = (array)$errors->from;
-                    $from_error_string = '';
-                    foreach ($from_errors as $from_error) {
-                        $from_error_string = $from_error_string.$from_error.' ';
+                if(array_key_exists("from", $errors) || array_key_exists("to", $errors)) {
+                    if(array_key_exists("from", $errors)) {
+                        $from_to_errors = (array)$errors->from;
+                    } else {
+                        $from_to_errors = (array)$errors->to;
                     }
-                    $error_message = $error_message.' '.$from_error_string;
+                    $from_to_error_string = '';
+                    foreach ($from_to_errors as $from_to_error) {
+                        $from_to_error_string = $from_to_error_string.$from_to_error.' ';
+                    }
+                    $error_message = $error_message.' '.$from_to_error_string;
                 }
                 error_log(json_encode($errors));
             }
