@@ -185,7 +185,7 @@ class Analytics extends CI_Controller {
 
 	function get_users() {
 		echo nl2br("Fetching users ");
-		$header = "id,company_id,name,rfid,wp_users_id,date_added,membership_status,referrer,twitter,behance,membership_id,plan_state,plan_code,quantity,activated_at,expires_at,canceled_at,current_period_started_at,current_period_ends_at,email_address,last_name,first_name,company,sign_in_method,sign_in,time,location_id,location_name,reason_for_unsubscribing,activated_date,date_activate_at,date_expires_at,date_date_added,cobot_id,last_invoice_date,next_invoice_date\n";
+		$header = "id,company_id,name,rfid,wp_users_id,date_added,membership_status,referrer,twitter,behance,membership_id,plan_state,plan_code,quantity,activated_at,expires_at,canceled_at,current_period_started_at,current_period_ends_at,email_address,last_name,first_name,company,sign_in_method,sign_in,time,location_id,location_name,reason_for_unsubscribing,activated_date,date_activate_at,date_expires_at,date_date_added,cobot_id,first_invoice_date,next_invoice_date\n";
 		try {
 			$query = $this->db->get("cobot_spaces");
 			$spaces = $query->result();
@@ -237,6 +237,7 @@ class Analytics extends CI_Controller {
 				    		$canceled_at = $membership->canceled_to;
 				    		$current_period_ends_at = $membership->next_invoice_at;
 				    		$next_invoice_date = $membership->next_invoice_at;
+				    		$first_invoice_date = $membership->first_invoice_at;
 
 			    			$cobot_id = $user->id;
 
@@ -250,7 +251,7 @@ class Analytics extends CI_Controller {
 								$location_name = array_key_exists($membership_id, $custom_fields_dict) ? ( array_key_exists('Home Space', $custom_fields_dict[$membership_id]) ? $custom_fields_dict[$membership_id]['Home Space'] : '' ) : '';
 								error_log($location_name);
 
-								$record = $result->id.','.$result->company_id.','.str_replace(',', ' ', $result->name).','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.str_replace(',', ' ', $result->twitter).','.str_replace(',', ' ', $result->behance).','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.str_replace(',', ' ', $result->last_name).','.str_replace(',', ' ', $result->first_name).','.str_replace(',', ' ', $result->company).',,,,,'.str_replace(',', ' ', $location_name).',,,,,,'.$result->cobot_id.',,'.$next_invoice_date."\n";
+								$record = $result->id.','.$result->company_id.','.str_replace(',', ' ', $result->name).','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.str_replace(',', ' ', $result->twitter).','.str_replace(',', ' ', $result->behance).','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.str_replace(',', ' ', $result->last_name).','.str_replace(',', ' ', $result->first_name).','.str_replace(',', ' ', $result->company).',,,,,'.str_replace(',', ' ', $location_name).',,,,,,'.$result->cobot_id.','.$first_invoice_date.','.$next_invoice_date."\n";
 								//echo nl2br($record);
 								$spacefile .= $record;
 				    			array_push($space_users, $record);
