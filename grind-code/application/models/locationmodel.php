@@ -702,8 +702,8 @@ class LocationModel extends CI_Model {
 			$resource = $util->do_get($resource_url, $params=array('access_token' => $util->get_current_environment_cobot_access_token()));
 			$hours = 5;
 			$minutes = 5;
-			if($resource && $resource->max_booking_duration) {
-				$total_minutes = intval($resource->max_booking_duration) + 5;
+			if($resource && $resource['max_booking_duration']) {
+				$total_minutes = intval($resource['max_booking_duration']) + 5;
 				$hours = $total_minutes/60;
 				$minutes = $total_minutes%60;
 			}
