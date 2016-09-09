@@ -698,7 +698,16 @@ class LocationModel extends CI_Model {
 	  		$from = date_format($from, 'Y-m-d H:i O');
 	  	}
 	  	if(!$to){
-	  		$to = date_add(date_create(), date_interval_create_from_date_string("5 hours + 5 minutes"));
+	  		$resource_url = 'https://'.$space_id.'.cobot.me/api/resources/'.$resource_id;
+			$resource = $util->do_get($resource_url, $params=array('access_token' => $util->get_current_environment_cobot_access_token()));
+			$hours = 5;
+			$minutes = 5;
+			if($resource && $resource->max_booking_duration) {
+				$total_minutes = intval($resource->max_booking_duration) + 5;
+				$hours = $total_minutes/60;
+				$minutes = $total_minutes%60;
+			}
+	  		$to = date_add(date_create(), date_interval_create_from_date_string($hours." hours + ".$minutes." minutes"));
 	  		$to = date_format($to, 'Y-m-d H:i O');
 	  	}
 	  	$data = array(
