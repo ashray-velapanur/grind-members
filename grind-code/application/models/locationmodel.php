@@ -705,7 +705,7 @@ class LocationModel extends CI_Model {
 			if($resource && $resource['max_booking_duration']) {
 				error_log('Max booking duration: '.$resource['max_booking_duration']);
 				$total_minutes = intval($resource['max_booking_duration']) + 5;
-				$hours = $total_minutes/60;
+				$hours = intval($total_minutes/60);
 				$minutes = $total_minutes%60;
 			}
 			error_log($hours." hours + ".$minutes." minutes");
