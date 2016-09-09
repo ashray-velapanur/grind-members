@@ -703,10 +703,12 @@ class LocationModel extends CI_Model {
 			$hours = 5;
 			$minutes = 5;
 			if($resource && $resource['max_booking_duration']) {
+				error_log('Max booking duration: '.$resource['max_booking_duration']);
 				$total_minutes = intval($resource['max_booking_duration']) + 5;
 				$hours = $total_minutes/60;
 				$minutes = $total_minutes%60;
 			}
+			error_log($hours." hours + ".$minutes." minutes");
 	  		$to = date_add(date_create(), date_interval_create_from_date_string($hours." hours + ".$minutes." minutes"));
 	  		$to = date_format($to, 'Y-m-d H:i O');
 	  	}
