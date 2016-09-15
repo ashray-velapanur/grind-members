@@ -350,7 +350,14 @@ class Cobot extends CI_Controller {
 			$query = $this->db->query($sql);
 			$third_party_results = $query->result();
 		    $cobot_user = current($third_party_results);
-		    $user_id = $cobot_user->user_id;
+		    $user_id = '';
+		    if($cobot_user) {
+		    	$user_id = $cobot_user->user_id;
+		    }
+		    if(!$user_id) {
+		    	$this->load->model("loginmodel","lm",true);
+				$user_id = $this->lm->create_grind_user($membership);
+		    }
 		    $canceled_to = NULL;
 		    if($membership['canceled_to']) {
 		    	$canceled_to = date_create($membership['canceled_to'])->format('Y-m-d H:i:s');

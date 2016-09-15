@@ -423,6 +423,33 @@ class LoginModel extends CI_Model {
         return $this->db->query($sql);
     }
 
+    function create_grind_user($cobot_membership) {
+        $userdata = array();
+        $membershipdata = array();
+        $companydata = array();
+        $phonedata = array();
+        $emaildata = array();
+        $billingdata = null;
+        $wpdata = array();
+        $name_split = strpos($cobot_membership["name"], ' ');
+        if($name_split !== False) {
+            $userdata["first_name"] = substr($cobot_membership["name"], 0, $name_split);
+            $userdata["last_name"] = substr($cobot_membership["name"], $name_split+1);
+        } else {
+            $userdata["first_name"] = $cobot_membership["name"];
+            $userdata["last_name"] = '';
+        }
+        
+        $emaildata["user_id"] = -1;
+        $emaildata["address"] = $cobot_membership["email"];
+        $emaildata["is_primary"] = 1;
+        $wpdata["user_login"] = $cobot_membership["email"];
+        $wpdata["user_email"] = $cobot_membership["email"];
+        $this->mm->member->email = $cobot_membership["email"];
+        $newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata, $appuser=false);
+        return $newUserId;
+    }
+
 };
 
 ?>
