@@ -445,8 +445,9 @@ class LoginModel extends CI_Model {
         $emaildata["is_primary"] = 1;
         $wpdata["user_login"] = $cobot_membership["email"];
         $wpdata["user_email"] = $cobot_membership["email"];
+        $this->load->model('/members/membermodel','mm',true);
         $this->mm->member->email = $cobot_membership["email"];
-        $newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata, $appuser=false);
+        $newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata, $appuser=true);
         return $newUserId;
     }
 
