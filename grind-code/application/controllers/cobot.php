@@ -354,7 +354,7 @@ class Cobot extends CI_Controller {
 		    if($cobot_user) {
 		    	$user_id = $cobot_user->user_id;
 		    }
-		    if(!$user_id) {
+		    if($cobot_user_id && !$user_id) {
 		    	$this->load->model("loginmodel","lm",true);
 				$user_id = $this->lm->create_grind_user($membership);
 		    }
