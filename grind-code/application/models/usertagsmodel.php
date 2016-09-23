@@ -46,7 +46,7 @@ class UserTagsModel extends CI_Model {
         $response_data = array();
         $sql = "select ".
         			"user.id, user.first_name, user.last_name, ".
-        			"third_party_user.profile_picture as profile_picture, positions.designation as designation, company.name as company ".
+        			"third_party_user.profile_picture as profile_picture, positions.designation as designation, company.name as company, (third_party_user.access_token IS NOT NULL) AS is_loggedin ".
         		"from ".
         			"user ".
         			"join user_tags on user_tags.user_id = user.id ".
