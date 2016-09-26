@@ -102,6 +102,7 @@ class LoginModel extends CI_Model {
         if(!$added_tp) {
             $this->throw_exp("Could not save LinkedIn Access Token");
         }
+        $this->add_companies($userId, $profile);
     }
 
     function throw_exp($msg) {
@@ -166,9 +167,6 @@ class LoginModel extends CI_Model {
         $wpdata["user_email"] = $profile['emailAddress'];
         $this->mm->member->email = $profile['emailAddress'];
         $newUserId = $this->mm->doAddMember($userdata, $membershipdata, $companydata, $phonedata, $emaildata, $billingdata, $wpdata, $appuser=true);
-        if($newUserId) {
-            $this->add_companies($newUserId, $profile);
-        }
         return $newUserId;
     }
 
@@ -384,6 +382,7 @@ class LoginModel extends CI_Model {
 
 
     private function add_companies($newUserId, $profile) {
+        $profile = (array)$profile;
         $positions = (array)$profile["positions"];
         $values = (array)$positions["values"];
         $set_current_company = true;
