@@ -98,11 +98,15 @@ class LoginModel extends CI_Model {
 
     function update_linkedin_third_party($profile, $userId, $access_token) {
         error_log("6. Updating LinkedIn access token");
+        $this->load->model('thirdpartyusermodel', 'tp', true);
+        $first_time_linkedin = $this->tp->get($userId, 'linkedin') ? false : true;
         $added_tp = $this->add_third_party_user($userId, $profile->id, $profile->pictureUrl, $access_token);
         if(!$added_tp) {
             $this->throw_exp("Could not save LinkedIn Access Token");
         }
-        $this->add_companies($userId, $profile);
+        if($first_time_linkedin){
+            $this->add_companies($userId, $profile);
+        }
     }
 
     function throw_exp($msg) {
