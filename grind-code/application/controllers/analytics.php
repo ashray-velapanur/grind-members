@@ -211,7 +211,7 @@ class Analytics extends CI_Controller {
 			    error_log(json_encode($custom_fields_dict));
 
 				$url = "https://".$space->id.".cobot.me/api/memberships";
-				$params = array("all" => true);
+				$params = array("attributes" => "user,email,id,canceled_to,plan,confirmed_at,next_invoice_at,first_invoice_at");
 				$memberships = $this->do_get($url, NULL, $params);
 			    error_log(json_encode($memberships));
 			    if($memberships) {
