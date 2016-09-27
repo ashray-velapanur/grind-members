@@ -186,7 +186,7 @@ class Analytics extends CI_Controller {
 	function get_users() {
 		$part_size = $_GET["part_size"];
 		if(!$part_size) {
-			$part_size = 500;
+			$part_size = 200;
 		} else {
 			$part_size = intval($part_size);
 		}
