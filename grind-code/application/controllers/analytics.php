@@ -184,6 +184,12 @@ class Analytics extends CI_Controller {
 	}
 
 	function get_users() {
+		$part_size = $_GET["part_size"];
+		if(!$part_size) {
+			$part_size = 500;
+		} else {
+			$part_size = intval($part_size);
+		}
 		echo nl2br("Fetching users ");
 		$header = "id,company_id,name,rfid,wp_users_id,date_added,membership_status,referrer,twitter,behance,membership_id,plan_state,plan_code,quantity,activated_at,expires_at,canceled_at,current_period_started_at,current_period_ends_at,email_address,last_name,first_name,company,sign_in_method,sign_in,time,location_id,location_name,reason_for_unsubscribing,activated_date,date_activate_at,date_expires_at,date_date_added,cobot_id,first_invoice_date,next_invoice_date\n";
 		try {
@@ -210,55 +216,74 @@ class Analytics extends CI_Controller {
 			    }
 			    error_log(json_encode($custom_fields_dict));
 
-				$url = "https://".$space->id.".cobot.me/api/memberships";
-				$params = array("attributes" => "user,email,id,canceled_to,plan,confirmed_at,next_invoice_at,first_invoice_at");
+			    $membership_ids = array();
+			    $url = "https://".$space->id.".cobot.me/api/memberships";
+				$params = array("attributes" => "id");
 				$memberships = $this->do_get($url, NULL, $params);
 			    error_log(json_encode($memberships));
 			    if($memberships) {
 			    	foreach ($memberships as $membership) {
-			    		echo nl2br(".");
-			    		$user = $membership->user;
-			    		if($user) {
-			    			$email_address = $membership->email;
-			    			$membership_id = $membership->id;
-				    		$plan_state = 'active';
-				    		if($membership->canceled_to) {
-				    			$plan_state = 'canceled';
-				    		}
-				    		$plan = $membership->plan;
-				    		$plan_code = '';
-				    		if($plan) {
-				    			$parent_plan = $plan->parent_plan;
-				    			if($parent_plan) {
-				    				$plan_code = $parent_plan->id;
-				    			}
-				    		}
-				    		$activated_at = $membership->confirmed_at;
-				    		$canceled_at = $membership->canceled_to;
-				    		$current_period_ends_at = $membership->next_invoice_at;
-				    		$next_invoice_date = $membership->next_invoice_at;
-				    		$first_invoice_date = $membership->first_invoice_at;
-
-			    			$cobot_id = $user->id;
-
-							$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot' left join wpmember_users wp_user on u.wp_users_id = wp_user.id left join company c on u.company_id = c.id where tpu.network_id = '".$cobot_id."'";
-							error_log($sql);
-							$query = $this->db->query($sql);
-							$results = $query->result();
-							if(count($results)>0) {
-								$result = current($results);
-
-								$location_name = array_key_exists($membership_id, $custom_fields_dict) ? ( array_key_exists('Home Space', $custom_fields_dict[$membership_id]) ? $custom_fields_dict[$membership_id]['Home Space'] : '' ) : '';
-								error_log($location_name);
-
-								$record = $result->id.','.$result->company_id.','.str_replace(',', ' ', $result->name).','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.str_replace(',', ' ', $result->twitter).','.str_replace(',', ' ', $result->behance).','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.str_replace(',', ' ', $result->last_name).','.str_replace(',', ' ', $result->first_name).','.str_replace(',', ' ', $result->company).',,,,,'.str_replace(',', ' ', $location_name).',,,,,,'.$result->cobot_id.','.$first_invoice_date.','.$next_invoice_date."\n";
-								//echo nl2br($record);
-								$spacefile .= $record;
-				    			array_push($space_users, $record);
-							}
-			    		}
+			    		array_push($membership_ids, $membership->id);
 			    	}
 			    }
+
+			    for ($i=0; $i < count($membership_ids); $i=$i+$part_size) { 
+			    	$ids = array_slice($membership_ids, $i, $part_size);
+			    	$ids_str = "";
+			    	foreach ($ids as $id) {
+			    		$ids_str = $id.','.$ids_str;
+			    	}
+			    	$url = "https://".$space->id.".cobot.me/api/memberships";
+					$params = array("ids" => $ids_str, "attributes" => "user,email,id,canceled_to,plan,confirmed_at,next_invoice_at,first_invoice_at");
+					$memberships = $this->do_get($url, NULL, $params);
+				    error_log(json_encode($memberships));
+				    if($memberships) {
+				    	foreach ($memberships as $membership) {
+				    		echo nl2br(".");
+				    		$user = $membership->user;
+				    		if($user) {
+				    			$email_address = $membership->email;
+				    			$membership_id = $membership->id;
+					    		$plan_state = 'active';
+					    		if($membership->canceled_to) {
+					    			$plan_state = 'canceled';
+					    		}
+					    		$plan = $membership->plan;
+					    		$plan_code = '';
+					    		if($plan) {
+					    			$parent_plan = $plan->parent_plan;
+					    			if($parent_plan) {
+					    				$plan_code = $parent_plan->id;
+					    			}
+					    		}
+					    		$activated_at = $membership->confirmed_at;
+					    		$canceled_at = $membership->canceled_to;
+					    		$current_period_ends_at = $membership->next_invoice_at;
+					    		$next_invoice_date = $membership->next_invoice_at;
+					    		$first_invoice_date = $membership->first_invoice_at;
+
+				    			$cobot_id = $user->id;
+
+								$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot' left join wpmember_users wp_user on u.wp_users_id = wp_user.id left join company c on u.company_id = c.id where tpu.network_id = '".$cobot_id."'";
+								error_log($sql);
+								$query = $this->db->query($sql);
+								$results = $query->result();
+								if(count($results)>0) {
+									$result = current($results);
+
+									$location_name = array_key_exists($membership_id, $custom_fields_dict) ? ( array_key_exists('Home Space', $custom_fields_dict[$membership_id]) ? $custom_fields_dict[$membership_id]['Home Space'] : '' ) : '';
+									error_log($location_name);
+
+									$record = $result->id.','.$result->company_id.','.str_replace(',', ' ', $result->name).','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.str_replace(',', ' ', $result->twitter).','.str_replace(',', ' ', $result->behance).','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.str_replace(',', ' ', $result->last_name).','.str_replace(',', ' ', $result->first_name).','.str_replace(',', ' ', $result->company).',,,,,'.str_replace(',', ' ', $location_name).',,,,,,'.$result->cobot_id.','.$first_invoice_date.','.$next_invoice_date."\n";
+									//echo nl2br($record);
+									$spacefile .= $record;
+					    			array_push($space_users, $record);
+								}
+				    		}
+				    	}
+				    }
+			    }
+				
 			    error_log(json_encode($space_users));
 			    echo nl2br("\n");
 				$this->write_to_google_drive('users-'.$space->id.'.csv', $spacefile, $header);
