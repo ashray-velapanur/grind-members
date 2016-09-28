@@ -264,7 +264,7 @@ class Analytics extends CI_Controller {
 
 				    			$cobot_id = $user->id;
 
-								$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id FROM user u join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot' left join wpmember_users wp_user on u.wp_users_id = wp_user.id left join company c on u.company_id = c.id where tpu.network_id = '".$cobot_id."'";
+								$sql = "SELECT u.id as id, u.company_id as company_id, concat(u.first_name,' ',u.last_name) as name, u.rfid as rfid, u.wp_users_id as wp_users_id, u.date_added as date_added, u.referrer as referrer, u.twitter as twitter, u.behance as behance, wp_user.user_email as email_address, u.last_name as last_name, u.first_name as first_name, c.name as company, tpu.network_id as cobot_id, l.name as location_name FROM user u join third_party_user tpu on tpu.user_id = u.id and tpu.network = 'cobot' left join wpmember_users wp_user on u.wp_users_id = wp_user.id left join company c on u.company_id = c.id left join location l on u.location_id = l.id where tpu.network_id = '".$cobot_id."'";
 								error_log($sql);
 								$query = $this->db->query($sql);
 								$results = $query->result();
@@ -272,6 +272,9 @@ class Analytics extends CI_Controller {
 									$result = current($results);
 
 									$location_name = array_key_exists($membership_id, $custom_fields_dict) ? ( array_key_exists('Home Space', $custom_fields_dict[$membership_id]) ? $custom_fields_dict[$membership_id]['Home Space'] : '' ) : '';
+									if(!$location_name) {
+										$location_name = $result->location_name;
+									}
 									error_log($location_name);
 
 									$record = $result->id.','.$result->company_id.','.str_replace(',', ' ', $result->name).','.$result->rfid.','.$result->wp_users_id.','.$result->date_added.',,'.str_replace(',', ' ', $result->referrer).','.str_replace(',', ' ', $result->twitter).','.str_replace(',', ' ', $result->behance).','.$membership_id.','.$plan_state.','.$plan_code.',,'.$activated_at.',,'.$canceled_at.',,,'.$result->email_address.','.str_replace(',', ' ', $result->last_name).','.str_replace(',', ' ', $result->first_name).','.str_replace(',', ' ', $result->company).',,,,,'.str_replace(',', ' ', $location_name).',,,,,,'.$result->cobot_id.','.$first_invoice_date.','.$next_invoice_date."\n";
