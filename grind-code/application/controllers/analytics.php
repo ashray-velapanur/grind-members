@@ -299,6 +299,8 @@ class Analytics extends CI_Controller {
 	}
 
 	function get_invoices() {
+		$from_date = $_GET["from"];
+		$to_date = $_GET["to"];
 		$header = "id,account_code,account_name,invoice_number,subscription_id,plan_code,coupon_code,total_subtotal,vat_amount,currency,date,status,closed_at,purchase_country,vat_number,line_item_total,line_item_description,line_item_origin,line_item_product_code,line_item_accounting_code,line_item_start_date,line_item_end_date,net_terms,po_number,collection_method,date_created,short_description,tax_amount,tax_type,tax_region,tax_rate,discount,line_item_uuid,date_closed_at,original_adjustment_uuid,modified_at,invoice_type,original_invoice_number,cobot_id,membership_id\n";
 		try {
 			$query = $this->db->get("cobot_spaces");
@@ -307,7 +309,16 @@ class Analytics extends CI_Controller {
 				$space_users = array();
 				$spacefile = "";
 				$url = "https://".$space->id.".cobot.me/api/invoices";
-				$invoices = $this->do_get($url, NULL);
+				if(!$from_date || !$to_date) {
+					date_default_timezone_set('America/New_York');
+					$date_today = date('Y-m-d', time());
+					$time_yesterday = strtotime("-1 day", strtotime($date_today));
+					$date_yesterday = date("Y-m-d", $time_yesterday);
+					$params = array('from' => urlencode($date_yesterday), 'to' => urlencode($date_yesterday));
+				} else {
+					$params = array('from' => urlencode($from_date), 'to' => urlencode($to_date));
+				}
+				$invoices = $this->do_get($url, NULL, $params);
 			    error_log(json_encode($invoices));
 			    if($invoices) {
 			    	foreach ($invoices as $invoice) {
@@ -375,7 +386,7 @@ class Analytics extends CI_Controller {
 			    	}
 			    }
 			    error_log(json_encode($space_users));
-				$this->write_to_google_drive('invoices-'.$space->id.'.csv', $spacefile, $header);
+				$this->write_to_google_drive('invoices-'.$space->id.'.csv', $spacefile, $header, false);
 			}
 		} catch(Exception $e){
 			$error_msg = 'Exception getting space invoices : '.$e->getMessage();
