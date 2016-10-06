@@ -29,6 +29,12 @@ class TagsModel extends CI_Model {
         	$row["count"] = $total_count;
 	      	array_push($response, $row);
         }
+        $count = array();
+        foreach ($response as $key => $row)
+        {
+            $count[$key] = $row['count'];
+        }
+        array_multisort($count, SORT_DESC, $response);
         return $response;
 	}
 
