@@ -175,6 +175,7 @@ class Analytics extends CI_Controller {
 
 		    	error_log(json_encode($space_checkins));
 		    	$this->write_to_google_drive('checkins-'.$space->id.'.csv', $spacecheckinsfile, $header, false);
+		    	$this->write_to_google_drive('checkins-all.csv', $spacecheckinsfile, $header, false);
 		    }
 		} catch(Exception $e){
 			$error_msg = 'Exception getting all checkins : '.$e->getMessage();
@@ -195,6 +196,7 @@ class Analytics extends CI_Controller {
 		try {
 			$query = $this->db->get("cobot_spaces");
 			$spaces = $query->result();
+			$overwrite = true;
 			foreach ($spaces as $space) {
 				$space_users = array();
 				$spacefile = "";
@@ -290,6 +292,10 @@ class Analytics extends CI_Controller {
 			    error_log(json_encode($space_users));
 			    echo nl2br("\n");
 				$this->write_to_google_drive('users-'.$space->id.'.csv', $spacefile, $header);
+				$this->write_to_google_drive('users-all.csv', $spacefile, $header, $overwrite);
+				if($overwrite) {
+					$overwrite = false;
+				}
 			}
 		} catch(Exception $e){
 			$error_msg = 'Exception getting space users : '.$e->getMessage();
@@ -387,6 +393,7 @@ class Analytics extends CI_Controller {
 			    }
 			    error_log(json_encode($space_users));
 				$this->write_to_google_drive('invoices-'.$space->id.'.csv', $spacefile, $header, false);
+				$this->write_to_google_drive('invoices-all.csv', $spacefile, $header, false);
 			}
 		} catch(Exception $e){
 			$error_msg = 'Exception getting space invoices : '.$e->getMessage();
